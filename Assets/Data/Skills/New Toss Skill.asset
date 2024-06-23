@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89b95e44090763f408feea3ae865bc29, type: 3}
+  m_Name: New Toss Skill
+  m_EditorClassIdentifier: 
+  Config:
+    Logic: 4
+    Damage: 10
+    Amount: 0
+    Range: 30
+    DurationSeconds: 0.5
+    ExecTimeSeconds: 0.15
+    EffectDurationSeconds: 0
+    ReuseTimeSeconds: 1
+    AnimAnticipation: 
+    Anim: Bomb
+    Anim2: 
+    ReactAnim: 
+    OtherAnimatorVariable: 
+    Radius: 0
+    ActionInterruptible: 1
+    IsInterruptableBy: []
+    BlockingMode: 0
+    Projectiles:
+    - Prefab: {fileID: 7627899547567803675, guid: 59be26776fa0ae14182edfd80247102f,
+        type: 3}
+      Speed: 30
+      Range: 20
+      Damage: 10
+      MaxVictims: 999
+    Spawns: []
+    SpecialFX: []
+    Icon: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
+    CheckingAmount: 1
+    IsFriendly: 0
