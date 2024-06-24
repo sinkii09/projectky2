@@ -9,10 +9,10 @@ public class LobbyUI : MonoBehaviour
 {
     [SerializeField] Button PlayButton;
     [SerializeField] Button CancelButton;
+    [SerializeField] MapScroller MapScroller;
 
     [SerializeField] MainMenuLogic mainMenuLogic;
 
-    Map map = Map.Map1;
     private void Start()
     {
         PlayButton.onClick.AddListener(PlayButtonPress);
@@ -30,6 +30,7 @@ public class LobbyUI : MonoBehaviour
 
     public void PlayButtonPress()
     {
+        Map map = MapScroller.GetCurrentMap();
         mainMenuLogic.PlayButtonPressed(map);
     }
 }

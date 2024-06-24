@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 public enum AuthState
