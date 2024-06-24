@@ -10,6 +10,7 @@ public class ApplicationController : MonoBehaviour
     [SerializeField]
     ClientSingleton m_ClientPrefab;
 
+    [SerializeField] ChatManager m_ChatManager;
     ApplicationData m_AppData;
     public static bool IsServer;
     async void Start()
@@ -41,7 +42,7 @@ public class ApplicationController : MonoBehaviour
 
             var defaultGameInfo = new GameInfo
             {
-                gameMode = GameMode.Default,
+                gameMode = PlayMode.Default,
                 map = Map.Map1,
                 gameQueue = GameQueue.Solo
             };
@@ -51,7 +52,8 @@ public class ApplicationController : MonoBehaviour
         else
         {
             var clientSingleton = Instantiate(m_ClientPrefab);
-            clientSingleton.ToMainMenu();
+            clientSingleton.ChatManager = m_ChatManager;
+            clientSingleton.ToLoginScene();
         }
     }
 

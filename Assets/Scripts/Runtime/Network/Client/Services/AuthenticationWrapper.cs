@@ -18,7 +18,7 @@ public class AuthenticationWrapper
 {
     public static AuthState AuthorizationState { get; private set; } = AuthState.NotAuthenticated;
 
-    public static async Task<AuthState> DoAuth(string accesstoken,string userId,int tries = 5)
+    public static async Task<AuthState> DoAuth(string userId,int tries = 5)
     {
         //If we are already authenticated, just return Auth
         if (AuthorizationState == AuthState.Authenticated)
@@ -32,7 +32,7 @@ public class AuthenticationWrapper
             await Authenticating();
             return AuthorizationState;
         }
-        await SignInAnonymouslyAsync(accesstoken,userId,tries);
+        await SignInAnonymouslyAsync(userId,tries);
 
         Debug.Log($"Auth attempts Finished : {AuthorizationState.ToString()}");
 
@@ -54,9 +54,8 @@ public class AuthenticationWrapper
         }
         return AuthorizationState;
     }
-    static async Task SignInAnonymouslyAsync(string accesstoken,string userId,int maxRetries)
+    static async Task SignInAnonymouslyAsync(string userId,int maxRetries)
     {
-        UserManager userManager = new UserManager(accesstoken);
         CustomAuthDto dto = new CustomAuthDto();
         dto.externalId = userId;
         dto.signInOnly = false;
@@ -75,7 +74,7 @@ public class AuthenticationWrapper
                 {
                     try
                     {
-                        AuthenticateResponse response = await userManager.AuthenticateWithUnityRequestAsync(dto);
+                        AuthenticateResponse response = await UserManager.Instance.AuthenticateWithUnityRequestAsync(dto);
                         //Debug.Log(response.ToString());
                         AuthenticationService.Instance.ProcessAuthenticationTokens(response.idToken,response.sessionToken);
                         Debug.Log("authenticating");

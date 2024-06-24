@@ -124,7 +124,7 @@ public class ServerGameManager : IDisposable
         m_MultiplayServerQueryService.SetMap(newMap.ToString());
     }
 
-    void OnServerChangedMode(GameMode oldMode, GameMode newMode)
+    void OnServerChangedMode(PlayMode oldMode, PlayMode newMode)
     {
         m_MultiplayServerQueryService.SetMode(newMode.ToString());
     }
@@ -165,7 +165,7 @@ public class ServerGameManager : IDisposable
     public static GameInfo PickGameInfo(MatchmakingResults mmAllocation)
     {
         var chosenMap = Map.Map1;
-        var chosenMode = GameMode.Default;
+        var chosenMode = PlayMode.Default;
 
         foreach (var player in mmAllocation.MatchProperties.Players)
         {

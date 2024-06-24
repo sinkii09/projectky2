@@ -7,8 +7,9 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 
-public class UserManager
+public class UserManager : MonoBehaviour
 {
+    public static UserManager Instance { get; set; }
 
     private string updateUserRankUrl = "http://localhost:3000/users/updateRank";
     private string updateNameOrPasswordUrl = "http://localhost:3000/users/updateUser";
@@ -23,11 +24,19 @@ public class UserManager
         get => accessToken;
         set => accessToken = value;
     }
-    public UserManager(string accessToken="")
+    private void Awake()
     {
-        this.accessToken = accessToken;
+        if (Instance != null && Instance != this)
+        {
+            
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
     }
-
     private IEnumerator LoginRequest(string username, string password, Action<LoginResponse> loginSuccessCallback, Action finishLogin)
     {
         string jsonRequestBody = $"{{\"username\":\"{username}\", \"password\":\"{password}\"}}";
@@ -54,11 +63,11 @@ public class UserManager
     }
     public void Login(string username, string password, Action<LoginResponse> loginSuccesCallBack, Action finishLogin)
     {
-        CoroutineRunner.Instance.StartCoroutine( LoginRequest(username, password,loginSuccesCallBack,finishLogin));
+        StartCoroutine( LoginRequest(username, password,loginSuccesCallBack,finishLogin));
     }
     public void Register(CreateUserDto userDto, Action<LoginResponse> successRegister, Action<string> failedRegister)
     {
-        CoroutineRunner.Instance.StartCoroutine(RegisterRequest(userDto, successRegister, failedRegister));
+        StartCoroutine(RegisterRequest(userDto, successRegister, failedRegister));
     }
     private IEnumerator RegisterRequest(CreateUserDto userDto,Action<LoginResponse> successRegister, Action<string> failedRegister )
     {
@@ -133,7 +142,7 @@ public class UserManager
     public void UpdateData(UserData userData)
     {
         UpdateUserPartialDto dto = ConvertDataToDto(userData);
-        CoroutineRunner.Instance.StartCoroutine(UpdateUserDataRequest(dto));
+        StartCoroutine(UpdateUserDataRequest(dto));
     }
     UpdateUserPartialDto ConvertDataToDto(UserData userData)
     {
@@ -146,7 +155,7 @@ public class UserManager
     }
     public void UpdateUser(Action<string,bool> result,string name = "",string oldpassword = "", string newpassword = "")
     {
-        CoroutineRunner.Instance.StartCoroutine(UpdateNameOrPasswordRequest(name,oldpassword, newpassword, result));      
+        StartCoroutine(UpdateNameOrPasswordRequest(name,oldpassword, newpassword, result));      
     }
     private IEnumerator UpdateNameOrPasswordRequest(string name,string oldPassword, string newPassword,Action<string,bool> result)
     {
@@ -171,7 +180,7 @@ public class UserManager
     }
     public void FindUserByNameOrId(string input, Action<GetPlayerResponse> successGetUser, Action<string> failedGetUser)
     {
-        CoroutineRunner.Instance.StartCoroutine(FindUserRequest(input, successGetUser, failedGetUser));
+        StartCoroutine(FindUserRequest(input, successGetUser, failedGetUser));
     }
     private IEnumerator FindUserRequest(string userInput,Action<GetPlayerResponse> successGetUser,Action<string> failedGetUser)
     {
@@ -195,7 +204,7 @@ public class UserManager
     }
     public void FetchFriendList(Action<List<FriendData>> success, Action<string> failed)
     {
-        CoroutineRunner.Instance.StartCoroutine(FetchFriendListRequest(success, failed));
+        StartCoroutine(FetchFriendListRequest(success, failed));
     }
     IEnumerator FetchFriendListRequest(Action<List<FriendData>> success, Action<string> failed)
     {
@@ -219,7 +228,7 @@ public class UserManager
 
     public void FetchFriendRequestList(Action<List<FriendData>> success, Action<string> failed)
     {
-        CoroutineRunner.Instance.StartCoroutine(FetchRequestList(success, failed));
+        StartCoroutine(FetchRequestList(success, failed));
     }
     IEnumerator FetchRequestList(Action<List<FriendData>> success,Action<string> failed)
     {
@@ -243,7 +252,7 @@ public class UserManager
     {
         FriendAcceptDto dto = new FriendAcceptDto();
         dto.friendId = text;
-        CoroutineRunner.Instance.StartCoroutine(SendAcceptFriendRequest(dto, result));
+        StartCoroutine(SendAcceptFriendRequest(dto, result));
     }
     IEnumerator SendAcceptFriendRequest(FriendAcceptDto dto, Action<string,bool> result)
     {
@@ -271,7 +280,7 @@ public class UserManager
     {
         FriendAcceptDto dto = new FriendAcceptDto();
         dto.friendId = text;
-        CoroutineRunner.Instance.StartCoroutine(SendDeniedFriendRequest(dto, result));
+        StartCoroutine(SendDeniedFriendRequest(dto, result));
     }
     IEnumerator SendDeniedFriendRequest(FriendAcceptDto dto, Action<string,bool> result)
     {
@@ -300,7 +309,7 @@ public class UserManager
     {
         FriendAcceptDto dto = new FriendAcceptDto();
         dto.friendId = text;
-        CoroutineRunner.Instance.StartCoroutine(SendDeleteFriendRequest(dto, result));
+        StartCoroutine(SendDeleteFriendRequest(dto, result));
     }
     IEnumerator SendDeleteFriendRequest(FriendAcceptDto dto, Action<string,bool> result)
     {
@@ -329,7 +338,7 @@ public class UserManager
     {
         FriendRequestDto dto = new FriendRequestDto();
         dto.friendName = nameText;
-        CoroutineRunner.Instance.StartCoroutine(SendAddFriendRequest(dto, result));
+        StartCoroutine(SendAddFriendRequest(dto, result));
     }
     IEnumerator SendAddFriendRequest(FriendRequestDto dto, Action<string, bool> result)
     {

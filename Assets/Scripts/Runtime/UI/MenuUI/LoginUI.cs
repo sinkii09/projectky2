@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class LoginUI : MonoBehaviour
 {
-    [SerializeField] MainMenuUI mainMenuUI;
+    [SerializeField] LoginAndRegisterLogic loginLogic;
 
     [SerializeField] TMP_InputField userNameInputField;
     [SerializeField] TMP_InputField passwordInputField;
@@ -33,16 +33,16 @@ public class LoginUI : MonoBehaviour
     {
         if(userNameInputField.text != string.Empty &&  passwordInputField.text != string.Empty)
         {
-            mainMenuUI.Login(userNameInputField.text, passwordInputField.text);
+            loginLogic.Login(userNameInputField.text, passwordInputField.text);
         }
     }
     public void Register()
     {
-        mainMenuUI.ToRegiter();
+        loginLogic.ToRegister();
     }
     void Exit()
     {
-        mainMenuUI.ExitApplication();
+        loginLogic.ExitApplication();
     }
     private void OnSwitchInputField()
     {

@@ -15,16 +15,21 @@ public class ClientGameManager : IDisposable
     public User User { get; private set; }
     public NetworkClient NetworkClient { get; private set; }
     public Matchmaker Matchmaker { get; private set; }
+    public ChatManager ChatManager { get; private set; }
     public bool Initialized { get; private set; } = false;
-    public string UserCustomId { get; private set; }
 
     private AuthState authResult = AuthState.NotAuthenticated;
-    public ClientGameManager(Action InitCallback,LoginResponse response,string profileName = "default")
+
+    string connectIp = string.Empty;
+    private string connectPort = string.Empty;
+    public ClientGameManager(ChatManager chatManager,Action InitCallback,LoginResponse response,string profileName = "default")
     {
         User = new User(response);
-        UserCustomId = response.payload.sub;
-        Debug.Log($"Beginning with new Profile:{UserCustomId}");
+        Debug.Log($"Beginning with new Profile:{User.UserId}");
+        UserManager.Instance.AccessToken = User.AcessToken;
         
+        ChatManager = chatManager;
+        ChatManager.InitializeClient(User.AcessToken, User);
 
 #pragma warning disable 4014
         InitAsync(InitCallback);
@@ -34,13 +39,13 @@ public class ClientGameManager : IDisposable
     async Task InitAsync(Action InitCallback)
     {
         var unityAuthenticationInitOptions = new InitializationOptions();
-        unityAuthenticationInitOptions.SetProfile($"{UserCustomId}{LocalProfileTool.LocalProfileSuffix}");
+        unityAuthenticationInitOptions.SetProfile($"{User.UserId}{LocalProfileTool.LocalProfileSuffix}");
         await UnityServices.InitializeAsync(unityAuthenticationInitOptions);
 
         NetworkClient = new NetworkClient();
         Matchmaker = new Matchmaker();
-        authResult = await AuthenticationWrapper.DoAuth(User.AcessToken,UserCustomId);
-
+        authResult = await AuthenticationWrapper.DoAuth(User.UserId);
+        
         if (authResult == AuthState.Authenticated)
             User.AuthId = AuthenticationWrapper.PlayerID();
         else
@@ -48,11 +53,27 @@ public class ClientGameManager : IDisposable
         Debug.Log($"did Auth?{authResult} {User.AuthId}");
         Initialized = true;
         InitCallback?.Invoke();
+
+        NetworkClient.OnLocalConnection += NetworkClient_OnLocalConnection;
+        NetworkClient.OnLocalDisconnection += NetworkClient_OnLocalDisconnection;
     }
+
+    private void NetworkClient_OnLocalDisconnection(ConnectStatus obj)
+    {
+        ChatManager.LeaveRoomChatAsync($"{connectIp}:{connectPort}");
+    }
+
+    private void NetworkClient_OnLocalConnection(ConnectStatus obj)
+    {
+        ChatManager.JoinRoomChat($"{connectIp}:{connectPort}");
+    }
+
     public void BeginConnection(string ip, int port)
     {
         Debug.Log($"Starting networkClient @ {ip}:{port}\nWith : {User}");
         NetworkClient.StartClient(ip, port);
+        connectIp = ip;
+        connectPort = port.ToString();
     }
 
     public void Disconnect()
@@ -86,7 +107,7 @@ public class ClientGameManager : IDisposable
         MatchPlayerDespawned?.Invoke(player);
     }
 
-    public void SetGameMode(GameMode gameMode)
+    public void SetGameMode(PlayMode gameMode)
     {
         User.GameModePreferences = gameMode;
     }
@@ -115,20 +136,12 @@ public class ClientGameManager : IDisposable
 
     public void Dispose()
     {
-        NetworkClient?.Dispose();
-        Matchmaker?.Dispose();
-    }
-
-    public void ExitGame()
-    {
-        if(authResult == AuthState.Authenticated)
+        if (authResult == AuthState.Authenticated)
         {
             AuthenticationWrapper.SignOut();
         }
-        Dispose();
-#if UNITY_EDITOR
-        EditorApplication.ExitPlaymode();
-#endif
-        Application.Quit();
+        NetworkClient?.Dispose();
+        Matchmaker?.Dispose();
+        ChatManager.OnLogout();
     }
 }

@@ -22,7 +22,6 @@ public class NetworkServer : IDisposable
     SynchedServerData m_SynchedServerData;
     bool m_InitializedServer;
     NetworkManager m_NetworkManager;
-    UserManager m_UserManager;
 
     const int k_MaxConnectPayload = 1024;
 
@@ -34,7 +33,6 @@ public class NetworkServer : IDisposable
     public List<UserData> UserDataList = new List<UserData>();
     public NetworkServer(NetworkManager manager)
     {
-        m_UserManager = new UserManager();
         m_NetworkManager = manager;
         m_NetworkManager.ConnectionApprovalCallback += ApprovalCheck;
         m_NetworkManager.OnServerStarted += OnNetworkReady;
@@ -115,7 +113,7 @@ public class NetworkServer : IDisposable
     {
         foreach(var player in UserDataList)
         {
-            m_UserManager.UpdateData(player);
+            UserManager.Instance.UpdateData(player);
         }
     }
     public void StartGame()

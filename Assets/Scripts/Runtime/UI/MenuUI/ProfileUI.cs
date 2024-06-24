@@ -21,7 +21,7 @@ public class ProfileUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI nameText;
     [SerializeField] TMP_InputField nameInputField;
 
-    [SerializeField] MainMenuUI mainMenuUI;
+    [SerializeField] MainMenuLogic menuLogic;
 
     User user;
 
@@ -63,7 +63,7 @@ public class ProfileUI : MonoBehaviour
             ChangeNameConfirm("please input other name");
             return;
         }
-        mainMenuUI.UserManager.UpdateUser(ChangeNameConfirm,name:nameInputField.text);
+        UserManager.Instance.UpdateUser(ChangeNameConfirm,name:nameInputField.text);
     }
     void ChangeNameConfirm(string result = "",bool success = false)
     {
@@ -93,7 +93,7 @@ public class ProfileUI : MonoBehaviour
 
     private void ChangePasswordConfirm(string oldPass, string newPass)
     {
-        mainMenuUI.UserManager.UpdateUser(oldpassword: oldPass, newpassword: newPass,result:ChangeResult);
+        UserManager.Instance.UpdateUser(oldpassword: oldPass, newpassword: newPass,result:ChangeResult);
     }
     void ChangeResult(string result, bool success)
     {
@@ -101,10 +101,10 @@ public class ProfileUI : MonoBehaviour
     }
     void Logout()
     {
-        mainMenuUI.ToLoginPage();
+        menuLogic.Logout();
     }
     void ToMainMenu()
     {
-        mainMenuUI.ToMainMenu();
+        menuLogic.HideProfile();
     }
 }

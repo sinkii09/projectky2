@@ -43,7 +43,7 @@ public class User
         set { Data.userGamePreferences.map = value; }
     }
 
-    public GameMode GameModePreferences
+    public PlayMode GameModePreferences
     {
         get => Data.userGamePreferences.gameMode;
         set => Data.userGamePreferences.gameMode = value;

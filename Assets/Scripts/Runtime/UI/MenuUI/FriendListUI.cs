@@ -2,10 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-using static AuthenticateResponse;
+
 
 public enum friendUIState
 {
@@ -28,8 +27,10 @@ public class FriendListUI : MonoBehaviour
 
     [SerializeField] Button browserButton;
     [SerializeField] TMP_InputField browserInputField;
+
+    [SerializeField] string hexColor = "#888888";
     friendUIState state;
-    MainMenuUI mainMenuUI;
+    MainMenuLogic mainMenuUI;
     List<FriendCard> friendCardList = new List<FriendCard>();
     List<FriendRequestCard> requestCardList = new List<FriendRequestCard>();
 
@@ -63,7 +64,7 @@ public class FriendListUI : MonoBehaviour
     }
     private void OnEnable()
     {
-        mainMenuUI = FindObjectOfType<MainMenuUI>();
+        mainMenuUI = FindObjectOfType<MainMenuLogic>();
         if (ClientSingleton.Instance.Manager != null)
         {
             friendListToggle.isOn = true;
@@ -84,7 +85,7 @@ public class FriendListUI : MonoBehaviour
         switch (state)
         {
             case friendUIState.friendList:
-                FetchFriendLists();
+                    FetchFriendLists();
                 break;
             case friendUIState.friendRequest:
                 FetchFriendRequestList();
@@ -145,7 +146,7 @@ public class FriendListUI : MonoBehaviour
             Destroy(child.gameObject);
         }
         var userCard = Instantiate(userBrowserPrefab,viewContent);
-        userCard.Initialize(response.id, response.ingameName, mainMenuUI.UserManager);
+        userCard.Initialize(response.id, response.ingameName, UserManager.Instance);
     }
     void GetPlayerFailed(string error)
     {
@@ -161,7 +162,7 @@ public class FriendListUI : MonoBehaviour
         foreach (FriendData friendData in requestList)
         {
             var requestCard = Instantiate(friendRequestCardPrefab,viewContent);
-            requestCard.Initialize(friendData.id,friendData.name,mainMenuUI.UserManager);
+            requestCard.Initialize(friendData.id,friendData.name,UserManager.Instance);
             requestCardList.Add(requestCard);
         }
     }
@@ -171,7 +172,7 @@ public class FriendListUI : MonoBehaviour
         foreach (FriendData friendData in friendList)
         {
             var friendcard = Instantiate(friendCardPrefab, viewContent);
-            friendcard.Initialize(friendData.id, friendData.name, mainMenuUI.UserManager);
+            friendcard.Initialize(friendData.id, friendData.name, UserManager.Instance);
             friendCardList.Add(friendcard);
         }
     }

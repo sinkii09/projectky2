@@ -9,9 +9,10 @@ public enum Map
     Map1,
     Map2,
 }
-public enum GameMode
+public enum PlayMode
 {
-    Default
+    Default,
+    Ranked   
 }
 
 public enum GameQueue
@@ -24,7 +25,7 @@ public enum GameQueue
 public class GameInfo
 {
     public Map map;
-    public GameMode gameMode;
+    public PlayMode gameMode;
     public GameQueue gameQueue;
 
     public int MaxUsers = 10;

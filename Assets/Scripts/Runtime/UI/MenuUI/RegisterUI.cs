@@ -1,14 +1,12 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class RegisterUI : MonoBehaviour
 {
-    [SerializeField] MainMenuUI mainMenuUI;
+    [SerializeField] LoginAndRegisterLogic loginLogic;
 
     [SerializeField] TMP_InputField userNameInputField;
     [SerializeField] TMP_InputField passwordInputField;
@@ -67,7 +65,7 @@ public class RegisterUI : MonoBehaviour
     }
     void BackToLogin()
     {
-        mainMenuUI.ToLoginPage();
+        loginLogic.ToLogin();
     }
     void SignIn()
     {
@@ -90,9 +88,10 @@ public class RegisterUI : MonoBehaviour
         createUserDto.password = passwordInputField.text;
         createUserDto.name = nicknameInputField.text;
 
-        mainMenuUI.Register(createUserDto);
+        loginLogic.Register(createUserDto);
 
     }
+
     private void OnSwitchInputField()
     {
         for (int i = 0; i < inputFields.Count; i++)
