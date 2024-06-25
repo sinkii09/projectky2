@@ -63,7 +63,7 @@ public class ProfileUI : MonoBehaviour
             ChangeNameConfirm("please input other name");
             return;
         }
-        UserManager.Instance.UpdateUser(ChangeNameConfirm,name:nameInputField.text);
+        UserManager.Instance.ClientUpdateUser(ChangeNameConfirm,name:nameInputField.text);
     }
     void ChangeNameConfirm(string result = "",bool success = false)
     {
@@ -93,7 +93,7 @@ public class ProfileUI : MonoBehaviour
 
     private void ChangePasswordConfirm(string oldPass, string newPass)
     {
-        UserManager.Instance.UpdateUser(oldpassword: oldPass, newpassword: newPass,result:ChangeResult);
+        UserManager.Instance.ClientUpdateUser(oldpassword: oldPass, newpassword: newPass,result:ChangeResult);
     }
     void ChangeResult(string result, bool success)
     {

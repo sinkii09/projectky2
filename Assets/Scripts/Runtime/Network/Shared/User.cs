@@ -12,7 +12,7 @@ public class User
     public User(LoginResponse response)
     {
         var tempId = Guid.NewGuid().ToString();
-        Data = new UserData(response.access_token,response.payload.sub,response.payload.ingameName, tempId, 0, new GameInfo());
+        Data = new UserData(response, tempId, 0, new GameInfo());
     }
     public string AcessToken
     {

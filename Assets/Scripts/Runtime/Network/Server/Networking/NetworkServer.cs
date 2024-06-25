@@ -109,11 +109,36 @@ public class NetworkServer : IDisposable
             }
         }
     }
+    public void GetPlayerDataBeforeUpdate()
+    {
+        foreach(var player in UserDataList)
+        {
+            UserManager.Instance.ServerGetUserData(player.userId,SetupRatingandRankpoint);
+        }
+    }
+    void SetupRatingandRankpoint(UpdateUserPartialDto dto,bool result)
+    {
+        if(result)
+        {
+            foreach (var user in UserDataList)
+            {
+                if (user.userId == dto.userId)
+                {
+                    user.Rating = dto.rating;
+                    user.RankPoints = dto.rankPoints;
+                }
+            }
+        }
+        else
+        {
+            Debug.LogError("cannot get user from backend");
+        }
+    }
     public void UpdateUserDataToBackend()
     {
         foreach(var player in UserDataList)
         {
-            UserManager.Instance.UpdateData(player);
+            UserManager.Instance.ServerUpdateData(player);
         }
     }
     public void StartGame()
@@ -184,6 +209,7 @@ public class NetworkServer : IDisposable
     private void OnClientDisconnect(ulong networkId)
     {
         SendClientDisconnected(networkId, ConnectStatus.GenericDisconnect);
+        var matchPlayerInstance = GetNetworkedPlayer(networkId);
         if (m_NetworkIdToAuth.TryGetValue(networkId, out var authId))
         {
             m_NetworkIdToAuth?.Remove(networkId);
@@ -197,8 +223,6 @@ public class NetworkServer : IDisposable
                 m_ClientData.Remove(authId);
             }
         }
-        
-        var matchPlayerInstance = GetNetworkedPlayer(networkId);
         OnServerPlayerDespawned?.Invoke(matchPlayerInstance);
     }
 

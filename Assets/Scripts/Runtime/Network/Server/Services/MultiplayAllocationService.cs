@@ -88,6 +88,7 @@ public class MultiplayAllocationService : IDisposable
         if (string.IsNullOrEmpty(allocation.AllocationId))
             return;
         m_AllocationId = allocation.AllocationId;
+        UserManager.Instance.ServerSignIn(allocation.ServerId.ToString());
     }
 
     void OnMultiplayDeAllocation(MultiplayDeallocation deallocation)

@@ -112,6 +112,7 @@ public class GamePlayBehaviour : NetworkBehaviour
     }
     void UpdateRankingScoreResult()
     {
+        NetworkServer.Instance.GetPlayerDataBeforeUpdate();
         var players = NetworkServer.Instance.UserDataList;
         ScoringSystem scoringSystem = new ScoringSystem();
         scoringSystem.UpdateRatingsForSession(players);

@@ -26,6 +26,7 @@ public class ClientGameManager : IDisposable
     {
         User = new User(response);
         Debug.Log($"Beginning with new Profile:{User.UserId}");
+        Debug.Log($"token: {User.AcessToken}");
         UserManager.Instance.AccessToken = User.AcessToken;
         
         ChatManager = chatManager;

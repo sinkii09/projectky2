@@ -20,11 +20,11 @@ public class UserData
     public int playerScore = 0;
     public int playerGold = 0;
     public int playerPlace = 0;
-    public UserData(string acesstoken,string userId,string userName, string userAuthId, ulong networkId, GameInfo userGamePreferences)
+    public UserData(LoginResponse response, string userAuthId, ulong networkId, GameInfo userGamePreferences)
     {
-        this.acesstoken = acesstoken;
-        this.userId = userId;
-        this.userName = userName;
+        this.acesstoken = response.access_token;
+        this.userId = response.payload.id;
+        this.userName = response.payload.ingameName;
         this.userAuthId = userAuthId;
         this.networkId = networkId;
         this.userGamePreferences = userGamePreferences;

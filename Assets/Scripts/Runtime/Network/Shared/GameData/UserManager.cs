@@ -11,7 +11,7 @@ public class UserManager : MonoBehaviour
 {
     public static UserManager Instance { get; set; }
 
-    private string updateUserRankUrl = "http://localhost:3000/users/updateRank";
+    private string updateUserRankUrl = "http://localhost:3000/users/update-rank-server";
     private string updateNameOrPasswordUrl = "http://localhost:3000/users/updateUser";
     private string loginUrl = "http://localhost:3000/auth/login";
     private string registerUrl = "http://localhost:3000/auth/register";
@@ -128,7 +128,6 @@ public class UserManager : MonoBehaviour
         request.uploadHandler = new UploadHandlerRaw(bodyRaw);
         request.downloadHandler = new DownloadHandlerBuffer();
         request.SetRequestHeader("Content-Type", "application/json");
-        request.SetRequestHeader("Authorization", "Bearer " + accessToken);
         yield return request.SendWebRequest();
         if (request.result == UnityWebRequest.Result.Success)
         {
@@ -139,7 +138,32 @@ public class UserManager : MonoBehaviour
             Debug.LogError("Error updating user data: " + request.error);
         }
     }
-    public void UpdateData(UserData userData)
+    public void ServerSignIn(string serverId)
+    {
+        StartCoroutine(ServerSignInRequest(serverId));
+    }
+    IEnumerator ServerSignInRequest(string serverId)
+    {
+        string url = $"http://localhost:3000/users/serverSignIn/:{serverId}";
+        using (UnityWebRequest request = new UnityWebRequest(url, "GET"))
+        {
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Authorization", $"Bearer {accessToken}");
+            yield return request.SendWebRequest();
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                string responseJson = request.downloadHandler.text;
+                AccessToken token = JsonUtility.FromJson<AccessToken>(responseJson);
+                accessToken = token.access_token;
+                Debug.Log("server signin success");
+            }
+            else
+            {
+                Debug.Log("server signin failed");
+            }
+        }
+    }
+    public void ServerUpdateData(UserData userData)
     {
         UpdateUserPartialDto dto = ConvertDataToDto(userData);
         StartCoroutine(UpdateUserDataRequest(dto));
@@ -148,12 +172,34 @@ public class UserManager : MonoBehaviour
     {
         UpdateUserPartialDto dto = new UpdateUserPartialDto();
         dto.userId = userData.userId;
-        dto.userName = userData.userName;
         dto.rating = userData.Rating;
         dto.rankPoints = userData.RankPoints;
         return dto;
     }
-    public void UpdateUser(Action<string,bool> result,string name = "",string oldpassword = "", string newpassword = "")
+    public void ServerGetUserData(string id, Action<UpdateUserPartialDto,bool> callback )
+    {
+        StartCoroutine(ServerGetUserDataRequest(id, callback));
+    }
+    private IEnumerator ServerGetUserDataRequest(string id, Action<UpdateUserPartialDto, bool> result)
+    {
+        using (UnityWebRequest request = new UnityWebRequest($"http://localhost:3000/users/get-user-server/:{id}", "GET"))
+        {
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Authorization", $"Bearer {accessToken}");
+            yield return request.SendWebRequest();
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                string responseJson = request.downloadHandler.text;
+                UpdateUserPartialDto response = JsonUtility.FromJson<UpdateUserPartialDto>(responseJson);
+                result?.Invoke(response, true);
+            }
+            else
+            {
+                result?.Invoke(null, false);
+            }
+        }
+    }
+    public void ClientUpdateUser(Action<string,bool> result,string name = "",string oldpassword = "", string newpassword = "")
     {
         StartCoroutine(UpdateNameOrPasswordRequest(name,oldpassword, newpassword, result));      
     }
@@ -199,8 +245,7 @@ public class UserManager : MonoBehaviour
         else
         {
             failedGetUser?.Invoke(request.downloadHandler.text);
-        }
-        
+        }  
     }
     public void FetchFriendList(Action<List<FriendData>> success, Action<string> failed)
     {
@@ -393,15 +438,14 @@ public class FriendRequestDto
 public class UpdateUserPartialDto
 {
     public string userId;
-    public string userName;
-    public int? rating; 
-    public int? rankPoints; 
+    public int rating; 
+    public int rankPoints; 
 }
 
 [System.Serializable]
 public class Payload
 {
-    public string sub;
+    public string id;
     public string username;
     public string ingameName;
 }
@@ -453,3 +497,15 @@ public class CreateUserDto
     public string password;
     public string name;
 }
+[Serializable]
+public class UserInformation
+{
+    public string id;
+    public string rating;
+    public string rankpoints;
+}
+public class AccessToken
+{
+    public string access_token;
+}
+
