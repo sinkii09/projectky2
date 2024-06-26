@@ -124,7 +124,6 @@ public class CharacterSpawner : NetworkBehaviour,IDisposable
     [Rpc(SendTo.ClientsAndHost)]
     void LoadCompleteNotifyClientRpc()
     {
-        
         OnSpawnComplete?.Invoke();
     }
     Transform GetRandomTransformInList()
@@ -145,6 +144,7 @@ public class CharacterSpawner : NetworkBehaviour,IDisposable
         {
             NetworkServer.Instance.SetPlayerResult(player.ClientId, player.Kill, player.Dead);
         }
+        NetworkServer.Instance.SendResultTobackend();
     }
 
     public void Dispose()

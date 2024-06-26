@@ -1,64 +1,43 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
-public class PostGameUI : NetworkBehaviour
+
+public class PostGameUI : MonoBehaviour
 {
     [SerializeField] PostGamePlayerCard playerCardPrefab;
     [SerializeField] Transform cardHolder;
-
-    NetworkList<CharacterPostGameState> Players;
+    [SerializeField] GameObject loadingPanel;
     private void Awake()
     {
-        Players = new NetworkList<CharacterPostGameState>();
+        loadingPanel.SetActive(true);
+        FetchGameResult();
     }
 
-    public override void OnNetworkSpawn()
+
+    private void FetchGameResult()
     {
-        if(IsClient)
+        string id = ClientSingleton.Instance.Manager.User.UserId;
+        UserManager.Instance.ClientFetchGameResult(id, OnFetchSuccess, OnFetchFailed);
+    }
+
+    private void OnFetchFailed()
+    {
+        loadingPanel.SetActive(false);
+        Debug.Log("Can not connect to Server");
+    }
+
+    private void OnFetchSuccess(GameSessionResult gameSessionResult)
+    {
+        loadingPanel.SetActive(false);
+        List<PlayerResult> result = gameSessionResult.gameResult;
+        foreach(var playerResult in result)
         {
-            Players.OnListChanged += Players_OnListChanged;
+            var card = Instantiate(playerCardPrefab, cardHolder);
+            card.UpdateUI(playerResult);
+            card.transform.SetSiblingIndex(playerResult.place - 1);
         }
     }
-
-    public override void OnNetworkDespawn()
-    {
-        if(IsClient)
-        {
-            Players.OnListChanged -= Players_OnListChanged;
-        }
-    }
-
-    private void Players_OnListChanged(NetworkListEvent<CharacterPostGameState> changeEvent)
-    {
-        var card = Instantiate(playerCardPrefab, cardHolder);
-        card.UpdateUI(changeEvent.Value);
-        card.transform.SetSiblingIndex(changeEvent.Value.Place - 1);
-    }
-
-    public void SendDataToClient()
-    {
-        int i = 0;
-        foreach (var player in NetworkServer.Instance.UserDataList)
-        {
-            i++;
-            Debug.Log(i);
-            
-            Players.Add(new CharacterPostGameState(
-                player.networkId,
-                player.userName,
-                player.characterId,
-                player.playerKill,
-                player.playerDead,
-                player.playerScore,
-                player.playerPlace,
-                player.RankPoints));
-        }
-    }
-    public void  OnExitBtnClick()
-    {
-        ClientSingleton.Instance.Manager.Disconnect();
-    }
-
 }

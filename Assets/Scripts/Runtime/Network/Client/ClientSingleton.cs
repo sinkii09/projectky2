@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class ClientSingleton : MonoBehaviour
 {
+
     static ClientSingleton instance;
 
     ChatManager chatManager;

@@ -41,6 +41,7 @@ public class ServerToBackend
             gameMode = mode.ToString(),
             playerIds = userIdList
         };
+        Debug.Log(gameSessionRequest.ToString());
         CoroutineRunner.Instance.StartCoroutine(CreateGameSessionRequest(gameSessionRequest));
     }
     IEnumerator CreateGameSessionRequest(GameSessionRequest body)
@@ -57,8 +58,7 @@ public class ServerToBackend
             yield return request.SendWebRequest();
             if (request.result == UnityWebRequest.Result.Success)
             {
-                string response = request.result.ToString();
-                sessionId = JsonUtility.FromJson<string>(response);
+                sessionId = request.result.ToString();
             }
             else
             {
@@ -77,7 +77,7 @@ public class ServerToBackend
     }
     IEnumerator SendResultRequest(PlayerStatsRequest playerStats, string sessionId)
     {
-        string url = $"{domain}/update-player-stats/:{sessionId}";
+        string url = $"{domain}/game-sessions/update-player-stats/:{sessionId}";
 
         string json = JsonUtility.ToJson(playerStats);
         UnityWebRequest request = new UnityWebRequest(url, "POST");

@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Unity.Services.Authentication;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -384,6 +385,31 @@ public class UserManager : MonoBehaviour
             }
         }
     }
+
+    internal void ClientFetchGameResult(string id, Action<GameSessionResult> result, Action failed)
+    {
+        StartCoroutine(FetchResultRequest(id, result, failed));
+    }
+    IEnumerator FetchResultRequest(string id,Action<GameSessionResult> result, Action failed)
+    {
+        string url = $"http://localhost:3000/game-sessions/last-session/:{id}";
+        using (UnityWebRequest request = new UnityWebRequest(url, "GET"))
+        {
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Authorization", "Bearer " + accessToken);
+            yield return request.SendWebRequest();
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                string response = request.result.ToString();
+                GameSessionResult reponseSession = JsonUtility.FromJson<GameSessionResult>(response);
+                result?.Invoke(reponseSession);
+            }
+            else
+            {
+                failed?.Invoke();
+            }
+        }
+    }
 }
 [System.Serializable]
 public class FriendList
@@ -475,14 +501,26 @@ public class CreateUserDto
     public string name;
 }
 [Serializable]
-public class UserInformation
-{
-    public string id;
-    public string rating;
-    public string rankpoints;
-}
 public class AccessToken
 {
     public string access_token;
+}
+
+[Serializable]
+public class GameSessionResult
+{
+    public string sessionId { get; set; }
+    public string gameMode  { get; set; }
+    public List<PlayerResult> gameResult { get; set; }
+}
+[Serializable]
+public class PlayerResult
+{
+    public string name;
+    public string kills;
+    public string deaths;
+    public int place;
+    public int rpEarn;
+    public string rank;
 }
 

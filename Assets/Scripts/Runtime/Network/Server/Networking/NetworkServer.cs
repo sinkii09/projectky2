@@ -7,6 +7,8 @@ using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using Unity.Services.Matchmaker.Models;
 using Unity.VisualScripting;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -105,19 +107,28 @@ public class NetworkServer : IDisposable
     }
     public void SetPlayerResult(ulong clientId, int kill,int dead)
     {
-        List<PlayerStats> stats = new List<PlayerStats>();
+        
         foreach (var data in m_ClientData.Values)
         {
             if(data.networkId == clientId)
             {
-                PlayerStats playerStats = new PlayerStats
-                {
-                    playerId = data.userId,
-                    kills = kill,
-                    deaths = dead
-                };
-                stats.Add(playerStats);
+                data.playerKill = kill;
+                data.playerDead = dead;
             }
+        }
+    }
+    public void SendResultTobackend()
+    {
+        List<PlayerStats> stats = new List<PlayerStats>();
+        foreach (var item in UserDataList)
+        {
+            PlayerStats playerStats = new PlayerStats
+            {
+                playerId = item.userId,
+                kills = item.playerKill,
+                deaths = item.playerDead
+            };
+            stats.Add(playerStats);
         }
         ServerSingleton.Instance.ServerToBackend.SendResultToBackend(stats);
     }
@@ -189,7 +200,8 @@ public class NetworkServer : IDisposable
     private void OnClientDisconnect(ulong networkId)
     {
         SendClientDisconnected(networkId, ConnectStatus.GenericDisconnect);
-        var matchPlayerInstance = GetNetworkedPlayer(networkId);
+        
+
         if (m_NetworkIdToAuth.TryGetValue(networkId, out var authId))
         {
             m_NetworkIdToAuth?.Remove(networkId);
@@ -203,7 +215,8 @@ public class NetworkServer : IDisposable
                 m_ClientData.Remove(authId);
             }
         }
-        OnServerPlayerDespawned?.Invoke(matchPlayerInstance);
+        //var matchPlayerInstance = GetNetworkedPlayer(networkId);
+        //OnServerPlayerDespawned?.Invoke(matchPlayerInstance);
     }
 
     async Task SetupPlayerPrefab(ulong networkId, string playerName)
@@ -251,7 +264,6 @@ public class NetworkServer : IDisposable
         Debug.Log($"Send networkClient Disconnected to : {networkId}");
         NetworkMessenger.SendMessageTo(NetworkMessage.LocalClientDisconnected, networkId, writer);
     }
-
     public void Dispose()
     {
         if (m_NetworkManager == null)

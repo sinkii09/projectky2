@@ -1,7 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using TMPro;
 using UnityEngine;
+
 
 public class PostGamePlayerCard : MonoBehaviour
 {
@@ -9,15 +9,16 @@ public class PostGamePlayerCard : MonoBehaviour
     [SerializeField] TMP_Text playerNameText;
     [SerializeField] TMP_Text playerKDText;
     [SerializeField] TMP_Text scoreText;
-    [SerializeField] TMP_Text goldText;
+    [SerializeField] TMP_Text rankText;
 
     public int playerPlace;
-    public void UpdateUI(CharacterPostGameState user)
+
+    internal void UpdateUI(PlayerResult user)
     {
-        placeText.text = user.Place.ToString();
-        playerNameText.text = user.ClientName.ToString();
-        playerKDText.text = $"{user.Kill}/{user.Dead}";
-        scoreText.text = $"+{user.Score}";
-        goldText.text = user.RankingPoint.ToString();
+        placeText.text = user.place.ToString();
+        playerNameText.text = user.name;
+        playerKDText.text = $"{user.kills}/{user.deaths}";
+        scoreText.text = user.rpEarn > 0 ? $"+{user.rpEarn}": $"-{user.rpEarn}";
+        rankText.text = user.rank;
     }
 }

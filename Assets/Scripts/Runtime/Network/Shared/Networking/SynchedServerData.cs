@@ -18,7 +18,7 @@ public class SynchedServerData : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         OnNetworkSpawned?.Invoke();
-        if(IsLocalPlayer)
+        if(IsClient)
         {
             JoinChat(serverID.Value);
         }
@@ -27,7 +27,7 @@ public class SynchedServerData : NetworkBehaviour
     public override void OnNetworkDespawn()
     {
         OnNetworkDeSpawned?.Invoke();
-        if (IsLocalPlayer)
+        if (IsClient)
         {
             JoinChat("");
         }

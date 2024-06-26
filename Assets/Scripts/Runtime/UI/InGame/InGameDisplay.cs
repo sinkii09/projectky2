@@ -18,10 +18,9 @@ public class InGameDisplay : MonoBehaviour
     
     Dictionary<ulong, PlayerIngameCard> playerCards = new Dictionary<ulong, PlayerIngameCard>();
 
-    private CountDownTimer m_CountDownTimer;
+    GamePlayBehaviour gamePlayBehaviour;
     private void Awake()
     {
-        m_CountDownTimer = FindObjectOfType<CountDownTimer>();
         m_NetcodeHooks.OnNetworkSpawnHook += OnNetworkSpawn;
         m_NetcodeHooks.OnNetworkDespawnHook += OnNetworkDeSpawn;
         
@@ -41,15 +40,23 @@ public class InGameDisplay : MonoBehaviour
     void OnNetworkSpawn()
     {
         m_CharacterSpawner.Players.OnListChanged += Players_OnListChanged;
-        m_CountDownTimer.OnTimeExpired += CountDownTimer_OnTimeExpired;
         NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneManager_OnLoadEventCompleted;
+        gamePlayBehaviour = FindObjectOfType<GamePlayBehaviour>();
+        if( gamePlayBehaviour != null )
+        {
+            Debug.Log("gameBehaviour found");
+            gamePlayBehaviour.IsGameOver.OnValueChanged += OnGameOver;
+        }
     }
 
     void OnNetworkDeSpawn()
     {
         m_CharacterSpawner.Players.OnListChanged -= Players_OnListChanged;
-        m_CountDownTimer.OnTimeExpired -= CountDownTimer_OnTimeExpired;
         NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= SceneManager_OnLoadEventCompleted;
+        if (gamePlayBehaviour != null)
+        {
+            gamePlayBehaviour.IsGameOver.OnValueChanged -= OnGameOver;
+        }
     }
 
     private void SceneManager_OnLoadEventCompleted(string sceneName, UnityEngine.SceneManagement.LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
@@ -68,11 +75,6 @@ public class InGameDisplay : MonoBehaviour
             }
         }
     }
-
-    private void CountDownTimer_OnTimeExpired()
-    {
-        m_GameOverUI.SetActive(true);
-    }
     private void Players_OnListChanged(NetworkListEvent<CharacterInGameState> changeEvent)
     {
         foreach(var item in m_CharacterSpawner.Players)
@@ -89,8 +91,10 @@ public class InGameDisplay : MonoBehaviour
         }
     }
 
-    internal void UpdateMainUI()
+
+    private void OnGameOver(bool previousValue, bool newValue)
     {
-        Debug.Log("Hello world");
+        m_GameOverUI.SetActive(newValue);
     }
+
 }

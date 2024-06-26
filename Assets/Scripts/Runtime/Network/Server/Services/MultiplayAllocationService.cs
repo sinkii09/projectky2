@@ -89,7 +89,6 @@ public class MultiplayAllocationService : IDisposable
             return;
         m_AllocationId = allocation.AllocationId;
         ServerSingleton.Instance.ServerToBackend.ServerSignIn(m_AllocationId);
-        Debug.Log($"server token: {m_AllocationId}");
     }
 
     void OnMultiplayDeAllocation(MultiplayDeallocation deallocation)

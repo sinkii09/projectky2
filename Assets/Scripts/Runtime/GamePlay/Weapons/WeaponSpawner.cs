@@ -48,7 +48,7 @@ public class WeaponSpawner : NetworkBehaviour
     IEnumerator SpawnWaves()
     {
         yield return null;
-        while(!GamePlayBehaviour.Instance.IsGameOver)
+        while(!GamePlayBehaviour.Instance.IsGameOver.Value)
         {
             yield return SpawnAWave();
             yield return new WaitForSeconds(m_TimeBetweenWave);

@@ -14,7 +14,6 @@ public enum GamePlayState
 
 public class GamePlayBehaviour : NetworkBehaviour
 {
-
     public static GamePlayBehaviour Instance { get; private set; }
     [SerializeField] string m_CharSelectScene;
     [SerializeField] string m_MapScene;
@@ -25,7 +24,7 @@ public class GamePlayBehaviour : NetworkBehaviour
     private GamePlayState currentGamePlayState = GamePlayState.Undefined;
 
     public event Action OnGameOver;
-    public bool IsGameOver;
+    public NetworkVariable<bool> IsGameOver { get; private set; } = new NetworkVariable<bool>(false);
     private void Awake()
     {
         Instance = this;
@@ -43,7 +42,7 @@ public class GamePlayBehaviour : NetworkBehaviour
                 NetworkManager.SceneManager.LoadScene(m_MapScene, LoadSceneMode.Additive);
                 break;
             case GamePlayState.GameOver:
-                NetworkManager.SceneManager.LoadScene(m_PostScene, LoadSceneMode.Additive);
+                NetworkManager.SceneManager.LoadScene(m_PostScene, LoadSceneMode.Single);
                 break;
         }
     }
@@ -74,8 +73,9 @@ public class GamePlayBehaviour : NetworkBehaviour
         else if(currentGamePlayState == GamePlayState.PlayGame)
         {
             OnGameOver?.Invoke();
-            IsGameOver = true;
-            LoadSceneDelay(GamePlayState.GameOver);
+            IsGameOver.Value = true;
+            
+            LoadState(GamePlayState.GameOver);
         }
     }
     private void SceneManager_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, System.Collections.Generic.List<ulong> clientsCompleted, System.Collections.Generic.List<ulong> clientsTimedOut)
@@ -92,11 +92,6 @@ public class GamePlayBehaviour : NetworkBehaviour
             m_countDownTimer.StartCountdown(m_InGameCountdownDuration);
             return;
         }
-        else if(sceneName == m_PostScene)
-        {
-            NetworkManager.SceneManager.UnloadScene(SceneManager.GetSceneByName(m_MapScene));
-            return;
-        }
         LoadState(GamePlayState.SelectCharacter);
     }
 
@@ -107,7 +102,6 @@ public class GamePlayBehaviour : NetworkBehaviour
     }
     public void LoadSceneDelay(GamePlayState state)
     {
-        StartCoroutine(LoadGamePlayCoroutine(1,state));
+        StartCoroutine(LoadGamePlayCoroutine(3,state));
     }
-
 }
