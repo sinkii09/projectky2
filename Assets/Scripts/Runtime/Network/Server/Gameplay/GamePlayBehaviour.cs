@@ -95,7 +95,6 @@ public class GamePlayBehaviour : NetworkBehaviour
         else if(sceneName == m_PostScene)
         {
             NetworkManager.SceneManager.UnloadScene(SceneManager.GetSceneByName(m_MapScene));
-            UpdateRankingScoreResult();
             return;
         }
         LoadState(GamePlayState.SelectCharacter);
@@ -110,17 +109,5 @@ public class GamePlayBehaviour : NetworkBehaviour
     {
         StartCoroutine(LoadGamePlayCoroutine(1,state));
     }
-    void UpdateRankingScoreResult()
-    {
-        NetworkServer.Instance.GetPlayerDataBeforeUpdate();
-        var players = NetworkServer.Instance.UserDataList;
-        ScoringSystem scoringSystem = new ScoringSystem();
-        scoringSystem.UpdateRatingsForSession(players);
-        scoringSystem.UpdateRankPoints(players);
-        scoringSystem.CalculatePlayerPlace(players);
-        NetworkServer.Instance.UpdateUserDataToBackend();
-        PostGameUI postGameUI = FindObjectOfType<PostGameUI>();
-        postGameUI.SendDataToClient();
-        // chuyen ve backend
-    }
+
 }
