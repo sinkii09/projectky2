@@ -392,7 +392,7 @@ public class UserManager : MonoBehaviour
     }
     IEnumerator FetchResultRequest(string id,Action<GameSessionResult> result, Action failed)
     {
-        string url = $"http://localhost:3000/game-sessions/last-session/:{id}";
+        string url = $"http://localhost:3000/game-sessions/last-session/{id}";
         using (UnityWebRequest request = new UnityWebRequest(url, "GET"))
         {
             request.downloadHandler = new DownloadHandlerBuffer();

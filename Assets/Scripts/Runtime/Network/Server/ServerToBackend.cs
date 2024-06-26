@@ -59,6 +59,7 @@ public class ServerToBackend
             if (request.result == UnityWebRequest.Result.Success)
             {
                 sessionId = request.result.ToString();
+                Debug.Log("sessionId receive: " + sessionId);
             }
             else
             {
@@ -77,7 +78,8 @@ public class ServerToBackend
     }
     IEnumerator SendResultRequest(PlayerStatsRequest playerStats, string sessionId)
     {
-        string url = $"{domain}/game-sessions/update-player-stats/:{sessionId}";
+        Debug.Log("sessionId send: " + sessionId);
+        string url = $"{domain}/game-sessions/update-player-stats/{sessionId}";
 
         string json = JsonUtility.ToJson(playerStats);
         UnityWebRequest request = new UnityWebRequest(url, "POST");

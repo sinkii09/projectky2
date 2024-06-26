@@ -61,6 +61,7 @@ public class InGameDisplay : MonoBehaviour
 
     private void SceneManager_OnLoadEventCompleted(string sceneName, UnityEngine.SceneManagement.LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
+        if (loadSceneMode != UnityEngine.SceneManagement.LoadSceneMode.Additive) return;
         foreach (var item in m_CharacterSpawner.Players)
         {
             if (item.ClientId != NetworkManager.Singleton.LocalClientId)

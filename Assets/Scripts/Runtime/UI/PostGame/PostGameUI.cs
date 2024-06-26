@@ -12,10 +12,10 @@ public class PostGameUI : MonoBehaviour
     [SerializeField] GameObject loadingPanel;
     private void Awake()
     {
+        if (!ClientSingleton.Instance) return;
         loadingPanel.SetActive(true);
         FetchGameResult();
     }
-
 
     private void FetchGameResult()
     {
@@ -39,5 +39,9 @@ public class PostGameUI : MonoBehaviour
             card.UpdateUI(playerResult);
             card.transform.SetSiblingIndex(playerResult.place - 1);
         }
+    }
+    public void DisconNect()
+    {
+        ClientSingleton.Instance.Manager.Disconnect();
     }
 }
