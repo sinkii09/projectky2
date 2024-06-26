@@ -138,31 +138,8 @@ public class UserManager : MonoBehaviour
             Debug.LogError("Error updating user data: " + request.error);
         }
     }
-    public void ServerSignIn(string serverId)
-    {
-        StartCoroutine(ServerSignInRequest(serverId));
-    }
-    IEnumerator ServerSignInRequest(string serverId)
-    {
-        string url = $"http://localhost:3000/users/serverSignIn/:{serverId}";
-        using (UnityWebRequest request = new UnityWebRequest(url, "GET"))
-        {
-            request.downloadHandler = new DownloadHandlerBuffer();
-            request.SetRequestHeader("Authorization", $"Bearer {accessToken}");
-            yield return request.SendWebRequest();
-            if (request.result == UnityWebRequest.Result.Success)
-            {
-                string responseJson = request.downloadHandler.text;
-                AccessToken token = JsonUtility.FromJson<AccessToken>(responseJson);
-                accessToken = token.access_token;
-                Debug.Log("server signin success");
-            }
-            else
-            {
-                Debug.Log("server signin failed");
-            }
-        }
-    }
+
+    
     public void ServerUpdateData(UserData userData)
     {
         UpdateUserPartialDto dto = ConvertDataToDto(userData);

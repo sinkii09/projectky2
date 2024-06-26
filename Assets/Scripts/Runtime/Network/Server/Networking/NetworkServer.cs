@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Unity.Collections;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
+using Unity.Services.Matchmaker.Models;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -91,56 +92,34 @@ public class NetworkServer : IDisposable
     }
     public void SetCharacter(ulong clientId, int characterId)
     {
+        List<string> playerIdList = new List<string>();
         if (m_NetworkIdToAuth.TryGetValue(clientId, out string auth))
         {
             if (m_ClientData.TryGetValue(auth, out UserData data))
             {
                 data.characterId = characterId;
+                playerIdList.Add(data.userId);
             }
         }
+        ServerSingleton.Instance.ServerToBackend.CreateGameSession(m_SynchedServerData.gameMode.Value,playerIdList);
     }
     public void SetPlayerResult(ulong clientId, int kill,int dead)
     {
+        List<PlayerStats> stats = new List<PlayerStats>();
         foreach (var data in m_ClientData.Values)
         {
             if(data.networkId == clientId)
             {
-                data.playerKill = kill;
-                data.playerDead = dead;
-            }
-        }
-    }
-    public void GetPlayerDataBeforeUpdate()
-    {
-        foreach(var player in UserDataList)
-        {
-            UserManager.Instance.ServerGetUserData(player.userId,SetupRatingandRankpoint);
-        }
-    }
-    void SetupRatingandRankpoint(UpdateUserPartialDto dto,bool result)
-    {
-        if(result)
-        {
-            foreach (var user in UserDataList)
-            {
-                if (user.userId == dto.userId)
+                PlayerStats playerStats = new PlayerStats
                 {
-                    user.Rating = dto.rating;
-                    user.RankPoints = dto.rankPoints;
-                }
+                    playerId = data.userId,
+                    kills = kill,
+                    deaths = dead
+                };
+                stats.Add(playerStats);
             }
         }
-        else
-        {
-            Debug.LogError("cannot get user from backend");
-        }
-    }
-    public void UpdateUserDataToBackend()
-    {
-        foreach(var player in UserDataList)
-        {
-            UserManager.Instance.ServerUpdateData(player);
-        }
+        ServerSingleton.Instance.ServerToBackend.SendResultToBackend(stats);
     }
     public void StartGame()
     {

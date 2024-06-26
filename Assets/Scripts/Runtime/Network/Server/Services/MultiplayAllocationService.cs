@@ -88,7 +88,7 @@ public class MultiplayAllocationService : IDisposable
         if (string.IsNullOrEmpty(allocation.AllocationId))
             return;
         m_AllocationId = allocation.AllocationId;
-        ServerSingleton.Instance.ServerToBackend.access_Token = m_AllocationId;
+        ServerSingleton.Instance.ServerToBackend.ServerSignIn(m_AllocationId);
         Debug.Log($"server token: {m_AllocationId}");
     }
 
