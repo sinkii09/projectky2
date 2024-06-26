@@ -62,6 +62,14 @@ public class ChatUI : MonoBehaviour
             chatList.RemoveAt(0);
         }
     }
+    public void ClearLog()
+    {
+        foreach (var chat in chatList)
+        {
+            Destroy(chat.gameObject);
+        }
+        chatList.Clear();
+    }
     public void LogText(ChatMessage chatMessage)
     {
         var chat = Instantiate(chatText, chatContainer);

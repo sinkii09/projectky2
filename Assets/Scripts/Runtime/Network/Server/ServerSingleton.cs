@@ -30,7 +30,19 @@ public class ServerSingleton : MonoBehaviour
             return null;
         }
     }
-
+    
+    ServerToBackend m_ServerToBackend;
+    public ServerToBackend ServerToBackend
+    {
+        get
+        {
+            if (m_ServerToBackend != null)
+            {
+                return m_ServerToBackend;
+            }
+            return null;
+        }
+    }
     public async Task CreateServer()
     {
         await UnityServices.InitializeAsync();
@@ -40,6 +52,7 @@ public class ServerSingleton : MonoBehaviour
                 ApplicationData.Port(),
                 ApplicationData.QPort(),
                 NetworkManager.Singleton);
+        m_ServerToBackend = new ServerToBackend();
     }
     private void Start()
     {

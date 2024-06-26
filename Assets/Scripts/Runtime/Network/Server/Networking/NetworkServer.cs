@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Unity.Collections;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -182,7 +183,7 @@ public class NetworkServer : IDisposable
             WaitToDisconnect(oldClientId);
         }
 
-        SendClientConnected(request.ClientNetworkId, ConnectStatus.Success);
+        SendClientConnected(request.ClientNetworkId,ConnectStatus.Success);
 
         //Populate our dictionaries with the playerData
         m_NetworkIdToAuth[request.ClientNetworkId] = userData.userAuthId;
@@ -256,8 +257,9 @@ public class NetworkServer : IDisposable
         await Task.Delay(500);
         m_NetworkManager.DisconnectClient(networkId);
     }
-    void SendClientConnected(ulong networkId, ConnectStatus status)
+    void SendClientConnected(ulong networkId,ConnectStatus status)
     {
+
         var writer = new FastBufferWriter(sizeof(ConnectStatus), Allocator.Temp);
         writer.WriteValueSafe(status);
         Debug.Log($"Send Network Client Connected to : {networkId}");
@@ -281,4 +283,9 @@ public class NetworkServer : IDisposable
         if (m_NetworkManager.IsListening)
             m_NetworkManager.Shutdown();
     }
+}
+public struct ConnectionData
+{
+    public ConnectStatus Status;
+    public string serverId;
 }

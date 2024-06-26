@@ -13,9 +13,28 @@ public class SynchedServerData : NetworkBehaviour
     public NetworkVariable<GameQueue> gameQueue = new NetworkVariable<GameQueue>();
 
     public Action OnNetworkSpawned;
+    public Action OnNetworkDeSpawned;
 
     public override void OnNetworkSpawn()
     {
         OnNetworkSpawned?.Invoke();
+        if(IsLocalPlayer)
+        {
+            JoinChat(serverID.Value);
+        }
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        OnNetworkDeSpawned?.Invoke();
+        if (IsLocalPlayer)
+        {
+            JoinChat("");
+        }
+    }
+    async void JoinChat(string room)
+    {
+        Debug.Log($"join room {room}");
+        await ClientSingleton.Instance.ChatManager.JoinRoomChat(room);
     }
 }

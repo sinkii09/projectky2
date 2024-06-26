@@ -29,7 +29,7 @@ public class MultiplayServerQueryService : IDisposable
         if (m_MultiplayService == null)
             return;
 
-        m_ServerQueryHandler = await m_MultiplayService.StartServerQueryHandlerAsync((ushort)6,
+        m_ServerQueryHandler = await m_MultiplayService.StartServerQueryHandlerAsync((ushort)4,
             "ServerName", "GameType", "0", "MapName");
 
         CoroutineRunner.Instance.StartCoroutine(ServerQueryLoop(m_ServerCheckCancel.Token));

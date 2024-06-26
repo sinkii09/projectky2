@@ -22,7 +22,6 @@ public struct NetworkString : INetworkSerializable
     {
         serializer.SerializeValue(ref _info);
     }
-
     public override string ToString()
     {
         return _info.Value.ToString();

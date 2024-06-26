@@ -45,7 +45,9 @@ public class ClientSingleton : MonoBehaviour
     {
         DontDestroyOnLoad(gameObject);
     }
-
+    public void findSynchData()
+    {
+    }
     public void ToLoginScene()
     {
         SceneManager.LoadScene("Login", LoadSceneMode.Single);

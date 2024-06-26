@@ -121,5 +121,6 @@ public class GamePlayBehaviour : NetworkBehaviour
         NetworkServer.Instance.UpdateUserDataToBackend();
         PostGameUI postGameUI = FindObjectOfType<PostGameUI>();
         postGameUI.SendDataToClient();
+        // chuyen ve backend
     }
 }

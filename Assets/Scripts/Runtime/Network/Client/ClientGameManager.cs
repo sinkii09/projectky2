@@ -55,18 +55,7 @@ public class ClientGameManager : IDisposable
         Initialized = true;
         InitCallback?.Invoke();
 
-        NetworkClient.OnLocalConnection += NetworkClient_OnLocalConnection;
-        NetworkClient.OnLocalDisconnection += NetworkClient_OnLocalDisconnection;
-    }
-
-    private void NetworkClient_OnLocalDisconnection(ConnectStatus obj)
-    {
-        ChatManager.LeaveRoomChatAsync($"{connectIp}:{connectPort}");
-    }
-
-    private void NetworkClient_OnLocalConnection(ConnectStatus obj)
-    {
-        ChatManager.JoinRoomChat($"{connectIp}:{connectPort}");
+       
     }
 
     public void BeginConnection(string ip, int port)

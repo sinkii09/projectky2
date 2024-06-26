@@ -39,9 +39,10 @@ public class ChatManager : MonoBehaviour
         client.JsonSerializer = new NewtonsoftJsonSerializer();
         //client.ConnectAsync();
 
-        client.OnConnected += (sender, e) =>
+        client.OnConnected += async (sender, e) =>
         {
             Debug.Log("Connected to Server");
+            await JoinRoomChat(roomId);
         };
         client.OnPing += (sender, e) =>
         {
@@ -59,7 +60,21 @@ public class ChatManager : MonoBehaviour
         {
             Debug.Log($"Reconnecting: attempt = {e}");
         };
-
+        client.On("recentMessages", response =>
+        {
+            var messages = response.GetValue<List<ChatMessage>>();
+            UnityMainThreadDispatcher.Instance().Enqueue(() =>
+            {
+                chatUI.ClearLog();
+            });
+            foreach (var message in messages)
+            {
+                UnityMainThreadDispatcher.Instance().Enqueue(() =>
+                {
+                    chatUI.LogText(message);
+                });
+            }
+        });
         client.On("chat message", (response) =>
         {
             var chatMessage = response.GetValue<ChatMessage>();
@@ -85,7 +100,7 @@ public class ChatManager : MonoBehaviour
         {
             try
             {
-                await client.EmitAsync("chat message", new { roomId = roomId, Message = message });
+                await client.EmitAsync("chat message", new {  message = message, roomId = roomId });
                 Debug.Log("Message sent successfully: " + message);
             }
             catch (Exception ex)
@@ -100,13 +115,12 @@ public class ChatManager : MonoBehaviour
             chatUI.LogText(chatMessage);
         }
     }
-    public async void JoinRoomChat(string roomId)
+    public async Task JoinRoomChat(string newRoomId)
     {
-        this.roomId = roomId;
         try
         {
-            
-            await client.EmitAsync("joinRoom", new { roomId = roomId });
+            await client.EmitAsync("joinRoom", new { oldRoomId = roomId, newRoomId = newRoomId  });
+            this.roomId = newRoomId;
             Debug.Log("player success join room chat");
         }
         catch (Exception e)
@@ -119,18 +133,20 @@ public class ChatManager : MonoBehaviour
     {
         this.roomId = string.Empty;
         await client.EmitAsync("leaveRoom", new { roomId = roomId });
-
     }
     public void OnLogout()
     {
+        LeaveRoomChatAsync(roomId);
         client.DisconnectAsync();
+        Debug.Log("log out chat");
     }
-
-
 }
 public class ChatMessage
 {
     public string SenderId { get; set; }
     public string SenderName { get; set; }
+    public string RoomId { get; set; }
     public string Message { get; set; }
+
+    public DateTime createdAt;
 }

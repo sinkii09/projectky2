@@ -104,7 +104,7 @@ public class ServerGameManager : IDisposable
         //Create a unique name for the server to show that we are joining the same one
 
         m_MultiplayServerQueryService.SetServerName(m_ServerName);
-        m_MultiplayServerQueryService.SetMaxPlayers(6);
+        m_MultiplayServerQueryService.SetMaxPlayers(4);
         m_MultiplayServerQueryService.SetBuildID("0");
         m_MultiplayServerQueryService.SetMap(startingGameInfo.map.ToString());
         m_MultiplayServerQueryService.SetMode(startingGameInfo.gameMode.ToString());

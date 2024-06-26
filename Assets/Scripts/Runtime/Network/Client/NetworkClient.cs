@@ -60,7 +60,11 @@ public class NetworkClient : IDisposable
     }
     void ReceiveLocalClientConnectStatus(ulong clientId, FastBufferReader reader)
     {
-        reader.ReadValueSafe(out ConnectStatus status);
+        var connectionData = new ConnectionData();
+        ConnectStatus status = connectionData.Status;
+        reader.ReadValueSafe(out status);
+        //reader.ReadValueSafe(out string serverId);
+
         Debug.Log("ReceiveLocalClientConnectStatus: " + status);
 
         //this indicates a game level failure, rather than a network failure. See note in ServerGameNetPortal.

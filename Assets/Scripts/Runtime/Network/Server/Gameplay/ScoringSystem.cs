@@ -21,6 +21,7 @@ public class ScoringSystem
 
                     if(playerB.Rating > 2400)
                     {
+
                         K = 10;
                     }
                     else if(playerB.Rating > 2000)
@@ -46,7 +47,7 @@ public class ScoringSystem
         float expectedScoreB = CalculateExpectedScore(playerB, playerA);
 
         float normScoreA = scoreA > scoreB ? 1.0f : (scoreA == scoreB ? 0.5f : 0.0f);
-        float normScoreB = scoreB > scoreA ? 1.0f : (scoreB == scoreA ? 0.5f : 0.0f);
+        float normScoreB = 1 - expectedScoreA;
 
         playerA.Rating = (int)(playerA.Rating + K * (normScoreA - expectedScoreA));
         playerB.Rating = (int)(playerB.Rating + K * (normScoreB - expectedScoreB));
