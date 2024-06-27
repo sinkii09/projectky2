@@ -9,6 +9,8 @@ public class test : MonoBehaviour
     [SerializeField] Transform go;
     [SerializeField] float speed;
     [SerializeField] float x, y, z;
+
+    [SerializeField] GameObject testObject;
     private void Start()
     {
         List<UserData> players = new List<UserData>()
@@ -62,4 +64,18 @@ public class test : MonoBehaviour
         }
         throw new System.Exception($"Action {name} has no usable Projectiles!");
     }
+    private void Update()
+    {
+        if(testObject != null)
+        {
+            testObject.transform.position = Vector3.Lerp(transform.position, transform.position + Vector3.up, Mathf.PingPong(Time.time, 1));
+            testObject.GetComponentInChildren<Transform>().SetParent(transform);
+            testObject.transform.Rotate(Vector3.up,2);
+        }
+        else if(Input.GetMouseButtonDown(0))
+        {
+            testObject = go.gameObject;
+        }
+    }
 }
+

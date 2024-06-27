@@ -82,15 +82,15 @@ public class WeaponSpawner : NetworkBehaviour
         {
             RandomPositionInRange();
         }
-        return newPosition;
+        return newPosition + Vector3.up *2;
     }
     bool IsAvailablePosion(Vector3 position)
     {
-        if (Physics.CheckSphere(position, 5f, k_ItemLayerMask))
+        if (Physics.CheckSphere(position, 10f, k_ItemLayerMask))
         {
             return false;
         }
-        if (Physics.Raycast(position, Vector3.up, 100f, k_EvenvironmentLayerMask))
+        if (Physics.Raycast(position + Vector3.up*100, Vector3.down, 100f, k_EvenvironmentLayerMask))
         {
             return false;
         }

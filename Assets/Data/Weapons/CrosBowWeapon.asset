@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CrosBowWeapon
   m_EditorClassIdentifier: 
   weaponName: 
-  visual: {fileID: 5869083548712434043, guid: c23dbdbf0f4842b4e9b553a3f1784722, type: 3}
+  visual: {fileID: 399077963439966249, guid: c8bd9691d2f93834e8cecdc5e0a8b9cb, type: 3}
   amount: 9999
   ability: {fileID: 11400000, guid: 5cced99e7e0d7c645a8c354321597221, type: 2}
   icon: {fileID: 21300000, guid: c607b28115a605841ab94c27c804c8d0, type: 3}

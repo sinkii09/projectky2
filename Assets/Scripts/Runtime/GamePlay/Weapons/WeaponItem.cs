@@ -10,9 +10,7 @@ public class WeaponItem : NetworkBehaviour
     
     WeaponID m_ID;
     int m_Amount;
-    Skill m_Skill;
-    public Skill Skill => m_Skill;
-
+    GameObject visual;
     public override void OnNetworkSpawn()
     {
         if (!IsServer)
@@ -38,6 +36,12 @@ public class WeaponItem : NetworkBehaviour
             NetworkObject.Despawn(true);
         }
     }
+    private void Update()
+    {
+        if (!IsClient && !visual) return;
+        visual.transform.position = Vector3.Lerp(transform.position, transform.position + Vector3.up, Mathf.PingPong(Time.time, 1));
+        visual.transform.Rotate(Vector3.up, 2);
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (!IsServer) return;
@@ -56,7 +60,6 @@ public class WeaponItem : NetworkBehaviour
     void UpdateVisualClientRpc(WeaponID weaponId)
     {
         var weaponData = GamePlayDataSource.Instance.GetWeaponPrototypeByID(weaponId);
-        Instantiate(weaponData.Visual,transform);
-
+        visual = Instantiate(weaponData.Visual,transform);
     }
 }
