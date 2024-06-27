@@ -400,7 +400,8 @@ public class UserManager : MonoBehaviour
             yield return request.SendWebRequest();
             if (request.result == UnityWebRequest.Result.Success)
             {
-                string response = request.result.ToString();
+                string response = request.downloadHandler.text;
+                Debug.Log(response);
                 GameSessionResult reponseSession = JsonUtility.FromJson<GameSessionResult>(response);
                 result?.Invoke(reponseSession);
             }

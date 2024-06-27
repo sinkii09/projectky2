@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: KgirlIntro_AC
+  m_Controller: {fileID: 9100000, guid: d68ba1fa0e3f1db4ebab397968600604, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 308b48c15b0fc8d4a83d4703f4dbeb3f, type: 3}
+    m_OverrideClip: {fileID: 7400000, guid: 505b618246801eb4e881ad45f8de889e, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: b016241d6c755924faa72ef01f6917f3, type: 3}
+    m_OverrideClip: {fileID: 7400000, guid: 25a9aef20fbfdd846b5dfc415a9e6919, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 3f2f5660b185f02479d526fb256acbe4, type: 3}
+    m_OverrideClip: {fileID: 7400000, guid: 1526ea8d06ea46d4089bb1ca73622a40, type: 2}

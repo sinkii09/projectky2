@@ -58,7 +58,7 @@ public class ServerToBackend
             yield return request.SendWebRequest();
             if (request.result == UnityWebRequest.Result.Success)
             {
-                sessionId = request.result.ToString();
+                sessionId = request.downloadHandler.text;
                 Debug.Log("sessionId receive: " + sessionId);
             }
             else
