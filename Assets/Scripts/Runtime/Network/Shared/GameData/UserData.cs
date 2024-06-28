@@ -13,7 +13,6 @@ public class UserData
     public GameInfo userGamePreferences;
     public int RankPoints = 0;
     public int Rating = 100;
-    public int OldRating = 0;
     public int characterId = -1;
     public int playerKill = 0;
     public int playerDead = 0;

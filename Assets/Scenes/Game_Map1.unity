@@ -194,8 +194,7 @@ MonoBehaviour:
   m_PostScene: PostScene
   m_countDownTimer: {fileID: 335670540}
   m_CharSelectCountdownDuration: 10
-  m_InGameCountdownDuration: 10
-  IsGameOver: 0
+  m_InGameCountdownDuration: 99999
 --- !u!1 &335670537
 GameObject:
   m_ObjectHideFlags: 0

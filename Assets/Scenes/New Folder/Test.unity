@@ -2828,7 +2828,7 @@ PrefabInstance:
     - target: {fileID: 4807487827067305038, guid: 06472fbdba179334996005c8e5346b17,
         type: 3}
       propertyPath: VelocityModule.enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4807487827067305038, guid: 06472fbdba179334996005c8e5346b17,
         type: 3}
@@ -2868,6 +2868,11 @@ PrefabInstance:
     - target: {fileID: 4807487827067305038, guid: 06472fbdba179334996005c8e5346b17,
         type: 3}
       propertyPath: ShapeModule.alignToDirection
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4807487827067305038, guid: 06472fbdba179334996005c8e5346b17,
+        type: 3}
+      propertyPath: InheritVelocityModule.enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6289631099150548313, guid: 06472fbdba179334996005c8e5346b17,
