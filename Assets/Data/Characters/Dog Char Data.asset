@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Dog Char Data
   m_EditorClassIdentifier: 
   id: 1
-  displayName: Doggos
-  icon: {fileID: 21300000, guid: 680a312559414ca47add2955aabd9ecd, type: 3}
+  displayName: Kobus
+  icon: {fileID: 21300000, guid: b7d3caaa84a3b0b498425a4bf8f22e67, type: 3}
   introPrefab: {fileID: 2940335711716993498, guid: da619d5a036f4a74cb6e6c9d52f99d69,
     type: 3}
   gameplayPrefab: {fileID: 7416513282563802081, guid: 51a531283fc30904c9c6f530aa5aefa8,

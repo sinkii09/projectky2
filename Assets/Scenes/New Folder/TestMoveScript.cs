@@ -1,36 +1,69 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
+using TMPro;
 using UnityEngine;
 
 public class TestMoveScript : MonoBehaviour
 {
-    [SerializeField]
-    Rigidbody m_Rigidbody;
-    [SerializeField] InputReader m_InputReader;
+    public Vector3 startPoint;
+    public Vector3 controlPoint;
+    public Vector3 endPoint;
 
-    private Vector3 moveDirection;
-    [SerializeField] private float moveSpeed = 10f;
-    private void Start()
+    private float t;
+    private float totalDistance;
+    public float speed;
+
+    [SerializeField] GameObject testObject;
+
+    bool islaunch;
+    private void Update()
     {
-        m_InputReader.MoveEvent += InputReader_MoveEvent;
+        if(Input.GetMouseButtonDown(0))
+        {
+            Launch();
+        }
+        if(islaunch)
+        {
+            if (t < 1)
+            {
+                t += Time.deltaTime * speed / totalDistance;
+                testObject.transform.position = CalculateBezierPoint(t, startPoint, controlPoint, endPoint);
+            }
+        }
     }
-    private void OnDestroy()
+    void Launch()
     {
-        m_InputReader.MoveEvent -= InputReader_MoveEvent;
+        startPoint = transform.position;
+        endPoint = new Vector3(5,0,5);
+        controlPoint = (startPoint + endPoint) / 2 + Vector3.up * 10;
+        totalDistance = CalculateTotalDistance();
+        t = 0;
+        islaunch = true;
     }
-    private void FixedUpdate()
+    private Vector3 CalculateBezierPoint(float t, Vector3 startPoint, Vector3 controlPoint, Vector3 endPoint)
     {
-        float desiredMovementAmount;
-        Vector3 movementVector;
-        desiredMovementAmount = moveSpeed * Time.fixedDeltaTime;
-        movementVector = moveDirection;
-        transform.position += movementVector * desiredMovementAmount;
-        transform.rotation = Quaternion.LookRotation(moveDirection);
-        m_Rigidbody.position = transform.position;
-        m_Rigidbody.rotation = transform.rotation;
+        float u = 1 - t;
+        float tt = t * t;
+        float uu = u * u;
+        Vector3 position = uu * startPoint; // u^2 * P0
+        position += 2 * u * t * controlPoint; // 2 * u * t * P1
+        position += tt * endPoint; // t^2 * P2
+        return position;
     }
-    private void InputReader_MoveEvent(Vector2 moveDir)
+    private float CalculateTotalDistance(int segments = 20)
     {
-        moveDirection = new Vector3(moveDir.x, 0,moveDir.y).normalized;
+        float distance = 0f;
+        Vector3 previousPoint = startPoint;
+
+        for (int i = 1; i <= segments; i++)
+        {
+            float t = (float)i / segments;
+            Vector3 currentPoint = CalculateBezierPoint(t, startPoint, controlPoint, endPoint);
+            distance += Vector3.Distance(previousPoint, currentPoint);
+            previousPoint = currentPoint;
+        }
+
+        return distance;
     }
 }

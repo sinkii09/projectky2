@@ -21,6 +21,9 @@ public class BoomerangProjectile : NetworkBehaviour
     private float traveledDistance;
 
     private NetworkVariable<Vector3> networkPosition = new NetworkVariable<Vector3>();
+
+    private List<ServerCharacter> damagePlayer = new List<ServerCharacter>();
+    
     public void Initialize(Vector3 start, Vector3 end, ProjectileInfo info, ServerCharacter serverCharacter)
     {
             startPoint = start;
@@ -66,7 +69,7 @@ public class BoomerangProjectile : NetworkBehaviour
         else
         {
             visual.transform.position = transform.position;
-            visual.transform.Rotate(Vector3.forward*speed);
+            visual.transform.Rotate((visual.transform.position +Vector3.forward)*speed);
         }
 
     }
@@ -90,6 +93,7 @@ public class BoomerangProjectile : NetworkBehaviour
                 returning = true;
                 Debug.Log("Boomerang returning to spawner.");
             }
+            damagePlayer.Clear();
         }
         else
         {
@@ -111,11 +115,12 @@ public class BoomerangProjectile : NetworkBehaviour
         if (other.gameObject.layer != targetLayer) return;
         var serverCharacter = other.GetComponent<ServerCharacter>();
         if (serverCharacter != null && serverCharacter.OwnerClientId == spawner.OwnerClientId) return;
-
+        if (damagePlayer.Contains(serverCharacter)) return;
         var damageable = other.GetComponent<IDamageable>();
         if (damageable != null && damageable.IsDamageable())
         {
             damageable.ReceiveHP(-damage, spawner);
+            damagePlayer.Add(serverCharacter);
         }
     }
     private void OnBoomerangReturn()

@@ -56,17 +56,16 @@ public class PopupManager : MonoBehaviour
     }
     protected virtual void OnConfirmButtonClick()
     {
-        // Hide the popup
+
         popupPanel.SetActive(false);
 
-        // Additional logic for confirm action can be added here
+
     }
 
     protected virtual void OnCancelButtonClick()
     {
-        // Hide the popup
+
         popupPanel.SetActive(false);
 
-        // Additional logic for cancel action can be added here
     }
 }

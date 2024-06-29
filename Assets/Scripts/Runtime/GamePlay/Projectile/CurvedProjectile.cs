@@ -20,7 +20,6 @@ public class CurvedProjectile : NetworkBehaviour
     private Collider[] hitColliders = new Collider[10];
     private NetworkVariable<Vector3> networkPosition = new NetworkVariable<Vector3>();
 
-    private bool isStarted;
     public void Initialize(Vector3 start, Vector3 control, Vector3 end, ProjectileInfo info,ServerCharacter serverCharacter = null)
     {
             startPoint = start;
@@ -43,9 +42,8 @@ public class CurvedProjectile : NetworkBehaviour
         if(IsServer)
         {
             networkPosition.Value = startPoint;
-            isStarted = true;
         }
-        else
+        if(IsClient)
         {
             visual.transform.parent = null;
         }
@@ -71,7 +69,7 @@ public class CurvedProjectile : NetworkBehaviour
                 OnProjectileHit();
             }
         }
-        else
+        if(IsClient)
         {
              visual.transform.position = transform.position;
         }

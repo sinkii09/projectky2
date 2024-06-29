@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 4
   displayName: Hella
-  icon: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  icon: {fileID: 21300000, guid: a6be65e50ac975d43adb264eed741cc1, type: 3}
   introPrefab: {fileID: 1409587762357534409, guid: 225ebd7e83462ec4ca49b5af347019ae,
     type: 3}
   gameplayPrefab: {fileID: 2919848637887410879, guid: a4c2d665180756a46be0d9eab7da2fe0,
