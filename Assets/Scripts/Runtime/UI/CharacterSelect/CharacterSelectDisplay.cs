@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
 public class CharacterSelectDisplay : NetworkBehaviour
@@ -15,11 +16,12 @@ public class CharacterSelectDisplay : NetworkBehaviour
     [SerializeField] private PlayerCard[] playerCards;
     [SerializeField] private GameObject characterInfoPanel;
     [SerializeField] private TMP_Text characterNameText;
-    [SerializeField] private Transform introSpawnPoint;
+    [SerializeField] private Transform[] introSpawnPointArray;
     [SerializeField] private Button lockInButton;
     [SerializeField] private TextMeshProUGUI countdownText;
     private CountDownTimer countDownTimer;
-    private GameObject introInstance;
+    private Dictionary<CharacterSelectState,Transform> introPointDictionary = new Dictionary<CharacterSelectState,Transform>();
+    private Dictionary<CharacterSelectState,GameObject> introInstanceDictionary = new Dictionary<CharacterSelectState,GameObject>();
     private List<CharacterSelectButton> characterButtons = new List<CharacterSelectButton>();
     private NetworkList<CharacterSelectState> players;
     private NetworkList<int> characterIdList;
@@ -135,12 +137,12 @@ public class CharacterSelectDisplay : NetworkBehaviour
 
         characterInfoPanel.SetActive(true);
 
-        if (introInstance != null)
-        {
-            Destroy(introInstance);
-        }
+        //if (introInstance != null)
+        //{
+        //    Destroy(introInstance);
+        //}
 
-        introInstance = Instantiate(character.IntroPrefab, introSpawnPoint);
+        //introInstance = Instantiate(character.IntroPrefab, introSpawnPoint);
 
         SelectServerRpc(character.Id);
     }
@@ -244,7 +246,11 @@ public class CharacterSelectDisplay : NetworkBehaviour
                 playerCards[i].DisableDisplay();
             }
         }
-
+        for (int i = 0; i < players.Count; i++)
+        {
+            introPointDictionary[players[i]] = introSpawnPointArray[i];
+        }
+        UpdateIntroInstance(changeEvent.Value);
         foreach (var button in characterButtons)
         {
             if (button.IsDisabled) { continue; }
@@ -297,5 +303,28 @@ public class CharacterSelectDisplay : NetworkBehaviour
         }
 
         return false;
+    }
+    void UpdateIntroInstance(CharacterSelectState player)
+    {
+        if(player.CharacterId == -1) { return; }
+        if (introInstanceDictionary[player] != null)
+        {
+            Destroy(introInstanceDictionary[player]);
+        }
+        var character = characterDatabase.GetCharacterById(player.CharacterId);
+        introInstanceDictionary[player] = Instantiate(character.IntroPrefab, introPointDictionary[player]);
+        if(player.IsLockedIn)
+        {
+            foreach (var other in players)
+            {
+                if (other.ClientId != player.ClientId && other.CharacterId == player.CharacterId)
+                {
+                    if (introInstanceDictionary[other] != null)
+                    {
+                        Destroy(introInstanceDictionary[other]);
+                    }
+                }
+            }
+        }
     }
 }

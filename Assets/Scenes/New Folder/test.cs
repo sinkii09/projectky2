@@ -45,6 +45,8 @@ public class test : MonoBehaviour
         //        }
         //    }
         //}
+
+        
     }
     public void launchporjectile()
     {
@@ -66,16 +68,21 @@ public class test : MonoBehaviour
     }
     private void Update()
     {
-        if(testObject != null)
+        //if(testObject != null)
+        //{
+        //    testObject.transform.position = Vector3.Lerp(transform.position, transform.position + Vector3.up, Mathf.PingPong(Time.time, 1));
+        //    testObject.GetComponentInChildren<Transform>().SetParent(transform);
+        //    testObject.transform.Rotate(Vector3.up,2);
+        //}
+        //else if(Input.GetMouseButtonDown(0))
+        //{
+        //    testObject = go.gameObject;
+        //}
+        if (Input.GetMouseButtonDown(0))
         {
-            testObject.transform.position = Vector3.Lerp(transform.position, transform.position + Vector3.up, Mathf.PingPong(Time.time, 1));
-            testObject.GetComponentInChildren<Transform>().SetParent(transform);
-            testObject.transform.Rotate(Vector3.up,2);
+            
         }
-        else if(Input.GetMouseButtonDown(0))
-        {
-            testObject = go.gameObject;
-        }
+        testObject.transform.Rotate(Vector3.forward * speed);
     }
 }
 

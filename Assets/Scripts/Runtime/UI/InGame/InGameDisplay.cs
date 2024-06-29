@@ -44,7 +44,6 @@ public class InGameDisplay : MonoBehaviour
         gamePlayBehaviour = FindObjectOfType<GamePlayBehaviour>();
         if( gamePlayBehaviour != null )
         {
-            Debug.Log("gameBehaviour found");
             gamePlayBehaviour.IsGameOver.OnValueChanged += OnGameOver;
         }
     }

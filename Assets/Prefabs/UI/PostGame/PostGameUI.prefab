@@ -180,7 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3884506577
+  GlobalObjectIdHash: 3264233099
   InScenePlacedSourceGlobalObjectIdHash: 4134665860
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -205,6 +205,7 @@ MonoBehaviour:
     type: 3}
   cardHolder: {fileID: 8305313689355120904}
   loadingPanel: {fileID: 3426258794864128548}
+  ExitButton: {fileID: 6138245184717900825}
 --- !u!1 &1005962037236783609
 GameObject:
   m_ObjectHideFlags: 0

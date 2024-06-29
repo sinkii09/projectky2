@@ -18,7 +18,7 @@ public class PostGamePlayerCard : MonoBehaviour
         placeText.text = user.place.ToString();
         playerNameText.text = user.name;
         playerKDText.text = $"{user.kills}/{user.deaths}";
-        scoreText.text = user.rpEarn > 0 ? $"+{user.rpEarn}": $"-{user.rpEarn}";
+        scoreText.text = user.rpEarn >= 0 ? $"+{user.rpEarn}": $"-{user.rpEarn}";
         rankText.text = user.rank;
     }
 }

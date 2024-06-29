@@ -11,7 +11,7 @@ public class WeaponSpawner : NetworkBehaviour
     [SerializeField] private float m_TimeBetweenSpawn = 1f;
     [SerializeField] private float m_TimeBetweenWave = 3f;
     [SerializeField] private float m_DelayStartTime = 30f;
-    [SerializeField] private float m_SpawnRange = 10f;
+    [SerializeField] private float m_SpawnRange = 30f;
 
 
     LayerMask k_EvenvironmentLayerMask;
@@ -77,7 +77,7 @@ public class WeaponSpawner : NetworkBehaviour
     Vector3 RandomPositionInRange()
     {
         float angle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
-        Vector3 newPosition = transform.position + new Vector3(Mathf.Cos(angle) * m_SpawnRange, 1, Mathf.Sin(angle) * m_SpawnRange);
+        Vector3 newPosition = transform.position + new Vector3(Mathf.Cos(angle) * m_SpawnRange, 0, Mathf.Sin(angle) * m_SpawnRange);
         if (!IsAvailablePosion(newPosition))
         {
             RandomPositionInRange();

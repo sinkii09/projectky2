@@ -794,4 +794,5 @@ MonoBehaviour:
   playerNameText: {fileID: 5224194622568519797}
   playerKDText: {fileID: 8539791600631063461}
   scoreText: {fileID: 5757834271720985524}
-  goldText: {fileID: 1703721574903750779}
+  rankText: {fileID: 1703721574903750779}
+  playerPlace: 0

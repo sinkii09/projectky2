@@ -101,7 +101,7 @@ public class CharacterSpawner : NetworkBehaviour,IDisposable
     IEnumerator RevivePlayer(ServerCharacter serverCharacter)
     {
         yield return new WaitForSeconds(m_ReviveDuration);
-        serverCharacter.Revive();
+        serverCharacter.Revive(GetRandomTransformInList().position);
     }
     public void UpdateKill(ulong id)
     {
@@ -151,6 +151,4 @@ public class CharacterSpawner : NetworkBehaviour,IDisposable
     {
         Players.Dispose();
     }
-
-
 }

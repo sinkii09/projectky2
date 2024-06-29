@@ -12,6 +12,7 @@ public class UserManager : MonoBehaviour
 {
     public static UserManager Instance { get; set; }
 
+    string domain = "https://projectky2-bdb1fda54766.herokuapp.com";
     private string updateUserRankUrl = "http://localhost:3000/users/update-rank-server";
     private string updateNameOrPasswordUrl = "http://localhost:3000/users/updateUser";
     private string loginUrl = "http://localhost:3000/auth/login";
@@ -386,11 +387,11 @@ public class UserManager : MonoBehaviour
         }
     }
 
-    internal void ClientFetchGameResult(string id, Action<GameSessionResult> result, Action failed)
+    internal void ClientFetchGameResult(string id, Action<GameSessionResult,List<PlayerResult>> result, Action failed)
     {
         StartCoroutine(FetchResultRequest(id, result, failed));
     }
-    IEnumerator FetchResultRequest(string id,Action<GameSessionResult> result, Action failed)
+    IEnumerator FetchResultRequest(string id,Action<GameSessionResult,List<PlayerResult>> result, Action failed)
     {
         string url = $"http://localhost:3000/game-sessions/last-session/{id}";
         using (UnityWebRequest request = new UnityWebRequest(url, "GET"))
@@ -401,9 +402,9 @@ public class UserManager : MonoBehaviour
             if (request.result == UnityWebRequest.Result.Success)
             {
                 string response = request.downloadHandler.text;
-                Debug.Log(response);
                 GameSessionResult reponseSession = JsonUtility.FromJson<GameSessionResult>(response);
-                result?.Invoke(reponseSession);
+                var responseList = reponseSession.gameResult;
+                result?.Invoke(reponseSession,responseList);
             }
             else
             {
@@ -510,9 +511,9 @@ public class AccessToken
 [Serializable]
 public class GameSessionResult
 {
-    public string sessionId { get; set; }
-    public string gameMode  { get; set; }
-    public List<PlayerResult> gameResult { get; set; }
+    public string sessionId;
+    public string gameMode;
+    public List<PlayerResult> gameResult;
 }
 [Serializable]
 public class PlayerResult

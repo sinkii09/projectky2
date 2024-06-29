@@ -6,10 +6,6 @@ public class ScoringSystem
     public void UpdateRatingsForSession(List<UserData> players)
     {
         int K = 32;
-        foreach (var item in players)
-        {
-            item.OldRating = item.Rating;
-        }
         for (int i = 0; i < players.Count; i++)
         {
             for (int j = 0; j < players.Count; j++)

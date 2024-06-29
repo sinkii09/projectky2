@@ -21,7 +21,6 @@ public class BoomerangProjectile : NetworkBehaviour
     private float traveledDistance;
 
     private NetworkVariable<Vector3> networkPosition = new NetworkVariable<Vector3>();
-    private bool isStarted;
     public void Initialize(Vector3 start, Vector3 end, ProjectileInfo info, ServerCharacter serverCharacter)
     {
             startPoint = start;
@@ -42,7 +41,6 @@ public class BoomerangProjectile : NetworkBehaviour
         if (IsServer)
         {
             networkPosition.Value = startPoint;
-            isStarted = true;
         }
         else
         {
@@ -67,7 +65,6 @@ public class BoomerangProjectile : NetworkBehaviour
         }
         else
         {
-            Debug.Log(transform.position);
             visual.transform.position = transform.position;
             visual.transform.Rotate(Vector3.forward*speed);
         }

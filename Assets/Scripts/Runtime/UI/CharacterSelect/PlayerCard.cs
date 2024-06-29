@@ -12,7 +12,7 @@ public class PlayerCard : MonoBehaviour
     [SerializeField] private Image characterIconImage;
     [SerializeField] private TMP_Text playerNameText;
     [SerializeField] private TMP_Text characterNameText;
-
+    [SerializeField] private Image LockedImage; 
     public void UpdateDisplay(CharacterSelectState state)
     {
         if (state.CharacterId != -1)
@@ -25,15 +25,20 @@ public class PlayerCard : MonoBehaviour
         else
         {
             characterIconImage.enabled = false;
+
         }
 
         playerNameText.text = state.IsLockedIn ? $"{state.ClientName}" : $"{state.ClientName} (Picking...)";
-
+        LockedImage.gameObject.SetActive(state.IsLockedIn);
         visuals.SetActive(true);
+        playerNameText.gameObject.SetActive(true);
+        characterNameText.gameObject.SetActive(true);
     }
 
     public void DisableDisplay()
     {
-        visuals.SetActive(false);
+        playerNameText.gameObject.SetActive(false);
+        characterNameText.gameObject.SetActive(false);
+        characterIconImage.enabled = false;
     }
 }

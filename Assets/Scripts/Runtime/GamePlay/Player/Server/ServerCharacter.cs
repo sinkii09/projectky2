@@ -223,10 +223,11 @@ public class ServerCharacter : NetworkBehaviour
         }
         m_CharacterSpawner.UpdateHealth(OwnerClientId, HitPoints, LifeState.Value == LifeStateEnum.Alive);
     }
-    public void Revive()
+    public void Revive(Vector3 position)
     {
         if(LifeState.Value == LifeStateEnum.Dead)
         {
+            physicsWrapper.transform.position = position;
             HitPoints = Mathf.Clamp(CharacterStats.BaseHP, 0, CharacterStats.BaseHP);
             LifeState.Value = LifeStateEnum.Alive;
             m_CharacterSpawner.UpdateHealth(OwnerClientId, CharacterStats.BaseHP);

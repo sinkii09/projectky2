@@ -419,7 +419,7 @@ Material:
     - _Offset_Z: 10
     - _OutlineOverridden: 0
     - _OutlineVisible: 1
-    - _Outline_Width: 0.36
+    - _Outline_Width: 0.3
     - _PPDLodThreshold: 5
     - _PPDMaxSamples: 15
     - _PPDMinSamples: 5
@@ -527,8 +527,8 @@ Material:
     - _utsVersionY: 10
     - _utsVersionZ: 0
     m_Colors:
-    - _1st_ShadeColor: {r: 0.42049217, g: 0, b: 1, a: 1}
-    - _2nd_ShadeColor: {r: 1, g: 0.3803922, b: 0, a: 1}
+    - _1st_ShadeColor: {r: 0.68133175, g: 0.4509434, b: 1, a: 1}
+    - _2nd_ShadeColor: {r: 1, g: 0.8845283, b: 0.8132075, a: 1}
     - _AngelRingMaskColor: {r: 0, g: 1, b: 0, a: 1}
     - _AngelRing_Color: {r: 1, g: 1, b: 1, a: 1}
     - _Ap_RimLightColor: {r: 1, g: 1, b: 1, a: 1}
@@ -549,10 +549,10 @@ Material:
     - _HighlightMaskColor: {r: 1, g: 1, b: 0, a: 1}
     - _InvPrimScale: {r: 1, g: 1, b: 0, a: 0}
     - _IridescenceThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
-    - _MatCapColor: {r: 0, g: 0, b: 0, a: 1}
+    - _MatCapColor: {r: 0, g: 0.28805238, b: 0.6679245, a: 1}
     - _OutlineMaskColor: {r: 0, g: 0, b: 0, a: 1}
     - _Outline_Color: {r: 0, g: 0, b: 0, a: 1}
-    - _RimLightColor: {r: 1, g: 0, b: 0.52746916, a: 1}
+    - _RimLightColor: {r: 1, g: 0, b: 0.5294118, a: 1}
     - _RimLightMaskColor: {r: 1, g: 0, b: 1, a: 1}
     - _SecondShadeMaskColor: {r: 0, g: 0, b: 1, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
