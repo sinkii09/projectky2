@@ -69,7 +69,7 @@ public class BoomerangProjectile : NetworkBehaviour
         else
         {
             visual.transform.position = transform.position;
-            visual.transform.Rotate((visual.transform.position +Vector3.forward)*speed);
+            visual.transform.Rotate(Vector3.forward*15);
         }
 
     }

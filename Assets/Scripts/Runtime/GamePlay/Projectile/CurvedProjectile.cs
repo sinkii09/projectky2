@@ -25,7 +25,7 @@ public class CurvedProjectile : NetworkBehaviour
             startPoint = start;
             controlPoint = control;
             endPoint = end;
-            speed = projectileInfo.Speed;
+            speed = info.Speed;
             t = 0;
             projectileInfo = info;
             spawner = serverCharacter;

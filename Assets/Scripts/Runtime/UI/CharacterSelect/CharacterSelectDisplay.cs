@@ -1,10 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
 public class CharacterSelectDisplay : NetworkBehaviour
@@ -21,7 +19,7 @@ public class CharacterSelectDisplay : NetworkBehaviour
     [SerializeField] private TextMeshProUGUI countdownText;
     private CountDownTimer countDownTimer;
     private Dictionary<CharacterSelectState,Transform> introPointDictionary = new Dictionary<CharacterSelectState,Transform>();
-    private Dictionary<CharacterSelectState,GameObject> introInstanceDictionary = new Dictionary<CharacterSelectState,GameObject>();
+    private Dictionary<ulong,GameObject> introInstanceDictionary = new Dictionary<ulong,GameObject>();
     private List<CharacterSelectButton> characterButtons = new List<CharacterSelectButton>();
     private NetworkList<CharacterSelectState> players;
     private NetworkList<int> characterIdList;
@@ -307,24 +305,40 @@ public class CharacterSelectDisplay : NetworkBehaviour
     void UpdateIntroInstance(CharacterSelectState player)
     {
         if(player.CharacterId == -1) { return; }
-        if (introInstanceDictionary[player] != null)
+        
+        if (introInstanceDictionary.ContainsKey(player.ClientId) && introInstanceDictionary[player.ClientId]!=null)
         {
-            Destroy(introInstanceDictionary[player]);
+            Debug.Log(true);
+            Destroy(introInstanceDictionary[player.ClientId]);
+            introInstanceDictionary.Remove(player.ClientId);
         }
         var character = characterDatabase.GetCharacterById(player.CharacterId);
-        introInstanceDictionary[player] = Instantiate(character.IntroPrefab, introPointDictionary[player]);
+        var instance = Instantiate(character.IntroPrefab, introPointDictionary[player]);
+        introInstanceDictionary.Add(player.ClientId, instance);
         if(player.IsLockedIn)
         {
             foreach (var other in players)
             {
                 if (other.ClientId != player.ClientId && other.CharacterId == player.CharacterId)
                 {
-                    if (introInstanceDictionary[other] != null)
+                    if (introInstanceDictionary.ContainsKey(other.ClientId) && introInstanceDictionary[other.ClientId])
                     {
-                        Destroy(introInstanceDictionary[other]);
+                        Destroy(introInstanceDictionary[other.ClientId]);
+                        introInstanceDictionary.Remove(other.ClientId);
                     }
                 }
             }
         }
+    }
+}
+public struct IntroKey
+{
+    ulong clientId;
+    int characterId;
+
+    public IntroKey(ulong clientId, int characterId)
+    {
+        this.clientId = clientId;
+        this.characterId = characterId;
     }
 }

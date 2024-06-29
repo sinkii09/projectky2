@@ -29,8 +29,9 @@ public class PlayerCard : MonoBehaviour
         }
 
         playerNameText.text = state.IsLockedIn ? $"{state.ClientName}" : $"{state.ClientName} (Picking...)";
-        LockedImage.gameObject.SetActive(state.IsLockedIn);
         visuals.SetActive(true);
+        LockedImage.gameObject.SetActive(state.IsLockedIn);
+        
         playerNameText.gameObject.SetActive(true);
         characterNameText.gameObject.SetActive(true);
     }
@@ -40,5 +41,6 @@ public class PlayerCard : MonoBehaviour
         playerNameText.gameObject.SetActive(false);
         characterNameText.gameObject.SetActive(false);
         characterIconImage.enabled = false;
+        LockedImage?.gameObject.SetActive(false);
     }
 }

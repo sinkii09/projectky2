@@ -16,6 +16,7 @@ public class ChatUI : MonoBehaviour
     [SerializeField] ScrollRect scrollRect;
 
     List<TextMeshProUGUI> chatList = new List<TextMeshProUGUI>();
+    public bool IsChating { get; private set; } 
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
@@ -60,6 +61,14 @@ public class ChatUI : MonoBehaviour
         {
             Destroy(chatList[0]);
             chatList.RemoveAt(0);
+        }
+        if(chatWindow.activeInHierarchy)
+        {
+            IsChating = true;
+        }
+        else
+        {
+            IsChating= false;
         }
     }
     public void ClearLog()

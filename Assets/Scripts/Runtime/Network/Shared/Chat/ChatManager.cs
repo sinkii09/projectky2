@@ -119,7 +119,7 @@ public class ChatManager : MonoBehaviour
     {
         try
         {
-            await client.EmitAsync("joinRoom", new { oldRoomId = roomId, newRoomId = newRoomId  });
+            await client.EmitAsync("joinRoom", new { roomId, newRoomId });
             this.roomId = newRoomId;
             Debug.Log("player success join room chat");
         }

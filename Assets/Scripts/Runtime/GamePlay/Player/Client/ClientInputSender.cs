@@ -25,7 +25,7 @@ public class ClientInputSender : NetworkBehaviour
     private PhysicsWrapper m_PhysicsWrapper;
 
     MainPlayerIngameCard m_MainPlayerIngameCard;
-
+    ChatUI m_ChatUI;
     bool m_CanInput;
 
     #region Events
@@ -43,8 +43,11 @@ public class ClientInputSender : NetworkBehaviour
             return;
         }
         m_CanInput = true;
+        m_ChatUI = FindObjectOfType<ChatUI>();
+        
         m_InputReader.MoveEvent += InputReader_MoveEvent;
         
+
         m_ServerCharacter.CurrentWeaponId.OnValueChanged += OnCurrentWeaponChanged;
         m_ServerCharacter.WeaponUseTimeAmount.OnValueChanged += OnWeaponAmountUseAmountChanged;
         NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneManager_OnLoadEventCompleted;
@@ -70,6 +73,7 @@ public class ClientInputSender : NetworkBehaviour
 
     private void Update()
     {
+        m_CanInput = !m_ChatUI.IsChating;
         if (!m_CanInput) return;
         if (!EventSystem.current.IsPointerOverGameObject())
         {
