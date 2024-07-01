@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a12518207bec2594cb870e3508ce2332, type: 3}
+  m_Name: FireBallWeapon
+  m_EditorClassIdentifier: 
+  weaponName: Electric Ball
+  visual: {fileID: 1953271650171834, guid: dbf7a0c9d76b77a40af3104feac0641d, type: 3}
+  amount: 10
+  ability: {fileID: 11400000, guid: e80944b433eea6145a68fe7ea6a64754, type: 2}
+  icon: {fileID: 21300000, guid: 336d16df02bf7d54eb578ef6a7defc92, type: 3}

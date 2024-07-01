@@ -21,7 +21,7 @@ public class MeleeAttack : Ability
     void TriggerAttack(ServerCharacter serverCharacter)
     {
         CoroutineRunner.Instance.StartCoroutine(ExecuteTimeDelay());
-        var foe = GetIdealMeleeFoe(serverCharacter, serverCharacter.physicsWrapper.DamageCollider, Range);
+        var foe = GetIdealMeleeFoe(serverCharacter, serverCharacter.physicsWrapper.DamageCollider, MaxRange);
         if (foe != null)
         {
             foe.ReceiveHP(-Damage, serverCharacter);

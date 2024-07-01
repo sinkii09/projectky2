@@ -1,6 +1,5 @@
 ﻿using System;
 using Unity.Netcode;
-using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ArrowShot", menuName = "Abilities/ArrowShot")]

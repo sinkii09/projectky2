@@ -31,7 +31,13 @@ public class ClientCharacter : NetworkBehaviour
 
     public bool CanPerformSkill => m_ServerCharacter.CanPerformSkills;
     #endregion
+    #region VFX
+    [SerializeField] ParticleSystem m_RevivePart;
+    [SerializeField] ParticleSystem m_FaintedPart;
+    [SerializeField] ParticleSystem m_NewWeaponPart;
+    [SerializeField] ParticleSystem m_BaseWeaponPart;
 
+    #endregion
     PositionLerper m_PositionLerper;
 
     RotationLerper m_RotationLerper;
@@ -81,7 +87,8 @@ public class ClientCharacter : NetworkBehaviour
         
         NetworkManager.SceneManager.OnLoadEventCompleted += SceneManager_OnLoadEventCompleted;
         m_ServerCharacter.MovementStatus.OnValueChanged += OnMovementStatusChanged;
-
+        m_ServerCharacter.LifeState.OnValueChanged += OnLifeStateChanged;
+        m_ServerCharacter.CurrentWeaponId.OnValueChanged += OnCurrentWeaponChanged;
         OnMovementStatusChanged(MovementStatus.Normal, m_ServerCharacter.MovementStatus.Value);
 
         transform.SetPositionAndRotation(serverCharacter.physicsWrapper.Transform.position, serverCharacter.physicsWrapper.Transform.rotation);
@@ -96,11 +103,37 @@ public class ClientCharacter : NetworkBehaviour
     public override void OnNetworkDespawn()
     {
         NetworkManager.SceneManager.OnLoadEventCompleted -= SceneManager_OnLoadEventCompleted;
-        
+        m_ServerCharacter.LifeState.OnValueChanged -= OnLifeStateChanged;
+        m_ServerCharacter.CurrentWeaponId.OnValueChanged -= OnCurrentWeaponChanged;
         m_ClientInputSender.SkillInputEvent -= OnSkillInput;
         m_ClientInputSender.ClientMoveEvent -= OnMoveInput;
         enabled = false;
     }
+
+    private void OnCurrentWeaponChanged(WeaponID previousValue, WeaponID newValue)
+    {
+        if(newValue == serverCharacter.CharacterStats.WeaponData.Id)
+        {
+            m_BaseWeaponPart.Play();
+        }
+        else
+        {
+            m_NewWeaponPart.Play();
+        }
+    }
+
+    private void OnLifeStateChanged(LifeStateEnum previousValue, LifeStateEnum newValue)
+    {
+        if(newValue == LifeStateEnum.Alive)
+        {
+            m_RevivePart.Play();
+        }
+        if(newValue == LifeStateEnum.Dead)
+        {
+            m_FaintedPart.Play();
+        }
+    }
+
     private void SceneManager_OnLoadEventCompleted(string sceneName, UnityEngine.SceneManagement.LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
         if(sceneName=="Map1" || sceneName=="Map2")
@@ -127,7 +160,6 @@ public class ClientCharacter : NetworkBehaviour
     {
         m_CurrentSpeed = GetVisualMovementSpeed(newValue);
     }
-
     float GetVisualMovementSpeed(MovementStatus movementStatus)
     {
         if (m_ServerCharacter.LifeState.Value != LifeStateEnum.Alive)

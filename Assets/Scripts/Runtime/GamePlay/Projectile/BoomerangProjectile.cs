@@ -9,6 +9,7 @@ public class BoomerangProjectile : NetworkBehaviour
 {
 
     [SerializeField] GameObject visual;
+    [SerializeField] GameObject m_hitParticle;
 
     Vector3 startPoint;
     Vector3 endPoint;
@@ -131,12 +132,28 @@ public class BoomerangProjectile : NetworkBehaviour
         var damageable = other.GetComponent<IDamageable>();
         if (damageable != null && damageable.IsDamageable())
         {
+            ClientHitEnemyRpc(serverCharacter.OwnerClientId);
             damageable.ReceiveHP(-damage, spawner);
             damagePlayer.Add(serverCharacter);
+            
         }
     }
     private void OnBoomerangReturn()
     {
         NetworkObject.Despawn();
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    private void ClientHitEnemyRpc(ulong enemyId)
+    {
+        NetworkObject targetNetObject;
+        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(enemyId, out targetNetObject))
+        {
+            if (m_hitParticle)
+            {
+                var hitPart = ParticlePool.Singleton.GetObject(m_hitParticle, transform.position, transform.rotation);
+                hitPart.GetComponent<SpecialFXGraphic>().OnInitialized(m_hitParticle);
+            }
+        }
     }
 }

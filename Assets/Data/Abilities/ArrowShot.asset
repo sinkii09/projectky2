@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: ArrowShot
   m_EditorClassIdentifier: 
   abilityName: ArrowShot
+  Damage: 0
+  MinRange: 30
+  MaxRange: 30
   abilityAnimationTrigger: CrossBow
   rejectionAnimationTrigger: 
   executeTime: 0.15

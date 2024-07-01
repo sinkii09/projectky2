@@ -7,6 +7,7 @@ public class CurvedProjectile : NetworkBehaviour
 {
     [SerializeField] GameObject visual;
     [SerializeField] SphereCollider sphereCollider;
+    [SerializeField] GameObject m_hitParticle;
     public Vector3 startPoint;
     public Vector3 controlPoint;
     public Vector3 endPoint;
@@ -33,7 +34,7 @@ public class CurvedProjectile : NetworkBehaviour
             totalDistance = CalculateTotalDistance();
 
             targetLayer = 1 << LayerMask.NameToLayer("PCs");
-            blockLayer = 1 << LayerMask.NameToLayer("Environment");
+            blockLayer = LayerMask.GetMask(new[] { "PCs", "Environment" });
 
     }
 
@@ -124,6 +125,10 @@ public class CurvedProjectile : NetworkBehaviour
     [Rpc(SendTo.ClientsAndHost)]
     void ExplosionClientRpc()
     {
-        Debug.Log("explode");
+        if (m_hitParticle)
+        {
+            var hitPart = ParticlePool.Singleton.GetObject(m_hitParticle, transform.position, transform.rotation);
+            hitPart.GetComponent<SpecialFXGraphic>().OnInitialized(m_hitParticle);
+        }
     }
 }

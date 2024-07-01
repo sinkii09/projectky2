@@ -21,7 +21,8 @@ public class PhysicsProjectile : NetworkBehaviour
 
     [SerializeField]
     protected TrailRenderer m_TrailRenderer;
-
+    [SerializeField]
+    protected GameObject m_hitParticle;
     protected bool m_Started;
     protected bool m_IsDead;
 
@@ -143,7 +144,7 @@ public class PhysicsProjectile : NetworkBehaviour
                 var targetNetObj = m_CollisionCache[i].GetComponentInParent<NetworkObject>();
                 if (targetNetObj)
                 {
-                    RecvHitEnemyClientRPC(targetNetObj.NetworkObjectId);
+                    ClientHitEnemyRpc(targetNetObj.NetworkObjectId);
 
                     NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(m_SpawnerId, out var spawnerNet);
                     var spawnerObj = spawnerNet != null ? spawnerNet.GetComponent<ServerCharacter>() : null;
@@ -161,17 +162,17 @@ public class PhysicsProjectile : NetworkBehaviour
             }
         }
     }
-    [ClientRpc]
-    protected virtual void RecvHitEnemyClientRPC(ulong enemyId)
+    [Rpc(SendTo.ClientsAndHost)]
+    protected virtual void ClientHitEnemyRpc(ulong enemyId)
     {
         NetworkObject targetNetObject;
         if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(enemyId, out targetNetObject))
         {
-            //if (m_OnHitParticlePrefab)
-            //{
-            //    // show an impact graphic
-            //    Instantiate(m_OnHitParticlePrefab.gameObject, transform.position, transform.rotation);
-            //}
+            if(m_hitParticle)
+            {
+                var hitPart = ParticlePool.Singleton.GetObject(m_hitParticle,transform.position,transform.rotation);
+                hitPart.GetComponent<SpecialFXGraphic>().OnInitialized(m_hitParticle);
+            }
         }
     }
 }

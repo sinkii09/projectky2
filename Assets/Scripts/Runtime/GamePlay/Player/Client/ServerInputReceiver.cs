@@ -86,10 +86,15 @@ public class ServerInputReceiver : NetworkBehaviour
         offset.y = 0;
         Vector3 direction = offset.normalized;
         Vector3 position = hitPoint;
-        if(Vector3.Distance(hitPoint,m_PhysicsWrapper.Transform.position) > weapon.Ability.Range)
+        if(Vector3.Distance(hitPoint,m_PhysicsWrapper.Transform.position) > weapon.Ability.MaxRange)
         {
-            position = m_PhysicsWrapper.Transform.position + direction*weapon.Ability.Range;
+            position = m_PhysicsWrapper.Transform.position + direction*weapon.Ability.MaxRange;
         }
+        else if (Vector3.Distance(hitPoint, m_PhysicsWrapper.Transform.position) < weapon.Ability.MinRange)
+        {
+            position = m_PhysicsWrapper.Transform.position + direction * weapon.Ability.MinRange;
+        }
+
         AbilityRequest data1 = new AbilityRequest(weapon.Ability, position, direction);
         return data1;
     }

@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Melee
   Damage: 10
-  Range: 1.5
+  MinRange: 2
+  MaxRange: 2
   abilityAnimationTrigger: Melee
   rejectionAnimationTrigger: 
   executeTime: 0.2

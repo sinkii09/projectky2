@@ -16,6 +16,8 @@ public class TestMoveScript : MonoBehaviour
 
     [SerializeField] GameObject testObject;
 
+    [SerializeField] GameObject particleHit;
+
     bool islaunch;
     private void Update()
     {
@@ -29,6 +31,10 @@ public class TestMoveScript : MonoBehaviour
             {
                 t += Time.deltaTime * speed / totalDistance;
                 testObject.transform.position = CalculateBezierPoint(t, startPoint, controlPoint, endPoint);
+            }
+            else
+            {
+                OnHit();
             }
         }
     }
@@ -65,5 +71,14 @@ public class TestMoveScript : MonoBehaviour
         }
 
         return distance;
+    }
+    void OnHit()
+    {
+        if (islaunch)
+        {
+            var partObj = ParticlePool.Singleton.GetObject(particleHit, testObject.transform.position, testObject.transform.rotation);
+            partObj.GetComponent<SpecialFXGraphic>().OnInitialized(particleHit);
+            islaunch = false;
+        }
     }
 }

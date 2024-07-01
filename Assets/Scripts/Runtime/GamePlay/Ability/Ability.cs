@@ -8,7 +8,9 @@ public abstract class Ability : ScriptableObject
     public string abilityName;
 
     public int Damage;
-    public float Range;
+
+    public float MinRange;
+    public float MaxRange;
 
     public string abilityAnimationTrigger;
     public string rejectionAnimationTrigger;
