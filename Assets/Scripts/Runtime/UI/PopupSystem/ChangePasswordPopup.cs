@@ -9,6 +9,7 @@ public class ChangePasswordPopup : MonoBehaviour
 {
     public TMP_InputField oldPasswordInput;
     public TMP_InputField newPasswordInput;
+    public TMP_InputField confirmPassword;
 
     public GameObject popupPanel;
     public TextMeshProUGUI messageText;
@@ -18,7 +19,7 @@ public class ChangePasswordPopup : MonoBehaviour
     {
         popupPanel.SetActive(false);
     }
-    public void ShowPasswordPopup(string message, UnityAction<string,string> onConfirm, UnityAction onCancel = null)
+    public void ShowPasswordPopup(string message, UnityAction<string,string,string> onConfirm, UnityAction onCancel = null)
     {
         messageText.text = message;
         confirmButton.gameObject.SetActive(true);
@@ -27,7 +28,7 @@ public class ChangePasswordPopup : MonoBehaviour
         cancelButton.onClick.RemoveAllListeners();
         confirmButton.onClick.AddListener(() =>
         {
-            onConfirm?.Invoke(oldPasswordInput.text,newPasswordInput.text);
+            onConfirm?.Invoke(oldPasswordInput.text,newPasswordInput.text,confirmPassword.text);
             popupPanel.SetActive(false);
         });
         cancelButton.onClick.AddListener(() =>

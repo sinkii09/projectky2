@@ -12,14 +12,12 @@ public class LoginUI : MonoBehaviour
     [SerializeField] TMP_InputField userNameInputField;
     [SerializeField] TMP_InputField passwordInputField;
     [SerializeField] Button loginButton;
-    [SerializeField] Button exitButton;
     [SerializeField] Button registerButton;
 
     public Selectable[] UISelectables;
     private void Start()
     {
         loginButton.GetComponent<Button>().onClick.AddListener(Login);
-        exitButton.GetComponent<Button>().onClick.AddListener(Exit);
         registerButton.GetComponent<Button>().onClick.AddListener(Register);   
     }
     private void Update()
@@ -40,10 +38,7 @@ public class LoginUI : MonoBehaviour
     {
         loginLogic.ToRegister();
     }
-    void Exit()
-    {
-        loginLogic.ExitApplication();
-    }
+
     private void OnSwitchInputField()
     {
         for (int i = 0; i < UISelectables.Length; i++)

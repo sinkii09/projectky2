@@ -39,7 +39,7 @@ public class PopupManager : MonoBehaviour
     {
         messageText.text = message;
         confirmButton.gameObject.SetActive(true);
-        cancelButton.gameObject.SetActive(onCancel != null);
+        cancelButton.gameObject.SetActive(true);
         confirmButton.onClick.RemoveAllListeners();
         cancelButton.onClick.RemoveAllListeners();
         confirmButton.onClick.AddListener(() =>

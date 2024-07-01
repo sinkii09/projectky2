@@ -28,7 +28,6 @@ public class FriendListUI : MonoBehaviour
     [SerializeField] Button browserButton;
     [SerializeField] TMP_InputField browserInputField;
 
-    [SerializeField] string hexColor = "#888888";
     friendUIState state;
     MainMenuLogic mainMenuUI;
     List<FriendCard> friendCardList = new List<FriendCard>();
@@ -47,6 +46,13 @@ public class FriendListUI : MonoBehaviour
             if (isOn) SwitchUIState(friendUIState.findUser);
         });
         browserButton.onClick.AddListener(Browser);
+
+        mainMenuUI = FindObjectOfType<MainMenuLogic>();
+        if (ClientSingleton.Instance.Manager != null)
+        {
+            friendListToggle.isOn = true;
+            SwitchUIState(friendUIState.friendList);
+        }
     }
     private void OnDestroy()
     {
@@ -64,12 +70,7 @@ public class FriendListUI : MonoBehaviour
     }
     private void OnEnable()
     {
-        mainMenuUI = FindObjectOfType<MainMenuLogic>();
-        if (ClientSingleton.Instance.Manager != null)
-        {
-            friendListToggle.isOn = true;
-            SwitchUIState(friendUIState.friendList);
-        }
+        
     }
     void SwitchUIState(friendUIState state)
     {
@@ -85,7 +86,7 @@ public class FriendListUI : MonoBehaviour
         switch (state)
         {
             case friendUIState.friendList:
-                    FetchFriendLists();
+                FetchFriendLists();
                 break;
             case friendUIState.friendRequest:
                 FetchFriendRequestList();

@@ -14,7 +14,6 @@ public class MainMenuLogic : MonoBehaviour
     public enum MenuState
     {
         MainMenu,
-        MatchMake,
         Lobby,
         Loading
     }
@@ -22,7 +21,7 @@ public class MainMenuLogic : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI profileName_TMP;
 
-    [SerializeField] GameObject MainMenu, MatchMake, Lobby ,Loading;
+    [SerializeField] GameObject MainMenu, Lobby ,Loading;
 
     List<GameObject> UIList;
 
@@ -35,7 +34,6 @@ public class MainMenuLogic : MonoBehaviour
         UIList = new List<GameObject>
         {
             MainMenu,
-            MatchMake, 
             Lobby,
             Loading
         };
@@ -46,7 +44,6 @@ public class MainMenuLogic : MonoBehaviour
     {
         showProfileBtn.onClick.AddListener(ShowProfile);
         ToMainMenu();
-
     }
     private void OnDestroy()
     {
@@ -84,7 +81,6 @@ public class MainMenuLogic : MonoBehaviour
         gameManager.SetGameQueue(GameQueue);
         gameManager.SetGameMode(PlayMode);
         
-        ToMatchMake();
 #pragma warning disable 4014
         gameManager.MatchmakeAsync(UpdateTimer, OnMatchMade);
 #pragma warning restore 4014
@@ -100,8 +96,11 @@ public class MainMenuLogic : MonoBehaviour
             case MatchmakerPollingResult.Success:
                 Debug.Log("Match making success");
                 break;
+            case MatchmakerPollingResult.TicketCancellationError:
+                Debug.Log("ticket cacnel error");
+                break;
             default:
-                SwitchUI(MenuState.MainMenu);
+                PopupManager.Instance.ShowPopup(result.ToString());
                 throw new ArgumentOutOfRangeException(nameof(result), result, null);
         }
     }
@@ -109,7 +108,6 @@ public class MainMenuLogic : MonoBehaviour
     public async void CancelMatchFinding()
     {
         await gameManager.CancelMatchmaking();
-        ToLobby();
     }
     #endregion
 
@@ -138,9 +136,6 @@ public class MainMenuLogic : MonoBehaviour
             case MenuState.Lobby:
                 Lobby.SetActive(true);
                 break;
-            case MenuState.MatchMake:
-                MatchMake.SetActive(true);
-                break;
             case MenuState.Loading: 
                 Loading.SetActive(true);
                 break;    
@@ -152,16 +147,13 @@ public class MainMenuLogic : MonoBehaviour
     }
     public void ToMainMenu()
     {
-        profileName_TMP.text = "Hello " + ClientSingleton.Instance.Manager.User.Name;
+        profileName_TMP.text = ClientSingleton.Instance.Manager.User.Name;
         SwitchUI(MenuState.MainMenu);
+        HideProfile();
     }
     public void ToLobby()
     {
         SwitchUI(MenuState.Lobby);
-    }
-    public void ToMatchMake()
-    {
-        SwitchUI(MenuState.MatchMake);
     }
     internal void Logout()
     {

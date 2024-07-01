@@ -19,16 +19,16 @@ public class PlayerIngameCard : MonoBehaviour
         characterIconImage.sprite = character.Icon;
         characterIconImage.enabled = true;
         playerNameText.text = state.ClientName;
-        playerHealth.text = $"HP: {state.Health}";
-        playerKill.text = $"Kill: {state.Kill}";
-        playerDead.text = $"Dead: {state.Dead}";
+        playerHealth.text = $"{state.Health}";
+        playerKill.text = $"K: {state.Kill}";
+        playerDead.text = $"D: {state.Dead}";
         visuals.SetActive(true);
     }
     public virtual void UpdateDisplay(CharacterInGameState state)
     {
-        playerHealth.text = $"HP: {state.Health}";
-        playerKill.text = $"Kill: {state.Kill}";
-        playerDead.text = $"Dead: {state.Dead}";
+        playerHealth.text = $"{state.Health}";
+        playerKill.text = $"K: {state.Kill}";
+        playerDead.text = $"D: {state.Dead}";
     }
     public virtual void DisableVisual()
     {

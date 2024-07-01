@@ -1,8 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.Netcode;
+using UnityEditor.PackageManager;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InGameDisplay : MonoBehaviour
 {
@@ -15,30 +18,45 @@ public class InGameDisplay : MonoBehaviour
     [SerializeField] private PlayerIngameCard m_PlayerIngameCardPrefab;
     [SerializeField] private MainPlayerIngameCard m_MainPlayerStatus;
     [SerializeField] private GameObject m_GameOverUI;
+    [SerializeField] private TextMeshProUGUI m_TimerText;
+    [SerializeField] private Button ExtButton;
     
     Dictionary<ulong, PlayerIngameCard> playerCards = new Dictionary<ulong, PlayerIngameCard>();
 
     GamePlayBehaviour gamePlayBehaviour;
+    CountDownTimer countDownTimer;
     private void Awake()
     {
         m_NetcodeHooks.OnNetworkSpawnHook += OnNetworkSpawn;
         m_NetcodeHooks.OnNetworkDespawnHook += OnNetworkDeSpawn;
-        
+        ExtButton.onClick.AddListener(ExitButtonClick);
 
         m_GameOverUI.SetActive(false);
         Instance = this;
     }
-
+    private void Update()
+    {
+        if (NetworkManager.Singleton.IsClient)
+        {
+            if (countDownTimer)
+            {
+                float duration = countDownTimer.GetRemainingTime();
+                TimeSpan timeSpan = TimeSpan.FromSeconds(duration);
+                m_TimerText.text = $"{timeSpan.Minutes}:{timeSpan.Seconds}";
+            }
+        }
+    }
     private void OnDestroy()
     {
         
         m_NetcodeHooks.OnNetworkSpawnHook -= OnNetworkSpawn;
         m_NetcodeHooks.OnNetworkDespawnHook -= OnNetworkDeSpawn;
-        
+        ExtButton?.onClick.RemoveListener(ExitButtonClick);
     }
 
     void OnNetworkSpawn()
     {
+        countDownTimer = FindObjectOfType<CountDownTimer>();
         m_CharacterSpawner.Players.OnListChanged += Players_OnListChanged;
         NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneManager_OnLoadEventCompleted;
         gamePlayBehaviour = FindObjectOfType<GamePlayBehaviour>();
@@ -96,5 +114,12 @@ public class InGameDisplay : MonoBehaviour
     {
         m_GameOverUI.SetActive(newValue);
     }
-
+    private void ExitButtonClick()
+    {
+        PopupManager.Instance.ShowPopup("DO you want to leave?", ExitGame);
+    }
+    private void ExitGame()
+    {
+        ClientSingleton.Instance.Manager.Disconnect();
+    }
 }

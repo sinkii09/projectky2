@@ -9,7 +9,7 @@ public class ChatUI : MonoBehaviour
 {
     [SerializeField] ChatManager chatManager;
     [SerializeField] GameObject chatWindow;
-    [SerializeField] Button sendChatBtn;
+    [SerializeField] Button closeWindowBtn;
     [SerializeField] TMP_InputField chatInputField;
     [SerializeField] Transform chatContainer;
     [SerializeField] TextMeshProUGUI chatText;
@@ -23,9 +23,14 @@ public class ChatUI : MonoBehaviour
 
         chatWindow.SetActive(false);
     }
+    private void Start()
+    {
+        closeWindowBtn.onClick.AddListener(Closewindow);
+    }
     private void OnDestroy()
     {
         chatText.text = null;
+        closeWindowBtn.onClick.RemoveAllListeners();
     }
     private void Update()
     {
@@ -92,5 +97,12 @@ public class ChatUI : MonoBehaviour
     private void ScrollToBottom()
     {
         //scrollRect.verticalNormalizedPosition = 0f;
+    }
+    void Closewindow()
+    {
+        if(chatWindow.activeInHierarchy && chatWindow.gameObject != null)
+        {
+            chatWindow.SetActive(false);
+        }
     }
 }

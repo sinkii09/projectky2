@@ -48,6 +48,7 @@ public class ProfileUI : MonoBehaviour
         nameInputField.text = nameText.text;
         nameText.text = "";
         cancelChangeBtn.gameObject.SetActive(true);
+        changePasswordBtn.gameObject.SetActive(false);
         changeNameBtn.onClick.RemoveAllListeners();
         changeNameBtn.onClick.AddListener(SendChangedNameRequest);
     }
@@ -79,6 +80,7 @@ public class ProfileUI : MonoBehaviour
         nameInputField.text = "";
         nameInputField.gameObject.SetActive(false);
         cancelChangeBtn.gameObject.SetActive(false);
+        changePasswordBtn.gameObject.SetActive(true);
         changeNameBtn.onClick.RemoveAllListeners();
         changeNameBtn.onClick.AddListener(() => { ChangeName(); });
     }
@@ -91,8 +93,18 @@ public class ProfileUI : MonoBehaviour
         changePasswordPopup.ShowPasswordPopup("Change password", ChangePasswordConfirm);
     }
 
-    private void ChangePasswordConfirm(string oldPass, string newPass)
+    private void ChangePasswordConfirm(string oldPass, string newPass, string confirmPass)
     {
+        if(string.IsNullOrEmpty(newPass) || string.IsNullOrEmpty(confirmPass) || string.IsNullOrEmpty(oldPass))
+        {
+            PopupManager.Instance.ShowPopup("Input Cannot be empty");
+            return;
+        }
+        if(!string.Equals(newPass,confirmPass))
+        {
+            PopupManager.Instance.ShowPopup("Confirm password Incorrect");
+            return;
+        }
         UserManager.Instance.ClientUpdateUser(oldpassword: oldPass, newpassword: newPass,result:ChangeResult);
     }
     void ChangeResult(string result, bool success)

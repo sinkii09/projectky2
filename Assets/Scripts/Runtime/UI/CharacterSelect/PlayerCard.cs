@@ -25,7 +25,7 @@ public class PlayerCard : MonoBehaviour
         else
         {
             characterIconImage.enabled = false;
-
+            
         }
 
         playerNameText.text = state.IsLockedIn ? $"{state.ClientName}" : $"{state.ClientName} (Picking...)";

@@ -18,8 +18,14 @@ public class MainMenuUI : MonoBehaviour
     {
         rankedBtn.onClick.AddListener(GoToRankMode);
         normalBtn.onClick.AddListener(GoToNormalMode);
+        cancelBtn.onClick.AddListener(ExitApp);
     }
-
+    private void OnDestroy()
+    {
+        rankedBtn.onClick.RemoveListener(GoToRankMode);
+        normalBtn.onClick.RemoveListener(GoToNormalMode);
+        cancelBtn.onClick.RemoveListener(ExitApp);
+    }
     private void GoToNormalMode()
     {
         mainMenuLogic.PlayMode = PlayMode.Default;
@@ -31,5 +37,8 @@ public class MainMenuUI : MonoBehaviour
         mainMenuLogic.PlayMode = PlayMode.Ranked;
         mainMenuLogic.ToLobby();
     }
-
+    private void ExitApp()
+    {
+        mainMenuLogic.ExitApplication();
+    }
 }

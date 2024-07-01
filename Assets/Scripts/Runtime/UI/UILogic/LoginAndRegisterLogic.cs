@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Profiling;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LoginAndRegisterLogic : MonoBehaviour
 {
@@ -19,6 +21,9 @@ public class LoginAndRegisterLogic : MonoBehaviour
     [SerializeField] LoginUI loginUI;
     [SerializeField] RegisterUI registerUI;
     [SerializeField] Transform loadingScreen;
+    [SerializeField] TextMeshProUGUI headerText;
+    [SerializeField] GameObject bodyBG;
+    [SerializeField] Button ExitButton;
 
     List<GameObject> UIList;
     private void Awake()
@@ -30,7 +35,16 @@ public class LoginAndRegisterLogic : MonoBehaviour
             registerUI.gameObject,
             loadingScreen.gameObject
         };
+        bodyBG.SetActive(true);
         SwitchState(LoginState.login);
+    }
+    private void Start()
+    {
+        ExitButton.onClick.AddListener(ExitApplication);
+    }
+    private void OnDestroy()
+    {
+        ExitButton.onClick.RemoveAllListeners();
     }
     #region Login
 
@@ -83,12 +97,18 @@ public class LoginAndRegisterLogic : MonoBehaviour
         switch(state)
         {
             case LoginState.login:
+                headerText.text = "LOGIN";
                 loginUI.gameObject.SetActive(true);
+                bodyBG.SetActive(true);
                 break;
             case LoginState.register:
+                headerText.text = "REGISTER";
                 registerUI.gameObject.SetActive(true);
+                bodyBG.SetActive(true);
                 break;
             case LoginState.loading:
+                bodyBG.SetActive(false);
+                ExitButton.gameObject.SetActive(false);
                 loadingScreen.gameObject.SetActive(true);
                 break;
         }

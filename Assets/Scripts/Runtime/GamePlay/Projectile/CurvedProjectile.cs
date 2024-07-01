@@ -6,7 +6,7 @@ using UnityEngine;
 public class CurvedProjectile : NetworkBehaviour
 {
     [SerializeField] GameObject visual;
-
+    [SerializeField] SphereCollider sphereCollider;
     public Vector3 startPoint;
     public Vector3 controlPoint;
     public Vector3 endPoint;
@@ -17,6 +17,7 @@ public class CurvedProjectile : NetworkBehaviour
     private float totalDistance;
     public float explosionRadius = 3f;
     public LayerMask targetLayer;
+    LayerMask blockLayer;
     private Collider[] hitColliders = new Collider[10];
     private NetworkVariable<Vector3> networkPosition = new NetworkVariable<Vector3>();
 
@@ -32,8 +33,7 @@ public class CurvedProjectile : NetworkBehaviour
             totalDistance = CalculateTotalDistance();
 
             targetLayer = 1 << LayerMask.NameToLayer("PCs");
-
-            Debug.Log($"Curved initialized with start: {startPoint}, end: {endPoint}, speed: {speed}, distance: {totalDistance}, servercharacter : {serverCharacter.OwnerClientId}");
+            blockLayer = 1 << LayerMask.NameToLayer("Environment");
 
     }
 
@@ -64,10 +64,7 @@ public class CurvedProjectile : NetworkBehaviour
                 t += Time.deltaTime * speed / totalDistance;
                 transform.position = CalculateBezierPoint(t, startPoint, controlPoint, endPoint);
             }
-            else
-            {
-                OnProjectileHit();
-            }
+            CheckCollision(t);
         }
         if(IsClient)
         {
@@ -101,13 +98,6 @@ public class CurvedProjectile : NetworkBehaviour
     }
     private void OnProjectileHit()
     {
-        CheckCollision();
-
-        NetworkObject.Despawn();
-    }
-    void CheckCollision()
-    {
-
         int hitCount = Physics.OverlapSphereNonAlloc(transform.position, explosionRadius, hitColliders, targetLayer);
         for (int i = 0; i < hitCount; i++)
         {
@@ -118,6 +108,17 @@ public class CurvedProjectile : NetworkBehaviour
             {
                 damageable.ReceiveHP(-projectileInfo.Damage, spawner);
             }
+        }
+        ExplosionClientRpc();
+        NetworkObject.Despawn();
+    }
+    void CheckCollision(float t)
+    {
+        var position = transform.localToWorldMatrix.MultiplyPoint(sphereCollider.center);
+        Collider[] hits = Physics.OverlapSphere(position, sphereCollider.radius, blockLayer);
+        if(t>=1 || hits.Length > 0)
+        {
+            OnProjectileHit();
         }
     }
     [Rpc(SendTo.ClientsAndHost)]
