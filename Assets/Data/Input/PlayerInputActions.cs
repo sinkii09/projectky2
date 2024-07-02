@@ -44,6 +44,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SpecialSkill"",
+                    ""type"": ""Button"",
+                    ""id"": ""b779bca4-8936-4bf9-9f77-0c8c28b25bf2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -112,6 +121,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""LeftMouseClick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8f9a4ac0-ede0-4eea-9d01-1d6e88ed4ff2"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SpecialSkill"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -122,6 +142,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_LeftMouseClick = m_Player.FindAction("LeftMouseClick", throwIfNotFound: true);
+        m_Player_SpecialSkill = m_Player.FindAction("SpecialSkill", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -185,12 +206,14 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_LeftMouseClick;
+    private readonly InputAction m_Player_SpecialSkill;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
         public PlayerActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @LeftMouseClick => m_Wrapper.m_Player_LeftMouseClick;
+        public InputAction @SpecialSkill => m_Wrapper.m_Player_SpecialSkill;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -206,6 +229,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @LeftMouseClick.started += instance.OnLeftMouseClick;
             @LeftMouseClick.performed += instance.OnLeftMouseClick;
             @LeftMouseClick.canceled += instance.OnLeftMouseClick;
+            @SpecialSkill.started += instance.OnSpecialSkill;
+            @SpecialSkill.performed += instance.OnSpecialSkill;
+            @SpecialSkill.canceled += instance.OnSpecialSkill;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -216,6 +242,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @LeftMouseClick.started -= instance.OnLeftMouseClick;
             @LeftMouseClick.performed -= instance.OnLeftMouseClick;
             @LeftMouseClick.canceled -= instance.OnLeftMouseClick;
+            @SpecialSkill.started -= instance.OnSpecialSkill;
+            @SpecialSkill.performed -= instance.OnSpecialSkill;
+            @SpecialSkill.canceled -= instance.OnSpecialSkill;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -237,5 +266,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnLeftMouseClick(InputAction.CallbackContext context);
+        void OnSpecialSkill(InputAction.CallbackContext context);
     }
 }

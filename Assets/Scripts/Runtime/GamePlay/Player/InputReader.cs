@@ -10,6 +10,7 @@ public class InputReader : ScriptableObject, IPlayerActions
 {
     public event Action<Vector2> MoveEvent;
     public event Action<bool> FireEvent;
+    public event Action<bool> SpecialInputEvent;
 
     public Vector2 MousePosition { get; private set; }
 
@@ -39,6 +40,14 @@ public class InputReader : ScriptableObject, IPlayerActions
     }
 
     public void OnLeftMouseClick(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            FireEvent?.Invoke(true);
+        }
+    }
+
+    public void OnSpecialSkill(InputAction.CallbackContext context)
     {
         if (context.performed)
         {

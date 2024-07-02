@@ -6,7 +6,7 @@ using UnityEngine;
 public class CharacterStats : ScriptableObject
 {
     public Skill BaseAttack;
-    public Skill SpecialSkill;
+    public Ability SpecialAbility;
     public WeaponData WeaponData;
     public int BaseHP;
     public int Speed;

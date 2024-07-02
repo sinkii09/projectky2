@@ -12,6 +12,8 @@ public class ClientInputSender : NetworkBehaviour
     readonly RaycastHit[] k_CachedHit = new RaycastHit[4];
     LayerMask m_ActionLayerMask;
 
+
+
     [SerializeField]
     ServerCharacter m_ServerCharacter;
 
@@ -24,10 +26,20 @@ public class ClientInputSender : NetworkBehaviour
     [SerializeField]
     private PhysicsWrapper m_PhysicsWrapper;
 
+    [SerializeField]
+    Transform m_MousePoint;
+
+    [SerializeField]
+    private GameIndicator m_RangeIndicator;
+
+    [SerializeField]
+    private GameIndicator m_RadiusIndicator;
+
     MainPlayerIngameCard m_MainPlayerIngameCard;
     ChatUI m_ChatUI;
     bool m_CanInput;
 
+    AttackType m_AttackType = AttackType.BaseAttack;
     #region Events
 
     public event Action<Vector3> ClientMoveEvent;
@@ -44,9 +56,12 @@ public class ClientInputSender : NetworkBehaviour
         }
         m_CanInput = true;
         m_ChatUI = FindObjectOfType<ChatUI>();
+
+        m_RangeIndicator.Initialize(m_PhysicsWrapper.Transform);
+        m_RadiusIndicator.Initialize(m_MousePoint);
         
         m_InputReader.MoveEvent += InputReader_MoveEvent;
-        
+        m_InputReader.SpecialInputEvent += InputReader_SpecialInputEvent;
 
         m_ServerCharacter.CurrentWeaponId.OnValueChanged += OnCurrentWeaponChanged;
         m_ServerCharacter.WeaponUseTimeAmount.OnValueChanged += OnWeaponAmountUseAmountChanged;
@@ -57,6 +72,7 @@ public class ClientInputSender : NetworkBehaviour
     {
         m_CanInput = false;
         m_InputReader.MoveEvent -= InputReader_MoveEvent;
+        m_InputReader.SpecialInputEvent -= InputReader_SpecialInputEvent;
         if (m_ServerCharacter)
         {
             m_ServerCharacter.WeaponUseTimeAmount.OnValueChanged -= OnWeaponAmountUseAmountChanged;
@@ -64,6 +80,21 @@ public class ClientInputSender : NetworkBehaviour
             
         }
         NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= SceneManager_OnLoadEventCompleted;
+    }
+    private void InputReader_SpecialInputEvent(bool obj)
+    {
+        switch (m_AttackType)
+        {
+            case AttackType.BaseAttack:
+                Ability special = m_ServerCharacter.CharacterStats.SpecialAbility;
+                ShowIndicator(special);
+                m_AttackType = AttackType.SpecialAbility;
+                return;
+            case AttackType.SpecialAbility:
+                HideIndicator();
+                m_AttackType = AttackType.BaseAttack;
+                return;
+        }
     }
 
     private void OnCurrentWeaponChanged(WeaponID previousValue, WeaponID newValue)
@@ -79,9 +110,28 @@ public class ClientInputSender : NetworkBehaviour
         {
             var ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
             Physics.RaycastNonAlloc(ray, k_CachedHit, k_MouseInputRaycastDistance, m_ActionLayerMask);
+            m_MousePoint.position = k_CachedHit[0].point;
             if (m_InputReader.IsLeftMouseButtonDownThisFrame())
             {
-                m_InputReceiver.RecvInputServerRpc(k_CachedHit[0].point);
+                switch (m_AttackType)
+                {
+                    case AttackType.BaseAttack:
+                        m_InputReceiver.RecvInputServerRpc(k_CachedHit[0].point,AttackType.BaseAttack);
+                        break;
+                    case AttackType.SpecialAbility:
+                        HideIndicator();
+                        m_AttackType = AttackType.BaseAttack;
+                        m_InputReceiver.RecvInputServerRpc(k_CachedHit[0].point,AttackType.SpecialAbility);
+                        break;
+                }  
+            }
+            if(Input.GetMouseButtonDown(1))
+            {
+                if(m_AttackType == AttackType.SpecialAbility)
+                {
+                    HideIndicator();
+                    m_AttackType = AttackType.BaseAttack;
+                }
             }
         }
     }
@@ -114,4 +164,17 @@ public class ClientInputSender : NetworkBehaviour
             m_MainPlayerIngameCard.UpdateWeaponAmount(true);
         }
     }
+
+    private void HideIndicator()
+    {
+        m_RangeIndicator.HideIndicator();
+        m_RadiusIndicator.HideIndicator();
+    }
+
+    private void ShowIndicator(Ability ability)
+    {
+        m_RangeIndicator.ShowIndicator(ability.MaxRange);
+        m_RadiusIndicator.ShowIndicator(ability.Radius);
+    }
+
 }

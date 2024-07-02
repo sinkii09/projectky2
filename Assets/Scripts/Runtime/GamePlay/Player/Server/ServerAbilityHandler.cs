@@ -19,9 +19,17 @@ public class ServerAbilityHandler
     }
     public void OnUpdate()
     {
-        if(m_AbilityQueue.Count > 0 && !m_IsProcessing)
+        if( m_AbilityQueue.Count > 0 )
         {
-            ProcessAbilityRequest(m_AbilityQueue.Peek());
+            var peek = m_AbilityQueue.Peek();
+            if (!m_IsProcessing)
+            {
+                ProcessAbilityRequest(peek);
+            }
+            else
+            {
+                peek.Ability.OnAbilityUpdate(m_ServerCharacter);
+            }
         }
     }
     public void ReceiveAbilityRequest(AbilityRequest request)

@@ -1,8 +1,7 @@
 ﻿using System;
-using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ArrowShot", menuName = "Abilities/MeleeAttack")]
+[CreateAssetMenu(fileName = "Melee", menuName = "Abilities/MeleeAttack")]
 public class MeleeAttack : Ability
 {
     static RaycastHit[] s_Hits = new RaycastHit[4];

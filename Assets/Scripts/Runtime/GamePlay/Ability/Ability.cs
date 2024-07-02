@@ -8,6 +8,7 @@ public abstract class Ability : ScriptableObject
     public string abilityName;
 
     public int Damage;
+    public int Radius;
 
     public float MinRange;
     public float MaxRange;
@@ -16,14 +17,29 @@ public abstract class Ability : ScriptableObject
     public string rejectionAnimationTrigger;
 
     public float executeTime;
-
+    public float durationTime;
     public ProjectileInfo[] projectileInfoList;
+    public GameObject[] weaponVisual;
+    public GameObject[] effect;
+
     public bool CheckAmount = true;
+
+    public float TimeStarted {  get; set; }
+    public float TimeRunning { get { return (Time.time - TimeStarted); } }
+    
     public abstract void Activate(ServerCharacter serverCharacter, AbilityRequest data);
     public abstract bool CanActivate(ServerCharacter serverCharacter);
+    public virtual void OnAbilityUpdate(ServerCharacter serverCharacter)
+    {
+
+    }
     protected IEnumerator ExecuteTimeDelay()
     {
         yield return new WaitForSeconds(executeTime);
+    }
+    protected IEnumerator DurationTimeDelay()
+    {
+        yield return new WaitForSeconds(durationTime);
     }
     protected void DecreaseAmount(ServerCharacter serverCharacter)
     {
