@@ -22,6 +22,7 @@ public class CurvedProjectile : NetworkBehaviour
     private Collider[] hitColliders = new Collider[10];
     private NetworkVariable<Vector3> networkPosition = new NetworkVariable<Vector3>();
 
+    bool isDead;
     public void Initialize(Vector3 start, Vector3 control, Vector3 end, ProjectileInfo info,ServerCharacter serverCharacter = null)
     {
             startPoint = start;
@@ -35,7 +36,7 @@ public class CurvedProjectile : NetworkBehaviour
 
             targetLayer = 1 << LayerMask.NameToLayer("PCs");
             blockLayer = LayerMask.GetMask(new[] { "PCs", "Environment" });
-
+            isDead = false;
     }
 
     public override void OnNetworkSpawn()
@@ -65,7 +66,10 @@ public class CurvedProjectile : NetworkBehaviour
                 t += Time.deltaTime * speed / totalDistance;
                 transform.position = CalculateBezierPoint(t, startPoint, controlPoint, endPoint);
             }
-            CheckCollision(t);
+            else
+            {
+                OnProjectileHit();
+            }    
         }
         if(IsClient)
         {
@@ -99,6 +103,7 @@ public class CurvedProjectile : NetworkBehaviour
     }
     private void OnProjectileHit()
     {
+        isDead = true;
         int hitCount = Physics.OverlapSphereNonAlloc(transform.position, explosionRadius, hitColliders, targetLayer);
         for (int i = 0; i < hitCount; i++)
         {
@@ -113,14 +118,17 @@ public class CurvedProjectile : NetworkBehaviour
         ExplosionClientRpc();
         NetworkObject.Despawn();
     }
-    void CheckCollision(float t)
+    private void OnTriggerEnter(Collider other)
     {
-        var position = transform.localToWorldMatrix.MultiplyPoint(sphereCollider.center);
-        Collider[] hits = Physics.OverlapSphere(position, sphereCollider.radius, blockLayer);
-        if(t>=1 || hits.Length > 0)
+        if(isDead) return;
+        if(other.gameObject.layer != blockLayer) return;
+        if(other.gameObject.TryGetComponent(out ServerCharacter character))
         {
-            OnProjectileHit();
+            if (character.OwnerClientId == spawner.OwnerClientId) return;
         }
+
+        OnProjectileHit();
+
     }
     [Rpc(SendTo.ClientsAndHost)]
     void ExplosionClientRpc()

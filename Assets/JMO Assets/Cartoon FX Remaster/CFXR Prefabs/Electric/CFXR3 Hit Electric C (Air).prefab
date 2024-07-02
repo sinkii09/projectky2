@@ -9830,6 +9830,7 @@ GameObject:
   - component: {fileID: 1141330259687333425}
   - component: {fileID: 1141330259687333426}
   - component: {fileID: 5161904656840288084}
+  - component: {fileID: 3978250768760607152}
   m_Layer: 0
   m_Name: CFXR3 Hit Electric C (Air)
   m_TagString: Untagged
@@ -14994,6 +14995,19 @@ MonoBehaviour:
     perlinColor: 0
     perlinColorSpeed: 1
   fadeOutReference: {fileID: 0}
+--- !u!114 &3978250768760607152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1141330259687333427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af0046768f616f74b9896257b1796f5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AutoShutdownTime: 1
 --- !u!1 &5920737141672433187
 GameObject:
   m_ObjectHideFlags: 0

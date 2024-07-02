@@ -14,16 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: FireBall
   Damage: 20
+  Radius: 0
   MinRange: 1
   MaxRange: 30
   abilityAnimationTrigger: Bomb
   rejectionAnimationTrigger: 
   executeTime: 0.15
+  durationTime: 0
   projectileInfoList:
-  - Prefab: {fileID: 0}
-    Speed: 0
-    Range: 0
-    Damage: 0
-    MaxVictims: 0
+  - Prefab: {fileID: 8787849450496161361, guid: 6683ae2c7b4509f49828fb10adb6945b,
+      type: 3}
+    Speed: 20
+    Range: 2
+    Damage: 20
+    MaxVictims: 100
+  weaponVisual: []
+  effect:
+  - {fileID: 2504214343621411470, guid: 3ed0d324122d7b24eaec75c55c74aafc, type: 3}
   CheckAmount: 1
   maxHeight: 15

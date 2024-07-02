@@ -112,11 +112,11 @@ public class ClientCharacter : NetworkBehaviour
     {
         if(newValue == serverCharacter.CharacterStats.WeaponData.Id)
         {
-            m_BaseWeaponPart.Play();
+            Instantiate(m_BaseWeaponPart, m_ServerCharacter.physicsWrapper.transform);
         }
         else
         {
-            m_NewWeaponPart.Play();
+            Instantiate(m_NewWeaponPart, m_ServerCharacter.physicsWrapper.transform);
         }
     }
 
@@ -124,11 +124,11 @@ public class ClientCharacter : NetworkBehaviour
     {
         if(newValue == LifeStateEnum.Alive)
         {
-            m_RevivePart.Play();
+            Instantiate(m_RevivePart, m_ServerCharacter.physicsWrapper.transform);
         }
         if(newValue == LifeStateEnum.Dead)
         {
-            m_FaintedPart.Play();
+            Instantiate(m_FaintedPart, m_ServerCharacter.physicsWrapper.transform);
         }
     }
 

@@ -4912,6 +4912,7 @@ GameObject:
   - component: {fileID: 1429954232896169631}
   - component: {fileID: 1429954232896169632}
   - component: {fileID: 1429954232896169629}
+  - component: {fileID: 8524598137276886321}
   m_Layer: 0
   m_Name: CFXR3 Hit Misc A
   m_TagString: Untagged
@@ -9975,6 +9976,19 @@ MonoBehaviour:
     perlinColor: 0
     perlinColorSpeed: 1
   fadeOutReference: {fileID: 0}
+--- !u!114 &8524598137276886321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1429954232896169633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af0046768f616f74b9896257b1796f5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AutoShutdownTime: 1
 --- !u!1 &1429954232937552486
 GameObject:
   m_ObjectHideFlags: 0

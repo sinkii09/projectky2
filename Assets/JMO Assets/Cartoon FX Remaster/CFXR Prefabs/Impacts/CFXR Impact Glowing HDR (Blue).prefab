@@ -5030,6 +5030,7 @@ GameObject:
   - component: {fileID: 2708598583397607897}
   - component: {fileID: 2708598583397607910}
   - component: {fileID: 2708598583397607899}
+  - component: {fileID: 8233289089825338631}
   m_Layer: 0
   m_Name: CFXR Impact Glowing HDR (Blue)
   m_TagString: Untagged
@@ -9942,6 +9943,19 @@ MonoBehaviour:
     perlinColor: 0
     perlinColorSpeed: 1
   fadeOutReference: {fileID: 0}
+--- !u!114 &8233289089825338631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2708598583397607911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af0046768f616f74b9896257b1796f5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AutoShutdownTime: 1
 --- !u!1 &2708598584241629776
 GameObject:
   m_ObjectHideFlags: 0
