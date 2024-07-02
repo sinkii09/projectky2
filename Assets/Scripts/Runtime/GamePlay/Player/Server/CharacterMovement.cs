@@ -36,7 +36,6 @@ public class CharacterMovement : NetworkBehaviour
     private Vector3 moveDirection;
     private Vector3 knockBackDirection;
     private Vector3 jumpDirection;
-    private bool m_CanJump = false;
     private float m_SpecialModeDurationRemaining;
     [SerializeField] private float moveSpeed = 10f;
     [SerializeField] private float jumpSpeed = 10f;
@@ -144,7 +143,6 @@ public class CharacterMovement : NetworkBehaviour
     }
     internal void SetJump()
     {
-        m_CanJump = true;
         m_MovementState = MovementState.Jump;
         jumpDirection = (transform.forward + transform.up);
         m_SpecialModeDurationRemaining = 1.5f;

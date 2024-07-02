@@ -97,7 +97,6 @@ public class ClientCharacter : NetworkBehaviour
         m_PositionLerper = new PositionLerper(serverCharacter.physicsWrapper.Transform.position, k_LerpTime);
         m_RotationLerper = new RotationLerper(serverCharacter.physicsWrapper.Transform.rotation, k_LerpTime);
 
-        m_ClientInputSender.SkillInputEvent += OnSkillInput;
         m_ClientInputSender.ClientMoveEvent += OnMoveInput;
     }
     public override void OnNetworkDespawn()
@@ -105,7 +104,6 @@ public class ClientCharacter : NetworkBehaviour
         NetworkManager.SceneManager.OnLoadEventCompleted -= SceneManager_OnLoadEventCompleted;
         m_ServerCharacter.LifeState.OnValueChanged -= OnLifeStateChanged;
         m_ServerCharacter.CurrentWeaponId.OnValueChanged -= OnCurrentWeaponChanged;
-        m_ClientInputSender.SkillInputEvent -= OnSkillInput;
         m_ClientInputSender.ClientMoveEvent -= OnMoveInput;
         enabled = false;
     }

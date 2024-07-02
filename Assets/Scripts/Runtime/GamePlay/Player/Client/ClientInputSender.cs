@@ -44,8 +44,6 @@ public class ClientInputSender : NetworkBehaviour
 
     public event Action<Vector3> ClientMoveEvent;
 
-    public event Action<SkillRequestData> SkillInputEvent;
-
     #endregion
     public override void OnNetworkSpawn()
     {
