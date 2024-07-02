@@ -1194,22 +1194,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1068440514383634134, guid: e851801d223a58f4ea34eab63a9b10ae,
-        type: 3}
-      propertyPath: PooledPrefabsList.Array.size
-      value: 16
-      objectReference: {fileID: 0}
-    - target: {fileID: 1068440514383634134, guid: e851801d223a58f4ea34eab63a9b10ae,
-        type: 3}
-      propertyPath: PooledPrefabsList.Array.data[15].Prefab
-      value: 
-      objectReference: {fileID: 2040460775051823323, guid: e87c97282711c884ba583a33670a1e78,
-        type: 3}
-    - target: {fileID: 1068440514383634134, guid: e851801d223a58f4ea34eab63a9b10ae,
-        type: 3}
-      propertyPath: PooledPrefabsList.Array.data[15].PrewarmCount
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 1755615370475142199, guid: e851801d223a58f4ea34eab63a9b10ae,
         type: 3}
       propertyPath: m_LocalPosition.x

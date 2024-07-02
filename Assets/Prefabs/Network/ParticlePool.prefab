@@ -89,3 +89,6 @@ MonoBehaviour:
   - Prefab: {fileID: 7226888052703040409, guid: 7ec363c8df426644ea85f8d6d570561c,
       type: 3}
     PrewarmCount: 5
+  - Prefab: {fileID: 2040460775051823323, guid: e87c97282711c884ba583a33670a1e78,
+      type: 3}
+    PrewarmCount: 5
