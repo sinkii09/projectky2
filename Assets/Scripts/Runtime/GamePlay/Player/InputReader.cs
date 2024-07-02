@@ -51,7 +51,7 @@ public class InputReader : ScriptableObject, IPlayerActions
     {
         if (context.performed)
         {
-            FireEvent?.Invoke(true);
+            SpecialInputEvent?.Invoke(true);
         }
     }
 }
