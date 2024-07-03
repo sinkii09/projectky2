@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 6634471847083746518}
   - component: {fileID: -1266174490824342676}
   - component: {fileID: 8507660973078197788}
+  - component: {fileID: -7027010858218348208}
   - component: {fileID: 4480013976317283430}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Magic Arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68,7 +69,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 57383217
+  GlobalObjectIdHash: 960230640
   InScenePlacedSourceGlobalObjectIdHash: 57383217
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -77,6 +78,37 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &-7027010858218348208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1462457652631714548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseUnreliableDeltas: 0
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 1
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  Interpolate: 1
+  SlerpPosition: 0
 --- !u!114 &4480013976317283430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -105,7 +137,7 @@ GameObject:
   - component: {fileID: 7349991779116231125}
   - component: {fileID: 6721668622524148011}
   - component: {fileID: 3080865236376971031}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5005,7 +5037,7 @@ GameObject:
   - component: {fileID: 3939174010397734131}
   - component: {fileID: 3736312401286159473}
   - component: {fileID: 2902870563783191091}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Visuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5126,7 +5158,7 @@ GameObject:
   - component: {fileID: 785645466916406263}
   - component: {fileID: 5219916667355680665}
   - component: {fileID: 5320985998393507620}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}

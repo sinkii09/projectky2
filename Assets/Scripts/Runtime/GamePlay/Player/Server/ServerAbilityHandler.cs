@@ -44,10 +44,11 @@ public class ServerAbilityHandler
         if(CanActivateAbility(request))
         {
             m_IsProcessing=true;
-
+            request.Ability.TimeStarted = Time.time;
             ActivateAbility(request);
+            
 
-            CoroutineRunner.Instance.StartCoroutine(WaitForAnimationToComplete(request));
+           // CoroutineRunner.Instance.StartCoroutine(WaitForAnimationToComplete(request));
         }
         else
         {
@@ -55,18 +56,18 @@ public class ServerAbilityHandler
             m_AbilityQueue.Dequeue();
         }
     }
-    private IEnumerator WaitForAnimationToComplete(AbilityRequest request)
-    {
-        if(Animator != null)
-        {
-            while (Animator.GetCurrentAnimatorStateInfo(1).IsName(request.Ability.abilityAnimationTrigger))
-            {
-                yield return null;
-            }
-        }
-        m_IsProcessing = false;
-        m_AbilityQueue.Dequeue();
-    }
+    //private IEnumerator WaitForAnimationToComplete(AbilityRequest request)
+    //{
+    //    if(Animator != null)
+    //    {
+    //        while (Animator.GetCurrentAnimatorStateInfo(1).IsName(request.Ability.abilityAnimationTrigger))
+    //        {
+    //            yield return null;
+    //        }
+    //    }
+    //    m_IsProcessing = false;
+    //    m_AbilityQueue.Dequeue();
+    //}
     private bool CanActivateAbility(AbilityRequest request)
     {
         return request.Ability != null && request.Ability.CanActivate(m_ServerCharacter);
@@ -78,5 +79,10 @@ public class ServerAbilityHandler
     private void SendRejectionToClient(AbilityRequest request)
     {
 
+    }
+    public void DequeuePeakAbility()
+    {
+        m_IsProcessing = false;
+        m_AbilityQueue.Dequeue();
     }
 }

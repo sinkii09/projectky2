@@ -18,7 +18,6 @@ public class SlamDunk : Ability
         this.data = data;
         serverCharacter.physicsWrapper.Transform.forward = data.Direction;
         serverCharacter.ServerAnimationHandler.NetworkAnimator.SetTrigger(abilityAnimationTrigger);
-        serverCharacter.Movement.Jump();
         PerformAbility(serverCharacter, data);
     }
 
@@ -29,16 +28,19 @@ public class SlamDunk : Ability
 
     public override void OnAbilityUpdate(ServerCharacter serverCharacter)
     {
+        Debug.Log(isStart);
         if(isStart)
         {
             if (t < 1)
             {
                 t += Time.deltaTime * 20 / totalDistance;
-                serverCharacter.physicsWrapper.Transform.position = CalculateBezierPoint(t, startPoint, controlPoint, endPoint);
+                serverCharacter.transform.position = CalculateBezierPoint(t, startPoint, controlPoint, endPoint);
+                Debug.Log(CalculateBezierPoint(t, startPoint, controlPoint, endPoint));
             }
             else
             {
                 OnHit(serverCharacter);
+                serverCharacter.DequeueAbility();
             }
         }
     }
@@ -93,14 +95,16 @@ public class SlamDunk : Ability
         endPoint = data.Position;
         controlPoint = (startPoint + endPoint) / 2 + Vector3.up * 10;
         totalDistance = CalculateTotalDistance();
+        
         isStart = true;
+        serverCharacter.Movement.Jump();
     }
     public override void OnPlayClient(ClientCharacter clientCharacter, Vector3 position)
     {
-        foreach (var effect in data.Ability.effect)
+        foreach (var effect in effect)
         {
-            var fx = ParticlePool.Singleton.GetObject(effect, position, Quaternion.identity);
-            fx.GetComponent<SpecialFXGraphic>().OnInitialized(effect);
+            var abilityFX = ParticlePool.Singleton.GetObject(effect, position, Quaternion.identity);
+            abilityFX.GetComponent<SpecialFXGraphic>().OnInitialized(effect);
         }
     }
 }

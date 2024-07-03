@@ -14,23 +14,31 @@ public class CircleShot : Ability
         this.data = data;
         serverCharacter.physicsWrapper.Transform.forward = data.Direction;
         serverCharacter.ServerAnimationHandler.NetworkAnimator.SetTrigger(abilityAnimationTrigger);
-        serverCharacter.ClientCharacter.ClientPlayEffectRpc(data.Position);
-        LaunchAbility(serverCharacter, data);
+        serverCharacter.ClientCharacter.ClientPlayEffectRpc(serverCharacter.physicsWrapper.Transform.position);
+        isStart = true;
     }
     public override bool CanActivate(ServerCharacter serverCharacter)
     {
         return true;
     }
 
+    public override void OnAbilityUpdate(ServerCharacter serverCharacter)
+    {
+        if(isStart && TimeRunning >= executeTime)
+        {
+            LaunchAbility(serverCharacter, data);
+            serverCharacter.DequeueAbility();
+        }
+    }
+
     private void LaunchAbility(ServerCharacter serverCharacter, AbilityRequest data)
     {
-        CoroutineRunner.Instance.StartCoroutine(ExecuteTimeDelay());
-        isStart = true;
+        isStart = false;
         var projectileInfo = GetProjectileInfo();
         for (int i = 0; i < Damage; i++)
         {
             float angle = i * Mathf.PI * 2f / Damage;
-            Vector3 spawnPos = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * MaxRange + serverCharacter.physicsWrapper.Transform.position;
+            Vector3 spawnPos = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * Radius + serverCharacter.physicsWrapper.Transform.position;
             Quaternion rotation = Quaternion.LookRotation(spawnPos - serverCharacter.physicsWrapper.Transform.position);
             NetworkObject networkObject = NetworkObjectPool.Singleton.GetNetworkObject(projectileInfo.Prefab, spawnPos + Vector3.up, rotation);
             networkObject.GetComponent<PhysicsProjectile>().Initialize(serverCharacter.OwnerClientId, projectileInfo, networkObject.transform);

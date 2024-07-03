@@ -28,6 +28,7 @@ public class AOELaunch : Ability
         {
             isStart = false;
             OnHit(serverCharacter);
+            serverCharacter.DequeueAbility();
         }
 
     }

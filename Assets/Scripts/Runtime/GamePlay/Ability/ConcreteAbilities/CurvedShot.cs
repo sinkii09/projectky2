@@ -47,5 +47,6 @@ public class CurvedShot : Ability
         {
             DecreaseAmount(serverCharacter);
         }
+        serverCharacter.DequeueAbility();
     }
 }

@@ -177,6 +177,8 @@ public class ClientCharacter : NetworkBehaviour
                 return m_VisualizationConfiguration.SpeedSlowed;
             case MovementStatus.Hasted:
                 return m_VisualizationConfiguration.SpeedHasted;
+            case MovementStatus.Jump:
+                return m_VisualizationConfiguration.SpeedJump;
             default:
                 throw new Exception($"Unknown MovementStatus {movementStatus}");
         }

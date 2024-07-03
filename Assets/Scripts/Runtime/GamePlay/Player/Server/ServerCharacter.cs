@@ -159,6 +159,10 @@ public class ServerCharacter : NetworkBehaviour
         
         m_ServerAbilityHandler.ReceiveAbilityRequest(data);
     }
+    public void DequeueAbility()
+    {
+        m_ServerAbilityHandler.DequeuePeakAbility();
+    }
     #endregion
 
     #region Others

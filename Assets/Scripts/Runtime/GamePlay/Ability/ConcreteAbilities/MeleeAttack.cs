@@ -11,6 +11,7 @@ public class MeleeAttack : Ability
         serverCharacter.ServerAnimationHandler.NetworkAnimator.SetTrigger(abilityAnimationTrigger);
 
         TriggerAttack(serverCharacter);
+        
     }
 
     public override bool CanActivate(ServerCharacter serverCharacter)
@@ -25,6 +26,7 @@ public class MeleeAttack : Ability
         {
             foe.ReceiveHP(-Damage, serverCharacter);
         }
+        serverCharacter.DequeueAbility();
     }
     public static IDamageable GetIdealMeleeFoe(ServerCharacter serverCharacter, Collider ourCollider, float meleeRange)
     {
