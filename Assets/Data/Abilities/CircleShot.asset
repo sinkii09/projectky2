@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c9d3c7a359802447aebd2f3798e1847, type: 3}
+  m_Name: CircleShot
+  m_EditorClassIdentifier: 
+  abilityName: Circle Shot
+  Damage: 10
+  Radius: 1
+  MinRange: 40
+  MaxRange: 40
+  abilityAnimationTrigger: Bomb
+  rejectionAnimationTrigger: 
+  executeTime: 1
+  durationTime: 0
+  projectileInfoList:
+  - Prefab: {fileID: 1462457652631714548, guid: e460c12270540054bac8a9552f8c7322,
+      type: 3}
+    Speed: 25
+    Range: 40
+    Damage: 40
+    MaxVictims: 99
+  weaponVisual: []
+  effect:
+  - {fileID: 7226888052703040409, guid: 7ec363c8df426644ea85f8d6d570561c, type: 3}
+  - {fileID: 5642766282230003982, guid: b5c8ca7ed10b61e499cce8ec3b6e2e4c, type: 3}
+  indicatorTexture: {fileID: 0}
+  CheckAmount: 0
+  ShowIndicator: 1

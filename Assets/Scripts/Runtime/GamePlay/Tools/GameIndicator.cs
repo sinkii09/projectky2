@@ -6,6 +6,8 @@ public class GameIndicator : MonoBehaviour
 
     Vector3 defaultScale;
     Vector3 offset = new Vector3(0, 0.1f, 0);
+
+    MeshRenderer meshRenderer;
     //public enum IndicatorType
     //{
     //    Range,
@@ -13,11 +15,19 @@ public class GameIndicator : MonoBehaviour
     //}
 
     //public IndicatorType type;
-    public void Initialize(Transform parent)
+    private void Awake()
+    {
+        meshRenderer = GetComponent<MeshRenderer>();
+    }
+    public void Initialize(Transform parent,Texture texture = null)
     {
         gameObject.SetActive(false);
         follow = parent;
         defaultScale = transform.localScale;
+        if(texture != null)
+        {
+            meshRenderer.material.mainTexture = texture;
+        }
     }
     public void ShowIndicator(float radius)
     {

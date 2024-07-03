@@ -1,88 +1,60 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.Collections.LowLevel.Unsafe;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UIElements;
+using UnityEngine.VFX;
 
 public class test : MonoBehaviour
 {
-    [SerializeField] ProjectileInfo[] projectileInfoList;
-    [SerializeField] Transform go;
-    [SerializeField] float speed;
-    [SerializeField] float x, y, z;
-
-    [SerializeField] GameObject testObject;
+    public GameObject bulletPrefab;
+    [SerializeField] int amount = 10;
+    public float radius = 5f;
+    public float bulletSpeed = 5f;
+    public List<GameObject> bullets;
+    bool isLaunch;
     private void Start()
     {
-        List<UserData> players = new List<UserData>()
-        {
-            new UserData("PlayerA",1,1000, 14) { playerKill = 25, playerDead = 2 },
-            new UserData("PlayerB",2, 1000, 19) { playerKill = 5, playerDead = 15 },
-            new UserData("PlayerC",3, 1000, 23) { playerKill = 10, playerDead = 10 },
-            new UserData("PlayerD",4, 1000, 23) { playerKill = 10, playerDead = 20 },
-            new UserData("PlayerD",5, 1000, 23) { playerKill = 20, playerDead = 10 },
-        };
-        ScoringSystem scoringSystem = new ScoringSystem();
-        scoringSystem.UpdateRatingsForSession(players);
-        scoringSystem.UpdateRankPoints(players);
-        scoringSystem.CalculatePlayerPlace(players);
-        //foreach (var player in players)
-        //{
-        //    Debug.Log($"{player.userName} - Id: {player.networkId}, rating: {player.Rating}, rank:{player.RankPoints}, score: {player.playerScore}, place: {player.playerPlace}, k/d: {player.playerKill}/{player.playerDead}");
-        //}
-        //for (int i = 0; i < players.Count; i++)
-        //{
-        //    for (int j = 0; j < players.Count; j++)
-        //    {
-        //        if (i != j)
-        //        {
-        //            UserData playerA = players[i];
-        //            UserData playerB = players[j];
-
-        //            float expectedScoreA = scoringSystem.CalculateExpectedScore(playerA, playerB);
-        //            float expectedScoreB = scoringSystem.CalculateExpectedScore(playerB, playerA);
-
-        //            Debug.Log($"{playerA.userName}/{playerB.userName}: {expectedScoreA} , B: {expectedScoreB}");
-        //        }
-        //    }
-        //}
-
-        
-    }
-    public void launchporjectile()
-    {
-        var projectileInfo = GetProjectileInfo();
-        NetworkObject networkObject = NetworkObjectPool.Singleton.GetNetworkObject(projectileInfo.Prefab, projectileInfo.Prefab.transform.position, projectileInfo.Prefab.transform.rotation);
-        networkObject.transform.forward = transform.forward;
-        networkObject.transform.position = transform.position;
-        //networkObject.GetComponent<BoomerangProjectile>().Initialize(networkObject.transform.position, new Vector3(10,0,10), projectileInfo);
-        networkObject.Spawn(true);
-    }
-    protected virtual ProjectileInfo GetProjectileInfo()
-    {
-        foreach (var projectileInfo in projectileInfoList)
-        {
-            if (projectileInfo.Prefab && projectileInfo.Prefab.GetComponent<BoomerangProjectile>())
-                return projectileInfo;
-        }
-        throw new System.Exception($"Action {name} has no usable Projectiles!");
+        bullets = new List<GameObject>();
     }
     private void Update()
     {
-        //if(testObject != null)
-        //{
-        //    testObject.transform.position = Vector3.Lerp(transform.position, transform.position + Vector3.up, Mathf.PingPong(Time.time, 1));
-        //    testObject.GetComponentInChildren<Transform>().SetParent(transform);
-        //    testObject.transform.Rotate(Vector3.up,2);
-        //}
-        //else if(Input.GetMouseButtonDown(0))
-        //{
-        //    testObject = go.gameObject;
-        //}
-        if (Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButtonDown(0))
         {
-            
+            if(bullets.Count > 0)
+            {
+                foreach(GameObject bullet in bullets)
+                {
+                    Destroy(bullet);
+                }
+                bullets.Clear();
+                isLaunch = false;
+            }
+            SpawnBullet();
         }
-        testObject.transform.Rotate(Vector3.forward * speed);
+        if(isLaunch)
+        {
+            foreach(GameObject bullet in bullets)
+            {
+                bullet.transform.Translate(bullet.transform.forward * bulletSpeed * Time.deltaTime);
+            }
+        }
+    }
+    void SpawnBullet()
+    {
+        for (int i = 0; i < amount; i++)
+        {
+            float angle = i * Mathf.PI * 2f / amount;
+            Vector3 bulletPos = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * radius + transform.position;
+            GameObject bullet = Instantiate(bulletPrefab, bulletPos, Quaternion.identity);
+            bullet.transform.forward = -(bulletPos - transform.position).normalized;
+            bullets.Add(bullet);
+
+        }
+        isLaunch = true;
     }
 }
 

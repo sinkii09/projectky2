@@ -42,8 +42,7 @@ public class BoomerangProjectile : NetworkBehaviour
             spawner = serverCharacter;
             totalDistance = Vector3.Distance(startPoint, endPoint);
             targetLayer = 1 << LayerMask.NameToLayer("PCs");
-            blockLayer = 1 << LayerMask.NameToLayer("Environment");
-            Debug.Log($"Boomerang initialized with start: {startPoint}, end: {endPoint}, speed: {speed}, damage: {damage}, distance: {totalDistance}, servercharacter : {serverCharacter.OwnerClientId}");
+            blockLayer = LayerMask.GetMask("Environment");
         
     }
     public override void OnNetworkSpawn()
@@ -64,6 +63,7 @@ public class BoomerangProjectile : NetworkBehaviour
         {
             visual.transform.parent = transform;
         }
+        damagePlayer.Clear();
     }
 
     void Update()
@@ -84,7 +84,6 @@ public class BoomerangProjectile : NetworkBehaviour
     {
         if (spawner == null)
         {
-            Debug.LogError("Spawner is null.");
             return;
         }
 
@@ -99,7 +98,6 @@ public class BoomerangProjectile : NetworkBehaviour
             {
                 returning = true;
                 damagePlayer.Clear();
-                Debug.Log("Boomerang returning to spawner.");
             }
             
         }
@@ -123,6 +121,7 @@ public class BoomerangProjectile : NetworkBehaviour
         }
         if(!collisionBlock && other.gameObject.layer == blockLayer)
         {
+            Debug.Log("boom hit wall");
             collisionBlock = true;
         }
         if (other.gameObject.layer != targetLayer) return;
@@ -135,7 +134,7 @@ public class BoomerangProjectile : NetworkBehaviour
             ClientHitEnemyRpc(serverCharacter.OwnerClientId);
             damageable.ReceiveHP(-damage, spawner);
             damagePlayer.Add(serverCharacter);
-            
+            Debug.Log("Add player");
         }
     }
     private void OnBoomerangReturn()

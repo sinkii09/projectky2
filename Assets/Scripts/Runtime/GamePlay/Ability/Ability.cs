@@ -21,9 +21,9 @@ public abstract class Ability : ScriptableObject
     public ProjectileInfo[] projectileInfoList;
     public GameObject[] weaponVisual;
     public GameObject[] effect;
-
+    public Texture indicatorTexture;
     public bool CheckAmount = true;
-
+    public bool ShowIndicator = true;
     public float TimeStarted {  get; set; }
     public float TimeRunning { get { return (Time.time - TimeStarted); } }
     
@@ -33,6 +33,8 @@ public abstract class Ability : ScriptableObject
     {
 
     }
+    public virtual void OnPlayClient(ClientCharacter clientCharacter,Vector3 position) { }
+
     protected IEnumerator ExecuteTimeDelay()
     {
         yield return new WaitForSeconds(executeTime);

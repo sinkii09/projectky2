@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1755615370475142199
 Transform:
   m_ObjectHideFlags: 0
@@ -92,3 +92,26 @@ MonoBehaviour:
   - Prefab: {fileID: 2040460775051823323, guid: e87c97282711c884ba583a33670a1e78,
       type: 3}
     PrewarmCount: 5
+  - Prefab: {fileID: 3874635022589376825, guid: ffdfb7851a968494f8fe76ee88f3791a,
+      type: 3}
+    PrewarmCount: 1
+  - Prefab: {fileID: 3732551427800355369, guid: 3e2226b0718f88b40ad98d970390f416,
+      type: 3}
+    PrewarmCount: 1
+  - Prefab: {fileID: 5394012555071795783, guid: 5e7338eee589acc43a04573c88435c19,
+      type: 3}
+    PrewarmCount: 1
+  - Prefab: {fileID: 1399491476850481373, guid: 7e691a0229efacd4cba2922df3888456,
+      type: 3}
+    PrewarmCount: 1
+  - Prefab: {fileID: 3125908671876608230, guid: 2e07e5ba5a6e8b74d8206f9be0e29d37,
+      type: 3}
+    PrewarmCount: 1
+  - Prefab: {fileID: 299570413518567310, guid: e83d7fa16ae549944888e3639c44101b, type: 3}
+    PrewarmCount: 1
+  - Prefab: {fileID: 5642766282230003982, guid: b5c8ca7ed10b61e499cce8ec3b6e2e4c,
+      type: 3}
+    PrewarmCount: 1
+  - Prefab: {fileID: 8771972552311404799, guid: bbf9e36a48d6c5648a13889afab076fd,
+      type: 3}
+    PrewarmCount: 1

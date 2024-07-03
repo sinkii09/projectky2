@@ -9,15 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e19d3e93191120a4fadf2874216e3dca, type: 3}
+  m_Script: {fileID: 11500000, guid: e380df8c54d04254daa5ffa431d2de3b, type: 3}
   m_Name: FireBall
   m_EditorClassIdentifier: 
-  abilityName: FireBall
-  Damage: 20
+  abilityName: ArrowShot
+  Damage: 10
   Radius: 0
-  MinRange: 1
+  MinRange: 30
   MaxRange: 30
-  abilityAnimationTrigger: Bomb
+  abilityAnimationTrigger: CrossBow
   rejectionAnimationTrigger: 
   executeTime: 0.15
   durationTime: 0
@@ -25,11 +25,10 @@ MonoBehaviour:
   - Prefab: {fileID: 8787849450496161361, guid: 6683ae2c7b4509f49828fb10adb6945b,
       type: 3}
     Speed: 20
-    Range: 2
+    Range: 30
     Damage: 20
-    MaxVictims: 100
+    MaxVictims: 1
   weaponVisual: []
   effect:
-  - {fileID: 2504214343621411470, guid: 3ed0d324122d7b24eaec75c55c74aafc, type: 3}
+  - {fileID: 0}
   CheckAmount: 1
-  maxHeight: 15

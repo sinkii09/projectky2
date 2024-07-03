@@ -17,7 +17,7 @@ MonoBehaviour:
   Radius: 5
   MinRange: 0
   MaxRange: 30
-  abilityAnimationTrigger: Bomb
+  abilityAnimationTrigger: CrossBow
   rejectionAnimationTrigger: 
   executeTime: 0.15
   durationTime: 1

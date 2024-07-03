@@ -56,7 +56,7 @@ public class ClientInputSender : NetworkBehaviour
         m_ChatUI = FindObjectOfType<ChatUI>();
 
         m_RangeIndicator.Initialize(m_PhysicsWrapper.Transform);
-        m_RadiusIndicator.Initialize(m_MousePoint);
+        m_RadiusIndicator.Initialize(m_MousePoint,m_ServerCharacter.CharacterStats.SpecialAbility.indicatorTexture);
         
         m_InputReader.MoveEvent += InputReader_MoveEvent;
         m_InputReader.SpecialInputEvent += InputReader_SpecialInputEvent;
@@ -85,7 +85,11 @@ public class ClientInputSender : NetworkBehaviour
         {
             case AttackType.BaseAttack:
                 Ability special = m_ServerCharacter.CharacterStats.SpecialAbility;
-                ShowIndicator(special);
+                if (special == null) return;
+                if(special.ShowIndicator)
+                {
+                    ShowIndicator(special);
+                }
                 m_AttackType = AttackType.SpecialAbility;
                 return;
             case AttackType.SpecialAbility:

@@ -33,6 +33,10 @@ public class FriendListUI : MonoBehaviour
     List<FriendCard> friendCardList = new List<FriendCard>();
     List<FriendRequestCard> requestCardList = new List<FriendRequestCard>();
 
+    private void Awake()
+    {
+        mainMenuUI = FindObjectOfType<MainMenuLogic>();
+    }
     private void Start()
     {
         friendListToggle.onValueChanged.AddListener((isOn) => {
@@ -47,12 +51,6 @@ public class FriendListUI : MonoBehaviour
         });
         browserButton.onClick.AddListener(Browser);
 
-        mainMenuUI = FindObjectOfType<MainMenuLogic>();
-        if (ClientSingleton.Instance.Manager != null)
-        {
-            friendListToggle.isOn = true;
-            SwitchUIState(friendUIState.friendList);
-        }
     }
     private void OnDestroy()
     {
@@ -70,7 +68,11 @@ public class FriendListUI : MonoBehaviour
     }
     private void OnEnable()
     {
-        
+        if (ClientSingleton.Instance.Manager != null)
+        {
+            friendListToggle.isOn = true;
+            SwitchUIState(friendUIState.friendList);
+        }
     }
     void SwitchUIState(friendUIState state)
     {

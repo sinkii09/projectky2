@@ -46,14 +46,15 @@ public class AOELaunch : Ability
         }
     }
     private void PerformAOE(ServerCharacter serverCharacter, AbilityRequest data)
-    {
+    {  
         CoroutineRunner.Instance.StartCoroutine(ExecuteTimeDelay());
         isStart = true;
-        SpawnEffectRpc(data.Position);
+        serverCharacter.ClientCharacter.ClientPlayEffectRpc(data.Position);
     }
-    [Rpc(SendTo.ClientsAndHost)]
-    void SpawnEffectRpc(Vector3 position)
+
+    public override void OnPlayClient(ClientCharacter clientCharacter,Vector3 position)
     {
+        Debug.Log("play");
         var abilityFX = ParticlePool.Singleton.GetObject(effect[0], position, Quaternion.identity);
         abilityFX.GetComponent<SpecialFXGraphic>().OnInitialized(effect[0]);
         bool hasVFX = abilityFX.TryGetComponent(out VisualEffect VFX);

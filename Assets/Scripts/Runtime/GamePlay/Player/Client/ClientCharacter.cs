@@ -29,13 +29,14 @@ public class ClientCharacter : NetworkBehaviour
 
     ClientSkillPlayer m_ClientActionPlayer;
 
+    ClientAbilityHandler m_ClientAbilityHandler;
     public bool CanPerformSkill => m_ServerCharacter.CanPerformSkills;
     #endregion
     #region VFX
-    [SerializeField] ParticleSystem m_RevivePart;
-    [SerializeField] ParticleSystem m_FaintedPart;
-    [SerializeField] ParticleSystem m_NewWeaponPart;
-    [SerializeField] ParticleSystem m_BaseWeaponPart;
+    [SerializeField] GameObject m_RevivePart;
+    [SerializeField] GameObject m_FaintedPart;
+    [SerializeField] GameObject m_NewWeaponPart;
+    [SerializeField] GameObject m_BaseWeaponPart;
 
     #endregion
     PositionLerper m_PositionLerper;
@@ -55,11 +56,6 @@ public class ClientCharacter : NetworkBehaviour
     {
         SkillRequestData data1 = data;
         m_ClientActionPlayer.PlaySKill(ref data1);
-    }
-    [Rpc(SendTo.ClientsAndHost)]
-    public void ClientCancelSkillByIDRpc(SkillID skillID)
-    {
-        m_ClientActionPlayer.CancelAllSKillWithSamePrototypeID(skillID);
     }
     private void Awake()
     {
@@ -82,6 +78,7 @@ public class ClientCharacter : NetworkBehaviour
         enabled = true;
 
         m_ClientActionPlayer = new ClientSkillPlayer(this);
+        m_ClientAbilityHandler = new ClientAbilityHandler(this);
         m_ServerCharacter = GetComponentInParent<ServerCharacter>();
         m_ClientVisualsAnimator = m_NetworkAnimator.Animator;
         
@@ -112,11 +109,13 @@ public class ClientCharacter : NetworkBehaviour
     {
         if(newValue == serverCharacter.CharacterStats.WeaponData.Id)
         {
-            Instantiate(m_BaseWeaponPart, m_ServerCharacter.physicsWrapper.transform);
+            var fx = ParticlePool.Singleton.GetObject(m_NewWeaponPart, m_ServerCharacter.physicsWrapper.transform.position, Quaternion.identity);
+            fx.GetComponent<SpecialFXGraphic>().OnInitialized(m_NewWeaponPart);
         }
         else
         {
-            Instantiate(m_NewWeaponPart, m_ServerCharacter.physicsWrapper.transform);
+            var fx = ParticlePool.Singleton.GetObject(m_BaseWeaponPart, m_ServerCharacter.physicsWrapper.transform.position, Quaternion.identity);
+            fx.GetComponent<SpecialFXGraphic>().OnInitialized(m_BaseWeaponPart);
         }
     }
 
@@ -124,11 +123,13 @@ public class ClientCharacter : NetworkBehaviour
     {
         if(newValue == LifeStateEnum.Alive)
         {
-            Instantiate(m_RevivePart, m_ServerCharacter.physicsWrapper.transform);
+            var fx = ParticlePool.Singleton.GetObject(m_RevivePart, m_ServerCharacter.physicsWrapper.transform.position, Quaternion.identity);
+            fx.GetComponent<SpecialFXGraphic>().OnInitialized(m_RevivePart);
         }
         if(newValue == LifeStateEnum.Dead)
         {
-            Instantiate(m_FaintedPart, m_ServerCharacter.physicsWrapper.transform);
+            var fx =  ParticlePool.Singleton.GetObject(m_FaintedPart, m_ServerCharacter.physicsWrapper.transform.position,Quaternion.identity);
+            fx.GetComponent<SpecialFXGraphic>().OnInitialized(m_FaintedPart);
         }
     }
 
@@ -203,4 +204,12 @@ public class ClientCharacter : NetworkBehaviour
     {
         m_Visual.SetActive(isActive);
     }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    internal void ClientPlayEffectRpc(Vector3 position)
+    {
+        Ability ability = m_ServerCharacter.CharacterStats.SpecialAbility;
+        m_ClientAbilityHandler.PlayAbility(ability, position);
+    }
 }
+

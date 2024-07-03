@@ -156,6 +156,7 @@ public class ServerCharacter : NetworkBehaviour
     {
         if (isGameOver.Value) return;
         if (LifeState.Value != LifeStateEnum.Alive) return;
+        
         m_ServerAbilityHandler.ReceiveAbilityRequest(data);
     }
     #endregion

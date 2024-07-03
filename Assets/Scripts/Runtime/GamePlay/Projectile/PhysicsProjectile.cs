@@ -6,15 +6,9 @@ using UnityEngine;
 public class PhysicsProjectile : NetworkBehaviour
 {
     const int k_MaxCollisions = 99;
-    const float k_WallLingerSec = 2f;
-    const float k_EnemyLingerSec = 0.2f;
-    const float k_LerpTime = 0.1f;
 
     [SerializeField]
     protected SphereCollider m_OurCollider;
-
-    //[SerializeField]
-    //protected SpecialFXGraphic m_OnHitParticlePrefab;
 
     [SerializeField]
     protected Transform m_Visualization;
@@ -23,6 +17,7 @@ public class PhysicsProjectile : NetworkBehaviour
     protected TrailRenderer m_TrailRenderer;
     [SerializeField]
     protected GameObject m_hitParticle;
+
     protected bool m_Started;
     protected bool m_IsDead;
 
@@ -64,11 +59,12 @@ public class PhysicsProjectile : NetworkBehaviour
         }
         if (IsClient)
         {
-            m_TrailRenderer.Clear();
-
+            if(m_TrailRenderer)
+            {
+                m_TrailRenderer.Clear();
+            }
             m_Visualization.parent = null;
             m_Visualization.transform.rotation = transform.rotation;
-            //   m_PositionLerper = new PositionLerper(transform.position, k_LerpTime);
         }
     }
 
@@ -81,7 +77,10 @@ public class PhysicsProjectile : NetworkBehaviour
 
         if (IsClient)
         {
-            m_TrailRenderer.Clear();
+            if (m_TrailRenderer)
+            {
+                m_TrailRenderer.Clear();
+            }
             m_Visualization.parent = transform;
         }
     }
@@ -90,7 +89,7 @@ public class PhysicsProjectile : NetworkBehaviour
         if(IsClient)
         {
 
-                m_Visualization.position = transform.position;
+            m_Visualization.position = transform.position;
             
         }
     }
@@ -101,7 +100,15 @@ public class PhysicsProjectile : NetworkBehaviour
         {
             return;
         }
-        if(m_DestroyAtSec < Time.fixedTime)
+        if (m_DestroyAtSec < Time.fixedTime)
+        {
+            m_IsDead = true;
+        }
+        if (!m_IsDead)
+        {
+            DetectCollisions();
+        }
+        else
         {
             var networkObject = gameObject.GetComponent<NetworkObject>();
             networkObject.Despawn();
@@ -110,10 +117,7 @@ public class PhysicsProjectile : NetworkBehaviour
         var displacement = transform.forward * (m_ProjectileInfo.Speed * Time.fixedDeltaTime);
         transform.position += displacement;
 
-        if (!m_IsDead)
-        {
-            DetectCollisions();
-        }
+
     }
     protected virtual void DetectCollisions()
     {
@@ -125,9 +129,8 @@ public class PhysicsProjectile : NetworkBehaviour
 
             if ((layerTest & m_BlockerMask) != 0)
             {
-                m_ProjectileInfo.Speed = 0;
+                ClientHitEnemyRpc(transform.position);
                 m_IsDead = true;
-                m_DestroyAtSec = Time.fixedTime + k_WallLingerSec;
                 return;
             }
             if (m_CollisionCache[i].gameObject.GetComponent<ServerCharacter>().OwnerClientId == m_SpawnerId) continue;
@@ -137,14 +140,13 @@ public class PhysicsProjectile : NetworkBehaviour
 
                 if (m_HitTargets.Count >= m_ProjectileInfo.MaxVictims)
                 {
-                    m_DestroyAtSec = Time.fixedTime + k_EnemyLingerSec;
                     m_IsDead = true;
                 }
 
                 var targetNetObj = m_CollisionCache[i].GetComponentInParent<NetworkObject>();
                 if (targetNetObj)
                 {
-                    ClientHitEnemyRpc(targetNetObj.NetworkObjectId);
+                    ClientHitEnemyRpc(transform.position);
 
                     NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(m_SpawnerId, out var spawnerNet);
                     var spawnerObj = spawnerNet != null ? spawnerNet.GetComponent<ServerCharacter>() : null;
@@ -163,16 +165,13 @@ public class PhysicsProjectile : NetworkBehaviour
         }
     }
     [Rpc(SendTo.ClientsAndHost)]
-    protected virtual void ClientHitEnemyRpc(ulong enemyId)
+    protected virtual void ClientHitEnemyRpc(Vector3 position)
     {
-        NetworkObject targetNetObject;
-        if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(enemyId, out targetNetObject))
+        if(m_hitParticle)
         {
-            if(m_hitParticle)
-            {
-                var hitPart = ParticlePool.Singleton.GetObject(m_hitParticle,transform.position,transform.rotation);
-                hitPart.GetComponent<SpecialFXGraphic>().OnInitialized(m_hitParticle);
-            }
+            var hitPart = ParticlePool.Singleton.GetObject(m_hitParticle,position,transform.rotation);
+            hitPart.GetComponent<SpecialFXGraphic>().OnInitialized(m_hitParticle);
         }
+
     }
 }

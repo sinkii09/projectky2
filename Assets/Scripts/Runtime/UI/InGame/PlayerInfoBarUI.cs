@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Collections.LowLevel.Unsafe;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,7 +16,11 @@ public class PlayerInfoBarUI : NetworkBehaviour
     [SerializeField] ServerCharacter serverCharacter;
 
     private bool invert = true;
-
+    private void Update()
+    {
+        if(!IsSpawned) return;
+        healthbarUI.value = Mathf.LerpUnclamped(healthbarUI.value, serverCharacter.NetHealthState.HitPoints.Value, .01f);
+    }
     private void LateUpdate()
     {
         if(invert)
@@ -57,7 +62,7 @@ public class PlayerInfoBarUI : NetworkBehaviour
     
     private void OnHealthChange(int previousValue, int newValue)
     {
-        healthbarUI.value = Mathf.Lerp(previousValue, newValue, 2);
+        
     }
 
     private void OnWeaponChange(WeaponID previousValue, WeaponID newValue)

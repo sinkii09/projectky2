@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2711567857024987227}
   - component: {fileID: 9058190509256425135}
   m_Layer: 9
-  m_Name: visual
+  m_Name: Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,14 +26,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1534389136318281414}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5996153408244213293}
   - {fileID: 630796729531972781}
-  m_Father: {fileID: 2594385188425808481}
+  m_Father: {fileID: 738595515691206691}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!108 &2711567857024987227
 Light:
@@ -120,6 +120,38 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!1 &5019999877997790309
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 738595515691206691}
+  m_Layer: 8
+  m_Name: Visual
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &738595515691206691
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5019999877997790309}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2161989945739734140}
+  m_Father: {fileID: 2594385188425808481}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8787849450496161361
 GameObject:
   m_ObjectHideFlags: 0
@@ -132,7 +164,7 @@ GameObject:
   - component: {fileID: 1349775423125945440}
   - component: {fileID: 2380156774571299083}
   - component: {fileID: 2161666127466319152}
-  - component: {fileID: 8743245256871029334}
+  - component: {fileID: -5833603195718760587}
   m_Layer: 8
   m_Name: FireBall
   m_TagString: Untagged
@@ -153,7 +185,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2161989945739734140}
+  - {fileID: 738595515691206691}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1349775423125945440
@@ -193,9 +225,9 @@ MonoBehaviour:
   SyncPositionX: 1
   SyncPositionY: 1
   SyncPositionZ: 1
-  SyncRotAngleX: 0
-  SyncRotAngleY: 0
-  SyncRotAngleZ: 0
+  SyncRotAngleX: 1
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 1
   SyncScaleX: 0
   SyncScaleY: 0
   SyncScaleZ: 0
@@ -229,7 +261,7 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.8
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8743245256871029334
+--- !u!114 &-5833603195718760587
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -238,21 +270,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 8787849450496161361}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa93bdd9104fdf044a251bace26919f1, type: 3}
+  m_Script: {fileID: 11500000, guid: 7ee8d1e77dcbd6947ad14cc96e7a83c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visual: {fileID: 1534389136318281414}
-  sphereCollider: {fileID: 2161666127466319152}
+  m_OurCollider: {fileID: 2161666127466319152}
+  m_Visualization: {fileID: 738595515691206691}
+  m_TrailRenderer: {fileID: 0}
   m_hitParticle: {fileID: 2504214343621411470, guid: 3ed0d324122d7b24eaec75c55c74aafc,
     type: 3}
-  startPoint: {x: 0, y: 0, z: 0}
-  controlPoint: {x: 0, y: 0, z: 0}
-  endPoint: {x: 0, y: 0, z: 0}
-  speed: 25
-  explosionRadius: 1.5
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!1001 &4866361562258218731
 PrefabInstance:
   m_ObjectHideFlags: 0

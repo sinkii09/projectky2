@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b49046d4ac7561a47bc6ec6a8b610011, type: 3}
+  m_Name: SlamDunk
+  m_EditorClassIdentifier: 
+  abilityName: SlamDunk
+  Damage: 80
+  Radius: 5
+  MinRange: 1
+  MaxRange: 35
+  abilityAnimationTrigger: Bomb
+  rejectionAnimationTrigger: 
+  executeTime: 0
+  durationTime: 0
+  projectileInfoList: []
+  weaponVisual: []
+  effect:
+  - {fileID: 3432958286849152088, guid: 87ee7299dd44ed747af24dbb91bcd33b, type: 3}
+  - {fileID: 1429954232896169633, guid: 83036083a4ebcd34f98131bd3cf6f4d2, type: 3}
+  indicatorTexture: {fileID: 0}
+  CheckAmount: 0
+  ShowIndicator: 1
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 64

@@ -14,16 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: ArrowShot
   Damage: 0
+  Radius: 0
   MinRange: 30
   MaxRange: 30
   abilityAnimationTrigger: CrossBow
   rejectionAnimationTrigger: 
   executeTime: 0.15
+  durationTime: 0
   projectileInfoList:
   - Prefab: {fileID: 8787849450496161361, guid: 60f87e45e44fc4746a2c1859453942d1,
       type: 3}
-    Speed: 20
+    Speed: 30
     Range: 20
     Damage: 10
     MaxVictims: 1
+  weaponVisual: []
+  effect: []
   CheckAmount: 1

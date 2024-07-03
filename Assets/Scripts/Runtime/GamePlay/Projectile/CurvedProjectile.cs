@@ -8,9 +8,9 @@ public class CurvedProjectile : NetworkBehaviour
     [SerializeField] GameObject visual;
     [SerializeField] SphereCollider sphereCollider;
     [SerializeField] GameObject m_hitParticle;
-    public Vector3 startPoint;
-    public Vector3 controlPoint;
-    public Vector3 endPoint;
+    private Vector3 startPoint;
+    private Vector3 controlPoint;
+    private Vector3 endPoint;
     public float speed;
     private float t;
     private ProjectileInfo projectileInfo;
@@ -23,7 +23,7 @@ public class CurvedProjectile : NetworkBehaviour
     private NetworkVariable<Vector3> networkPosition = new NetworkVariable<Vector3>();
 
     bool isDead;
-    public void Initialize(Vector3 start, Vector3 control, Vector3 end, ProjectileInfo info,ServerCharacter serverCharacter = null)
+    public void Initialize(Vector3 start, Vector3 control, Vector3 end, in ProjectileInfo info,ServerCharacter serverCharacter = null)
     {
             startPoint = start;
             controlPoint = control;

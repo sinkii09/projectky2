@@ -63,6 +63,11 @@ public class CharacterMovement : NetworkBehaviour
     {
         m_MovementState = MovementState.Idle;
     }
+    public void Jump()
+    {
+        CancelMove();
+        m_MovementState = MovementState.Jump;
+    }
     private void FixedUpdate()
     {
 
@@ -92,14 +97,7 @@ public class CharacterMovement : NetworkBehaviour
 
         if (m_MovementState == MovementState.Jump)
         {
-            m_SpecialModeDurationRemaining -= Time.fixedDeltaTime;
-            if (m_SpecialModeDurationRemaining <= 0)
-            {
-                m_MovementState = MovementState.Idle;
-                return;
-            }
-            desiredMovementAmount = jumpSpeed * Time.fixedDeltaTime;
-            movementVector = jumpDirection;
+            return;
         }
         else if (m_MovementState == MovementState.Knockback)
         {

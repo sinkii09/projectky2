@@ -1,0 +1,61 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using Unity.Netcode;
+using UnityEngine;
+
+[CreateAssetMenu(fileName = "CircleShot", menuName = "Abilities/CircleShot")]
+public class CircleShot : Ability
+{
+    bool isStart;
+    AbilityRequest data;
+    public override void Activate(ServerCharacter serverCharacter, AbilityRequest data)
+    {
+        this.data = data;
+        serverCharacter.physicsWrapper.Transform.forward = data.Direction;
+        serverCharacter.ServerAnimationHandler.NetworkAnimator.SetTrigger(abilityAnimationTrigger);
+        serverCharacter.ClientCharacter.ClientPlayEffectRpc(data.Position);
+        LaunchAbility(serverCharacter, data);
+    }
+    public override bool CanActivate(ServerCharacter serverCharacter)
+    {
+        return true;
+    }
+
+    private void LaunchAbility(ServerCharacter serverCharacter, AbilityRequest data)
+    {
+        CoroutineRunner.Instance.StartCoroutine(ExecuteTimeDelay());
+        isStart = true;
+        var projectileInfo = GetProjectileInfo();
+        for (int i = 0; i < Damage; i++)
+        {
+            float angle = i * Mathf.PI * 2f / Damage;
+            Vector3 spawnPos = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * MaxRange + serverCharacter.physicsWrapper.Transform.position;
+            Quaternion rotation = Quaternion.LookRotation(spawnPos - serverCharacter.physicsWrapper.Transform.position);
+            NetworkObject networkObject = NetworkObjectPool.Singleton.GetNetworkObject(projectileInfo.Prefab, spawnPos + Vector3.up, rotation);
+            networkObject.GetComponent<PhysicsProjectile>().Initialize(serverCharacter.OwnerClientId, projectileInfo, networkObject.transform);
+            networkObject.Spawn(true);
+        }
+        if (CheckAmount)
+        {
+            DecreaseAmount(serverCharacter);
+        }
+    }
+    protected virtual ProjectileInfo GetProjectileInfo()
+    {
+        foreach (var projectileInfo in projectileInfoList)
+        {
+            if (projectileInfo.Prefab && projectileInfo.Prefab.GetComponent<PhysicsProjectile>())
+                return projectileInfo;
+        }
+        throw new Exception($"Action {name} has no usable Projectiles!");
+    }
+    public override void OnPlayClient(ClientCharacter clientCharacter, Vector3 position)
+    {
+        foreach(var effect in effect)
+        {
+            var abilityFX = ParticlePool.Singleton.GetObject(effect, position, Quaternion.identity);
+            abilityFX.GetComponent<SpecialFXGraphic>().OnInitialized(effect);
+        }
+    }
+}
