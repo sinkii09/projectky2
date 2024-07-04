@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7094671763552260837}
   - component: {fileID: 6982231466138473803}
   - component: {fileID: 3365175886351204202}
-  - component: {fileID: 5973735702229322465}
+  - component: {fileID: 4322327597296338349}
   m_Layer: 6
   m_Name: Toon Projectiles 2 - Twist
   m_TagString: Untagged
@@ -124,7 +124,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &5973735702229322465
+--- !u!114 &4322327597296338349
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -133,80 +133,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 1259081841748793672}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7fbf2b16c5e4ce797050f6f3bb0450d, type: 3}
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectileData: {fileID: 11400000, guid: 22c3c29e859d74416ad8323a9f09f553, type: 2}
-  spawnBehavior: {fileID: 11400000, guid: 9ae15af4a6341451fb4a33393d6d210d, type: 2}
-  spawnBehaviorModifications:
-  - {fileID: 11400000, guid: 8f5d9b486e1b1463db3bc6d98ee4eba2, type: 2}
-  behaviors:
-  - {fileID: 11400000, guid: 97476774f712640e696ae44ac410d869, type: 2}
-  - {fileID: 11400000, guid: 4b7fef9b5da25431b9a9ae578e9f1d9f, type: 2}
-  - {fileID: 11400000, guid: 2f506d213fb694ee393bf58aecedcf2a, type: 2}
-  - {fileID: 11400000, guid: 6f18c9f4f56334f3b84c58baff216a92, type: 2}
-  - {fileID: 11400000, guid: 6624c6e373f464049aa9ea5bbbf4cd7a, type: 2}
-  observers: []
-  registerWithProjectileFactoryManager: 1
-  useObjectPool: 1
-  poolUniqueID: -1
-  spawnBehaviorModificationsInstances: []
-  OnLaunch:
-    m_PersistentCalls:
-      m_Calls: []
-  OnProjectileStopped:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDoTriggerEnter:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDoTriggerExit:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDoTriggerStay:
-    m_PersistentCalls:
-      m_Calls: []
-  OnReturnToPool:
-    m_PersistentCalls:
-      m_Calls: []
-  OnGetFromPool:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDoCollisionEnter:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDoCollisionExit:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDoCollisionStay:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDoDestroy:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDoDisable:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDoEnable:
-    m_PersistentCalls:
-      m_Calls: []
-  OnReset:
-    m_PersistentCalls:
-      m_Calls: []
-  OnProjectileSpawnerSet:
-    m_PersistentCalls:
-      m_Calls: []
-  maxCollisionsPerFrame: 1
-  lookForwardAtSpawn: 0
-  collisionMask:
-    serializedVersion: 2
-    m_Bits: 0
-  overrideCollisionMask: 0
-  preLaunchTrajectory: {fileID: 0}
-  preLaunchTrajectoryInstance: {fileID: 0}
-  useAltTargetPosition: 0
-  hideTarget: 0
-  altTargetPosition: {x: 0, y: 0, z: 0}
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1 &5324710498200711246
 GameObject:
   m_ObjectHideFlags: 0
@@ -5055,7 +4995,7 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 0}
-  - {fileID: 2100000, guid: b1f56073b8a59f144b3573e66f655ad9, type: 2}
+  - {fileID: 2100000, guid: f6563755a94b0d74da51c7baa532d798, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9939,7 +9879,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 12fb1d84a82a2de4f8b3e8b1f2747b43, type: 2}
+  - {fileID: 2100000, guid: 41e018a6cf0c896418fc0b89dda748c6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

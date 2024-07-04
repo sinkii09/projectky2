@@ -208,10 +208,10 @@ public class ClientCharacter : NetworkBehaviour
     }
 
     [Rpc(SendTo.ClientsAndHost)]
-    internal void ClientPlayEffectRpc(Vector3 position)
+    internal void ClientPlayEffectRpc(Vector3 position, int num = 0)
     {
         Ability ability = m_ServerCharacter.CharacterStats.SpecialAbility;
-        m_ClientAbilityHandler.PlayAbility(ability, position);
+        m_ClientAbilityHandler.PlayAbility(ability, position,num);
     }
 }
 

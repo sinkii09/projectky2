@@ -24,7 +24,8 @@ MonoBehaviour:
   projectileInfoList: []
   weaponVisual: []
   effect:
-  - {fileID: 3432958286849152088, guid: 87ee7299dd44ed747af24dbb91bcd33b, type: 3}
+  - {fileID: 6489904609392337134, guid: 6bb3c43c574ec1c4cbd6eacbde312dde, type: 3}
+  - {fileID: 7029067538941937895, guid: 13ffad0aee551704eaf16b9def80090d, type: 3}
   - {fileID: 1429954232896169633, guid: 83036083a4ebcd34f98131bd3cf6f4d2, type: 3}
   indicatorTexture: {fileID: 0}
   CheckAmount: 0

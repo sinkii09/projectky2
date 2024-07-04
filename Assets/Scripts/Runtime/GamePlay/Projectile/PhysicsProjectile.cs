@@ -126,7 +126,6 @@ public class PhysicsProjectile : NetworkBehaviour
         for (int i = 0; i < numCollisions; i++)
         {
             int layerTest = 1 << m_CollisionCache[i].gameObject.layer;
-
             if ((layerTest & m_BlockerMask) != 0)
             {
                 ClientHitEnemyRpc(transform.position);

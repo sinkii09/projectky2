@@ -9,8 +9,8 @@ public class ClientAbilityHandler
     {
         this.clientCharacter = clientCharacter;
     }
-    public void PlayAbility(Ability ability,Vector3 position)
+    public void PlayAbility(Ability ability,Vector3 position,int num = 0)
     {
-        ability.OnPlayClient(clientCharacter, position);
+        ability.OnPlayClient(clientCharacter, position,num);
     }
 }

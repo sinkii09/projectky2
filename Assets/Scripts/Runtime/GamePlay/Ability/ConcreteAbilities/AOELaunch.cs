@@ -53,9 +53,8 @@ public class AOELaunch : Ability
         serverCharacter.ClientCharacter.ClientPlayEffectRpc(data.Position);
     }
 
-    public override void OnPlayClient(ClientCharacter clientCharacter,Vector3 position)
+    public override void OnPlayClient(ClientCharacter clientCharacter,Vector3 position, int num = 0)
     {
-        Debug.Log("play");
         var abilityFX = ParticlePool.Singleton.GetObject(effect[0], position, Quaternion.identity);
         abilityFX.GetComponent<SpecialFXGraphic>().OnInitialized(effect[0]);
         bool hasVFX = abilityFX.TryGetComponent(out VisualEffect VFX);

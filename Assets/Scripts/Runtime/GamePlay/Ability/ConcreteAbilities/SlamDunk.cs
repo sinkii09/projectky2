@@ -99,7 +99,7 @@ public class SlamDunk : Ability
         isStart = true;
         serverCharacter.Movement.Jump();
     }
-    public override void OnPlayClient(ClientCharacter clientCharacter, Vector3 position)
+    public override void OnPlayClient(ClientCharacter clientCharacter, Vector3 position, int num = 0)
     {
         foreach (var effect in effect)
         {

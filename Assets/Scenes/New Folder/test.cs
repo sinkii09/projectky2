@@ -16,7 +16,7 @@ public class test : MonoBehaviour
     private Vector3 startPoint;
     private Vector3 controlPoint;
     private Vector3 endPoint;
-
+    Collider[] m_CollisionCache = new Collider[3];
     [SerializeField] GameObject testObject;
     private void Start()
     {
@@ -24,21 +24,34 @@ public class test : MonoBehaviour
     }
     private void Update()
     {
-        if (isStart)
-        {
-            if (t < 1)
-            {
-                t += Time.deltaTime * 20 / totalDistance;
-                testObject.transform.position = CalculateBezierPoint(t, startPoint, controlPoint, endPoint);
-                Debug.Log(CalculateBezierPoint(t, startPoint, controlPoint, endPoint));
-            }
-        }
+        //if (isStart)
+        //{
+        //    if (t < 1)
+        //    {
+        //        t += Time.deltaTime * 20 / totalDistance;
+        //        testObject.transform.position = CalculateBezierPoint(t, startPoint, controlPoint, endPoint);
+        //        Debug.Log(CalculateBezierPoint(t, startPoint, controlPoint, endPoint));
+        //    }
+        //}
         if(Input.GetMouseButtonDown(0))
         {
-            PerformAbility();
+            Run();
+        }
+        Detect();
+    }
+    void Run()
+    {
+        testObject.GetComponent<Rigidbody>().AddForce(testObject.transform.forward * 5,ForceMode.VelocityChange);
+    }
+    void Detect()
+    {
+        var numCollisions = Physics.OverlapSphereNonAlloc(testObject.transform.position, 2, m_CollisionCache, LayerMask.GetMask("Environment"));
+        if(numCollisions > 0 )
+        {
+            testObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            Debug.Log("stop");
         }
     }
-
     private Vector3 CalculateBezierPoint(float t, Vector3 startPoint, Vector3 controlPoint, Vector3 endPoint)
     {
         float u = 1 - t;

@@ -14,10 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Melee
   Damage: 10
+  Radius: 0
   MinRange: 2
   MaxRange: 2
   abilityAnimationTrigger: Melee
   rejectionAnimationTrigger: 
   executeTime: 0.2
+  durationTime: 0
   projectileInfoList: []
+  weaponVisual: []
+  effect:
+  - {fileID: 4437618558610173464, guid: 552891765cf1b1a48815f00b0ac18d83, type: 3}
+  - {fileID: 8525990746615576120, guid: b85d21f3b8fed714bacf0c4fd50fa512, type: 3}
+  indicatorTexture: {fileID: 0}
   CheckAmount: 0
+  ShowIndicator: 0

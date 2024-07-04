@@ -33,7 +33,7 @@ public abstract class Ability : ScriptableObject
     {
 
     }
-    public virtual void OnPlayClient(ClientCharacter clientCharacter,Vector3 position) { }
+    public virtual void OnPlayClient(ClientCharacter clientCharacter,Vector3 position,int num = 0) { }
 
     protected IEnumerator ExecuteTimeDelay()
     {

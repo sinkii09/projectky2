@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3401965285426056171}
   - component: {fileID: 837703421529428100}
   - component: {fileID: 5613625347629729862}
-  - component: {fileID: 7103859652264154587}
+  - component: {fileID: 8800665595293478289}
   m_Layer: 6
   m_Name: Toon Projectiles 2 - Red Star
   m_TagString: Untagged
@@ -32,7 +32,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7167919701903917252}
   - {fileID: 3058271064057140684}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -125,7 +124,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &7103859652264154587
+--- !u!114 &8800665595293478289
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -134,79 +133,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 207793246506683297}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7fbf2b16c5e4ce797050f6f3bb0450d, type: 3}
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectileData: {fileID: 11400000, guid: 22c3c29e859d74416ad8323a9f09f553, type: 2}
-  spawnBehavior: {fileID: 11400000, guid: 4c04ba313f663455493e1a476cab29c2, type: 2}
-  spawnBehaviorModifications:
-  - {fileID: 11400000, guid: 1fe6b32d66f034bc6b7bf7ca3edf04d3, type: 2}
-  behaviors:
-  - {fileID: 11400000, guid: db901455e24ba43d182c6c29dbfc1e60, type: 2}
-  - {fileID: 11400000, guid: 97476774f712640e696ae44ac410d869, type: 2}
-  - {fileID: 11400000, guid: 4b7fef9b5da25431b9a9ae578e9f1d9f, type: 2}
-  - {fileID: 11400000, guid: 88188b5351f2144c09736362f4727cbd, type: 2}
-  observers: []
-  registerWithProjectileFactoryManager: 1
-  useObjectPool: 1
-  poolUniqueID: -1
-  spawnBehaviorModificationsInstances: []
-  OnLaunch:
-    m_PersistentCalls:
-      m_Calls: []
-  OnProjectileStopped:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDoTriggerEnter:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDoTriggerExit:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDoTriggerStay:
-    m_PersistentCalls:
-      m_Calls: []
-  OnReturnToPool:
-    m_PersistentCalls:
-      m_Calls: []
-  OnGetFromPool:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDoCollisionEnter:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDoCollisionExit:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDoCollisionStay:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDoDestroy:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDoDisable:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDoEnable:
-    m_PersistentCalls:
-      m_Calls: []
-  OnReset:
-    m_PersistentCalls:
-      m_Calls: []
-  OnProjectileSpawnerSet:
-    m_PersistentCalls:
-      m_Calls: []
-  maxCollisionsPerFrame: 1
-  lookForwardAtSpawn: 0
-  collisionMask:
-    serializedVersion: 2
-    m_Bits: 0
-  overrideCollisionMask: 0
-  preLaunchTrajectory: {fileID: 0}
-  preLaunchTrajectoryInstance: {fileID: 0}
-  useAltTargetPosition: 0
-  hideTarget: 0
-  altTargetPosition: {x: 0, y: 0, z: 0}
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1 &505730381257152470
 GameObject:
   m_ObjectHideFlags: 0
@@ -235,10 +175,10 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.0000005, y: 1, z: 1.0000005}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3401965285426056171}
+  m_Father: {fileID: 3058271064057140684}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!198 &8655638011484008987
 ParticleSystem:
@@ -5005,7 +4945,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c2de1047f148a2843bd3f7d16853d66d, type: 2}
+  - {fileID: 2100000, guid: 0aed4f47f3bcce64b83be8b64904bab4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5087,6 +5027,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 7167919701903917252}
   - {fileID: 5962681775871220181}
   m_Father: {fileID: 3401965285426056171}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9937,8 +9878,8 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 99d404cd1f3c08949850068fe920e052, type: 2}
-  - {fileID: 2100000, guid: b1f56073b8a59f144b3573e66f655ad9, type: 2}
+  - {fileID: 2100000, guid: 53f5a1c9b3cb469479f9a93dc915b1ab, type: 2}
+  - {fileID: 2100000, guid: 53f5a1c9b3cb469479f9a93dc915b1ab, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9980,9 +9921,9 @@ ParticleSystemRenderer:
   m_RotateWithStretchDirection: 1
   m_UseCustomVertexStreams: 0
   m_VertexStreams: 00010304
-  m_UseCustomTrailVertexStreams: 0
+  m_UseCustomTrailVertexStreams: 1
   m_TrailVertexStreams: 00010304
-  m_Mesh: {fileID: 4300000, guid: 6cd76237b8422824b95cded50cbec3fc, type: 3}
+  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}

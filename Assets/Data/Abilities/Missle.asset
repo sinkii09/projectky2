@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e380df8c54d04254daa5ffa431d2de3b, type: 3}
+  m_Name: Missle
+  m_EditorClassIdentifier: 
+  abilityName: Missle
+  Damage: 0
+  Radius: 5
+  MinRange: 100
+  MaxRange: 100
+  abilityAnimationTrigger: CrossBow
+  rejectionAnimationTrigger: 
+  executeTime: 0.15
+  durationTime: 0
+  projectileInfoList:
+  - Prefab: {fileID: 1462457652631714548, guid: d80d4d0b870d8d4448770dafb7942c9f,
+      type: 3}
+    Speed: 35
+    Range: 100
+    Damage: 80
+    MaxVictims: 1
+  weaponVisual: []
+  effect: []
+  indicatorTexture: {fileID: 0}
+  CheckAmount: 1
+  ShowIndicator: 1
