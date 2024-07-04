@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Missle
   Damage: 0
-  Radius: 5
+  Radius: 1
   MinRange: 100
   MaxRange: 100
   abilityAnimationTrigger: CrossBow
   rejectionAnimationTrigger: 
-  executeTime: 0.15
+  executeTime: 1
   durationTime: 0
   projectileInfoList:
   - Prefab: {fileID: 1462457652631714548, guid: d80d4d0b870d8d4448770dafb7942c9f,
@@ -31,5 +31,5 @@ MonoBehaviour:
   weaponVisual: []
   effect: []
   indicatorTexture: {fileID: 0}
-  CheckAmount: 1
+  CheckAmount: 0
   ShowIndicator: 1

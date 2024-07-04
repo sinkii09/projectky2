@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29acd5b2bb6dde341a27645618cc9aac, type: 3}
+  m_Name: Dash
+  m_EditorClassIdentifier: 
+  abilityName: Dash
+  Damage: 50
+  Radius: 2
+  MinRange: 5
+  MaxRange: 10
+  abilityAnimationTrigger: Bomb
+  rejectionAnimationTrigger: 
+  executeTime: 0.15
+  durationTime: 1
+  projectileInfoList: []
+  weaponVisual: []
+  effect:
+  - {fileID: 40428518095029017, guid: 90ea498c41b5a4c41a24b78b4038aba7, type: 3}
+  - {fileID: 5880797563127281583, guid: 265d3a5ba69981a4698ceabcedf368b0, type: 3}
+  indicatorTexture: {fileID: 0}
+  CheckAmount: 0
+  ShowIndicator: 0

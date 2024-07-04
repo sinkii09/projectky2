@@ -39,9 +39,11 @@ public class GamePlayBehaviour : NetworkBehaviour
                 NetworkManager.SceneManager.LoadScene(m_CharSelectScene, LoadSceneMode.Additive);
                 break;
             case GamePlayState.PlayGame:
+                NetworkManager.SceneManager.UnloadScene(SceneManager.GetSceneByName(m_CharSelectScene));
                 NetworkManager.SceneManager.LoadScene(m_MapScene, LoadSceneMode.Additive);
                 break;
             case GamePlayState.GameOver:
+                Debug.Log("Load post scene");
                 NetworkManager.SceneManager.LoadScene(m_PostScene, LoadSceneMode.Single);
                 break;
         }
@@ -64,13 +66,7 @@ public class GamePlayBehaviour : NetworkBehaviour
     }
     private void CountDownTimer_OnTimeExpired()
     {
-        if(currentGamePlayState == GamePlayState.SelectCharacter)
-        {
-
-            
-
-        }
-        else if(currentGamePlayState == GamePlayState.PlayGame)
+        if(currentGamePlayState == GamePlayState.PlayGame)
         {
             OnGameOver?.Invoke();
             IsGameOver.Value = true;
@@ -88,7 +84,6 @@ public class GamePlayBehaviour : NetworkBehaviour
         else if(sceneName == m_MapScene)
         {
             Debug.Log("load game scene");
-            NetworkManager.SceneManager.UnloadScene(SceneManager.GetSceneByName(m_CharSelectScene));
             m_countDownTimer.StartCountdown(m_InGameCountdownDuration);
             return;
         }

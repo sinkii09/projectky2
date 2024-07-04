@@ -11,6 +11,7 @@ public enum MovementState
     Charging = 2,
     Knockback = 3,
     Jump = 4,
+    Dashing = 5,
 }
 [Serializable]
 public enum MovementStatus
@@ -40,15 +41,19 @@ public class CharacterMovement : NetworkBehaviour
     [SerializeField] private float moveSpeed = 10f;
     [SerializeField] private float jumpSpeed = 10f;
     private float m_ForcedSpeed;
+
+    bool CanMove;
     private void Awake()
     {
         enabled = false;
+        moveSpeed = m_ServerCharacter.CharacterStats.Speed;
     }
     public override void OnNetworkSpawn()
     {
         if (IsServer)
         {
             enabled = true;
+            CanMove = true;
         }
     }
 
@@ -57,6 +62,7 @@ public class CharacterMovement : NetworkBehaviour
         if (IsServer)
         {
             enabled = false;
+            CanMove = false;
         }
     }
     public void CancelMove()
@@ -68,11 +74,21 @@ public class CharacterMovement : NetworkBehaviour
         CancelMove();
         m_MovementState = MovementState.Jump;
     }
+    public void Dash()
+    {
+        CanMove = false;
+        m_MovementState = MovementState.Dashing;
+    }
+    public void CanMoving(bool isTrue)
+    {
+        CanMove = isTrue;
+    }
     private void FixedUpdate()
     {
-
-        PerformMovement();
-
+        if(CanMove)
+        {
+            PerformMovement();
+        }
         var currentState = GetMovementStatus(m_MovementState);
         if (m_PreviousState != currentState)
         {
@@ -95,7 +111,7 @@ public class CharacterMovement : NetworkBehaviour
             return;
         }
 
-        if (m_MovementState == MovementState.Jump)
+        else if (m_MovementState == MovementState.Jump)
         {
             return;
         }

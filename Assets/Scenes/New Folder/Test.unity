@@ -597,7 +597,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 5
+  m_Radius: 20
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &877762893
 GameObject:
@@ -957,6 +957,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: NetworkObjectPool
       objectReference: {fileID: 0}
+    - target: {fileID: 4037383595733310811, guid: e3366ac29a6b072469ec953ed9b31c6b,
+        type: 3}
+      propertyPath: PooledPrefabsList.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4037383595733310811, guid: e3366ac29a6b072469ec953ed9b31c6b,
+        type: 3}
+      propertyPath: PooledPrefabsList.Array.data[6].Prefab
+      value: 
+      objectReference: {fileID: 1462457652631714548, guid: d80d4d0b870d8d4448770dafb7942c9f,
+        type: 3}
+    - target: {fileID: 4037383595733310811, guid: e3366ac29a6b072469ec953ed9b31c6b,
+        type: 3}
+      propertyPath: PooledPrefabsList.Array.data[6].PrewarmCount
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1076,22 +1092,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1068440514383634134, guid: e851801d223a58f4ea34eab63a9b10ae,
-        type: 3}
-      propertyPath: PooledPrefabsList.Array.size
-      value: 27
-      objectReference: {fileID: 0}
-    - target: {fileID: 1068440514383634134, guid: e851801d223a58f4ea34eab63a9b10ae,
-        type: 3}
-      propertyPath: PooledPrefabsList.Array.data[26].Prefab
-      value: 
-      objectReference: {fileID: 8525990746615576120, guid: b85d21f3b8fed714bacf0c4fd50fa512,
-        type: 3}
-    - target: {fileID: 1068440514383634134, guid: e851801d223a58f4ea34eab63a9b10ae,
-        type: 3}
-      propertyPath: PooledPrefabsList.Array.data[26].PrewarmCount
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 1755615370475142199, guid: e851801d223a58f4ea34eab63a9b10ae,
         type: 3}
       propertyPath: m_LocalPosition.x
