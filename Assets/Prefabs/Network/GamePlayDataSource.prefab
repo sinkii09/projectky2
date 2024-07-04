@@ -47,8 +47,8 @@ MonoBehaviour:
   m_SkillPrototypes:
   - {fileID: 11400000, guid: f9a854d7f4e4d9a42952c7a8dd6cdbf2, type: 2}
   m_weaponDatas:
-  - {fileID: 11400000, guid: 0bc7bdd4ee6aafe4f8bf54725b2718c6, type: 2}
   - {fileID: 11400000, guid: b09338f2af95da54aa9c63d7c238deae, type: 2}
   - {fileID: 11400000, guid: 16b66f8af4373214897733240786b29d, type: 2}
+  - {fileID: 11400000, guid: 0bc7bdd4ee6aafe4f8bf54725b2718c6, type: 2}
   - {fileID: 11400000, guid: 9c0a2358b49ec9a44aa3706f76be4925, type: 2}
   - {fileID: 11400000, guid: b3385da0ea1e7d5409c60eac1c8beb11, type: 2}

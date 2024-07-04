@@ -158,6 +158,7 @@ public class ServerCharacter : NetworkBehaviour
         if (LifeState.Value != LifeStateEnum.Alive) return;
         
         m_ServerAbilityHandler.ReceiveAbilityRequest(data);
+        Debug.Log(data.Ability.name + " server");
     }
     public void DequeueAbility()
     {

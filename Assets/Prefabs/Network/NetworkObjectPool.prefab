@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2498137944
+  GlobalObjectIdHash: 3902283874
   InScenePlacedSourceGlobalObjectIdHash: 4167590572
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -83,5 +83,8 @@ MonoBehaviour:
       type: 3}
     PrewarmCount: 10
   - Prefab: {fileID: 1462457652631714548, guid: e460c12270540054bac8a9552f8c7322,
+      type: 3}
+    PrewarmCount: 10
+  - Prefab: {fileID: 1462457652631714548, guid: d80d4d0b870d8d4448770dafb7942c9f,
       type: 3}
     PrewarmCount: 10

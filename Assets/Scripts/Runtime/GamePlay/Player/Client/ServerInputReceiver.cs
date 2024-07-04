@@ -3,9 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
 
 public enum SkillTriggerStyle
 {
@@ -55,6 +52,7 @@ public class ServerInputReceiver : NetworkBehaviour
     {
         if (attackType == AttackType.SpecialAbility)
         {
+            
             RequestAction(hitPoint,AttackType.SpecialAbility, SkillTriggerStyle.MouseClick);
         }
         else
@@ -107,7 +105,7 @@ public class ServerInputReceiver : NetworkBehaviour
         {
             case AttackType.SpecialAbility:
             {
-                ability = m_ServerCharacter.CharacterStats.SpecialAbility;
+                    ability = m_ServerCharacter.CharacterStats.SpecialAbility;
                     if (Vector3.Distance(hitPoint, m_PhysicsWrapper.Transform.position) > ability.MaxRange)
                     {
                         return null;
@@ -115,10 +113,11 @@ public class ServerInputReceiver : NetworkBehaviour
                     data1 = new AbilityRequest(ability, position, direction);
                 break;
             }
-            default:
+            case AttackType.BaseAttack:
             {
-                var weapon = GamePlayDataSource.Instance.GetWeaponPrototypeByID(m_ServerCharacter.CurrentWeaponId.Value);
+                    var weapon = GamePlayDataSource.Instance.GetWeaponPrototypeByID(m_ServerCharacter.CurrentWeaponId.Value);
                     ability = weapon.Ability;
+                    
                     if (Vector3.Distance(hitPoint, m_PhysicsWrapper.Transform.position) > ability.MaxRange)
                     {
                         position = m_PhysicsWrapper.Transform.position + direction * ability.MaxRange;
@@ -130,6 +129,7 @@ public class ServerInputReceiver : NetworkBehaviour
                     data1 = new AbilityRequest(ability, position, direction);
                 break;
             }
+            default: return null;
         }
         return data1;
     }

@@ -18,6 +18,7 @@ public class GamePlayBehaviour : NetworkBehaviour
     [SerializeField] string m_CharSelectScene;
     [SerializeField] string m_MapScene;
     [SerializeField] string m_PostScene;
+    [SerializeField] string m_MainScene;
     [SerializeField] CountDownTimer m_countDownTimer;
     [SerializeField] float m_CharSelectCountdownDuration;
     [SerializeField] float m_InGameCountdownDuration;
@@ -39,14 +40,27 @@ public class GamePlayBehaviour : NetworkBehaviour
                 NetworkManager.SceneManager.LoadScene(m_CharSelectScene, LoadSceneMode.Additive);
                 break;
             case GamePlayState.PlayGame:
-                NetworkManager.SceneManager.UnloadScene(SceneManager.GetSceneByName(m_CharSelectScene));
-                NetworkManager.SceneManager.LoadScene(m_MapScene, LoadSceneMode.Additive);
+                UnloadScene(m_CharSelectScene, () =>
+                {
+                    NetworkManager.SceneManager.LoadScene(m_MapScene, LoadSceneMode.Additive);
+                });
                 break;
             case GamePlayState.GameOver:
                 Debug.Log("Load post scene");
                 NetworkManager.SceneManager.LoadScene(m_PostScene, LoadSceneMode.Single);
                 break;
         }
+    }
+    private void UnloadScene(string sceneName, Action onComplete)
+    {
+        StartCoroutine(UnloadSceneCoroutine(sceneName, onComplete));
+    }
+
+    private IEnumerator UnloadSceneCoroutine(string sceneName, Action onComplete)
+    {
+        var asyncUnload = NetworkManager.SceneManager.UnloadScene(SceneManager.GetSceneByName(sceneName));
+        yield return asyncUnload;
+        onComplete?.Invoke();
     }
     public override void OnNetworkSpawn()
     {
@@ -55,6 +69,7 @@ public class GamePlayBehaviour : NetworkBehaviour
             enabled = false;
             return;
         }
+        
         NetworkManager.SceneManager.OnLoadEventCompleted += SceneManager_OnLoadEventCompleted;
         m_countDownTimer.OnTimeExpired += CountDownTimer_OnTimeExpired;
     }
@@ -87,7 +102,10 @@ public class GamePlayBehaviour : NetworkBehaviour
             m_countDownTimer.StartCountdown(m_InGameCountdownDuration);
             return;
         }
-        LoadState(GamePlayState.SelectCharacter);
+        else if(sceneName == m_MainScene)
+        {
+            LoadState(GamePlayState.SelectCharacter);
+        }
     }
 
     IEnumerator LoadGamePlayCoroutine(float time,GamePlayState state)

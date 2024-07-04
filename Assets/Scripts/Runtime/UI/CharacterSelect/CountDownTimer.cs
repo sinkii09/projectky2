@@ -22,8 +22,13 @@ public class CountDownTimer : NetworkBehaviour
             if (!isStartCountdown) return;
             float elapsedTime = NetworkManager.LocalTime.TimeAsFloat - startTime;
             remainingTime.Value = Mathf.Max(0, countdownDuration - elapsedTime);
-            UpdateTimerServerRpc();
+            UpdateTimerServer();
         }
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
     }
 
     public override void OnNetworkDespawn()
@@ -41,8 +46,7 @@ public class CountDownTimer : NetworkBehaviour
     {
         return remainingTime.Value;
     }
-    [Rpc(SendTo.Server)]
-    void UpdateTimerServerRpc()
+    void UpdateTimerServer()
     {
         if (remainingTime.Value > 0)
         {

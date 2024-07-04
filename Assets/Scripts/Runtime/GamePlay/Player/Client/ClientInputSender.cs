@@ -108,7 +108,7 @@ public class ClientInputSender : NetworkBehaviour
     {
         m_CanInput = !m_ChatUI.IsChating;
         if (!m_CanInput) return;
-        if (!EventSystem.current.IsPointerOverGameObject())
+        if (!EventSystem.current.IsPointerOverGameObject() && Camera.main != null)
         {
             var ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
             Physics.RaycastNonAlloc(ray, k_CachedHit, k_MouseInputRaycastDistance, m_ActionLayerMask);
@@ -125,7 +125,8 @@ public class ClientInputSender : NetworkBehaviour
                         m_AttackType = AttackType.BaseAttack;
                         m_InputReceiver.RecvInputServerRpc(k_CachedHit[0].point,AttackType.SpecialAbility);
                         break;
-                }  
+                }
+                
             }
             if(Input.GetMouseButtonDown(1))
             {

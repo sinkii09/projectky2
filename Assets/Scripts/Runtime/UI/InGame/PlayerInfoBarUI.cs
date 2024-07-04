@@ -23,6 +23,7 @@ public class PlayerInfoBarUI : NetworkBehaviour
     }
     private void LateUpdate()
     {
+        if(Camera.main == null) return;
         if(invert)
         {
             Vector3 dirToCamera = (Camera.main.transform.position - transform.position).normalized;

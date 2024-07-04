@@ -31,6 +31,7 @@ public class ArrowShot : Ability
         {
             DecreaseAmount(serverCharacter);
         }
+        Debug.Log("launch");
         serverCharacter.DequeueAbility();
     }
     protected virtual ProjectileInfo GetProjectileInfo()

@@ -208,9 +208,20 @@ public class ClientCharacter : NetworkBehaviour
     }
 
     [Rpc(SendTo.ClientsAndHost)]
-    internal void ClientPlayEffectRpc(Vector3 position, int num = 0)
+    internal void ClientPlayEffectRpc(Vector3 position,int num = 0, int special = -1)
     {
-        Ability ability = m_ServerCharacter.CharacterStats.SpecialAbility;
+        Ability ability;
+        if (special == -1)
+        {
+            ability = m_ServerCharacter.CharacterStats.SpecialAbility;
+        }
+        else
+        {
+            
+            var weapon = GamePlayDataSource.Instance.GetWeaponPrototypeByID(m_ServerCharacter.CurrentWeaponId.Value);
+            ability = weapon.Ability;
+            Debug.Log(ability.name);
+        }
         m_ClientAbilityHandler.PlayAbility(ability, position,num);
     }
 }

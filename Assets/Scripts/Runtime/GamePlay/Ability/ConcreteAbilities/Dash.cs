@@ -29,6 +29,7 @@ public class Dash : Ability
         if (!isDashing && TimeRunning >= executeTime)
         {
             StartDash(serverCharacter);
+            Debug.Log("start dash");
         }
         if(isDashing)
         {
