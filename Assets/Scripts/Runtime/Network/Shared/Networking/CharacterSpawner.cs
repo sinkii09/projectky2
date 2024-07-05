@@ -60,7 +60,7 @@ public class CharacterSpawner : NetworkBehaviour,IDisposable
             var character = characterDatabase.GetCharacterById(client.Value.characterId);
             if (character != null)
             {
-                var spawnPos = GetRandomTransformInList().position;
+                var spawnPos = GetRandomTransformInList().position + Vector3.up;
                 var characterInstance = Instantiate(character.GameplayPrefab, spawnPos, Quaternion.identity);
                 characterInstance.SpawnAsPlayerObject(client.Value.networkId);
                 
@@ -101,7 +101,7 @@ public class CharacterSpawner : NetworkBehaviour,IDisposable
     IEnumerator RevivePlayer(ServerCharacter serverCharacter)
     {
         yield return new WaitForSeconds(m_ReviveDuration);
-        serverCharacter.Revive(GetRandomTransformInList().position);
+        serverCharacter.Revive(GetRandomTransformInList().position + Vector3.up);
     }
     public void UpdateKill(ulong id)
     {

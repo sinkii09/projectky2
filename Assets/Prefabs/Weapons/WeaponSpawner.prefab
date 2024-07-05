@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 463236091
+  GlobalObjectIdHash: 138365701
   InScenePlacedSourceGlobalObjectIdHash: 463236091
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -72,4 +72,4 @@ MonoBehaviour:
   m_TimeBetweenSpawn: 1
   m_TimeBetweenWave: 3
   m_DelayStartTime: 30
-  m_SpawnRange: 10
+  m_SpawnRange: 60
