@@ -26,6 +26,7 @@ public class ServerCharacter : NetworkBehaviour
         get => NetHealthState.HitPoints.Value;
         private set => NetHealthState.HitPoints.Value = value;
     }
+    public NetworkVariable <int> ManaPoint { get; } = new NetworkVariable<int>();
     ServerCharacter m_LastInflicter;
     public bool CanPerformSkills => LifeState.Value == LifeStateEnum.Alive;
     #endregion
@@ -73,6 +74,8 @@ public class ServerCharacter : NetworkBehaviour
     private CharacterSpawner m_CharacterSpawner;
 
     private Rigidbody rb;
+
+    private float startTime;
     #endregion
 
 
@@ -90,6 +93,23 @@ public class ServerCharacter : NetworkBehaviour
     {
         m_ServerSkillPlayer.OnUpdate();
         m_ServerAbilityHandler.OnUpdate();
+
+
+    }
+    private void FixedUpdate()
+    {
+        if (IsSpawned)
+        {
+            if (Time.time - startTime >= 1 && ManaPoint.Value < 100)
+            {
+                ManaPoint.Value += 1;
+                startTime = Time.time;
+            }
+            if(ManaPoint.Value > 100)
+            {
+                ManaPoint.Value = 100;
+            }
+        }
     }
     #endregion
 
@@ -105,6 +125,8 @@ public class ServerCharacter : NetworkBehaviour
         CurrentSkillId.Value = CharacterStats.BaseAttack.SkillID;
         CurrentWeaponId.Value = CharacterStats.WeaponData.Id;
         HitPoints = CharacterStats.BaseHP;
+        ManaPoint.Value = 0;
+        startTime = Time.time;
         m_GamePlayBehaviour.OnGameOver += GamePlayBehaviour_IsGameOver;
         LifeState.OnValueChanged += OnLifeStateChanged;
         m_DamageReceiver.DamageReceived += ReceiveHP;
@@ -234,11 +256,18 @@ public class ServerCharacter : NetworkBehaviour
         }
         m_CharacterSpawner.UpdateHealth(OwnerClientId, HitPoints, LifeState.Value == LifeStateEnum.Alive);
     }
+    public void ReceiveHP(int point)
+    {
+        if(ManaPoint.Value < 100)
+        {
+            ManaPoint.Value += point;
+        }
+    }
     public void Revive(Vector3 position)
     {
         if(LifeState.Value == LifeStateEnum.Dead)
         {
-            physicsWrapper.transform.position = position;
+            physicsWrapper.Transform.position = position;
             HitPoints = Mathf.Clamp(CharacterStats.BaseHP, 0, CharacterStats.BaseHP);
             LifeState.Value = LifeStateEnum.Alive;
             m_CharacterSpawner.UpdateHealth(OwnerClientId, CharacterStats.BaseHP);

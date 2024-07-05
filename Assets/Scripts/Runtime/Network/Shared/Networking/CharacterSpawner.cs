@@ -18,7 +18,7 @@ public class CharacterSpawner : NetworkBehaviour,IDisposable
 
 
     public NetworkList<CharacterInGameState> Players;
-    public List<NetworkObject> networkObjects;
+    public List<NetworkObject> networkObjects {  get; private set; }
     public Dictionary<ulong, ServerCharacter> PlayerCharacters = new Dictionary<ulong, ServerCharacter>();
 
     public event Action OnSpawnComplete;

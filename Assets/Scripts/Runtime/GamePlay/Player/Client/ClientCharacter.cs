@@ -31,6 +31,8 @@ public class ClientCharacter : NetworkBehaviour
 
     ClientAbilityHandler m_ClientAbilityHandler;
     public bool CanPerformSkill => m_ServerCharacter.CanPerformSkills;
+
+    MainPlayerIngameCard m_MainPlayerIngameCard;
     #endregion
     #region VFX
     [SerializeField] GameObject m_RevivePart;
@@ -81,11 +83,13 @@ public class ClientCharacter : NetworkBehaviour
         m_ClientAbilityHandler = new ClientAbilityHandler(this);
         m_ServerCharacter = GetComponentInParent<ServerCharacter>();
         m_ClientVisualsAnimator = m_NetworkAnimator.Animator;
+        m_MainPlayerIngameCard = FindObjectOfType<MainPlayerIngameCard>();
         
         NetworkManager.SceneManager.OnLoadEventCompleted += SceneManager_OnLoadEventCompleted;
         m_ServerCharacter.MovementStatus.OnValueChanged += OnMovementStatusChanged;
         m_ServerCharacter.LifeState.OnValueChanged += OnLifeStateChanged;
         m_ServerCharacter.CurrentWeaponId.OnValueChanged += OnCurrentWeaponChanged;
+        m_ServerCharacter.ManaPoint.OnValueChanged += OnManaPointChanged;
         OnMovementStatusChanged(MovementStatus.Normal, m_ServerCharacter.MovementStatus.Value);
 
         transform.SetPositionAndRotation(serverCharacter.physicsWrapper.Transform.position, serverCharacter.physicsWrapper.Transform.rotation);
@@ -96,13 +100,20 @@ public class ClientCharacter : NetworkBehaviour
 
         m_ClientInputSender.ClientMoveEvent += OnMoveInput;
     }
+
     public override void OnNetworkDespawn()
     {
         NetworkManager.SceneManager.OnLoadEventCompleted -= SceneManager_OnLoadEventCompleted;
         m_ServerCharacter.LifeState.OnValueChanged -= OnLifeStateChanged;
         m_ServerCharacter.CurrentWeaponId.OnValueChanged -= OnCurrentWeaponChanged;
         m_ClientInputSender.ClientMoveEvent -= OnMoveInput;
+        m_ServerCharacter.ManaPoint.OnValueChanged -= OnManaPointChanged;
         enabled = false;
+    }
+
+    private void OnManaPointChanged(int previousValue, int newValue)
+    {
+        m_MainPlayerIngameCard.UpdateCurrentMana(newValue);
     }
 
     private void OnCurrentWeaponChanged(WeaponID previousValue, WeaponID newValue)

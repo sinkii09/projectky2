@@ -152,6 +152,7 @@ public class ClientInputSender : NetworkBehaviour
         {
             m_MainPlayerIngameCard = FindObjectOfType<MainPlayerIngameCard>();
             m_MainPlayerIngameCard.UpdateBaseAttackWeapon(m_ServerCharacter.CurrentWeaponId.Value);
+            m_MainPlayerIngameCard.UpdateSpecial(m_ServerCharacter.CharacterStats);
             m_MainPlayerIngameCard.UpdateWeaponAmount(true);
         }
     }

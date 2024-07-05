@@ -20,6 +20,8 @@ public abstract class Ability : ScriptableObject
     public float durationTime;
     public float cooldownTime;
 
+    public int Cost;
+
     public ProjectileInfo[] projectileInfoList;
     public GameObject[] weaponVisual;
     public GameObject[] effect;

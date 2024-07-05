@@ -10,4 +10,5 @@ public class CharacterStats : ScriptableObject
     public WeaponData WeaponData;
     public int BaseHP;
     public int Speed;
+    public Sprite SpecialIcon;
 }
