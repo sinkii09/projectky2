@@ -17,10 +17,11 @@ MonoBehaviour:
   Radius: 5
   MinRange: 1
   MaxRange: 35
-  abilityAnimationTrigger: Bomb
+  abilityAnimationTrigger: StandUp
   rejectionAnimationTrigger: 
   executeTime: 0
   durationTime: 0
+  cooldownTime: 0
   projectileInfoList: []
   weaponVisual: []
   effect:

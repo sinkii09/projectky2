@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Grawl_AC
+  m_Controller: {fileID: 9100000, guid: 1da1b556b29802e438c477b8c2cd2adc, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 3f2f5660b185f02479d526fb256acbe4, type: 3}
+    m_OverrideClip: {fileID: -203655887218126122, guid: ed39dd7416cdbef4192833a308dbf707,
+      type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: 4fce6296ed4db2c49b2b02fb8c9bea7d, type: 3}
+    m_OverrideClip: {fileID: -203655887218126122, guid: fe999f8dea8c3a74fb823badf51cb9ac,
+      type: 3}

@@ -72,7 +72,7 @@ public class SlamDunk : Ability
     private void OnHit(ServerCharacter serverCharacter)
     {
         serverCharacter.Movement.CancelMove();
-        serverCharacter.ClientCharacter.ClientPlayEffectRpc(data.Position);
+        serverCharacter.ClientCharacter.ClientPlayEffectRpc(data.Position, serverCharacter.physicsWrapper.Transform.rotation);
         isStart = false;
         int hitCount = Physics.OverlapSphereNonAlloc(serverCharacter.physicsWrapper.Transform.position, data.Ability.Radius, hitColliders, targetLayer);
         for (int i = 0; i < hitCount; i++)
@@ -99,7 +99,7 @@ public class SlamDunk : Ability
         isStart = true;
         serverCharacter.Movement.Jump();
     }
-    public override void OnPlayClient(ClientCharacter clientCharacter, Vector3 position, int num = 0)
+    public override void OnPlayClient(ClientCharacter clientCharacter, Vector3 position, Quaternion rotation, int num = 0)
     {
         foreach (var effect in effect)
         {

@@ -8,21 +8,53 @@ using UnityEngine.VFX;
 
 public class test : MonoBehaviour
 {
-    bool isStart;
+    [SerializeField] bool isStart;
     AbilityRequest data;
 
-    private float t;
+    [SerializeField]private float t;
     private float totalDistance;
-    private Vector3 startPoint;
+    [SerializeField] private Vector3 startPoint;
     private Vector3 controlPoint;
-    private Vector3 endPoint;
+    [SerializeField] private Vector3 endPoint;
     Collider[] m_CollisionCache = new Collider[3];
     [SerializeField] GameObject testObject;
+    Vector3 num = new Vector3();
+    float dashTime;
+    Rigidbody rb;
+    Vector3 direction;
     private void Start()
     {
-
+        rb = testObject.GetComponent<Rigidbody>();
     }
     private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (!isStart)
+            {
+                testObject.transform.position = startPoint;
+                //startPoint = testObject.transform.position;
+                totalDistance = Vector3.Distance(startPoint, endPoint);
+                direction = (endPoint - startPoint).normalized;
+                RaycastHit hit;
+                if (Physics.Raycast(testObject.transform.position, direction, out hit, totalDistance, LayerMask.GetMask("Environment")))
+                {
+                    totalDistance = hit.distance - 1; // Reduce the dash distance to the hit point
+                }
+
+                dashTime = totalDistance / t;
+                Debug.Log(dashTime);
+                isStart = true;
+
+                Debug.Log(totalDistance);
+            }
+            else
+            {
+                isStart = false;
+            }
+        }
+    }
+    private void FixedUpdate()
     {
         //if (isStart)
         //{
@@ -33,15 +65,30 @@ public class test : MonoBehaviour
         //        Debug.Log(CalculateBezierPoint(t, startPoint, controlPoint, endPoint));
         //    }
         //}
-        if(Input.GetMouseButtonDown(0))
+
+        if(isStart)
         {
             Run();
         }
-        Detect();
     }
     void Run()
     {
-        testObject.GetComponent<Rigidbody>().AddForce(testObject.transform.forward * 5,ForceMode.VelocityChange);
+        if (dashTime>0)
+        {
+            var newPos = testObject.transform.position + direction * t * Time.fixedDeltaTime;
+            //testObject.transform.position = newPos;
+            rb.MovePosition(newPos);
+            dashTime -= Time.fixedDeltaTime;
+        }
+        else
+        {
+            isStart=false;
+        }
+
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(testObject.transform.position, endPoint);
     }
     void Detect()
     {

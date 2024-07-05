@@ -83,6 +83,7 @@ public class ServerAbilityHandler
     public void DequeuePeakAbility()
     {
         m_IsProcessing = false;
+        m_AbilityQueue.Peek().Ability.OnReset();
         m_AbilityQueue.Dequeue();
     }
 }

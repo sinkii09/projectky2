@@ -16,7 +16,7 @@ MonoBehaviour:
   Damage: 50
   Radius: 2
   MinRange: 5
-  MaxRange: 10
+  MaxRange: 25
   abilityAnimationTrigger: Bomb
   rejectionAnimationTrigger: 
   executeTime: 0.15

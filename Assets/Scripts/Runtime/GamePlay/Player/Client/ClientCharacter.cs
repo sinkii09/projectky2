@@ -179,6 +179,8 @@ public class ClientCharacter : NetworkBehaviour
                 return m_VisualizationConfiguration.SpeedHasted;
             case MovementStatus.Jump:
                 return m_VisualizationConfiguration.SpeedJump;
+            case MovementStatus.Dash:
+                return m_VisualizationConfiguration.SpeedDash;
             default:
                 throw new Exception($"Unknown MovementStatus {movementStatus}");
         }
@@ -208,7 +210,7 @@ public class ClientCharacter : NetworkBehaviour
     }
 
     [Rpc(SendTo.ClientsAndHost)]
-    internal void ClientPlayEffectRpc(Vector3 position,int num = 0, int special = -1)
+    internal void ClientPlayEffectRpc(Vector3 position,Quaternion rotation,int num = 0, int special = -1)
     {
         Ability ability;
         if (special == -1)
@@ -222,7 +224,7 @@ public class ClientCharacter : NetworkBehaviour
             ability = weapon.Ability;
             Debug.Log(ability.name);
         }
-        m_ClientAbilityHandler.PlayAbility(ability, position,num);
+        m_ClientAbilityHandler.PlayAbility(ability, position,rotation,num);
     }
 }
 

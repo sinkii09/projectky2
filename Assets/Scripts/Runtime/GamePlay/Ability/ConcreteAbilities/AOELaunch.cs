@@ -50,10 +50,10 @@ public class AOELaunch : Ability
     {  
         CoroutineRunner.Instance.StartCoroutine(ExecuteTimeDelay());
         isStart = true;
-        serverCharacter.ClientCharacter.ClientPlayEffectRpc(data.Position);
+        serverCharacter.ClientCharacter.ClientPlayEffectRpc(data.Position, serverCharacter.physicsWrapper.Transform.rotation);
     }
 
-    public override void OnPlayClient(ClientCharacter clientCharacter,Vector3 position, int num = 0)
+    public override void OnPlayClient(ClientCharacter clientCharacter,Vector3 position, Quaternion rotation, int num = 0)
     {
         var abilityFX = ParticlePool.Singleton.GetObject(effect[0], position, Quaternion.identity);
         abilityFX.GetComponent<SpecialFXGraphic>().OnInitialized(effect[0]);

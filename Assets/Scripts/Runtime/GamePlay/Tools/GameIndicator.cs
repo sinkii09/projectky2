@@ -18,6 +18,7 @@ public class GameIndicator : MonoBehaviour
     private void Awake()
     {
         meshRenderer = GetComponent<MeshRenderer>();
+        gameObject.SetActive(false);
     }
     public void Initialize(Transform parent,Texture texture = null)
     {

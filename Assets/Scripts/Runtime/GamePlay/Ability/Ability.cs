@@ -18,6 +18,8 @@ public abstract class Ability : ScriptableObject
 
     public float executeTime;
     public float durationTime;
+    public float cooldownTime;
+
     public ProjectileInfo[] projectileInfoList;
     public GameObject[] weaponVisual;
     public GameObject[] effect;
@@ -33,7 +35,11 @@ public abstract class Ability : ScriptableObject
     {
 
     }
-    public virtual void OnPlayClient(ClientCharacter clientCharacter,Vector3 position,int num = 0) { }
+    public virtual void OnReset()
+    {
+        
+    }
+    public virtual void OnPlayClient(ClientCharacter clientCharacter,Vector3 position,Quaternion rotation,int num = 0) { }
 
     protected IEnumerator ExecuteTimeDelay()
     {

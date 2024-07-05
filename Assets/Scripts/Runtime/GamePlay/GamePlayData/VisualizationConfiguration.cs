@@ -22,7 +22,9 @@ public class VisualizationConfiguration : ScriptableObject
     public float SpeedNormal = 1;
     public float SpeedHasted = 1.5f;
     public float SpeedSlowed = 2;
+    public float SpeedDash = 2.5f;
     public float SpeedJump = 3;
+    
 
     [Header("Associated Resources")]
     public GameObject TargetReticule;

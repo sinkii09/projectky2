@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class CharacterSelectDisplay : NetworkBehaviour
 {
     [Header("References")]
+    [SerializeField] private Camera overlayCAM;
     [SerializeField] private CharacterDatabase characterDatabase;
     [SerializeField] private Transform charactersHolder;
     [SerializeField] private CharacterSelectButton selectButtonPrefab;
@@ -170,7 +171,6 @@ public class CharacterSelectDisplay : NetworkBehaviour
     }
     private void CountDownTimer_OnTimeExpired()
     {
-        Debug.Log("gameStart = " + isGameStart);
         if (isGameStart) { return; }
         ServerForceLockIn();
     }
@@ -308,12 +308,14 @@ public class CharacterSelectDisplay : NetworkBehaviour
         
         if (introInstanceDictionary.ContainsKey(player.ClientId) && introInstanceDictionary[player.ClientId]!=null)
         {
-            Debug.Log(true);
             Destroy(introInstanceDictionary[player.ClientId]);
             introInstanceDictionary.Remove(player.ClientId);
         }
         var character = characterDatabase.GetCharacterById(player.CharacterId);
-        var instance = Instantiate(character.IntroPrefab, introPointDictionary[player]);
+        var screenRect = introPointDictionary[player];
+        Vector3 screenPosition = new Vector3(screenRect.position.x, screenRect.position.y, 20);
+        Vector3 worldPosition = overlayCAM.ScreenToWorldPoint(screenPosition);
+        var instance = Instantiate(character.IntroPrefab,worldPosition,Quaternion.identity);
         introInstanceDictionary.Add(player.ClientId, instance);
         if(player.IsLockedIn)
         {
@@ -329,16 +331,5 @@ public class CharacterSelectDisplay : NetworkBehaviour
                 }
             }
         }
-    }
-}
-public struct IntroKey
-{
-    ulong clientId;
-    int characterId;
-
-    public IntroKey(ulong clientId, int characterId)
-    {
-        this.clientId = clientId;
-        this.characterId = characterId;
     }
 }

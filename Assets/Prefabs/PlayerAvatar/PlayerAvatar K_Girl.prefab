@@ -2599,6 +2599,12 @@ PrefabInstance:
       propertyPath: m_Avatar
       value: 
       objectReference: {fileID: 9000000, guid: dba2ef92c204eb04db3c36bb404cf4d6, type: 3}
+    - target: {fileID: 3639332045119622451, guid: 373a1ec08978e47468756f8df154afd3,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 22100000, guid: a170fad391784a9459076f13faabb206,
+        type: 2}
     - target: {fileID: 4335383746291517567, guid: 373a1ec08978e47468756f8df154afd3,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -2607,6 +2613,11 @@ PrefabInstance:
     - target: {fileID: 4335383746291517567, guid: 373a1ec08978e47468756f8df154afd3,
         type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4518551342419109000, guid: 373a1ec08978e47468756f8df154afd3,
+        type: 3}
+      propertyPath: TransitionStateInfoList.Array.size
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4589420345771595784, guid: 373a1ec08978e47468756f8df154afd3,

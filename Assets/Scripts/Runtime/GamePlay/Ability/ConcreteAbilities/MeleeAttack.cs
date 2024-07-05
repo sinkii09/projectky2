@@ -9,14 +9,21 @@ public class MeleeAttack : Ability
     {
         serverCharacter.physicsWrapper.Transform.forward = data.Direction;
         serverCharacter.ServerAnimationHandler.NetworkAnimator.SetTrigger(abilityAnimationTrigger);
-        serverCharacter.ClientCharacter.ClientPlayEffectRpc(serverCharacter.physicsWrapper.Transform.position,0,0);
+        serverCharacter.ClientCharacter.ClientPlayEffectRpc(serverCharacter.physicsWrapper.Transform.position, serverCharacter.physicsWrapper.Transform.rotation, 0,0);
         TriggerAttack(serverCharacter);
         
     }
 
     public override bool CanActivate(ServerCharacter serverCharacter)
     {
-        return true;
+        if(Time.time - TimeStarted > cooldownTime)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
     void TriggerAttack(ServerCharacter serverCharacter)
     {
@@ -44,15 +51,15 @@ public class MeleeAttack : Ability
             var damageable = results[i].collider.GetComponent<IDamageable>();
             if (damageable != null && damageable.IsDamageable())
             {
-                serverCharacter.ClientCharacter.ClientPlayEffectRpc(results[i].point,1,0);
+                serverCharacter.ClientCharacter.ClientPlayEffectRpc(results[i].point, serverCharacter.physicsWrapper.Transform.rotation, 1,0);
                 foundFoe = damageable;
             }
         }
         return foundFoe;
     }
-    public override void OnPlayClient(ClientCharacter clientCharacter, Vector3 position, int num = 0)
+    public override void OnPlayClient(ClientCharacter clientCharacter, Vector3 position, Quaternion rotation, int num = 0)
     {
-        var abilityFX = ParticlePool.Singleton.GetObject(effect[num], position, clientCharacter.serverCharacter.transform.rotation);
+        var abilityFX = ParticlePool.Singleton.GetObject(effect[num], position,rotation);
         abilityFX.GetComponent<SpecialFXGraphic>().OnInitialized(effect[num]);
     }
 }

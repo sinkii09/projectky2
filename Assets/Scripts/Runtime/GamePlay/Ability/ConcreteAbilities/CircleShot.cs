@@ -14,7 +14,7 @@ public class CircleShot : Ability
         this.data = data;
         serverCharacter.physicsWrapper.Transform.forward = data.Direction;
         serverCharacter.ServerAnimationHandler.NetworkAnimator.SetTrigger(abilityAnimationTrigger);
-        serverCharacter.ClientCharacter.ClientPlayEffectRpc(serverCharacter.physicsWrapper.Transform.position);
+        serverCharacter.ClientCharacter.ClientPlayEffectRpc(serverCharacter.physicsWrapper.Transform.position, serverCharacter.physicsWrapper.Transform.rotation);
         isStart = true;
     }
     public override bool CanActivate(ServerCharacter serverCharacter)
@@ -58,7 +58,7 @@ public class CircleShot : Ability
         }
         throw new Exception($"Action {name} has no usable Projectiles!");
     }
-    public override void OnPlayClient(ClientCharacter clientCharacter, Vector3 position, int num = 0)
+    public override void OnPlayClient(ClientCharacter clientCharacter, Vector3 position, Quaternion rotation, int num = 0)
     {
         foreach(var effect in effect)
         {

@@ -1,12 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Dash", menuName = "Abilities/Dash")]
 public class Dash : Ability
 {
-    private bool isDashing = false;
+    private Vector3 startPos;
     private float dashTime;
+    private float distance;
+    private float speed = 30;
+    private bool isDashing = false;
+    
     Rigidbody rb;
     AbilityRequest data;
     private Collider[] hitColliders = new Collider[10];
@@ -14,7 +20,7 @@ public class Dash : Ability
     {
         serverCharacter.physicsWrapper.Transform.forward = data.Direction;
         serverCharacter.ServerAnimationHandler.NetworkAnimator.SetTrigger(abilityAnimationTrigger);
-        serverCharacter.ClientCharacter.ClientPlayEffectRpc(serverCharacter.physicsWrapper.transform.position);
+        serverCharacter.ClientCharacter.ClientPlayEffectRpc(serverCharacter.physicsWrapper.transform.position, serverCharacter.physicsWrapper.Transform.rotation);
         rb = serverCharacter.GetComponent<Rigidbody>();
         this.data = data;
     }
@@ -29,24 +35,18 @@ public class Dash : Ability
         if (!isDashing && TimeRunning >= executeTime)
         {
             StartDash(serverCharacter);
-            Debug.Log("start dash");
         }
         if(isDashing)
         {
-            if(Time.time < dashTime)
-            {
-                Vector3 newPosition = rb.position + data.Direction * (Radius / durationTime) * Time.deltaTime;
-                rb.MovePosition(newPosition);
-            }
-            else
-            {
-                isDashing = false;
-                serverCharacter.DequeueAbility();
-                serverCharacter.Movement.CanMoving(true);
-            }
             CheckCollision(serverCharacter);
         }
     }
+
+    public override void OnReset()
+    {
+        isDashing=false;
+    }
+
     void CheckCollision(ServerCharacter serverCharacter)
     {
         int hitCount = Physics.OverlapSphereNonAlloc(serverCharacter.physicsWrapper.Transform.position, data.Ability.Radius, hitColliders, LayerMask.GetMask("PCs"));
@@ -61,7 +61,7 @@ public class Dash : Ability
                 Vector3 collisionPoint;
                 if (TryGetCollisionPoint(serverCharacter.physicsWrapper.Transform.position, hitColliders[i], out collisionPoint))
                 {
-                    serverCharacter.ClientCharacter.ClientPlayEffectRpc(collisionPoint,1);
+                    serverCharacter.ClientCharacter.ClientPlayEffectRpc(collisionPoint, serverCharacter.physicsWrapper.Transform.rotation, 1);
                 }
                 
             }
@@ -83,13 +83,20 @@ public class Dash : Ability
     }
     void StartDash(ServerCharacter serverCharacter)
     {
-        dashTime = Time.time + durationTime;
-        serverCharacter.Movement.Dash();
+        startPos = serverCharacter.physicsWrapper.Transform.position;
+        distance = Vector3.Distance(startPos, data.Position);
+        RaycastHit hit;
+        if (Physics.Raycast(startPos, data.Direction, out hit, distance, LayerMask.GetMask("Environment")))
+        {
+            distance = hit.distance - 1;
+        }
+        dashTime = distance / speed;
+        serverCharacter.Movement.StartDash(data.Direction,speed,dashTime);
         isDashing = true;
     }
-    public override void OnPlayClient(ClientCharacter clientCharacter, Vector3 position, int num = 0)
+    public override void OnPlayClient(ClientCharacter clientCharacter, Vector3 position,Quaternion rotation, int num = 0)
     {
-        var abilityFX = ParticlePool.Singleton.GetObject(effect[num], position, Quaternion.identity);
+        var abilityFX = ParticlePool.Singleton.GetObject(effect[num], position, rotation);
         abilityFX.GetComponent<SpecialFXGraphic>().OnInitialized(effect[num]);
         if (num == 0)
         {

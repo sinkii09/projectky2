@@ -22,6 +22,7 @@ public enum MovementStatus
     Slowed,
     Hasted,
     Jump,
+    Dash,
 }
 public class CharacterMovement : NetworkBehaviour
 {
@@ -37,10 +38,12 @@ public class CharacterMovement : NetworkBehaviour
     private Vector3 moveDirection;
     private Vector3 knockBackDirection;
     private Vector3 jumpDirection;
+    private Vector3 dashDirection;
     private float m_SpecialModeDurationRemaining;
     [SerializeField] private float moveSpeed = 10f;
     [SerializeField] private float jumpSpeed = 10f;
     private float m_ForcedSpeed;
+    private float dashSpeed;
 
     bool CanMove;
     private void Awake()
@@ -74,21 +77,15 @@ public class CharacterMovement : NetworkBehaviour
         CancelMove();
         m_MovementState = MovementState.Jump;
     }
-    public void Dash()
-    {
-        CanMove = false;
-        m_MovementState = MovementState.Dashing;
-    }
     public void CanMoving(bool isTrue)
     {
         CanMove = isTrue;
     }
     private void FixedUpdate()
     {
-        if(CanMove)
-        {
-            PerformMovement();
-        }
+
+        PerformMovement();
+
         var currentState = GetMovementStatus(m_MovementState);
         if (m_PreviousState != currentState)
         {
@@ -114,6 +111,18 @@ public class CharacterMovement : NetworkBehaviour
         else if (m_MovementState == MovementState.Jump)
         {
             return;
+        }
+        else if(m_MovementState == MovementState.Dashing)
+        {
+            m_SpecialModeDurationRemaining -= Time.fixedDeltaTime;
+            if(m_SpecialModeDurationRemaining <= 0)
+            {
+                m_ServerCharacter.DequeueAbility();
+                m_MovementState = MovementState.Idle;
+                return;
+            }
+            desiredMovementAmount = dashSpeed * Time.fixedDeltaTime;
+            movementVector = dashDirection * desiredMovementAmount;
         }
         else if (m_MovementState == MovementState.Knockback)
         {
@@ -148,12 +157,20 @@ public class CharacterMovement : NetworkBehaviour
     }
     public bool IsPerformingForcedMovement()
     {
-        return m_MovementState == MovementState.Knockback || m_MovementState == MovementState.Charging;
+        return m_MovementState == MovementState.Knockback || m_MovementState == MovementState.Charging || m_MovementState == MovementState.Dashing;
     }
     public void SetMoveDirection(Vector3 moveDirection)
     {
         m_MovementState = MovementState.Moving;
         this.moveDirection = new Vector3(moveDirection.x, 0, moveDirection.y).normalized;
+    }
+    public void StartDash(Vector3 direction, float speed, float duration)
+    {
+        m_MovementState = MovementState.Dashing;
+        dashDirection = direction;
+        moveDirection = direction;
+        dashSpeed = speed;
+        m_SpecialModeDurationRemaining = duration;
     }
     internal void SetJump()
     {
@@ -178,6 +195,8 @@ public class CharacterMovement : NetworkBehaviour
                 return MovementStatus.Uncontrolled;
             case MovementState.Jump:
                 return MovementStatus.Jump;
+            case MovementState.Dashing:
+                return MovementStatus.Dash;
             default:
                 return MovementStatus.Normal;
         }

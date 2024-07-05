@@ -71,6 +71,8 @@ public class ServerCharacter : NetworkBehaviour
     private GamePlayBehaviour m_GamePlayBehaviour;
 
     private CharacterSpawner m_CharacterSpawner;
+
+    private Rigidbody rb;
     #endregion
 
 
@@ -82,6 +84,7 @@ public class ServerCharacter : NetworkBehaviour
         m_ServerSkillPlayer = new ServerSkillPlayer(this,m_Movement);
         m_ServerAbilityHandler = new ServerAbilityHandler(this,m_Movement);
         NetHealthState = GetComponent<NetworkHealthState>();
+        rb = GetComponent<Rigidbody>(); 
     }
     private void Update()
     {
@@ -181,11 +184,13 @@ public class ServerCharacter : NetworkBehaviour
         {
             m_ServerSkillPlayer.ClearActions(true);
             m_Movement.CancelMove();
+            rb.useGravity = false;
             m_PhysicsWrapper.DamageCollider.enabled = false;
             StartCoroutine(DisableVisual());
         }
         else
         {
+            rb.useGravity = true;
             m_PhysicsWrapper.DamageCollider.enabled = true;
             m_ClientCharacter.SetActiveVisual(true);
         }
