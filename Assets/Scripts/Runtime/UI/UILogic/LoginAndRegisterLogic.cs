@@ -40,7 +40,7 @@ public class LoginAndRegisterLogic : MonoBehaviour
     }
     private void Start()
     {
-        ExitButton.onClick.AddListener(ExitApplication);
+        ExitButton.onClick.AddListener(() => { ExitApplication(); AudioManager.Instance.PlaySFXNumber(0); });
     }
     private void OnDestroy()
     {
@@ -68,6 +68,7 @@ public class LoginAndRegisterLogic : MonoBehaviour
     void LoginError()
     {
         ToLogin();
+        PopupManager.Instance.ShowPopup("Login Error \n please try again!");
     }
     #endregion
 
@@ -84,6 +85,7 @@ public class LoginAndRegisterLogic : MonoBehaviour
     void FailedRegister(string error)
     {
         ToRegister();
+        PopupManager.Instance.ShowPopup("Register Error \n please try again!");
     }
     #endregion
 

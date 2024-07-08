@@ -1,0 +1,54 @@
+using System.Collections;
+using System.Collections.Generic;
+using Unity.Netcode;
+using UnityEngine;
+using UnityEngine.VFX;
+
+public class Lightning : UniqueEffect
+{
+    [SerializeField] int damage;
+    [SerializeField] float radius;
+    [SerializeField] Collider[] hitColliders;
+    public override void OnNetworkSpawn()
+    {
+        if(IsServer)
+        {
+            SendClientDoEffectRpc(transform.position);
+            StartCoroutine(DoDamage());
+        }
+    }
+    IEnumerator DoDamage()
+    {
+        yield return new WaitForSeconds(lifeTime);
+        CheckCollision();
+        if (NetworkObject != null)
+        {
+            NetworkObject.Despawn(true);
+        }
+    }
+    void CheckCollision()
+    {
+        if (IsServer)
+        {
+            int hitCount = Physics.OverlapSphereNonAlloc(transform.position, radius, hitColliders, LayerMask.GetMask("PCs"));
+            for (int i = 0; i < hitCount; i++)
+            {
+                var damageable = hitColliders[i].GetComponent<IDamageable>();
+                if (damageable != null && damageable.IsDamageable())
+                {
+                    damageable.ReceiveHP(-damage);
+                }
+            }
+        }
+    }
+    [Rpc(SendTo.ClientsAndHost)]
+    void SendClientDoEffectRpc(Vector3 position)
+    {
+        var abilityFX = ParticlePool.Singleton.GetObject(effectPrefab, position + new Vector3(0,-0.08f,0), Quaternion.identity);
+        abilityFX.GetComponent<SpecialFXGraphic>().OnInitialized(effectPrefab);
+        if(abilityFX.TryGetComponent(out VisualEffect VFX))
+        {
+            VFX.Play();
+        }
+    }
+}

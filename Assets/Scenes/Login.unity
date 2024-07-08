@@ -1797,7 +1797,7 @@ PrefabInstance:
     - target: {fileID: 8094916241020172527, guid: a925775443055684983c184b686fec54,
         type: 3}
       propertyPath: m_text
-      value: Sign In
+      value: Sign Up
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

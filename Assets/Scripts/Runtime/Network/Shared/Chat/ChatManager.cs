@@ -136,7 +136,6 @@ public class ChatManager : MonoBehaviour
     }
     public void OnLogout()
     {
-        LeaveRoomChatAsync(roomId);
         client.DisconnectAsync();
         Debug.Log("log out chat");
     }

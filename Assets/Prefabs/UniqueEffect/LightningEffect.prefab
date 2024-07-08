@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1264857876015964448
+--- !u!1 &8543158239640352427
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,24 +8,23 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3605018076262384387}
-  - component: {fileID: 7522777059233003949}
-  - component: {fileID: 5351825412515738059}
-  - component: {fileID: 4687998895775389287}
-  m_Layer: 0
-  m_Name: WeaponSpawner
+  - component: {fileID: 2691031344257810901}
+  - component: {fileID: 8414454262896494095}
+  - component: {fileID: 6970699109867483971}
+  m_Layer: 8
+  m_Name: LightningEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3605018076262384387
+--- !u!4 &2691031344257810901
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1264857876015964448}
+  m_GameObject: {fileID: 8543158239640352427}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -34,20 +33,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7522777059233003949
+--- !u!114 &8414454262896494095
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1264857876015964448}
+  m_GameObject: {fileID: 8543158239640352427}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 138365701
-  InScenePlacedSourceGlobalObjectIdHash: 463236091
+  GlobalObjectIdHash: 3485638767
+  InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -55,39 +54,22 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &5351825412515738059
+--- !u!114 &6970699109867483971
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1264857876015964448}
+  m_GameObject: {fileID: 8543158239640352427}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 800f4a7cbbdec47498fc01b0a482b360, type: 3}
+  m_Script: {fileID: 11500000, guid: c387a07446c0e23488b817fb44a6c49d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponPrefab: {fileID: 2131899512231397552, guid: 5d8c4ee91885f3545965f4967512d599,
+  lifeTime: 1.5
+  effectDuration: 0
+  effectPrefab: {fileID: 8564608024345558901, guid: 2de189711a1362f4db7e802801b90eac,
     type: 3}
-  baseAttackData: {fileID: 11400000, guid: 16b66f8af4373214897733240786b29d, type: 2}
-  m_TimeBetweenSpawn: 1
-  m_TimeBetweenWave: 3
-  m_DelayStartTime: 30
-  m_SpawnRange: 60
---- !u!114 &4687998895775389287
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1264857876015964448}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 074a7839ad403834c81d793bd4e41a98, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawnRange: 80
-  duration: 5
-  effects:
-  - {fileID: 6970699109867483971, guid: 7ca8923b1e6f48243b25f43fc9bacbe9, type: 3}
-  weatherFx: {fileID: 0}
+  damage: 30
+  radius: 2.5
+  hitColliders: []

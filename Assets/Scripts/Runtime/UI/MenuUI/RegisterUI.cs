@@ -74,13 +74,13 @@ public class RegisterUI : MonoBehaviour
         {
             if (field.text == string.Empty)
             {
-                Debug.LogError($"{field.name} cannot empty, please fill in");
+                PopupManager.Instance.ShowPopup($"{field.name} cannot empty, please fill in");
                 return;
             }
         }
         if(!string.Equals(passwordInputField.text,rePasswordInputField.text))
         {
-            Debug.LogError($"confirm password is incorrect");
+            PopupManager.Instance.ShowPopup($"confirm password is incorrect");
             return;
         }
         
