@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2404029679694758704}
   - component: {fileID: 2084062482392912148}
   - component: {fileID: 8576742231767863821}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4910,9 +4910,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1774350965214441368}
   - component: {fileID: 1865168126623569522}
-  - component: {fileID: 1704747892300955887}
-  - component: {fileID: 2091903142407402276}
-  m_Layer: 6
+  - component: {fileID: 6459295621868733463}
+  m_Layer: 8
   m_Name: Toon Projectiles 2 - Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4997,34 +4996,7 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!54 &1704747892300955887
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8004967275478694073}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &2091903142407402276
+--- !u!114 &6459295621868733463
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5033,79 +5005,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 8004967275478694073}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7fbf2b16c5e4ce797050f6f3bb0450d, type: 3}
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectileData: {fileID: 11400000, guid: 22c3c29e859d74416ad8323a9f09f553, type: 2}
-  spawnBehavior: {fileID: 11400000, guid: 9673aebc53bd1422fa0f2fffef9096ec, type: 2}
-  spawnBehaviorModifications:
-  - {fileID: 11400000, guid: a452a898ec31d4006a83029725d8f087, type: 2}
-  behaviors:
-  - {fileID: 11400000, guid: db901455e24ba43d182c6c29dbfc1e60, type: 2}
-  - {fileID: 11400000, guid: 97476774f712640e696ae44ac410d869, type: 2}
-  - {fileID: 11400000, guid: 4b7fef9b5da25431b9a9ae578e9f1d9f, type: 2}
-  - {fileID: 11400000, guid: 85760ec40e24b4451b5a327114ccc5e3, type: 2}
-  observers: []
-  registerWithProjectileFactoryManager: 1
-  useObjectPool: 1
-  poolUniqueID: -1
-  spawnBehaviorModificationsInstances: []
-  OnLaunch:
-    m_PersistentCalls:
-      m_Calls: []
-  OnProjectileStopped:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDoTriggerEnter:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDoTriggerExit:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDoTriggerStay:
-    m_PersistentCalls:
-      m_Calls: []
-  OnReturnToPool:
-    m_PersistentCalls:
-      m_Calls: []
-  OnGetFromPool:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDoCollisionEnter:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDoCollisionExit:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDoCollisionStay:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDoDestroy:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDoDisable:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDoEnable:
-    m_PersistentCalls:
-      m_Calls: []
-  OnReset:
-    m_PersistentCalls:
-      m_Calls: []
-  OnProjectileSpawnerSet:
-    m_PersistentCalls:
-      m_Calls: []
-  maxCollisionsPerFrame: 1
-  lookForwardAtSpawn: 0
-  collisionMask:
-    serializedVersion: 2
-    m_Bits: 0
-  overrideCollisionMask: 0
-  preLaunchTrajectory: {fileID: 0}
-  preLaunchTrajectoryInstance: {fileID: 0}
-  useAltTargetPosition: 0
-  hideTarget: 0
-  altTargetPosition: {x: 0, y: 0, z: 0}
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1 &8104389895015451696
 GameObject:
   m_ObjectHideFlags: 0
@@ -5115,7 +5028,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1115307352211595960}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Visuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}

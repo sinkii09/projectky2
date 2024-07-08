@@ -26,34 +26,7 @@ public class test : MonoBehaviour
     {
         rb = testObject.GetComponent<Rigidbody>();
     }
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (!isStart)
-            {
-                testObject.transform.position = startPoint;
-                //startPoint = testObject.transform.position;
-                totalDistance = Vector3.Distance(startPoint, endPoint);
-                direction = (endPoint - startPoint).normalized;
-                RaycastHit hit;
-                if (Physics.Raycast(testObject.transform.position, direction, out hit, totalDistance, LayerMask.GetMask("Environment")))
-                {
-                    totalDistance = hit.distance - 1; // Reduce the dash distance to the hit point
-                }
 
-                dashTime = totalDistance / t;
-                Debug.Log(dashTime);
-                isStart = true;
-
-                Debug.Log(totalDistance);
-            }
-            else
-            {
-                isStart = false;
-            }
-        }
-    }
     private void FixedUpdate()
     {
         //if (isStart)
@@ -66,10 +39,6 @@ public class test : MonoBehaviour
         //    }
         //}
 
-        if(isStart)
-        {
-            Run();
-        }
     }
     void Run()
     {

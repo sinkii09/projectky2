@@ -19,7 +19,6 @@ public class ArrowShot : Ability
 
     protected virtual void LaunchProjectile(ServerCharacter serverCharacter)
     {
-        CoroutineRunner.Instance.StartCoroutine(ExecuteTimeDelay());
         var projectileInfo = GetProjectileInfo();
         NetworkObject networkObject = NetworkObjectPool.Singleton.GetNetworkObject(projectileInfo.Prefab, projectileInfo.Prefab.transform.position, projectileInfo.Prefab.transform.rotation);
         networkObject.transform.forward = serverCharacter.physicsWrapper.transform.forward;

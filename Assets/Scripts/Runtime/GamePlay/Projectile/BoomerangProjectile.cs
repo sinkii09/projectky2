@@ -29,7 +29,7 @@ public class BoomerangProjectile : NetworkBehaviour
     private List<ServerCharacter> damagePlayer = new List<ServerCharacter>();
     
 
-    public void Initialize(Vector3 start, Vector3 end, ProjectileInfo info, ServerCharacter serverCharacter)
+    public void Initialize(Vector3 start, Vector3 end, in ProjectileInfo info, ServerCharacter serverCharacter)
     {
             startPoint = start;
             endPoint = end;

@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79930db6fdd99ec4e928f7dea24d7943, type: 3}
+  m_Name: BouncingShot
+  m_EditorClassIdentifier: 
+  abilityName: BouncingShot
+  Damage: 0
+  Radius: 0
+  MinRange: 0
+  MaxRange: 0
+  abilityAnimationTrigger: CrossBow
+  rejectionAnimationTrigger: 
+  executeTime: 0.15
+  durationTime: 0
+  cooldownTime: 0
+  Cost: 0
+  projectileInfoList:
+  - Prefab: {fileID: 8787849450496161361, guid: 9e2e9178bd4ecd549b2ede29ced77a0b,
+      type: 3}
+    Speed: 20
+    Range: 50
+    Damage: 30
+    MaxVictims: 1
+  weaponVisual: []
+  effect: []
+  indicatorTexture: {fileID: 0}
+  CheckAmount: 1
+  ShowIndicator: 1
