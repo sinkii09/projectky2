@@ -17,8 +17,16 @@ public class LoginUI : MonoBehaviour
     public Selectable[] UISelectables;
     private void Start()
     {
-        loginButton.GetComponent<Button>().onClick.AddListener(Login);
-        registerButton.GetComponent<Button>().onClick.AddListener(Register);   
+        loginButton.GetComponent<Button>().onClick.AddListener(() =>
+        {
+            Login();
+            AudioManager.Instance.PlaySFXNumber(0);
+        });
+        registerButton.GetComponent<Button>().onClick.AddListener(() =>
+        {
+            Register();
+            AudioManager.Instance.PlaySFXNumber(0);
+        });   
     }
     private void Update()
     {
@@ -33,6 +41,7 @@ public class LoginUI : MonoBehaviour
         {
             loginLogic.Login(userNameInputField.text, passwordInputField.text);
         }
+        AudioManager.Instance.PlaySFXNumber(0);
     }
     public void Register()
     {

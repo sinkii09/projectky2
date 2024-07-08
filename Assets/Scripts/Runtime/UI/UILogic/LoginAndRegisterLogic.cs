@@ -128,6 +128,7 @@ public class LoginAndRegisterLogic : MonoBehaviour
 
     internal void ExitApplication()
     {
+        AudioManager.Instance.PlaySFXNumber(0);
 #if UNITY_EDITOR
         EditorApplication.ExitPlaymode();
 #endif

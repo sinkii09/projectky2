@@ -9,6 +9,7 @@ public class LobbyUI : MonoBehaviour
 {
     [SerializeField] Button PlayButton;
     [SerializeField] Button BackButton;
+    [SerializeField] Button CancelButton;
     [SerializeField] MapScroller MapScroller;
     [SerializeField] MatchFindingUI MatchFindingUI;
 
@@ -19,10 +20,17 @@ public class LobbyUI : MonoBehaviour
     private void Start()
     {
         ToggleMatchMake(false);
-        PlayButton.onClick.AddListener(FindMatch);
+        PlayButton.onClick.AddListener(() => { FindMatch(); AudioManager.Instance.PlaySFXNumber(0); });
         BackButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFXNumber(0);
             ExitRoom();
+        });
+        CancelButton.onClick.AddListener(() =>
+        {
+
+            AudioManager.Instance.PlaySFXNumber(0);
+            CancelFindMatch();
         });
     }
     private void OnEnable()

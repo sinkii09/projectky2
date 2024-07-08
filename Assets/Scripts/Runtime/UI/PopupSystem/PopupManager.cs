@@ -16,7 +16,7 @@ public class PopupManager : MonoBehaviour
 
     protected void Awake()
     {
-        // Singleton pattern
+
         if (Instance == null)
         {
             Instance = this;
@@ -32,8 +32,8 @@ public class PopupManager : MonoBehaviour
     {
         popupPanel.SetActive(false);
 
-        confirmButton.onClick.AddListener(OnConfirmButtonClick);
-        cancelButton.onClick.AddListener(OnCancelButtonClick);
+        confirmButton.onClick.AddListener(() => { OnConfirmButtonClick(); AudioManager.Instance.PlaySFXNumber(0); });
+        cancelButton.onClick.AddListener(() => { OnCancelButtonClick(); AudioManager.Instance.PlaySFXNumber(0); });
     }
     public virtual void ShowPopup(string message, UnityAction onConfirm = null, UnityAction onCancel = null)
     {

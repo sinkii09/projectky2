@@ -16,15 +16,23 @@ public class MainMenuUI : MonoBehaviour
 
     private void Start()
     {
-        rankedBtn.onClick.AddListener(GoToRankMode);
-        normalBtn.onClick.AddListener(GoToNormalMode);
-        cancelBtn.onClick.AddListener(ExitApp);
+        rankedBtn.onClick.AddListener(() =>
+        {
+            GoToRankMode();
+            AudioManager.Instance.PlaySFXNumber(0);
+        });
+        normalBtn.onClick.AddListener(() =>
+        {
+            GoToNormalMode();
+            AudioManager.Instance.PlaySFXNumber(0);
+        });
+        cancelBtn.onClick.AddListener(() => { ExitApp(); AudioManager.Instance.PlaySFXNumber(0); });
     }
     private void OnDestroy()
     {
-        rankedBtn.onClick.RemoveListener(GoToRankMode);
-        normalBtn.onClick.RemoveListener(GoToNormalMode);
-        cancelBtn.onClick.RemoveListener(ExitApp);
+        rankedBtn.onClick.RemoveAllListeners();
+        normalBtn.onClick.RemoveAllListeners();
+        cancelBtn.onClick.RemoveAllListeners();
     }
     private void GoToNormalMode()
     {

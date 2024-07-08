@@ -51,6 +51,7 @@ public class ProfileUI : MonoBehaviour
         changePasswordBtn.gameObject.SetActive(false);
         changeNameBtn.onClick.RemoveAllListeners();
         changeNameBtn.onClick.AddListener(SendChangedNameRequest);
+        AudioManager.Instance.PlaySFXNumber(0);
     }
     void SendChangedNameRequest()
     {
@@ -87,10 +88,12 @@ public class ProfileUI : MonoBehaviour
     void CancelChangeName()
     {
         ChangeNameConfirm();
+        AudioManager.Instance.PlaySFXNumber(0);
     }
     void ChangePassword()
     {
         changePasswordPopup.ShowPasswordPopup("Change password", ChangePasswordConfirm);
+        AudioManager.Instance.PlaySFXNumber(0);
     }
 
     private void ChangePasswordConfirm(string oldPass, string newPass, string confirmPass)
@@ -114,9 +117,11 @@ public class ProfileUI : MonoBehaviour
     void Logout()
     {
         menuLogic.Logout();
+        AudioManager.Instance.PlaySFXNumber(0);
     }
     void ToMainMenu()
     {
         menuLogic.HideProfile();
+        AudioManager.Instance.PlaySFXNumber(0);
     }
 }

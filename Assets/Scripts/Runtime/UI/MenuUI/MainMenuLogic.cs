@@ -54,6 +54,7 @@ public class MainMenuLogic : MonoBehaviour
     {
         profileUI.gameObject.SetActive(true);
         showProfileBtn.gameObject.SetActive(false);
+        AudioManager.Instance.PlaySFXNumber(0);
     }
     public void HideProfile()
     {

@@ -25,7 +25,7 @@ public class ChatUI : MonoBehaviour
     }
     private void Start()
     {
-        closeWindowBtn.onClick.AddListener(Closewindow);
+        closeWindowBtn.onClick.AddListener(() => { Closewindow(); AudioManager.Instance.PlaySFXNumber(0); });
     }
     private void OnDestroy()
     {

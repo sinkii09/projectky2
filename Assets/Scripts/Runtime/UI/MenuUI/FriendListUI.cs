@@ -40,29 +40,53 @@ public class FriendListUI : MonoBehaviour
     private void Start()
     {
         friendListToggle.onValueChanged.AddListener((isOn) => {
-            if (isOn) SwitchUIState(friendUIState.friendList);
+            {
+                SwitchUIState(friendUIState.friendList);
+                AudioManager.Instance.PlaySFXNumber(0);
+            }
         });
         friendRequestToggle.onValueChanged.AddListener((isOn) => {
-            if (isOn) SwitchUIState(friendUIState.friendRequest);
+            if (isOn)
+            {
+                SwitchUIState(friendUIState.friendRequest);
+                AudioManager.Instance.PlaySFXNumber(0);
+            }
         });
 
         findUserToggle.onValueChanged.AddListener((isOn) => {
-            if (isOn) SwitchUIState(friendUIState.findUser);
+            if (isOn)
+            {
+                SwitchUIState(friendUIState.findUser);
+                AudioManager.Instance.PlaySFXNumber(0);
+            }
         });
-        browserButton.onClick.AddListener(Browser);
+        browserButton.onClick.AddListener(() => { Browser(); AudioManager.Instance.PlaySFXNumber(0); });
 
     }
     private void OnDestroy()
     {
-        friendListToggle.onValueChanged.RemoveListener((isOn) => {
-            if (isOn) SwitchUIState(friendUIState.friendList);
+        friendListToggle.onValueChanged.RemoveListener((isOn) =>
+        {
+            if (isOn)
+            {
+                SwitchUIState(friendUIState.friendList);
+                AudioManager.Instance.PlaySFXNumber(0);
+            }
         });
         friendRequestToggle.onValueChanged.RemoveListener((isOn) => {
-            if (isOn) SwitchUIState(friendUIState.friendRequest);
+            if (isOn)
+            {
+                SwitchUIState(friendUIState.friendRequest);
+                AudioManager.Instance.PlaySFXNumber(0);
+            }
         });
 
         findUserToggle.onValueChanged.RemoveListener((isOn) => {
-            if (isOn) SwitchUIState(friendUIState.findUser);
+            if (isOn) 
+            { 
+                SwitchUIState(friendUIState.findUser);
+                AudioManager.Instance.PlaySFXNumber(0);
+            }
         });
         browserButton.onClick.RemoveListener(Browser);
     }
