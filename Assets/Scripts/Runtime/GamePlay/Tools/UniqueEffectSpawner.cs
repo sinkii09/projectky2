@@ -22,6 +22,7 @@ public class UniqueEffectSpawner : NetworkBehaviour
     private void FixedUpdate()
     {
         if (!IsSpawned) return;
+        if(!IsServer) return;
         if(Time.time > timer+duration)
         {
             timer = Time.time;

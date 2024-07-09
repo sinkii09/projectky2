@@ -305,7 +305,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -3364,11 +3364,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3473827354421035018, guid: 440fcc447eb6afc429a0f36052c52d86,
-        type: 3}
-      propertyPath: NetworkConfig.ConnectionApproval
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7203762279769661980, guid: 440fcc447eb6afc429a0f36052c52d86,
         type: 3}

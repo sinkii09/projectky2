@@ -17,16 +17,26 @@ public class test : MonoBehaviour
     private Vector3 controlPoint;
     [SerializeField] private Vector3 endPoint;
     Collider[] m_CollisionCache = new Collider[3];
-    [SerializeField] GameObject testObject;
+    [SerializeField] RectTransform testObject;
+    [SerializeField] Camera overlayCAM;
+    [SerializeField] GameObject cube;
     Vector3 num = new Vector3();
     float dashTime;
     Rigidbody rb;
     Vector3 direction;
     private void Start()
     {
-        rb = testObject.GetComponent<Rigidbody>();
+       
+        
     }
-
+    private void Update()
+    {
+        if(Input.GetKeyUp(KeyCode.Escape))
+        {
+            Debug.Log($"{direction}");
+            cube.transform.position = new Vector3(direction.x, direction.y, 0);
+        }
+    }
     private void FixedUpdate()
     {
         //if (isStart)
@@ -54,10 +64,6 @@ public class test : MonoBehaviour
             isStart=false;
         }
 
-    }
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawLine(testObject.transform.position, endPoint);
     }
     void Detect()
     {

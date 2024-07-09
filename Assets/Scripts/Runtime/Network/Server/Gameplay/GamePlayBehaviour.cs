@@ -99,7 +99,7 @@ public class GamePlayBehaviour : NetworkBehaviour
         }
         else if(sceneName == m_MapScene)
         {
-            ClientPlayBGMRpc(3);
+            ClientPlayBGMRpc(4);
             m_countDownTimer.StartCountdown(m_InGameCountdownDuration);
             return;
         }

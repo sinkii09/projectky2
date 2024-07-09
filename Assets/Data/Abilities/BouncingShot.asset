@@ -26,7 +26,7 @@ MonoBehaviour:
   projectileInfoList:
   - Prefab: {fileID: 8787849450496161361, guid: 9e2e9178bd4ecd549b2ede29ced77a0b,
       type: 3}
-    Speed: 20
+    Speed: 15
     Range: 50
     Damage: 30
     MaxVictims: 1

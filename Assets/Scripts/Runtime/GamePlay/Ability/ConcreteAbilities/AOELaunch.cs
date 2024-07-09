@@ -42,7 +42,7 @@ public class AOELaunch : Ability
             var enemy = colliders[i].GetComponent<IDamageable>();
             if (enemy != null)
             {
-                enemy.ReceiveHP(Damage, serverCharacter);
+                enemy.ReceiveHP(-Damage, serverCharacter);
             }
         }
     }

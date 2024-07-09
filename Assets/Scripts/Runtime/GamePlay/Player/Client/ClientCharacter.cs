@@ -83,7 +83,7 @@ public class ClientCharacter : NetworkBehaviour
         m_ClientAbilityHandler = new ClientAbilityHandler(this);
         m_ServerCharacter = GetComponentInParent<ServerCharacter>();
         m_ClientVisualsAnimator = m_NetworkAnimator.Animator;
-        m_MainPlayerIngameCard = FindObjectOfType<MainPlayerIngameCard>();
+        
         
         NetworkManager.SceneManager.OnLoadEventCompleted += SceneManager_OnLoadEventCompleted;
         m_ServerCharacter.MovementStatus.OnValueChanged += OnMovementStatusChanged;
@@ -113,7 +113,10 @@ public class ClientCharacter : NetworkBehaviour
 
     private void OnManaPointChanged(int previousValue, int newValue)
     {
-        m_MainPlayerIngameCard.UpdateCurrentMana(newValue);
+        if(m_MainPlayerIngameCard!=null)
+        {
+            m_MainPlayerIngameCard.UpdateCurrentMana(newValue);
+        }
     }
 
     private void OnCurrentWeaponChanged(WeaponID previousValue, WeaponID newValue)
@@ -146,10 +149,14 @@ public class ClientCharacter : NetworkBehaviour
 
     private void SceneManager_OnLoadEventCompleted(string sceneName, UnityEngine.SceneManagement.LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
-        if(sceneName=="Map1" || sceneName=="Map2")
+        if (sceneName == "Map1" || sceneName == "Map2")
         {
             if (m_ServerCharacter.IsOwner)
+            {
                 gameObject.AddComponent<CameraController>();
+            }
+            m_MainPlayerIngameCard = FindObjectOfType<MainPlayerIngameCard>();
+            m_MainPlayerIngameCard.UpdateCurrentMana(serverCharacter.ManaPoint.Value);
         }
     }
 

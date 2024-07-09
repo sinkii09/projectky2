@@ -19,7 +19,7 @@ public class PlayerInfoBarUI : NetworkBehaviour
     private void Update()
     {
         if(!IsSpawned) return;
-        healthbarUI.value = Mathf.LerpUnclamped(healthbarUI.value, serverCharacter.NetHealthState.HitPoints.Value, .01f);
+        healthbarUI.value = Mathf.LerpUnclamped(healthbarUI.value, serverCharacter.NetHealthState.HitPoints.Value, .1f);
     }
     private void LateUpdate()
     {

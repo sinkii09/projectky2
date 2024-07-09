@@ -15,11 +15,11 @@ public class CharacterSelectDisplay : NetworkBehaviour
     [SerializeField] private PlayerCard[] playerCards;
     [SerializeField] private GameObject characterInfoPanel;
     [SerializeField] private TMP_Text characterNameText;
-    [SerializeField] private Transform[] introSpawnPointArray;
+    [SerializeField] private RectTransform[] introSpawnPointArray;
     [SerializeField] private Button lockInButton;
     [SerializeField] private TextMeshProUGUI countdownText;
     private CountDownTimer countDownTimer;
-    private Dictionary<CharacterSelectState,Transform> introPointDictionary = new Dictionary<CharacterSelectState,Transform>();
+    private Dictionary<CharacterSelectState,RectTransform> introPointDictionary = new Dictionary<CharacterSelectState,RectTransform>();
     private Dictionary<ulong,GameObject> introInstanceDictionary = new Dictionary<ulong,GameObject>();
     private List<CharacterSelectButton> characterButtons = new List<CharacterSelectButton>();
     private NetworkList<CharacterSelectState> players;
@@ -69,6 +69,7 @@ public class CharacterSelectDisplay : NetworkBehaviour
             }
 
             players.OnListChanged += HandlePlayersStateChanged;
+            
         }
 
         if (IsServer)
@@ -93,6 +94,13 @@ public class CharacterSelectDisplay : NetworkBehaviour
         if (IsClient)
         {
             players.OnListChanged -= HandlePlayersStateChanged;
+            for (int i = 0; i < players.Count; i++)
+            {
+                if (introInstanceDictionary.ContainsKey(players[i].ClientId) && introInstanceDictionary[players[i].ClientId])
+                {
+                    Destroy(introInstanceDictionary[players[i].ClientId]);
+                }
+            }
         }
 
         if (IsServer)
@@ -314,8 +322,7 @@ public class CharacterSelectDisplay : NetworkBehaviour
         }
         var character = characterDatabase.GetCharacterById(player.CharacterId);
         var screenRect = introPointDictionary[player];
-        Vector3 screenPosition = new Vector3(screenRect.position.x, screenRect.position.y, 20);
-        Vector3 worldPosition = overlayCAM.ScreenToWorldPoint(screenPosition);
+        Vector3 worldPosition = GetWorldPositionFromUI(screenRect, Camera.main, overlayCAM);
         var instance = Instantiate(character.IntroPrefab,worldPosition,Quaternion.identity);
         introInstanceDictionary.Add(player.ClientId, instance);
         if(player.IsLockedIn)
@@ -332,5 +339,16 @@ public class CharacterSelectDisplay : NetworkBehaviour
                 }
             }
         }
+    }
+    Vector3 GetWorldPositionFromUI(RectTransform uiElement, Camera uiCamera, Camera worldCamera)
+    {
+        Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(uiCamera, uiElement.position);
+        Debug.Log(screenPoint);
+        if (!RectTransformUtility.ScreenPointToWorldPointInRectangle(uiElement, screenPoint, worldCamera, out Vector3 worldPosition))
+        {
+            Debug.Log("do nothing");
+        }
+        Vector3 pos = new Vector3(worldPosition.x, worldPosition.y, 0);
+        return pos;
     }
 }
