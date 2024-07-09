@@ -69,7 +69,6 @@ public class GamePlayBehaviour : NetworkBehaviour
             enabled = false;
             return;
         }
-        
         NetworkManager.SceneManager.OnLoadEventCompleted += SceneManager_OnLoadEventCompleted;
         m_countDownTimer.OnTimeExpired += CountDownTimer_OnTimeExpired;
     }
@@ -85,7 +84,7 @@ public class GamePlayBehaviour : NetworkBehaviour
         {
             OnGameOver?.Invoke();
             IsGameOver.Value = true;
-            
+            Debug.Log("On GameOver");
             LoadState(GamePlayState.GameOver);
         }
     }
@@ -93,6 +92,7 @@ public class GamePlayBehaviour : NetworkBehaviour
     {
         if(sceneName == m_CharSelectScene)
         {
+            NetworkServer.Instance.CreateGameSession();
             ClientPlayBGMRpc(2);
             m_countDownTimer.StartCountdown(m_CharSelectCountdownDuration);
             return;

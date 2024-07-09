@@ -20,7 +20,7 @@ public class CharacterSpawner : NetworkBehaviour,IDisposable
     public NetworkList<CharacterInGameState> Players;
     public List<NetworkObject> networkObjects {  get; private set; }
     public Dictionary<ulong, ServerCharacter> PlayerCharacters = new Dictionary<ulong, ServerCharacter>();
-
+    
     public event Action OnSpawnComplete;
 
 
@@ -34,7 +34,17 @@ public class CharacterSpawner : NetworkBehaviour,IDisposable
     {
         Dispose();
     }
-
+    private void FixedUpdate()
+    {
+        if(!IsServer || !IsSpawned) return;
+        foreach(var player in Players)
+        {
+            if(!player.IsAlive && Time.time > player.DeadTime + m_ReviveDuration)
+            {
+                PlayerCharacters[player.ClientId].Revive(GetRandomTransformInList().position + Vector3.up);
+            }
+        }
+    }
     public override void OnNetworkSpawn()
     {
         if(!IsServer) return;
@@ -85,23 +95,15 @@ public class CharacterSpawner : NetworkBehaviour,IDisposable
                 Players[i] = new CharacterInGameState
                     (Players[i].ClientId,
                     Players[i].ClientName,
-                    Players[i].CharacterId, 
-                    isAlive, 
+                    Players[i].CharacterId,
+                    isAlive,
                     health,
                     Players[i].Kill,
-                    isAlive ? Players[i].Dead : Players[i].Dead + 1);
-
-                if (!Players[i].IsAlive && PlayerCharacters.ContainsKey(Players[i].ClientId))
-                {
-                    StartCoroutine(RevivePlayer(PlayerCharacters[Players[i].ClientId]));
-                }
+                    isAlive ? Players[i].Dead : Players[i].Dead + 1,
+                    isAlive ? Players[i].DeadTime : Time.time
+                    );
             }
         }
-    }
-    IEnumerator RevivePlayer(ServerCharacter serverCharacter)
-    {
-        yield return new WaitForSeconds(m_ReviveDuration);
-        serverCharacter.Revive(GetRandomTransformInList().position + Vector3.up);
     }
     public void UpdateKill(ulong id)
     {

@@ -265,13 +265,10 @@ public class ServerCharacter : NetworkBehaviour
     }
     public void Revive(Vector3 position)
     {
-        if(LifeState.Value == LifeStateEnum.Dead)
-        {
-            physicsWrapper.Transform.position = position;
-            HitPoints = Mathf.Clamp(CharacterStats.BaseHP, 0, CharacterStats.BaseHP);
-            LifeState.Value = LifeStateEnum.Alive;
-            m_CharacterSpawner.UpdateHealth(OwnerClientId, CharacterStats.BaseHP);
-        }
+        LifeState.Value = LifeStateEnum.Alive;
+        physicsWrapper.Transform.position = position;
+        HitPoints = Mathf.Clamp(CharacterStats.BaseHP, 0, CharacterStats.BaseHP);
+        m_CharacterSpawner.UpdateHealth(OwnerClientId, CharacterStats.BaseHP);
     }
     void CollisionEntered(Collision collision)
     {

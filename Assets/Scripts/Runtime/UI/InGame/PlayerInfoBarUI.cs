@@ -7,7 +7,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerInfoBarUI : NetworkBehaviour
+public class PlayerInfoBarUI : MonoBehaviour
 {
     [SerializeField] Slider healthbarUI;
     [SerializeField] Image weaponIcon;
@@ -16,10 +16,10 @@ public class PlayerInfoBarUI : NetworkBehaviour
     [SerializeField] ServerCharacter serverCharacter;
 
     private bool invert = true;
+    private bool isStart;
     private void Update()
     {
-        if(!IsSpawned) return;
-        if(!IsClient) return;
+        if (!isStart) return;
         healthbarUI.value = Mathf.LerpUnclamped(healthbarUI.value, serverCharacter.NetHealthState.HitPoints.Value, .1f);
     }
     private void LateUpdate()
@@ -36,33 +36,26 @@ public class PlayerInfoBarUI : NetworkBehaviour
         }
     }
 
-    public override void OnNetworkSpawn()
+    public void Init(string name)
     {
-        if (!IsClient)
-        {
-            enabled = false;
-            return;
-        }
-        Debug.Log("HP bar spawned");
+        isStart = true;
         serverCharacter ??= GetComponentInParent<ServerCharacter>();
         healthbarUI.maxValue = serverCharacter.HitPoints;
         healthbarUI.value = healthbarUI.maxValue;
         var currentWeapon = GamePlayDataSource.Instance.GetWeaponPrototypeByID(serverCharacter.CurrentWeaponId.Value);
         weaponIcon.sprite = currentWeapon.Icon;
-        playerName.text = NetworkServer.Instance.GetNetworkedPlayer(serverCharacter.OwnerClientId).PlayerName.Value;
+        playerName.text = name;
 
 
         serverCharacter.CurrentWeaponId.OnValueChanged += OnWeaponChange;
         serverCharacter.NetHealthState.HitPoints.OnValueChanged += OnHealthChange;
     }
 
-    public override void OnNetworkDespawn()
+    private void OnDestroy()
     {
         serverCharacter.CurrentWeaponId.OnValueChanged -= OnWeaponChange;
         serverCharacter.NetHealthState.HitPoints.OnValueChanged -= OnHealthChange;
     }
-
-    
     private void OnHealthChange(int previousValue, int newValue)
     {
         

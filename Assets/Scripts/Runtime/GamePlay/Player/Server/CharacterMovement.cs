@@ -168,7 +168,6 @@ public class CharacterMovement : NetworkBehaviour
     {
         m_MovementState = MovementState.Dashing;
         dashDirection = direction;
-        moveDirection = direction;
         dashSpeed = speed;
         m_SpecialModeDurationRemaining = duration;
     }

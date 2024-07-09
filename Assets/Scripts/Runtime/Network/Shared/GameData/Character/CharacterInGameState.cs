@@ -13,8 +13,9 @@ public struct CharacterInGameState : INetworkSerializable, IEquatable<CharacterI
     public int Kill;
     public int Dead;
     public int Health;
+    public float DeadTime;
 
-    public CharacterInGameState(ulong clientId, NetworkString clientName, int characterId, bool isAlive, int health, int kill = 0, int dead = 0)
+    public CharacterInGameState(ulong clientId, NetworkString clientName, int characterId, bool isAlive, int health, int kill = 0, int dead = 0, float deadTime = 0)
     {
         ClientId = clientId;
         ClientName = clientName;
@@ -23,6 +24,7 @@ public struct CharacterInGameState : INetworkSerializable, IEquatable<CharacterI
         Health = health;
         Kill = kill;
         Dead = dead;
+        DeadTime = deadTime;
     }
 
     public bool Equals(CharacterInGameState other)
@@ -33,7 +35,8 @@ public struct CharacterInGameState : INetworkSerializable, IEquatable<CharacterI
             IsAlive == other.IsAlive &&
             Health == other.Health &&
             Kill == other.Kill && 
-            Dead == other.Dead;
+            Dead == other.Dead &&
+            DeadTime == other.DeadTime;
     }
 
     public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
@@ -45,5 +48,6 @@ public struct CharacterInGameState : INetworkSerializable, IEquatable<CharacterI
         serializer.SerializeValue(ref Health);
         serializer.SerializeValue(ref Kill);
         serializer.SerializeValue(ref Dead);
+        serializer.SerializeValue(ref DeadTime);
     }
 }

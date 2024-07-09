@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class ClientCharacter : NetworkBehaviour
 {
@@ -24,6 +26,9 @@ public class ClientCharacter : NetworkBehaviour
     [SerializeField]
     VisualizationConfiguration m_VisualizationConfiguration;
 
+    [SerializeField]
+    PlayerInfoBarUI m_PlayerInfoBarUI;
+    
     ServerCharacter m_ServerCharacter;
     public ServerCharacter serverCharacter => m_ServerCharacter;
 
@@ -33,6 +38,10 @@ public class ClientCharacter : NetworkBehaviour
     public bool CanPerformSkill => m_ServerCharacter.CanPerformSkills;
 
     MainPlayerIngameCard m_MainPlayerIngameCard;
+
+    private Volume volume;
+    private ColorAdjustments colorAdjustments;
+    private Counter counter;
     #endregion
     #region VFX
     [SerializeField] GameObject m_RevivePart;
@@ -83,7 +92,6 @@ public class ClientCharacter : NetworkBehaviour
         m_ClientAbilityHandler = new ClientAbilityHandler(this);
         m_ServerCharacter = GetComponentInParent<ServerCharacter>();
         m_ClientVisualsAnimator = m_NetworkAnimator.Animator;
-        
         
         NetworkManager.SceneManager.OnLoadEventCompleted += SceneManager_OnLoadEventCompleted;
         m_ServerCharacter.MovementStatus.OnValueChanged += OnMovementStatusChanged;
@@ -139,11 +147,15 @@ public class ClientCharacter : NetworkBehaviour
         {
             var fx = ParticlePool.Singleton.GetObject(m_RevivePart, m_ServerCharacter.physicsWrapper.transform.position, Quaternion.identity);
             fx.GetComponent<SpecialFXGraphic>().OnInitialized(m_RevivePart);
+            colorAdjustments.saturation.value = 0;
+            counter.Hide();
         }
         if(newValue == LifeStateEnum.Dead)
         {
             var fx =  ParticlePool.Singleton.GetObject(m_FaintedPart, m_ServerCharacter.physicsWrapper.transform.position,Quaternion.identity);
             fx.GetComponent<SpecialFXGraphic>().OnInitialized(m_FaintedPart);
+            colorAdjustments.saturation.value = -100;
+            counter.Show();
         }
     }
 
@@ -157,9 +169,27 @@ public class ClientCharacter : NetworkBehaviour
             }
             m_MainPlayerIngameCard = FindObjectOfType<MainPlayerIngameCard>();
             m_MainPlayerIngameCard.UpdateCurrentMana(serverCharacter.ManaPoint.Value);
+
+            CharacterSpawner spawner = FindObjectOfType<CharacterSpawner>();
+            foreach(var player in spawner.Players)
+            {
+                if(player.ClientId == serverCharacter.OwnerClientId)
+                {
+                    m_PlayerInfoBarUI.Init(player.ClientName);
+                }
+            }    
+
+            volume = FindObjectOfType<Volume>();
+            if (volume != null)
+            {
+                if (volume.profile.TryGet(out colorAdjustments))
+                {
+                    colorAdjustments.saturation.value = 0;
+                }
+            }
+            counter = FindObjectOfType<Counter>();
         }
     }
-
     private void OnMoveInput(Vector3 vector)
     {
         if(!IsAnimating())

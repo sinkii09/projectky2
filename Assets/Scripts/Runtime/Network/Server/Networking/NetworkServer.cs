@@ -88,18 +88,25 @@ public class NetworkServer : IDisposable
             m_SynchedServerData.gameObject);
         return m_SynchedServerData;
     }
-    public void SetCharacter(ulong clientId, int characterId)
+    public void CreateGameSession()
     {
         List<string> playerIdList = new List<string>();
+        foreach (var user in UserDataList)
+        {
+            playerIdList.Add(user.userId);
+        }
+        ServerSingleton.Instance.ServerToBackend.CreateGameSession(m_SynchedServerData.gameMode.Value, playerIdList);
+    }
+    public void SetCharacter(ulong clientId, int characterId)
+    {
+        
         if (m_NetworkIdToAuth.TryGetValue(clientId, out string auth))
         {
             if (m_ClientData.TryGetValue(auth, out UserData data))
             {
                 data.characterId = characterId;
-                playerIdList.Add(data.userId);
             }
         }
-        ServerSingleton.Instance.ServerToBackend.CreateGameSession(m_SynchedServerData.gameMode.Value,playerIdList);
     }
     public void SetPlayerResult(ulong clientId, int kill,int dead)
     {
