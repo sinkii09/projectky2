@@ -398,6 +398,13 @@ MonoBehaviour:
     TransitionDuration: 0
     TriggerNameHash: 237393061
     TransitionIndex: 2
+  - IsCrossFadeExit: 0
+    Layer: 1
+    OriginatingState: -1459219776
+    DestinationState: -2083125633
+    TransitionDuration: 0.25
+    TriggerNameHash: -2083125633
+    TransitionIndex: 3
   m_Animator: {fileID: 3639332045119622451}
 --- !u!1 &7199043946590893519
 GameObject:
@@ -725,6 +732,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CharTrail
+      objectReference: {fileID: 0}
+    - target: {fileID: 40428518095029017, guid: 90ea498c41b5a4c41a24b78b4038aba7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6761297010515717328, guid: 90ea498c41b5a4c41a24b78b4038aba7,
         type: 3}

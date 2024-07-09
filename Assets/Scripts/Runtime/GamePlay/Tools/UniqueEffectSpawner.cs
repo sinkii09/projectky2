@@ -50,8 +50,8 @@ public class UniqueEffectSpawner : NetworkBehaviour
     {
         for(int i = 0; i < amount; i++)
         {
-            int idx = Random.Range(0, effects.Length - 1);
-            var effect = effects[idx];
+            int idx = Random.Range(0, effects.Length);
+            var effect = Instantiate(effects[idx]);
             effect.Initialize(RandomPositionInRange());
             if (!effect.NetworkObject.IsSpawned)
             {

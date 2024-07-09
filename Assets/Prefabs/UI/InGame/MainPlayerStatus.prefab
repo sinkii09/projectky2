@@ -683,7 +683,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0
+  m_text: E
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0bbec45e5113c624bbb99cbf0a97f6f6, type: 2}
   m_sharedMaterial: {fileID: 2872283471358786221, guid: 0bbec45e5113c624bbb99cbf0a97f6f6,
@@ -1437,7 +1437,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: E
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0bbec45e5113c624bbb99cbf0a97f6f6, type: 2}
   m_sharedMaterial: {fileID: 2872283471358786221, guid: 0bbec45e5113c624bbb99cbf0a97f6f6,
@@ -1793,11 +1793,11 @@ RectTransform:
   - {fileID: 7358130693174806188}
   m_Father: {fileID: 3636224525986676767}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 20, y: -20}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 30, y: 10}
   m_SizeDelta: {x: 50, y: 40}
-  m_Pivot: {x: 1, y: 0}
+  m_Pivot: {x: 1, y: 1}
 --- !u!222 &4394195367488320472
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1960,7 +1960,7 @@ MonoBehaviour:
   weaponIcon: {fileID: 4010794381342630897}
   weaponAmountText: {fileID: 6125430365726874849}
   manaText: {fileID: 7521411300167480354}
-  manaCostText: {fileID: 5729164027060914990}
+  manaCostText: {fileID: 6300453759209331706}
   specialIcon: {fileID: 2036344173653213372}
 --- !u!114 &6392707430013918351
 MonoBehaviour:

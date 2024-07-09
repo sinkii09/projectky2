@@ -132,9 +132,9 @@ public class CharacterSelectDisplay : NetworkBehaviour
             if (IsCharacterTaken(character.Id, false)) { return; }
         }
 
-        characterNameText.text = character.DisplayName;
+        //characterNameText.text = character.DisplayName;
 
-        characterInfoPanel.SetActive(true);
+        //characterInfoPanel.SetActive(true);
 
         //if (introInstance != null)
         //{

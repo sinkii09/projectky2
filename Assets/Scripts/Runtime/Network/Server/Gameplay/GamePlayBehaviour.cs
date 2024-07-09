@@ -93,12 +93,13 @@ public class GamePlayBehaviour : NetworkBehaviour
     {
         if(sceneName == m_CharSelectScene)
         {
+            ClientPlayBGMRpc(2);
             m_countDownTimer.StartCountdown(m_CharSelectCountdownDuration);
             return;
         }
         else if(sceneName == m_MapScene)
         {
-            Debug.Log("load game scene");
+            ClientPlayBGMRpc(3);
             m_countDownTimer.StartCountdown(m_InGameCountdownDuration);
             return;
         }
@@ -116,5 +117,10 @@ public class GamePlayBehaviour : NetworkBehaviour
     public void LoadSceneDelay(GamePlayState state)
     {
         StartCoroutine(LoadGamePlayCoroutine(3,state));
+    }
+    [Rpc(SendTo.ClientsAndHost)]
+    void ClientPlayBGMRpc(int num)
+    {
+        AudioManager.Instance.PlayBGMNumber(num);
     }
 }

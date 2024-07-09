@@ -42,24 +42,15 @@ public class AudioManager : MonoBehaviour
         {
             PlayMusic(bgm_Clips[1]);
         }
-        else if (newScene == SceneManager.GetSceneByName("CharSelect"))
-        {
-            PlayMusic(bgm_Clips[2]);
-        }
-        else if (newScene == SceneManager.GetSceneByName("Map1"))
-        {
-            PlayMusic(bgm_Clips[3]);
-        }
-        else if (newScene == SceneManager.GetSceneByName("Map2"))
-        {
-            PlayMusic(bgm_Clips[4]);
-        }
         else if (newScene == SceneManager.GetSceneByName("PostScene"))
         {
             PlayMusic(bgm_Clips[5]);
         }
     }
-
+    public void PlayBGMNumber(int number)
+    {
+        PlayMusic(bgm_Clips[number]);
+    }
     public void PlaySFXNumber(int number)
     {
         switch (number)

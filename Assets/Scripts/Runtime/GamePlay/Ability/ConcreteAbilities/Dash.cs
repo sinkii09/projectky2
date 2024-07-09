@@ -10,7 +10,7 @@ public class Dash : Ability
     private Vector3 startPos;
     private float dashTime;
     private float distance;
-    private float speed = 30;
+    private float speed = 60;
     private bool isDashing = false;
     
     Rigidbody rb;
