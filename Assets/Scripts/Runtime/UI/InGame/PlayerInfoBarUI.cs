@@ -19,6 +19,7 @@ public class PlayerInfoBarUI : NetworkBehaviour
     private void Update()
     {
         if(!IsSpawned) return;
+        if(!IsClient) return;
         healthbarUI.value = Mathf.LerpUnclamped(healthbarUI.value, serverCharacter.NetHealthState.HitPoints.Value, .1f);
     }
     private void LateUpdate()
@@ -42,6 +43,7 @@ public class PlayerInfoBarUI : NetworkBehaviour
             enabled = false;
             return;
         }
+        Debug.Log("HP bar spawned");
         serverCharacter ??= GetComponentInParent<ServerCharacter>();
         healthbarUI.maxValue = serverCharacter.HitPoints;
         healthbarUI.value = healthbarUI.maxValue;

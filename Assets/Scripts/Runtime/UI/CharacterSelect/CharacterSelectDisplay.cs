@@ -15,11 +15,11 @@ public class CharacterSelectDisplay : NetworkBehaviour
     [SerializeField] private PlayerCard[] playerCards;
     [SerializeField] private GameObject characterInfoPanel;
     [SerializeField] private TMP_Text characterNameText;
-    [SerializeField] private RectTransform[] introSpawnPointArray;
+    [SerializeField] private Transform[] introSpawnPointArray;
     [SerializeField] private Button lockInButton;
     [SerializeField] private TextMeshProUGUI countdownText;
     private CountDownTimer countDownTimer;
-    private Dictionary<CharacterSelectState,RectTransform> introPointDictionary = new Dictionary<CharacterSelectState,RectTransform>();
+    private Dictionary<CharacterSelectState,Transform> introPointDictionary = new Dictionary<CharacterSelectState,Transform>();
     private Dictionary<ulong,GameObject> introInstanceDictionary = new Dictionary<ulong,GameObject>();
     private List<CharacterSelectButton> characterButtons = new List<CharacterSelectButton>();
     private NetworkList<CharacterSelectState> players;
@@ -322,8 +322,7 @@ public class CharacterSelectDisplay : NetworkBehaviour
         }
         var character = characterDatabase.GetCharacterById(player.CharacterId);
         var screenRect = introPointDictionary[player];
-        Vector3 worldPosition = GetWorldPositionFromUI(screenRect, Camera.main, overlayCAM);
-        var instance = Instantiate(character.IntroPrefab,worldPosition,Quaternion.identity);
+        var instance = Instantiate(character.IntroPrefab,screenRect);
         introInstanceDictionary.Add(player.ClientId, instance);
         if(player.IsLockedIn)
         {
