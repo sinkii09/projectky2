@@ -1796,6 +1796,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Global Volume
       objectReference: {fileID: 0}
+    - target: {fileID: 6125475420298326765, guid: 6967d5f481f3e32419f3e0c4f3e14a04,
+        type: 3}
+      propertyPath: sharedProfile
+      value: 
+      objectReference: {fileID: 11400000, guid: 615a75db2545e5d4896ce05691552bc9,
+        type: 2}
     - target: {fileID: 6564831065493457413, guid: 6967d5f481f3e32419f3e0c4f3e14a04,
         type: 3}
       propertyPath: m_LocalPosition.x

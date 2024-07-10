@@ -116,11 +116,14 @@ public class ClientCharacter : NetworkBehaviour
 
     public override void OnNetworkDespawn()
     {
+        if(m_ServerCharacter)
+        {
+            m_ServerCharacter.LifeState.OnValueChanged -= OnLifeStateChanged;
+            m_ServerCharacter.CurrentWeaponId.OnValueChanged -= OnCurrentWeaponChanged;
+            m_ClientInputSender.ClientMoveEvent -= OnMoveInput;
+            m_ServerCharacter.ManaPoint.OnValueChanged -= OnManaPointChanged;
+        }
         NetworkManager.SceneManager.OnLoadEventCompleted -= SceneManager_OnLoadEventCompleted;
-        m_ServerCharacter.LifeState.OnValueChanged -= OnLifeStateChanged;
-        m_ServerCharacter.CurrentWeaponId.OnValueChanged -= OnCurrentWeaponChanged;
-        m_ClientInputSender.ClientMoveEvent -= OnMoveInput;
-        m_ServerCharacter.ManaPoint.OnValueChanged -= OnManaPointChanged;
         enabled = false;
     }
 
@@ -152,15 +155,23 @@ public class ClientCharacter : NetworkBehaviour
         {
             var fx = ParticlePool.Singleton.GetObject(m_RevivePart, m_ServerCharacter.physicsWrapper.transform.position, Quaternion.identity);
             fx.GetComponent<SpecialFXGraphic>().OnInitialized(m_RevivePart);
-            colorAdjustments.saturation.value = 0;
-            counter.Hide();
+
+            if (serverCharacter.OwnerClientId == NetworkManager.Singleton.LocalClientId)
+            {
+                colorAdjustments.saturation.value = 0;
+                counter.Hide();
+            }
         }
         if(newValue == LifeStateEnum.Dead)
         {
             var fx =  ParticlePool.Singleton.GetObject(m_FaintedPart, m_ServerCharacter.physicsWrapper.transform.position,Quaternion.identity);
             fx.GetComponent<SpecialFXGraphic>().OnInitialized(m_FaintedPart);
-            colorAdjustments.saturation.value = -100;
-            counter.Show();
+
+            if(serverCharacter.OwnerClientId == NetworkManager.Singleton.LocalClientId)
+            {
+                colorAdjustments.saturation.value = -100;
+                counter.Show();
+            }
         }
     }
 
@@ -194,6 +205,7 @@ public class ClientCharacter : NetworkBehaviour
                 }
             }
             counter = FindObjectOfType<Counter>();
+            counter.Hide();
         }
     }
     private void OnMoveInput(Vector3 vector)
