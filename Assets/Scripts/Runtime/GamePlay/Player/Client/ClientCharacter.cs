@@ -153,12 +153,12 @@ public class ClientCharacter : NetworkBehaviour
     {
         if(newValue == LifeStateEnum.Alive)
         {
-            var fx = ParticlePool.Singleton.GetObject(m_RevivePart, m_ServerCharacter.physicsWrapper.transform.position, Quaternion.identity);
-            fx.GetComponent<SpecialFXGraphic>().OnInitialized(m_RevivePart);
+            m_RevivePart.SetActive(true);
 
             if (serverCharacter.OwnerClientId == NetworkManager.Singleton.LocalClientId)
             {
                 colorAdjustments.saturation.value = 0;
+                if(counter!=null)
                 counter.Hide();
             }
         }
@@ -170,7 +170,8 @@ public class ClientCharacter : NetworkBehaviour
             if(serverCharacter.OwnerClientId == NetworkManager.Singleton.LocalClientId)
             {
                 colorAdjustments.saturation.value = -100;
-                counter.Show();
+                if (counter != null)
+                    counter.Show();
             }
         }
     }
@@ -185,7 +186,8 @@ public class ClientCharacter : NetworkBehaviour
             }
             m_MainPlayerIngameCard = FindObjectOfType<MainPlayerIngameCard>();
             m_MainPlayerIngameCard.UpdateCurrentMana(serverCharacter.ManaPoint.Value);
-
+            counter = m_MainPlayerIngameCard.counter;
+            counter.Hide();
             CharacterSpawner spawner = FindObjectOfType<CharacterSpawner>();
             foreach(var player in spawner.Players)
             {
@@ -203,15 +205,6 @@ public class ClientCharacter : NetworkBehaviour
                 {
                     colorAdjustments.saturation.value = 0;
                 }
-            }
-            counter = FindObjectOfType<Counter>();
-            if (counter != null)
-            {
-                counter.Hide();
-            }
-            else
-            {
-                Debug.Log("counter null");
             }
         }
     }

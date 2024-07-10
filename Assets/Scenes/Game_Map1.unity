@@ -195,7 +195,7 @@ MonoBehaviour:
   m_MainScene: Game_Map1
   m_countDownTimer: {fileID: 335670540}
   m_CharSelectCountdownDuration: 10
-  m_InGameCountdownDuration: 9999
+  m_InGameCountdownDuration: 600
 --- !u!1 &335670537
 GameObject:
   m_ObjectHideFlags: 0

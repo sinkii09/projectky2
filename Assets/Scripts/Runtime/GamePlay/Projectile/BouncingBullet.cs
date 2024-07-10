@@ -17,25 +17,27 @@ public class BouncingBullet : NetworkBehaviour
     float range;
     float timer;
     ServerCharacter spawner;
-
+    Rigidbody rb;
     public void Initialize(in ProjectileInfo info, ServerCharacter serverCharacter)
     {
 
         damage = info.Damage;
         range = info.Range;
         speed = info.Speed;
+        Debug.Log("speed = " + info.Speed);
         spawner = serverCharacter;
 
         bounceAmount = 0;
 
-        targetLayer = 1 << LayerMask.NameToLayer("PCs");
-        blockLayer = 1 << LayerMask.NameToLayer("Environment");
+        targetLayer = LayerMask.GetMask("PCs");
+        blockLayer = LayerMask.GetMask("Environment");
     }
     public override void OnNetworkSpawn()
     {
         if(IsServer)
         {
             timer = Time.time;
+            rb.velocity = transform.forward * 25;
         }
         if(IsClient)
         {
@@ -60,7 +62,7 @@ public class BouncingBullet : NetworkBehaviour
     {
         if(IsServer)
         {
-            if (Time.time > timer + range / speed)
+            if (Time.time > timer + range / 10)
             {
                 if (!NetworkObject)
                 {

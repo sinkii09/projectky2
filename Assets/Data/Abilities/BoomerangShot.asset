@@ -14,16 +14,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: 
   Damage: 10
+  Radius: 0
   MinRange: 30
   MaxRange: 30
   abilityAnimationTrigger: Bomb
   rejectionAnimationTrigger: 
   executeTime: 0.15
+  durationTime: 0
+  cooldownTime: 0
+  Cost: 0
   projectileInfoList:
   - Prefab: {fileID: 8787849450496161361, guid: 06a6b529a37271046a14d35db6e3ad08,
       type: 3}
-    Speed: 20
+    Speed: 25
     Range: 10
     Damage: 10
     MaxVictims: 0
+  weaponVisual: []
+  effect: []
+  indicatorTexture: {fileID: 0}
   CheckAmount: 1
+  ShowIndicator: 1

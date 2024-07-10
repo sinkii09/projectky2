@@ -41,7 +41,7 @@ public class BoomerangProjectile : NetworkBehaviour
             traveledDistance = 0;
             spawner = serverCharacter;
             totalDistance = Vector3.Distance(startPoint, endPoint);
-            targetLayer = 1 << LayerMask.NameToLayer("PCs");
+            targetLayer = LayerMask.GetMask("PCs");
             blockLayer = LayerMask.GetMask("Environment");
         
     }
@@ -63,7 +63,7 @@ public class BoomerangProjectile : NetworkBehaviour
         {
             visual.transform.parent = transform;
         }
-        damagePlayer.Clear();
+        
     }
 
     void Update()
@@ -119,26 +119,29 @@ public class BoomerangProjectile : NetworkBehaviour
         {
             return;
         }
-        if(!collisionBlock && other.gameObject.layer == blockLayer)
+        if(!collisionBlock && (1 << other.gameObject.layer & blockLayer) != 0) 
         {
             Debug.Log("boom hit wall");
             collisionBlock = true;
         }
-        if (other.gameObject.layer != targetLayer) return;
-        var serverCharacter = other.GetComponent<ServerCharacter>();
-        if (serverCharacter != null && serverCharacter.OwnerClientId == spawner.OwnerClientId) return;
-        if (damagePlayer.Contains(serverCharacter)) return;
-        var damageable = other.GetComponent<IDamageable>();
-        if (damageable != null && damageable.IsDamageable())
+        if ((1 << other.gameObject.layer & targetLayer) != 0)
         {
-            ClientHitEnemyRpc(serverCharacter.OwnerClientId);
-            damageable.ReceiveHP(-damage, spawner);
-            damagePlayer.Add(serverCharacter);
-            Debug.Log("Add player");
+            var serverCharacter = other.GetComponent<ServerCharacter>();
+            if (serverCharacter != null && serverCharacter.OwnerClientId == spawner.OwnerClientId) return;
+            if (damagePlayer.Contains(serverCharacter)) return;
+            var damageable = other.GetComponent<IDamageable>();
+            if (damageable != null && damageable.IsDamageable())
+            {
+                ClientHitEnemyRpc(serverCharacter.OwnerClientId);
+                damageable.ReceiveHP(-damage, spawner);
+                damagePlayer.Add(serverCharacter);
+                Debug.Log("Add player");
+            }
         }
     }
     private void OnBoomerangReturn()
     {
+        damagePlayer.Clear();
         NetworkObject.Despawn();
     }
 

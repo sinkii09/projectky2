@@ -20,10 +20,9 @@ public class BouncingShot : ArrowShot
     {
         var projectileInfo = GetProjectileInfo();
         NetworkObject networkObject = NetworkObjectPool.Singleton.GetNetworkObject(projectileInfo.Prefab, projectileInfo.Prefab.transform.position, projectileInfo.Prefab.transform.rotation);
-        networkObject.transform.forward = serverCharacter.physicsWrapper.transform.forward;
+        networkObject.transform.forward = serverCharacter.physicsWrapper.Transform.forward;
         networkObject.transform.position = serverCharacter.physicsWrapper.Transform.localToWorldMatrix.MultiplyPoint(networkObject.transform.position);
-        networkObject.GetComponent<BouncingBullet>().Initialize(projectileInfo,serverCharacter);
-        networkObject.GetComponent<Rigidbody>().velocity = networkObject.transform.forward * projectileInfo.Speed;
+        networkObject.GetComponent<BouncingBullet>().Initialize(projectileInfo, serverCharacter);
         networkObject.Spawn(true);
 
         if (CheckAmount)

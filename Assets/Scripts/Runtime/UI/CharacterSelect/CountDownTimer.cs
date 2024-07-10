@@ -19,6 +19,7 @@ public class CountDownTimer : NetworkBehaviour
     {
         if (IsServer)
         {
+            if (!IsSpawned) return;
             if (!isStartCountdown) return;
             float elapsedTime = NetworkManager.LocalTime.TimeAsFloat - startTime;
             remainingTime.Value = Mathf.Max(0, countdownDuration - elapsedTime);
@@ -52,6 +53,7 @@ public class CountDownTimer : NetworkBehaviour
         {
             return;
         }
+        Debug.Log("on time expired");
         OnTimeExpired?.Invoke();
         isStartCountdown = false;
     }

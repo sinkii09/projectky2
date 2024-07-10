@@ -63,7 +63,8 @@ public class UniqueEffectSpawner : NetworkBehaviour
     Vector3 RandomPositionInRange()
     {
         float angle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
-        Vector3 newPosition = transform.position + new Vector3(Mathf.Cos(angle) * spawnRange, 0, Mathf.Sin(angle) * spawnRange);
+        int num = Random.Range(0, 100);
+        Vector3 newPosition = transform.position + new Vector3(Mathf.Cos(angle) * spawnRange * num / 100, 0, Mathf.Sin(angle) * spawnRange * num / 100);
         if (!IsAvailablePosion(newPosition))
         {
             RandomPositionInRange();

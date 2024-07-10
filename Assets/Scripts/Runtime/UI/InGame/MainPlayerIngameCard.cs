@@ -18,6 +18,9 @@ public class MainPlayerIngameCard : PlayerIngameCard
     private TMP_Text manaCostText;
     [SerializeField]
     private Image specialIcon;
+
+    [SerializeField]
+    public Counter counter;
     public void UpdateBaseAttackWeapon(WeaponID weaponID)
     {
         var weapon = GamePlayDataSource.Instance.GetWeaponPrototypeByID(weaponID);

@@ -18,6 +18,7 @@ public class Counter : MonoBehaviour
         {
             float elapsedTime = Time.time - startTime;
             remaing = Mathf.Max(0, duration - elapsedTime);
+            Debug.Log(remaing);
             TimeSpan span = TimeSpan.FromSeconds(remaing);
             counterText.text = span.Seconds.ToString();
         }

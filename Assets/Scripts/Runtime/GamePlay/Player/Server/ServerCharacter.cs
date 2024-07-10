@@ -267,6 +267,11 @@ public class ServerCharacter : NetworkBehaviour
         physicsWrapper.Transform.position = position;
         HitPoints = Mathf.Clamp(CharacterStats.BaseHP, 0, CharacterStats.BaseHP);
         m_CharacterSpawner.UpdateHealth(OwnerClientId, CharacterStats.BaseHP);
+        StartCoroutine(ChangeLifeState());
+    }
+    IEnumerator ChangeLifeState()
+    {
+        yield return new WaitForSeconds(1);
         LifeState.Value = LifeStateEnum.Alive;
     }
     void CollisionEntered(Collision collision)

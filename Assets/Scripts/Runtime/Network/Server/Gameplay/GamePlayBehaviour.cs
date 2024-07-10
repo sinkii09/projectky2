@@ -25,6 +25,7 @@ public class GamePlayBehaviour : NetworkBehaviour
     private GamePlayState currentGamePlayState = GamePlayState.Undefined;
 
     public event Action OnGameOver;
+    bool isCharacterSet;
     public NetworkVariable<bool> IsGameOver { get; private set; } = new NetworkVariable<bool>(false);
     private void Awake()
     {
@@ -42,6 +43,8 @@ public class GamePlayBehaviour : NetworkBehaviour
             case GamePlayState.PlayGame:
                 UnloadScene(m_CharSelectScene, () =>
                 {
+                    isCharacterSet = true;
+                    NetworkServer.Instance.CreateGameSession();
                     NetworkManager.SceneManager.LoadScene(m_MapScene, LoadSceneMode.Additive);
                 });
                 break;
@@ -69,6 +72,7 @@ public class GamePlayBehaviour : NetworkBehaviour
             enabled = false;
             return;
         }
+        
         NetworkManager.SceneManager.OnLoadEventCompleted += SceneManager_OnLoadEventCompleted;
         m_countDownTimer.OnTimeExpired += CountDownTimer_OnTimeExpired;
     }
@@ -80,7 +84,7 @@ public class GamePlayBehaviour : NetworkBehaviour
     }
     private void CountDownTimer_OnTimeExpired()
     {
-        if(currentGamePlayState == GamePlayState.PlayGame)
+        if(currentGamePlayState == GamePlayState.PlayGame && isCharacterSet)
         {
             OnGameOver?.Invoke();
             IsGameOver.Value = true;
@@ -92,7 +96,6 @@ public class GamePlayBehaviour : NetworkBehaviour
     {
         if(sceneName == m_CharSelectScene)
         {
-            NetworkServer.Instance.CreateGameSession();
             ClientPlayBGMRpc(2);
             m_countDownTimer.StartCountdown(m_CharSelectCountdownDuration);
             return;

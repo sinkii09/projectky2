@@ -77,7 +77,8 @@ public class WeaponSpawner : NetworkBehaviour
     Vector3 RandomPositionInRange()
     {
         float angle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
-        Vector3 newPosition = transform.position + new Vector3(Mathf.Cos(angle) * m_SpawnRange, 0, Mathf.Sin(angle) * m_SpawnRange);
+        int num = Random.Range(0, 100);
+        Vector3 newPosition = transform.position + new Vector3(Mathf.Cos(angle) * m_SpawnRange * num/100, 0, Mathf.Sin(angle) * m_SpawnRange * num/100);
         if (!IsAvailablePosion(newPosition))
         {
             RandomPositionInRange();
