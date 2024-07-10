@@ -205,7 +205,14 @@ public class ClientCharacter : NetworkBehaviour
                 }
             }
             counter = FindObjectOfType<Counter>();
-            counter.Hide();
+            if (counter != null)
+            {
+                counter.Hide();
+            }
+            else
+            {
+                Debug.Log("counter null");
+            }
         }
     }
     private void OnMoveInput(Vector3 vector)

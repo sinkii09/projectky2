@@ -23,7 +23,6 @@ public class PlayerInfoBarUI : MonoBehaviour
     }
     //private void LateUpdate()
     //{
-    //    if(Camera.main == null) return;
     //    if(invert)
     //    {
     //        Vector3 dirToCamera = (Camera.main.transform.position - transform.position).normalized;
@@ -34,7 +33,14 @@ public class PlayerInfoBarUI : MonoBehaviour
     //        transform.LookAt(Camera.main.transform);
     //    }
     //}
-
+    private void LateUpdate()
+    {    
+        if(Camera.main == null) return;
+        {
+            transform.LookAt(transform.position + Camera.main.transform.rotation * Vector3.forward,
+                             Camera.main.transform.rotation * Vector3.up);
+        }
+    }
     public void Init(string name, bool isOwner = false)
     {
         isStart = true;

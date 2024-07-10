@@ -232,18 +232,15 @@ public class ServerCharacter : NetworkBehaviour
     }
     void ReceiveHP(int HP, ServerCharacter inflicter = null)
     {
-        m_LastInflicter = inflicter;
+        if(inflicter!=null)
+        {
+            m_LastInflicter = inflicter;
+        }
         if(HP > 0)
         {
-            m_ServerSkillPlayer.OnGameplayActivity(Skill.GameplayActivity.Healed);
-            float healingMod = m_ServerSkillPlayer.GetBuffedValue(Skill.BuffableValue.PercentHealingReceived);
-            HP = (int)(HP * healingMod);
         }
         else
         {
-            m_ServerSkillPlayer.OnGameplayActivity(Skill.GameplayActivity.AttackedByEnemy);
-            float damageMod = m_ServerSkillPlayer.GetBuffedValue(Skill.BuffableValue.PercentDamageReceived);
-            HP = (int)(HP * damageMod);
             ServerAnimationHandler.NetworkAnimator.SetTrigger("HitReact1");
         }
         HitPoints = Mathf.Clamp(HitPoints + HP, 0, CharacterStats.BaseHP);
@@ -251,12 +248,14 @@ public class ServerCharacter : NetworkBehaviour
         {
             HitPoints = 0;
             LifeState.Value = LifeStateEnum.Dead;
-            m_ServerSkillPlayer.ClearActions(false);
-            m_CharacterSpawner.UpdateKill(m_LastInflicter.OwnerClientId);
+            if(inflicter != null)
+            {
+                m_CharacterSpawner.UpdateKill(m_LastInflicter.OwnerClientId);
+            }
         }
         m_CharacterSpawner.UpdateHealth(OwnerClientId, HitPoints, LifeState.Value == LifeStateEnum.Alive);
     }
-    public void ReceiveHP(int point)
+    public void ReceiveMP(int point)
     {
         if(ManaPoint.Value < 100)
         {
@@ -265,10 +264,10 @@ public class ServerCharacter : NetworkBehaviour
     }
     public void Revive(Vector3 position)
     {
-        LifeState.Value = LifeStateEnum.Alive;
         physicsWrapper.Transform.position = position;
         HitPoints = Mathf.Clamp(CharacterStats.BaseHP, 0, CharacterStats.BaseHP);
         m_CharacterSpawner.UpdateHealth(OwnerClientId, CharacterStats.BaseHP);
+        LifeState.Value = LifeStateEnum.Alive;
     }
     void CollisionEntered(Collision collision)
     {

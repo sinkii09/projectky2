@@ -149,7 +149,6 @@ public class PhysicsProjectile : NetworkBehaviour
 
                     NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(m_SpawnerId, out var spawnerNet);
                     var spawnerObj = spawnerNet != null ? spawnerNet.GetComponent<ServerCharacter>() : null;
-                    
                     if (m_CollisionCache[i].TryGetComponent(out IDamageable damageable))
                     {
                         damageable.ReceiveHP(-m_ProjectileInfo.Damage, spawnerObj);

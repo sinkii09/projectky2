@@ -41,6 +41,7 @@ public class CharacterSpawner : NetworkBehaviour,IDisposable
         {
             if(!player.IsAlive && Time.time > player.DeadTime + m_ReviveDuration)
             {
+                Debug.Log(player.DeadTime);
                 PlayerCharacters[player.ClientId].Revive(GetRandomTransformInList().position + Vector3.up);
             }
         }
