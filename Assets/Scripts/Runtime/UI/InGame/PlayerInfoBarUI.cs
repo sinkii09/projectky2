@@ -12,31 +12,30 @@ public class PlayerInfoBarUI : MonoBehaviour
     [SerializeField] Slider healthbarUI;
     [SerializeField] Image weaponIcon;
     [SerializeField] TextMeshProUGUI playerName;
-
+    [SerializeField] Image fillImage;
     [SerializeField] ServerCharacter serverCharacter;
 
-    private bool invert = true;
     private bool isStart;
     private void Update()
     {
         if (!isStart) return;
         healthbarUI.value = Mathf.LerpUnclamped(healthbarUI.value, serverCharacter.NetHealthState.HitPoints.Value, .1f);
     }
-    private void LateUpdate()
-    {
-        if(Camera.main == null) return;
-        if(invert)
-        {
-            Vector3 dirToCamera = (Camera.main.transform.position - transform.position).normalized;
-            transform.LookAt(transform.position + dirToCamera * -1);
-        }
-        else
-        {
-            transform.LookAt(Camera.main.transform);
-        }
-    }
+    //private void LateUpdate()
+    //{
+    //    if(Camera.main == null) return;
+    //    if(invert)
+    //    {
+    //        Vector3 dirToCamera = (Camera.main.transform.position - transform.position).normalized;
+    //        transform.LookAt(transform.position + dirToCamera * -1);
+    //    }
+    //    else
+    //    {
+    //        transform.LookAt(Camera.main.transform);
+    //    }
+    //}
 
-    public void Init(string name)
+    public void Init(string name, bool isOwner = false)
     {
         isStart = true;
         serverCharacter ??= GetComponentInParent<ServerCharacter>();
@@ -44,6 +43,7 @@ public class PlayerInfoBarUI : MonoBehaviour
         healthbarUI.value = healthbarUI.maxValue;
         var currentWeapon = GamePlayDataSource.Instance.GetWeaponPrototypeByID(serverCharacter.CurrentWeaponId.Value);
         weaponIcon.sprite = currentWeapon.Icon;
+        fillImage.color = isOwner ? Color.white : Color.red;
         playerName.text = name;
 
 

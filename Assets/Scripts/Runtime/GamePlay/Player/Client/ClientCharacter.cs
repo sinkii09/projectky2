@@ -28,7 +28,9 @@ public class ClientCharacter : NetworkBehaviour
 
     [SerializeField]
     PlayerInfoBarUI m_PlayerInfoBarUI;
-    
+
+    [SerializeField]
+    GameObject m_Aura;    
     ServerCharacter m_ServerCharacter;
     public ServerCharacter serverCharacter => m_ServerCharacter;
 
@@ -92,7 +94,10 @@ public class ClientCharacter : NetworkBehaviour
         m_ClientAbilityHandler = new ClientAbilityHandler(this);
         m_ServerCharacter = GetComponentInParent<ServerCharacter>();
         m_ClientVisualsAnimator = m_NetworkAnimator.Animator;
-        
+        if(m_ServerCharacter.OwnerClientId == NetworkManager.Singleton.LocalClientId)
+        {
+            m_Aura.GetComponent<MeshRenderer>().material.color = Color.green;
+        }
         NetworkManager.SceneManager.OnLoadEventCompleted += SceneManager_OnLoadEventCompleted;
         m_ServerCharacter.MovementStatus.OnValueChanged += OnMovementStatusChanged;
         m_ServerCharacter.LifeState.OnValueChanged += OnLifeStateChanged;
@@ -175,7 +180,8 @@ public class ClientCharacter : NetworkBehaviour
             {
                 if(player.ClientId == serverCharacter.OwnerClientId)
                 {
-                    m_PlayerInfoBarUI.Init(player.ClientName);
+                    bool isOwner = serverCharacter.OwnerClientId == NetworkManager.Singleton.LocalClientId? true: false;
+                    m_PlayerInfoBarUI.Init(player.ClientName,isOwner);
                 }
             }    
 

@@ -1239,7 +1239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb91868d471913e42b6c950f8bf21f30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  counterText: {fileID: 0}
+  counterText: {fileID: 1573058893}
   duration: 5
 --- !u!1 &398069064
 GameObject:
@@ -2272,6 +2272,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Map1
       objectReference: {fileID: 0}
+    - target: {fileID: 5061230387643145192, guid: 17b99187b587ba040bc58acc41c18f16,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -32.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5061230387643145192, guid: 17b99187b587ba040bc58acc41c18f16,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -66.6
+      objectReference: {fileID: 0}
     - target: {fileID: 5744664209680373107, guid: 17b99187b587ba040bc58acc41c18f16,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2320,6 +2330,26 @@ PrefabInstance:
     - target: {fileID: 5744664209680373107, guid: 17b99187b587ba040bc58acc41c18f16,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6003215804476418214, guid: 17b99187b587ba040bc58acc41c18f16,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -68.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6342304517876593180, guid: 17b99187b587ba040bc58acc41c18f16,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7565494756930442557, guid: 17b99187b587ba040bc58acc41c18f16,
+        type: 3}
+      propertyPath: m_Convex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8809320194590231063, guid: 17b99187b587ba040bc58acc41c18f16,
+        type: 3}
+      propertyPath: m_Convex
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -2833,6 +2863,11 @@ PrefabInstance:
       propertyPath: weatherFx
       value: 
       objectReference: {fileID: 2053868046}
+    - target: {fileID: 5351825412515738059, guid: 8f19459820d34bb4a9896425a951e190,
+        type: 3}
+      propertyPath: m_SpawnRange
+      value: 78
+      objectReference: {fileID: 0}
     - target: {fileID: 7522777059233003949, guid: 8f19459820d34bb4a9896425a951e190,
         type: 3}
       propertyPath: GlobalObjectIdHash
