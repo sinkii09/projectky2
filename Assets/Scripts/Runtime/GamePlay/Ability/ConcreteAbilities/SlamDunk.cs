@@ -28,14 +28,12 @@ public class SlamDunk : Ability
 
     public override void OnAbilityUpdate(ServerCharacter serverCharacter)
     {
-        Debug.Log(isStart);
         if(isStart)
         {
             if (t < 1)
             {
                 t += Time.deltaTime * 20 / totalDistance;
                 serverCharacter.transform.position = CalculateBezierPoint(t, startPoint, controlPoint, endPoint);
-                Debug.Log(CalculateBezierPoint(t, startPoint, controlPoint, endPoint));
             }
             else
             {

@@ -3,111 +3,81 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UIElements;
 using UnityEngine.VFX;
 
 public class test : MonoBehaviour
 {
-    [SerializeField] bool isStart;
-    AbilityRequest data;
-
-    [SerializeField]private float t;
-    private float totalDistance;
-    [SerializeField] private Vector3 startPoint;
-    private Vector3 controlPoint;
-    [SerializeField] private Vector3 endPoint;
-    Collider[] m_CollisionCache = new Collider[3];
-    [SerializeField] RectTransform testObject;
-    [SerializeField] Camera overlayCAM;
-    [SerializeField] GameObject cube;
-    Vector3 num = new Vector3();
-    float dashTime;
-    Rigidbody rb;
-    Vector3 direction;
+    List<string> UserDataList;
+    string domain = "https://projectky2-bdb1fda54766.herokuapp.com";
     private void Start()
     {
-       
+       UserDataList = new List<string>
+       {
+           "667567c4172f5b201ee7d84d",
+           "66757d33f589298466f38b6d"
+        };
         
     }
     private void Update()
     {
-        if(Input.GetKeyUp(KeyCode.Escape))
+        if(Input.GetMouseButtonDown(0))
         {
-            Debug.Log($"{direction}");
-            cube.transform.position = new Vector3(direction.x, direction.y, 0);
+            testss();
         }
     }
-    private void FixedUpdate()
-    {
-        //if (isStart)
-        //{
-        //    if (t < 1)
-        //    {
-        //        t += Time.deltaTime * 20 / totalDistance;
-        //        testObject.transform.position = CalculateBezierPoint(t, startPoint, controlPoint, endPoint);
-        //        Debug.Log(CalculateBezierPoint(t, startPoint, controlPoint, endPoint));
-        //    }
-        //}
 
-    }
-    void Run()
+
+    void testss()
     {
-        if (dashTime>0)
+        List<PlayerStats> stats = new List<PlayerStats>();
+        Debug.Log("userDatalist count " + UserDataList.Count);
+        foreach (var item in UserDataList)
         {
-            var newPos = testObject.transform.position + direction * t * Time.fixedDeltaTime;
-            //testObject.transform.position = newPos;
-            rb.MovePosition(newPos);
-            dashTime -= Time.fixedDeltaTime;
+            PlayerStats playerStats = new PlayerStats
+            {
+                playerId = item,
+                kills = 1,
+                deaths = 2,
+            };
+            stats.Add(playerStats);
+        }
+        SendResultToBackend(stats);
+    }
+    public void SendResultToBackend(List<PlayerStats> playerStats)
+    {
+        Debug.Log("send result");
+        PlayerStatsRequest request = new PlayerStatsRequest
+        {
+            playerStats = playerStats
+        };
+        StartCoroutine(SendResultRequest(request, "668ea91efb05f7c003bb1ec4")); 
+    }
+    IEnumerator SendResultRequest(PlayerStatsRequest playerStats, string sessionId)
+    {
+        Debug.Log("sessionId send: " + sessionId);
+        string url = $"{domain}/game-sessions/update-player-stats/{sessionId}";
+
+        string json = JsonUtility.ToJson(playerStats);
+        PlayerStatsRequest log = JsonUtility.FromJson<PlayerStatsRequest>(json);
+        Debug.Log(log.ToString());
+        UnityWebRequest request = new UnityWebRequest(url, "POST");
+        byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
+        request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+        request.downloadHandler = new DownloadHandlerBuffer();
+        request.SetRequestHeader("Content-Type", "application/json");
+
+        yield return request.SendWebRequest();
+
+        if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
+        {
+            Debug.LogError("Error: " + request.error);
         }
         else
         {
-            isStart=false;
+            Debug.Log("Response: " + request.downloadHandler.text);
         }
-
-    }
-    void Detect()
-    {
-        var numCollisions = Physics.OverlapSphereNonAlloc(testObject.transform.position, 2, m_CollisionCache, LayerMask.GetMask("Environment"));
-        if(numCollisions > 0 )
-        {
-            testObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            Debug.Log("stop");
-        }
-    }
-    private Vector3 CalculateBezierPoint(float t, Vector3 startPoint, Vector3 controlPoint, Vector3 endPoint)
-    {
-        float u = 1 - t;
-        float tt = t * t;
-        float uu = u * u;
-        Vector3 position = uu * startPoint; // u^2 * P0
-        position += 2 * u * t * controlPoint; // 2 * u * t * P1
-        position += tt * endPoint; // t^2 * P2
-        return position;
-    }
-    private float CalculateTotalDistance(int segments = 20)
-    {
-        float distance = 0f;
-        Vector3 previousPoint = startPoint;
-
-        for (int i = 1; i <= segments; i++)
-        {
-            float t = (float)i / segments;
-            Vector3 currentPoint = CalculateBezierPoint(t, startPoint, controlPoint, endPoint);
-            distance += Vector3.Distance(previousPoint, currentPoint);
-            previousPoint = currentPoint;
-        }
-
-        return distance;
-    }
-    private void PerformAbility()
-    {
-        t = 0;
-        startPoint = testObject.transform.position;
-        endPoint = new Vector3(5, 0, 5);
-        controlPoint = (startPoint + endPoint) / 2 + Vector3.up * 10;
-        totalDistance = CalculateTotalDistance();
-        isStart = true;
-        Debug.Log($"start point = {startPoint} -- endPoint = {endPoint} --- controlPoint = {controlPoint}");
     }
 }
 

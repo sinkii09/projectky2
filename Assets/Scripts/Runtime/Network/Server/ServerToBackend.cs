@@ -41,7 +41,6 @@ public class ServerToBackend
             gameMode = mode.ToString(),
             playerIds = userIdList
         };
-        Debug.Log(gameSessionRequest.ToString());
         CoroutineRunner.Instance.StartCoroutine(CreateGameSessionRequest(gameSessionRequest));
     }
     IEnumerator CreateGameSessionRequest(GameSessionRequest body)
@@ -78,10 +77,16 @@ public class ServerToBackend
     }
     IEnumerator SendResultRequest(PlayerStatsRequest playerStats, string sessionId)
     {
+        sessionId = sessionId.Trim('\"');
         Debug.Log("sessionId send: " + sessionId);
         string url = $"{domain}/game-sessions/update-player-stats/{sessionId}";
 
         string json = JsonUtility.ToJson(playerStats);
+        List<PlayerStats> log = JsonUtility.FromJson<PlayerStatsRequest>(json).playerStats;
+        foreach(var item in log)
+        {
+            Debug.Log($"{item.playerId} + {item.kills} + {item.deaths}");
+        }
         UnityWebRequest request = new UnityWebRequest(url, "POST");
         byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(json);
         request.uploadHandler = new UploadHandlerRaw(bodyRaw);
@@ -90,9 +95,13 @@ public class ServerToBackend
 
         yield return request.SendWebRequest();
 
-        if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
+        if (request.result == UnityWebRequest.Result.ConnectionError)
         {
             Debug.LogError("Error: " + request.error);
+        }
+        else if (request.result == UnityWebRequest.Result.ProtocolError)
+        {
+            Debug.LogError("Error222: " + request.error);
         }
         else
         {

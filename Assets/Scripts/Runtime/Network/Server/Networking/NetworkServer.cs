@@ -123,7 +123,8 @@ public class NetworkServer : IDisposable
     public void SendResultTobackend()
     {
         List<PlayerStats> stats = new List<PlayerStats>();
-        foreach (var item in UserDataList)
+        Debug.Log("userDatalist count " + UserDataList.Count);
+        foreach (var item in m_ClientData.Values)
         {
             PlayerStats playerStats = new PlayerStats
             {
@@ -131,6 +132,7 @@ public class NetworkServer : IDisposable
                 kills = item.playerKill,
                 deaths = item.playerDead
             };
+            Debug.Log(item.userId);
             stats.Add(playerStats);
         }
         ServerSingleton.Instance.ServerToBackend.SendResultToBackend(stats);

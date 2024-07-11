@@ -24,7 +24,7 @@ public class BouncingBullet : NetworkBehaviour
         damage = info.Damage;
         range = info.Range;
         speed = info.Speed;
-        Debug.Log("speed = " + info.Speed);
+        rb = GetComponent<Rigidbody>();
         spawner = serverCharacter;
 
         bounceAmount = 0;

@@ -132,10 +132,9 @@ public class BoomerangProjectile : NetworkBehaviour
             var damageable = other.GetComponent<IDamageable>();
             if (damageable != null && damageable.IsDamageable())
             {
-                ClientHitEnemyRpc(serverCharacter.OwnerClientId);
+                ClientHitEnemyRpc(serverCharacter.OwnerClientId,transform.position);
                 damageable.ReceiveHP(-damage, spawner);
                 damagePlayer.Add(serverCharacter);
-                Debug.Log("Add player");
             }
         }
     }
@@ -146,14 +145,14 @@ public class BoomerangProjectile : NetworkBehaviour
     }
 
     [Rpc(SendTo.ClientsAndHost)]
-    private void ClientHitEnemyRpc(ulong enemyId)
+    private void ClientHitEnemyRpc(ulong enemyId,Vector3 position)
     {
         NetworkObject targetNetObject;
         if (NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(enemyId, out targetNetObject))
         {
             if (m_hitParticle)
             {
-                var hitPart = ParticlePool.Singleton.GetObject(m_hitParticle, transform.position, transform.rotation);
+                var hitPart = ParticlePool.Singleton.GetObject(m_hitParticle, position, transform.rotation);
                 hitPart.GetComponent<SpecialFXGraphic>().OnInitialized(m_hitParticle);
             }
         }
