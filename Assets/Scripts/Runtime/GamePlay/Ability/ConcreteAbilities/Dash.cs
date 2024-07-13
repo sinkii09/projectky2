@@ -24,12 +24,6 @@ public class Dash : Ability
         rb = serverCharacter.GetComponent<Rigidbody>();
         this.data = data;
     }
-
-    public override bool CanActivate(ServerCharacter serverCharacter)
-    {
-        return true;
-    }
-
     public override void OnAbilityUpdate(ServerCharacter serverCharacter)
     {
         if (!isDashing && TimeRunning >= executeTime)

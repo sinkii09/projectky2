@@ -14,11 +14,6 @@ public class BoomerangShot : Ability
         serverCharacter.ClientCharacter.ClientPlayEffectRpc(serverCharacter.physicsWrapper.Transform.position, Quaternion.identity, special: IsSpecialAbility);
         LaunchProjectile(serverCharacter,data);
     }
-
-    public override bool CanActivate(ServerCharacter serverCharacter)
-    {
-        return true;
-    }
     protected virtual void LaunchProjectile(ServerCharacter serverCharacter, AbilityRequest data)
     {
         CoroutineRunner.Instance.StartCoroutine(ExecuteTimeDelay());

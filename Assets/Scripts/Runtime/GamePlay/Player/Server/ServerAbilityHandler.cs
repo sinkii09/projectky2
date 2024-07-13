@@ -78,7 +78,7 @@ public class ServerAbilityHandler
     }
     private void SendRejectionToClient(AbilityRequest request)
     {
-
+        m_ServerCharacter.ClientCharacter.DeniedActionRpc();
     }
     public void DequeuePeakAbility()
     {

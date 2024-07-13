@@ -13,21 +13,8 @@ public class MeleeAttack : Ability
         TriggerAttack(serverCharacter);
         
     }
-
-    public override bool CanActivate(ServerCharacter serverCharacter)
-    {
-        if(Time.time - TimeStarted > cooldownTime)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
     void TriggerAttack(ServerCharacter serverCharacter)
     {
-        Debug.Log("do melee");
         var foe = GetIdealMeleeFoe(serverCharacter, serverCharacter.physicsWrapper.DamageCollider, MaxRange);
         if (foe != null)
         {

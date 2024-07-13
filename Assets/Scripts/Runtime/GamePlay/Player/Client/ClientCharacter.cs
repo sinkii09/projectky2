@@ -291,5 +291,11 @@ public class ClientCharacter : NetworkBehaviour
         }
         m_ClientAbilityHandler.PlayAbility(ability, position,rotation,num);
     }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    internal void DeniedActionRpc()
+    {
+        AudioManager.Instance.PlaySFXNumber(1);
+    }
 }
 

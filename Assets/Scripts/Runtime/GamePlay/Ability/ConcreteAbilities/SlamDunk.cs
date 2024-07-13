@@ -20,12 +20,6 @@ public class SlamDunk : Ability
         serverCharacter.ServerAnimationHandler.NetworkAnimator.SetTrigger(abilityAnimationTrigger);
         PerformAbility(serverCharacter, data);
     }
-
-    public override bool CanActivate(ServerCharacter serverCharacter)
-    {
-        return true;
-    }
-
     public override void OnAbilityUpdate(ServerCharacter serverCharacter)
     {
         if(isStart)

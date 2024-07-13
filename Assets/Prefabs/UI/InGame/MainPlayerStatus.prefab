@@ -393,7 +393,7 @@ GameObject:
   - component: {fileID: 3313249119656699953}
   - component: {fileID: 4156271604537100498}
   m_Layer: 0
-  m_Name: Amount (1)
+  m_Name: Weapon Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -490,7 +490,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -590,7 +590,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 350, y: 150}
+  m_SizeDelta: {x: 330, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &3487359133562750227
 MonoBehaviour:
@@ -1064,7 +1064,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 150, y: 50}
+  m_SizeDelta: {x: 300, y: 50}
   m_Pivot: {x: 1, y: 1}
 --- !u!222 &113908473127478070
 CanvasRenderer:
@@ -1129,8 +1129,8 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 4
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -1694,7 +1694,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 550, y: 250}
+  m_SizeDelta: {x: 500, y: 250}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &8448070810123749517
 MonoBehaviour:
@@ -1959,9 +1959,11 @@ MonoBehaviour:
   playerDead: {fileID: 8549394717597707546}
   weaponIcon: {fileID: 4010794381342630897}
   weaponAmountText: {fileID: 6125430365726874849}
+  weaponNameText: {fileID: 4156271604537100498}
   manaText: {fileID: 7521411300167480354}
   manaCostText: {fileID: 6300453759209331706}
   specialIcon: {fileID: 2036344173653213372}
+  counter: {fileID: 0}
 --- !u!114 &6392707430013918351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2024,7 +2026,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 500, y: 100}
+  m_SizeDelta: {x: 44, y: 100}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &793779195411558793
 MonoBehaviour:
@@ -2039,7 +2041,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 0
+    m_Left: 10
     m_Right: 25
     m_Top: 0
     m_Bottom: 0

@@ -22,7 +22,7 @@ MonoBehaviour:
   executeTime: 0.5
   durationTime: 0
   cooldownTime: 0
-  Cost: 0
+  Cost: 30
   projectileInfoList:
   - Prefab: {fileID: 1462457652631714548, guid: e460c12270540054bac8a9552f8c7322,
       type: 3}

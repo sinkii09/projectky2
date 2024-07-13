@@ -11,6 +11,8 @@ public class MainPlayerIngameCard : PlayerIngameCard
     private Image weaponIcon;
     [SerializeField]
     private TMP_Text weaponAmountText;
+    [SerializeField]
+    private TMP_Text weaponNameText;
 
     [SerializeField]
     private TMP_Text manaText;
@@ -25,6 +27,7 @@ public class MainPlayerIngameCard : PlayerIngameCard
     {
         var weapon = GamePlayDataSource.Instance.GetWeaponPrototypeByID(weaponID);
         weaponIcon.sprite = weapon.Icon;
+        weaponNameText.text = weapon.Name;
     }
     public void UpdateSpecial(CharacterStats stats)
     {

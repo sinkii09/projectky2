@@ -115,7 +115,7 @@ public class CurvedProjectile : NetworkBehaviour
                 damageable.ReceiveHP(-projectileInfo.Damage, spawner);
             }
         }
-        ExplosionClientRpc();
+        ExplosionClientRpc(transform.position);
         NetworkObject.Despawn();
     }
     private void OnTriggerEnter(Collider other)
@@ -131,11 +131,11 @@ public class CurvedProjectile : NetworkBehaviour
 
     }
     [Rpc(SendTo.ClientsAndHost)]
-    void ExplosionClientRpc()
+    void ExplosionClientRpc(Vector3 position)
     {
         if (m_hitParticle)
         {
-            var hitPart = ParticlePool.Singleton.GetObject(m_hitParticle, transform.position, transform.rotation);
+            var hitPart = ParticlePool.Singleton.GetObject(m_hitParticle, position, transform.rotation);
             hitPart.GetComponent<SpecialFXGraphic>().OnInitialized(m_hitParticle);
         }
     }

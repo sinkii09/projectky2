@@ -9,30 +9,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e380df8c54d04254daa5ffa431d2de3b, type: 3}
-  m_Name: Missle
+  m_Script: {fileID: 11500000, guid: a3d426a34e104874ea584008c6668b3e, type: 3}
+  m_Name: Meteor
   m_EditorClassIdentifier: 
-  abilityName: Missle
-  Damage: 0
-  Radius: 1
-  MinRange: 100
-  MaxRange: 100
+  abilityName: Meteor
+  Damage: 100
+  Radius: 5
+  MinRange: 0
+  MaxRange: 30
   abilityAnimationTrigger: CrossBow
   rejectionAnimationTrigger: 
-  executeTime: 1
-  durationTime: 0
+  executeTime: 0.15
+  durationTime: 1
   cooldownTime: 0
-  Cost: 0
-  projectileInfoList:
-  - Prefab: {fileID: 1462457652631714548, guid: d80d4d0b870d8d4448770dafb7942c9f,
-      type: 3}
-    Speed: 35
-    Range: 100
-    Damage: 80
-    MaxVictims: 1
+  Cost: 30
+  projectileInfoList: []
   weaponVisual: []
   effect:
-  - {fileID: 3812711814112959327, guid: 306aebc28b4024b0b9aaaab1fdebe3bc, type: 3}
+  - {fileID: 2040460775051823323, guid: e87c97282711c884ba583a33670a1e78, type: 3}
   indicatorTexture: {fileID: 0}
   IsSpecialAbility: 1
   CheckAmount: 0

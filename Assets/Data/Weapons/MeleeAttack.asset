@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a12518207bec2594cb870e3508ce2332, type: 3}
   m_Name: MeleeAttack
   m_EditorClassIdentifier: 
-  weaponName: MeleeAttack
+  weaponName: Melee
   visual: {fileID: 0}
   amount: 0
   ability: {fileID: 11400000, guid: 3deb1a8a422b3f24e9212326e9a3be85, type: 2}

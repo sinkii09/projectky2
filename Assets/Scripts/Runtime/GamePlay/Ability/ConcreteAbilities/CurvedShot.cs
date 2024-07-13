@@ -17,11 +17,6 @@ public class CurvedShot : Ability
         serverCharacter.ClientCharacter.ClientPlayEffectRpc(serverCharacter.physicsWrapper.Transform.position, Quaternion.identity, special: IsSpecialAbility);
         LaunchProjectile(serverCharacter,data);
     }
-
-    public override bool CanActivate(ServerCharacter serverCharacter)
-    {
-        return true;
-    }
     protected virtual ProjectileInfo GetProjectileInfo()
     {
         foreach (var projectileInfo in projectileInfoList)

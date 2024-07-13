@@ -13,11 +13,6 @@ public class ArrowShot : Ability
         serverCharacter.ClientCharacter.ClientPlayEffectRpc(serverCharacter.physicsWrapper.Transform.position, Quaternion.identity, special: IsSpecialAbility);
         LaunchProjectile(serverCharacter);
     }
-    public override bool CanActivate(ServerCharacter serverCharacter)
-    {
-        return true;
-    }
-
     protected virtual void LaunchProjectile(ServerCharacter serverCharacter)
     {
         var projectileInfo = GetProjectileInfo();

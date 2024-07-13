@@ -15,13 +15,8 @@ public class AOELaunch : Ability
         serverCharacter.ServerAnimationHandler.NetworkAnimator.SetTrigger(abilityAnimationTrigger);
 
         PerformAOE(serverCharacter,data);
-    }
 
-    public override bool CanActivate(ServerCharacter serverCharacter)
-    {
-        return true;
     }
-
     public override void OnAbilityUpdate(ServerCharacter serverCharacter)
     {
         if(isStart && TimeRunning >= durationTime)

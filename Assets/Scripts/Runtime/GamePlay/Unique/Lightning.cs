@@ -8,7 +8,8 @@ public class Lightning : UniqueEffect
 {
     [SerializeField] int damage;
     [SerializeField] float radius;
-    [SerializeField] Collider[] hitColliders;
+    
+    Collider[] hitColliders = new Collider[5];
 
     bool isStart;
     float timer;

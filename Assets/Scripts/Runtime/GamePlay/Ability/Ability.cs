@@ -33,7 +33,32 @@ public abstract class Ability : ScriptableObject
     public float TimeRunning { get { return (Time.time - TimeStarted); } }
     
     public abstract void Activate(ServerCharacter serverCharacter, AbilityRequest data);
-    public abstract bool CanActivate(ServerCharacter serverCharacter);
+    public virtual bool CanActivate(ServerCharacter serverCharacter)
+    {
+        if(IsSpecialAbility && Cost > 0)
+        {
+            if(serverCharacter.ManaPoint.Value >= Cost)
+            {
+                serverCharacter.ManaPoint.Value -= Cost;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            if (Time.time - TimeStarted > cooldownTime)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
     public virtual void OnAbilityUpdate(ServerCharacter serverCharacter)
     {
 

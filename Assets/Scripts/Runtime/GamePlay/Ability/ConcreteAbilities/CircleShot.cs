@@ -17,11 +17,6 @@ public class CircleShot : Ability
         serverCharacter.ClientCharacter.ClientPlayEffectRpc(serverCharacter.physicsWrapper.Transform.position, serverCharacter.physicsWrapper.Transform.rotation, special: true);
         isStart = true;
     }
-    public override bool CanActivate(ServerCharacter serverCharacter)
-    {
-        return true;
-    }
-
     public override void OnAbilityUpdate(ServerCharacter serverCharacter)
     {
         if(isStart && TimeRunning >= executeTime)

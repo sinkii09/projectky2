@@ -17,6 +17,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip[] bgm_Clips;
 
     [SerializeField] AudioClip Btn_click01;
+    [SerializeField] AudioClip Action_Denied;
     private void Awake()
     {
         if(Instance == null)
@@ -59,6 +60,7 @@ public class AudioManager : MonoBehaviour
                 PlaySFX(Btn_click01);
                 break; 
             case 1:
+                PlaySFX(Btn_click01);
                 break;
             default: 
                 break;
