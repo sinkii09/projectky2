@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Missle
   m_EditorClassIdentifier: 
   abilityName: Missle
-  Damage: 0
+  Damage: 80
   Radius: 1
   MinRange: 100
   MaxRange: 100

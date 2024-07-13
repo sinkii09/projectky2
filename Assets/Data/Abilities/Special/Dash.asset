@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Dash
   m_EditorClassIdentifier: 
   abilityName: Dash
-  Damage: 50
+  Damage: 30
   Radius: 2
   MinRange: 5
   MaxRange: 25

@@ -133,6 +133,7 @@ public class ClientCharacter : NetworkBehaviour
         if(m_MainPlayerIngameCard!=null)
         {
             m_MainPlayerIngameCard.UpdateCurrentMana(newValue);
+            Debug.Log(newValue);
         }
     }
 
@@ -186,7 +187,6 @@ public class ClientCharacter : NetworkBehaviour
                 gameObject.AddComponent<CameraController>();
             }
             m_MainPlayerIngameCard = FindObjectOfType<MainPlayerIngameCard>();
-            m_MainPlayerIngameCard.UpdateCurrentMana(serverCharacter.ManaPoint.Value);
             counter = m_MainPlayerIngameCard.counter;
             CharacterSpawner spawner = FindObjectOfType<CharacterSpawner>();
             foreach(var player in spawner.Players)

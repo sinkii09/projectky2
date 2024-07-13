@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CircleShot
   m_EditorClassIdentifier: 
   abilityName: Circle Shot
-  Damage: 10
+  Damage: 15
   Radius: 1
   MinRange: 40
   MaxRange: 40
@@ -28,7 +28,7 @@ MonoBehaviour:
       type: 3}
     Speed: 20
     Range: 40
-    Damage: 40
+    Damage: 50
     MaxVictims: 99
   weaponVisual: []
   effect:

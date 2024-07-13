@@ -1065,7 +1065,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 63d2db25f9c172b4994ada12efd05b07, type: 3}
   - {fileID: 8300000, guid: 1acdb1736bb31f14fbd7e0dcab5f7873, type: 3}
   Btn_click01: {fileID: 8300000, guid: af123c0bdce087744b0ab0df3d179672, type: 3}
-  Action_Denied: {fileID: 8300000, guid: 08d46d01a4844044e9b034e1f87ae959, type: 3}
+  Action_Denied: {fileID: 8300000, guid: 182ac0f4ce4d3194ca4acfcd06e1531c, type: 3}
 --- !u!1 &770870217
 GameObject:
   m_ObjectHideFlags: 0
