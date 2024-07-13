@@ -256,7 +256,7 @@ public class UserManager : MonoBehaviour
     }
     IEnumerator FetchRequestList(Action<List<FriendData>> success,Action<string> failed)
     {
-        string url = $"https://projectky2-bdb1fda54766.herokuapp.com/friends/requests";
+        string url = $"{domain}/friends/requests";
         UnityWebRequest request = UnityWebRequest.Get(url);
         request.SetRequestHeader("Authorization", "Bearer " + accessToken);
         yield return request.SendWebRequest();
@@ -280,7 +280,7 @@ public class UserManager : MonoBehaviour
     }
     IEnumerator SendAcceptFriendRequest(FriendAcceptDto dto, Action<string,bool> result)
     {
-        string url = $"https://projectky2-bdb1fda54766.herokuapp.com/friends/accept";
+        string url = $"{domain}/friends/accept";
         string json = JsonUtility.ToJson(dto);
         byte[] bodyRaw = new System.Text.UTF8Encoding().GetBytes(json);
         using (UnityWebRequest request = new UnityWebRequest(url, "POST"))
@@ -308,7 +308,7 @@ public class UserManager : MonoBehaviour
     }
     IEnumerator SendDeniedFriendRequest(FriendAcceptDto dto, Action<string,bool> result)
     {
-        string url = $"https://projectky2-bdb1fda54766.herokuapp.com/friends/denied";
+        string url = $"{domain}/friends/denied";
         string json = JsonUtility.ToJson(dto);
         byte[] bodyRaw = new System.Text.UTF8Encoding().GetBytes(json);
         using (UnityWebRequest request = new UnityWebRequest(url, "POST"))
@@ -337,7 +337,7 @@ public class UserManager : MonoBehaviour
     }
     IEnumerator SendDeleteFriendRequest(FriendAcceptDto dto, Action<string,bool> result)
     {
-        string url = $"https://projectky2-bdb1fda54766.herokuapp.com/friends/delete";
+        string url = $"{domain}/friends/delete";
         string json = JsonUtility.ToJson(dto);
         byte[] bodyRaw = new System.Text.UTF8Encoding().GetBytes(json);
         using (UnityWebRequest request = new UnityWebRequest(url, "POST"))
@@ -366,7 +366,7 @@ public class UserManager : MonoBehaviour
     }
     IEnumerator SendAddFriendRequest(FriendRequestDto dto, Action<string, bool> result)
     {
-        string url = $"https://projectky2-bdb1fda54766.herokuapp.com/friends/add";
+        string url = $"{domain}/friends/add";
         string json = JsonUtility.ToJson(dto);
         byte[] bodyRaw = new System.Text.UTF8Encoding().GetBytes(json);
         using (UnityWebRequest request = new UnityWebRequest(url, "POST"))
@@ -393,7 +393,7 @@ public class UserManager : MonoBehaviour
     }
     IEnumerator FetchResultRequest(string id,Action<GameSessionResult,List<PlayerResult>> result, Action failed)
     {
-        string url = $"https://projectky2-bdb1fda54766.herokuapp.com/game-sessions/last-session/{id}";
+        string url = $"{domain}/game-sessions/last-session/{id}";
         using (UnityWebRequest request = new UnityWebRequest(url, "GET"))
         {
             request.downloadHandler = new DownloadHandlerBuffer();
