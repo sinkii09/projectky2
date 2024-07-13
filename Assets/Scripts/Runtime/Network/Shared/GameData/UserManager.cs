@@ -13,11 +13,11 @@ public class UserManager : MonoBehaviour
     public static UserManager Instance { get; set; }
 
     string domain = "https://projectky2-bdb1fda54766.herokuapp.com";
-    private string updateUserRankUrl = "http://localhost:3000/users/update-rank-server";
-    private string updateNameOrPasswordUrl = "http://localhost:3000/users/updateUser";
-    private string loginUrl = "http://localhost:3000/auth/login";
-    private string registerUrl = "http://localhost:3000/auth/register";
-    private string authentiCatewithCustomIdUrl = "http://localhost:3000/auth/authenticate-custom-id";
+    private string updateUserRankUrl = "https://projectky2-bdb1fda54766.herokuapp.com/users/update-rank-server";
+    private string updateNameOrPasswordUrl = "https://projectky2-bdb1fda54766.herokuapp.com/users/updateUser";
+    private string loginUrl = "https://projectky2-bdb1fda54766.herokuapp.com/auth/login";
+    private string registerUrl = "https://projectky2-bdb1fda54766.herokuapp.com/auth/register";
+    private string authentiCatewithCustomIdUrl = "https://projectky2-bdb1fda54766.herokuapp.com/auth/authenticate-custom-id";
     
 
     string accessToken;
@@ -161,7 +161,7 @@ public class UserManager : MonoBehaviour
     }
     private IEnumerator ServerGetUserDataRequest(string id, Action<UpdateUserPartialDto, bool> result)
     {
-        using (UnityWebRequest request = new UnityWebRequest($"http://localhost:3000/users/get-user-server/:{id}", "GET"))
+        using (UnityWebRequest request = new UnityWebRequest($"https://projectky2-bdb1fda54766.herokuapp.com/users/get-user-server/:{id}", "GET"))
         {
             request.downloadHandler = new DownloadHandlerBuffer();
             request.SetRequestHeader("Authorization", $"Bearer {accessToken}");
@@ -209,7 +209,7 @@ public class UserManager : MonoBehaviour
     }
     private IEnumerator FindUserRequest(string userInput,Action<GetPlayerResponse> successGetUser,Action<string> failedGetUser)
     {
-        string findPlayerUrl = $"http://localhost:3000/users/{userInput}";
+        string findPlayerUrl = $"https://projectky2-bdb1fda54766.herokuapp.com/users/{userInput}";
         UnityWebRequest request = UnityWebRequest.Get(findPlayerUrl);
         request.SetRequestHeader("Content-Type", "application/json");
         request.SetRequestHeader("Authorization", $"Bearer {accessToken}");
@@ -232,7 +232,7 @@ public class UserManager : MonoBehaviour
     }
     IEnumerator FetchFriendListRequest(Action<List<FriendData>> success, Action<string> failed)
     {
-        string url = $"http://localhost:3000/friends/friendList";
+        string url = $"https://projectky2-bdb1fda54766.herokuapp.com/friends/friendList";
         UnityWebRequest request = UnityWebRequest.Get(url);
         request.SetRequestHeader("Content-Type", "application/json");
         request.SetRequestHeader("Authorization", $"Bearer {accessToken}");
@@ -256,7 +256,7 @@ public class UserManager : MonoBehaviour
     }
     IEnumerator FetchRequestList(Action<List<FriendData>> success,Action<string> failed)
     {
-        string url = $"http://localhost:3000/friends/requests";
+        string url = $"https://projectky2-bdb1fda54766.herokuapp.com/friends/requests";
         UnityWebRequest request = UnityWebRequest.Get(url);
         request.SetRequestHeader("Authorization", "Bearer " + accessToken);
         yield return request.SendWebRequest();
@@ -280,7 +280,7 @@ public class UserManager : MonoBehaviour
     }
     IEnumerator SendAcceptFriendRequest(FriendAcceptDto dto, Action<string,bool> result)
     {
-        string url = $"http://localhost:3000/friends/accept";
+        string url = $"https://projectky2-bdb1fda54766.herokuapp.com/friends/accept";
         string json = JsonUtility.ToJson(dto);
         byte[] bodyRaw = new System.Text.UTF8Encoding().GetBytes(json);
         using (UnityWebRequest request = new UnityWebRequest(url, "POST"))
@@ -308,7 +308,7 @@ public class UserManager : MonoBehaviour
     }
     IEnumerator SendDeniedFriendRequest(FriendAcceptDto dto, Action<string,bool> result)
     {
-        string url = $"http://localhost:3000/friends/denied";
+        string url = $"https://projectky2-bdb1fda54766.herokuapp.com/friends/denied";
         string json = JsonUtility.ToJson(dto);
         byte[] bodyRaw = new System.Text.UTF8Encoding().GetBytes(json);
         using (UnityWebRequest request = new UnityWebRequest(url, "POST"))
@@ -337,7 +337,7 @@ public class UserManager : MonoBehaviour
     }
     IEnumerator SendDeleteFriendRequest(FriendAcceptDto dto, Action<string,bool> result)
     {
-        string url = $"http://localhost:3000/friends/delete";
+        string url = $"https://projectky2-bdb1fda54766.herokuapp.com/friends/delete";
         string json = JsonUtility.ToJson(dto);
         byte[] bodyRaw = new System.Text.UTF8Encoding().GetBytes(json);
         using (UnityWebRequest request = new UnityWebRequest(url, "POST"))
@@ -366,7 +366,7 @@ public class UserManager : MonoBehaviour
     }
     IEnumerator SendAddFriendRequest(FriendRequestDto dto, Action<string, bool> result)
     {
-        string url = $"http://localhost:3000/friends/add";
+        string url = $"https://projectky2-bdb1fda54766.herokuapp.com/friends/add";
         string json = JsonUtility.ToJson(dto);
         byte[] bodyRaw = new System.Text.UTF8Encoding().GetBytes(json);
         using (UnityWebRequest request = new UnityWebRequest(url, "POST"))
@@ -393,7 +393,7 @@ public class UserManager : MonoBehaviour
     }
     IEnumerator FetchResultRequest(string id,Action<GameSessionResult,List<PlayerResult>> result, Action failed)
     {
-        string url = $"http://localhost:3000/game-sessions/last-session/{id}";
+        string url = $"https://projectky2-bdb1fda54766.herokuapp.com/game-sessions/last-session/{id}";
         using (UnityWebRequest request = new UnityWebRequest(url, "GET"))
         {
             request.downloadHandler = new DownloadHandlerBuffer();

@@ -125,7 +125,7 @@ Material:
         a: 1}
     - Vector4_1f7562654797436e96becd4b67df1223: {r: 1, g: 1, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 5.5806518, g: 5.5806518, b: 5.5806518, a: 1}
+    - _Color: {r: 1.3951629, g: 1.3951629, b: 1.3951629, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _MainTextureTilingOffset: {r: 1, g: 1, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}

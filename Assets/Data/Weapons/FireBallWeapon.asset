@@ -16,4 +16,4 @@ MonoBehaviour:
   visual: {fileID: 1953271650171834, guid: dbf7a0c9d76b77a40af3104feac0641d, type: 3}
   amount: 10
   ability: {fileID: 11400000, guid: 480822756b5653248b354505a0092414, type: 2}
-  icon: {fileID: 21300000, guid: 336d16df02bf7d54eb578ef6a7defc92, type: 3}
+  icon: {fileID: 21300000, guid: 3074f8ef7493ce64db11ab9a0e4b9adb, type: 3}

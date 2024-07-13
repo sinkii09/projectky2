@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 1
   mode:
-    m_OverrideState: 0
-    m_Value: 0
+    m_OverrideState: 1
+    m_Value: 2
   neutralHDRRangeReductionMode:
     m_OverrideState: 0
     m_Value: 2
@@ -58,6 +58,7 @@ MonoBehaviour:
   - {fileID: 1974045519199787371}
   - {fileID: 3174444711314634285}
   - {fileID: -573620024455433305}
+  - {fileID: 8889141810815340080}
 --- !u!114 &1974045519199787371
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -73,13 +74,13 @@ MonoBehaviour:
   active: 1
   color:
     m_OverrideState: 1
-    m_Value: {r: 0.5895597, g: 0.5264151, b: 1, a: 1}
+    m_Value: {r: 0.033991378, g: 0.023645421, b: 0.10188681, a: 1}
   center:
     m_OverrideState: 0
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.3
+    m_Value: 0.35
   smoothness:
     m_OverrideState: 1
     m_Value: 0.5
@@ -100,7 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 1
   temperature:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: -11
   tint:
     m_OverrideState: 0
@@ -119,19 +120,65 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   active: 1
   postExposure:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0.25
   contrast:
-    m_OverrideState: 1
-    m_Value: 5.6
+    m_OverrideState: 0
+    m_Value: -2
   colorFilter:
     m_OverrideState: 1
-    m_Value: {r: 0.7456959, g: 0.7755712, b: 0.9169811, a: 1}
+    m_Value: {r: 1.4913918, g: 1.5511425, b: 1.8339622, a: 1}
   hueShift:
     m_OverrideState: 1
     m_Value: 0
   saturation:
     m_OverrideState: 1
+    m_Value: -5
+--- !u!114 &8889141810815340080
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c01700fd266d6914ababb731e09af2eb, type: 3}
+  m_Name: DepthOfField
+  m_EditorClassIdentifier: 
+  active: 0
+  mode:
+    m_OverrideState: 1
+    m_Value: 2
+  gaussianStart:
+    m_OverrideState: 1
+    m_Value: 0
+  gaussianEnd:
+    m_OverrideState: 1
+    m_Value: 300
+  gaussianMaxRadius:
+    m_OverrideState: 1
+    m_Value: 0.5
+  highQualitySampling:
+    m_OverrideState: 1
+    m_Value: 1
+  focusDistance:
+    m_OverrideState: 0
+    m_Value: 10
+  aperture:
+    m_OverrideState: 0
+    m_Value: 5.6
+  focalLength:
+    m_OverrideState: 0
+    m_Value: 50
+  bladeCount:
+    m_OverrideState: 0
+    m_Value: 5
+  bladeCurvature:
+    m_OverrideState: 0
+    m_Value: 1
+  bladeRotation:
+    m_OverrideState: 0
     m_Value: 0
 --- !u!114 &9088155758226378341
 MonoBehaviour:
@@ -151,12 +198,12 @@ MonoBehaviour:
     m_Value: 1
   threshold:
     m_OverrideState: 1
-    m_Value: 0.75
+    m_Value: 0.85
   intensity:
     m_OverrideState: 1
-    m_Value: 2
+    m_Value: 1
   scatter:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 0.2
   clamp:
     m_OverrideState: 0
