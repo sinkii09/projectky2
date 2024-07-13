@@ -26,6 +26,7 @@ public abstract class Ability : ScriptableObject
     public GameObject[] weaponVisual;
     public GameObject[] effect;
     public Texture indicatorTexture;
+    public bool IsSpecialAbility = false;
     public bool CheckAmount = true;
     public bool ShowIndicator = true;
     public float TimeStarted {  get; set; }

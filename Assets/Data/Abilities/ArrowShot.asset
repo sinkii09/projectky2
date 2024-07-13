@@ -21,6 +21,8 @@ MonoBehaviour:
   rejectionAnimationTrigger: 
   executeTime: 0.15
   durationTime: 0
+  cooldownTime: 0
+  Cost: 0
   projectileInfoList:
   - Prefab: {fileID: 8787849450496161361, guid: 60f87e45e44fc4746a2c1859453942d1,
       type: 3}
@@ -29,5 +31,8 @@ MonoBehaviour:
     Damage: 10
     MaxVictims: 1
   weaponVisual: []
-  effect: []
+  effect:
+  - {fileID: 7116297704741376817, guid: 3fa35ddffc701406783d8d17163082a4, type: 3}
+  indicatorTexture: {fileID: 0}
   CheckAmount: 1
+  ShowIndicator: 1

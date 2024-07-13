@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.VFX;
 
 [CreateAssetMenu(fileName = "CurvedShot", menuName = "Abilities/CurvedShot")]
 
@@ -13,7 +14,7 @@ public class CurvedShot : Ability
     {
         serverCharacter.physicsWrapper.Transform.forward = data.Direction;
         serverCharacter.ServerAnimationHandler.NetworkAnimator.SetTrigger(abilityAnimationTrigger);
-
+        serverCharacter.ClientCharacter.ClientPlayEffectRpc(serverCharacter.physicsWrapper.Transform.position, Quaternion.identity, special: IsSpecialAbility);
         LaunchProjectile(serverCharacter,data);
     }
 
@@ -48,5 +49,15 @@ public class CurvedShot : Ability
             DecreaseAmount(serverCharacter);
         }
         serverCharacter.DequeueAbility();
+    }
+    public override void OnPlayClient(ClientCharacter clientCharacter, Vector3 position, Quaternion rotation, int num = 0)
+    {
+        var abilityFX = ParticlePool.Singleton.GetObject(effect[0], position, Quaternion.identity);
+        abilityFX.GetComponent<SpecialFXGraphic>().OnInitialized(effect[0]);
+        bool hasVFX = abilityFX.TryGetComponent(out VisualEffect VFX);
+        if (hasVFX)
+        {
+            VFX.Play();
+        }
     }
 }

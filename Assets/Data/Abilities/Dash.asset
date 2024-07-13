@@ -21,11 +21,14 @@ MonoBehaviour:
   rejectionAnimationTrigger: 
   executeTime: 0.15
   durationTime: 1
+  cooldownTime: 0
+  Cost: 0
   projectileInfoList: []
   weaponVisual: []
   effect:
   - {fileID: 40428518095029017, guid: 90ea498c41b5a4c41a24b78b4038aba7, type: 3}
   - {fileID: 5880797563127281583, guid: 265d3a5ba69981a4698ceabcedf368b0, type: 3}
   indicatorTexture: {fileID: 0}
+  IsSpecialAbility: 1
   CheckAmount: 0
   ShowIndicator: 1

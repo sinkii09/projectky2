@@ -196,6 +196,7 @@ MonoBehaviour:
   m_countDownTimer: {fileID: 335670540}
   m_CharSelectCountdownDuration: 10
   m_InGameCountdownDuration: 10
+  m_GameStartDelay: 4
 --- !u!1 &335670537
 GameObject:
   m_ObjectHideFlags: 0

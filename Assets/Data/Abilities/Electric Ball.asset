@@ -14,11 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Electric Ball
   Damage: 10
+  Radius: 0
   MinRange: 1
   MaxRange: 30
   abilityAnimationTrigger: Bomb
   rejectionAnimationTrigger: 
   executeTime: 0.15
+  durationTime: 0
+  cooldownTime: 0
+  Cost: 0
   projectileInfoList:
   - Prefab: {fileID: 8787849450496161361, guid: f3eb7f5269b4ecd4ebed57df55098a65,
       type: 3}
@@ -26,5 +30,10 @@ MonoBehaviour:
     Range: 20
     Damage: 20
     MaxVictims: 999
+  weaponVisual: []
+  effect:
+  - {fileID: 2541595241761321501, guid: c3af72d6fa4c34445a86d0c778c33dc2, type: 3}
+  indicatorTexture: {fileID: 0}
   CheckAmount: 1
+  ShowIndicator: 1
   maxHeight: 15

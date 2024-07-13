@@ -20,7 +20,7 @@ public class Dash : Ability
     {
         serverCharacter.physicsWrapper.Transform.forward = data.Direction;
         serverCharacter.ServerAnimationHandler.NetworkAnimator.SetTrigger(abilityAnimationTrigger);
-        serverCharacter.ClientCharacter.ClientPlayEffectRpc(serverCharacter.physicsWrapper.transform.position, serverCharacter.physicsWrapper.Transform.rotation);
+        serverCharacter.ClientCharacter.ClientPlayEffectRpc(serverCharacter.physicsWrapper.transform.position, serverCharacter.physicsWrapper.Transform.rotation,special:IsSpecialAbility);
         rb = serverCharacter.GetComponent<Rigidbody>();
         this.data = data;
     }
@@ -61,7 +61,7 @@ public class Dash : Ability
                 Vector3 collisionPoint;
                 if (TryGetCollisionPoint(serverCharacter.physicsWrapper.Transform.position, hitColliders[i], out collisionPoint))
                 {
-                    serverCharacter.ClientCharacter.ClientPlayEffectRpc(collisionPoint, serverCharacter.physicsWrapper.Transform.rotation, 1);
+                    serverCharacter.ClientCharacter.ClientPlayEffectRpc(collisionPoint, serverCharacter.physicsWrapper.Transform.rotation, 1,IsSpecialAbility);
                 }
                 
             }

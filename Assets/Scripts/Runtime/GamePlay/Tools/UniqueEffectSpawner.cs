@@ -23,6 +23,7 @@ public class UniqueEffectSpawner : NetworkBehaviour
     {
         if (!IsSpawned) return;
         if(!IsServer) return;
+        if (!GamePlayBehaviour.Instance.IsGameStart.Value) return;
         if(Time.time > timer+duration)
         {
             timer = Time.time;

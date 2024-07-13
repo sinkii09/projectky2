@@ -19,6 +19,7 @@ public class InGameDisplay : MonoBehaviour
     [SerializeField] private GameObject m_GameOverUI;
     [SerializeField] private TextMeshProUGUI m_TimerText;
     [SerializeField] private Button ExtButton;
+    [SerializeField] private GameObject m_CenterTimer;
     
     Dictionary<ulong, PlayerIngameCard> playerCards = new Dictionary<ulong, PlayerIngameCard>();
 
@@ -37,11 +38,28 @@ public class InGameDisplay : MonoBehaviour
     {
         if (NetworkManager.Singleton.IsClient)
         {
-            if (countDownTimer)
+            if (!countDownTimer) return;
+            if (!gamePlayBehaviour) return;
+            if(gamePlayBehaviour.IsGameStart.Value)
             {
+                m_CenterTimer.SetActive(false);
                 float duration = countDownTimer.GetRemainingTime();
                 TimeSpan timeSpan = TimeSpan.FromSeconds(duration);
                 m_TimerText.text = $"{timeSpan.Minutes}:{timeSpan.Seconds}";
+            }
+            else
+            {
+                float duration = countDownTimer.GetRemainingTime();
+                TimeSpan timeSpan = TimeSpan.FromSeconds(duration);
+                TextMeshProUGUI TimerText = m_CenterTimer.GetComponentInChildren<TextMeshProUGUI>();
+                if(timeSpan.Seconds <= 1) 
+                {
+                    TimerText.text = "READY!";
+                }
+                else
+                {
+                    TimerText.text = $"{timeSpan.Seconds - 1}";            
+                }
             }
         }
     }
@@ -63,6 +81,7 @@ public class InGameDisplay : MonoBehaviour
         {
             gamePlayBehaviour.IsGameOver.OnValueChanged += OnGameOver;
         }
+        m_CenterTimer.SetActive(true);
     }
 
     void OnNetworkDeSpawn()

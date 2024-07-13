@@ -4847,7 +4847,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 12fb1d84a82a2de4f8b3e8b1f2747b43, type: 2}
+  - {fileID: 2100000, guid: f516e595f99d2c54f882cf46f2255cd4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9765,7 +9765,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b2bcced4c3bf44b4387e9681e8e9dce0, type: 2}
+  - {fileID: 2100010, guid: a8354850d7f9fe749bf4291ec0d19fd1, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9829,7 +9829,7 @@ GameObject:
   - component: {fileID: 3394510699247167957}
   - component: {fileID: 3714901639446991294}
   - component: {fileID: 2233840659826474549}
-  - component: {fileID: 8776564549535542419}
+  - component: {fileID: 774561763771852359}
   m_Layer: 6
   m_Name: Toon Projectiles 2 - Red Star Muzzle
   m_TagString: Untagged
@@ -14677,7 +14677,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c2de1047f148a2843bd3f7d16853d66d, type: 2}
+  - {fileID: 2100000, guid: 41e018a6cf0c896418fc0b89dda748c6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -14730,7 +14730,7 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &8776564549535542419
+--- !u!114 &774561763771852359
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -14739,11 +14739,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8987692157773225775}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7820685bb7484defb2c7faf26b4ca931, type: 3}
+  m_Script: {fileID: 11500000, guid: af0046768f616f74b9896257b1796f5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToDestroy: 5
-  triggerWhenProjectileSet: 1
-  objectsToDisableImmediately: []
-  delayToDisableObjects: 0.05
-  reenableThemOnEnable: 1
+  m_AutoShutdownTime: 1

@@ -21,6 +21,8 @@ MonoBehaviour:
   rejectionAnimationTrigger: 
   executeTime: 0.5
   durationTime: 0
+  cooldownTime: 0
+  Cost: 0
   projectileInfoList:
   - Prefab: {fileID: 1462457652631714548, guid: e460c12270540054bac8a9552f8c7322,
       type: 3}
@@ -33,5 +35,6 @@ MonoBehaviour:
   - {fileID: 2871721536569910191, guid: 6707f4864c992a4499a11b1316255b93, type: 3}
   - {fileID: 5642766282230003982, guid: b5c8ca7ed10b61e499cce8ec3b6e2e4c, type: 3}
   indicatorTexture: {fileID: 0}
+  IsSpecialAbility: 1
   CheckAmount: 0
   ShowIndicator: 1

@@ -204,7 +204,7 @@ public class CharacterSelectDisplay : NetworkBehaviour
             NetworkServer.Instance.SetCharacter(player.ClientId, player.CharacterId);
         }
         isGameStart = true;
-        GamePlayBehaviour.Instance.LoadSceneDelay(GamePlayState.PlayGame);
+        GamePlayBehaviour.Instance.LoadSceneDelay(3,GamePlayState.PlayGame);
 
     }
     [ServerRpc(RequireOwnership = false)]
@@ -237,7 +237,7 @@ public class CharacterSelectDisplay : NetworkBehaviour
             NetworkServer.Instance.SetCharacter(player.ClientId, player.CharacterId);
         }
         isGameStart = true;
-        GamePlayBehaviour.Instance.LoadSceneDelay(GamePlayState.PlayGame);
+        GamePlayBehaviour.Instance.LoadSceneDelay(3,GamePlayState.PlayGame);
     }
 
     private void HandlePlayersStateChanged(NetworkListEvent<CharacterSelectState> changeEvent)

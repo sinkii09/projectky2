@@ -50,7 +50,7 @@ public class AOELaunch : Ability
     {  
         CoroutineRunner.Instance.StartCoroutine(ExecuteTimeDelay());
         isStart = true;
-        serverCharacter.ClientCharacter.ClientPlayEffectRpc(data.Position, serverCharacter.physicsWrapper.Transform.rotation);
+        serverCharacter.ClientCharacter.ClientPlayEffectRpc(data.Position, serverCharacter.physicsWrapper.Transform.rotation, special: IsSpecialAbility);
     }
 
     public override void OnPlayClient(ClientCharacter clientCharacter,Vector3 position, Quaternion rotation, int num = 0)

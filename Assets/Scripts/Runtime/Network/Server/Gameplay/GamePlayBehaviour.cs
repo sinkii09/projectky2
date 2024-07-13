@@ -22,11 +22,14 @@ public class GamePlayBehaviour : NetworkBehaviour
     [SerializeField] CountDownTimer m_countDownTimer;
     [SerializeField] float m_CharSelectCountdownDuration;
     [SerializeField] float m_InGameCountdownDuration;
+    [SerializeField] float m_GameStartDelay;
     private GamePlayState currentGamePlayState = GamePlayState.Undefined;
 
     public event Action OnGameOver;
     bool isCharacterSet;
+    public NetworkVariable<bool> IsGameStart { get; private set; } = new NetworkVariable<bool>(false);
     public NetworkVariable<bool> IsGameOver { get; private set; } = new NetworkVariable<bool>(false);
+
     private void Awake()
     {
         Instance = this;
@@ -86,10 +89,23 @@ public class GamePlayBehaviour : NetworkBehaviour
     {
         if(currentGamePlayState == GamePlayState.PlayGame && isCharacterSet)
         {
-            OnGameOver?.Invoke();
-            IsGameOver.Value = true;
-            Debug.Log("On GameOver");
-            LoadState(GamePlayState.GameOver);
+            Debug.Log("game play time expired");
+            if(!IsGameStart.Value)
+            {
+                Debug.Log("ready");
+                IsGameStart.Value = true;
+                Debug.Log(IsGameStart.Value);
+                
+                m_countDownTimer.StartCountdown(m_InGameCountdownDuration);
+
+                ClientPlayBGMRpc(4);
+            }
+            else
+            {
+                OnGameOver?.Invoke();
+                IsGameOver.Value = true;
+                LoadSceneDelay(5, GamePlayState.GameOver);
+            }
         }
     }
     private void SceneManager_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, System.Collections.Generic.List<ulong> clientsCompleted, System.Collections.Generic.List<ulong> clientsTimedOut)
@@ -102,8 +118,8 @@ public class GamePlayBehaviour : NetworkBehaviour
         }
         else if(sceneName == m_MapScene)
         {
-            ClientPlayBGMRpc(4);
-            m_countDownTimer.StartCountdown(m_InGameCountdownDuration);
+            m_countDownTimer.StartCountdown(m_GameStartDelay);
+            Debug.Log("Start delay");
             return;
         }
         else if(sceneName == m_MainScene)
@@ -117,13 +133,18 @@ public class GamePlayBehaviour : NetworkBehaviour
         yield return new WaitForSeconds(time);
         LoadState(state);
     }
-    public void LoadSceneDelay(GamePlayState state)
+    public void LoadSceneDelay(float time,GamePlayState state)
     {
-        StartCoroutine(LoadGamePlayCoroutine(3,state));
+        StartCoroutine(LoadGamePlayCoroutine(time,state));
     }
     [Rpc(SendTo.ClientsAndHost)]
     void ClientPlayBGMRpc(int num)
     {
         AudioManager.Instance.PlayBGMNumber(num);
+    }
+    [Rpc(SendTo.ClientsAndHost)]
+    void ClientDebugRpc(float time)
+    {
+        Debug.Log(time);
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class SpecialFXGraphic : MonoBehaviour
 {
     [SerializeField]
-    private float m_AutoShutdownTime = -1;
+    private float m_AutoShutdownTime = 1;
     private bool m_IsShutdown = false;
 
     private GameObject prefab;

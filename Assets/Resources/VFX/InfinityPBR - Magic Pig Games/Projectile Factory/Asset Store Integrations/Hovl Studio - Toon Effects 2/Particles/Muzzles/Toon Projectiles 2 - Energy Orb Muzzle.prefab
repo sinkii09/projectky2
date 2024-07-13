@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1491947714176505823}
   - component: {fileID: 3450981617201102835}
   - component: {fileID: 3408759432257526832}
-  - component: {fileID: 2403311837107398558}
+  - component: {fileID: 3641759116891911975}
   m_Layer: 6
   m_Name: Toon Projectiles 2 - Energy Orb Muzzle
   m_TagString: Untagged
@@ -4858,7 +4858,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 12fb1d84a82a2de4f8b3e8b1f2747b43, type: 2}
+  - {fileID: 2100000, guid: 935ab430b9a17de4caf00054e74116f4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4911,7 +4911,7 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &2403311837107398558
+--- !u!114 &3641759116891911975
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4920,14 +4920,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2541595241761321501}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7820685bb7484defb2c7faf26b4ca931, type: 3}
+  m_Script: {fileID: 11500000, guid: af0046768f616f74b9896257b1796f5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToDestroy: 5
-  triggerWhenProjectileSet: 1
-  objectsToDisableImmediately: []
-  delayToDisableObjects: 0.05
-  reenableThemOnEnable: 1
+  m_AutoShutdownTime: 1
 --- !u!1 &3607886509973310084
 GameObject:
   m_ObjectHideFlags: 0
@@ -4939,6 +4935,7 @@ GameObject:
   - component: {fileID: 3166083001022776961}
   - component: {fileID: 4737043645663004800}
   - component: {fileID: 2550404639083997410}
+  - component: {fileID: 4386108772754326309}
   m_Layer: 6
   m_Name: Glow
   m_TagString: Untagged
@@ -9775,7 +9772,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 12fb1d84a82a2de4f8b3e8b1f2747b43, type: 2}
+  - {fileID: 2100000, guid: 8d244b42458199344aaea0c6c77cbb90, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9828,3 +9825,16 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &4386108772754326309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3607886509973310084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af0046768f616f74b9896257b1796f5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AutoShutdownTime: 1

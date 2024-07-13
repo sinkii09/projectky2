@@ -4847,7 +4847,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 12fb1d84a82a2de4f8b3e8b1f2747b43, type: 2}
+  - {fileID: 2100000, guid: acbc8d78b0831b2458c6c1631b6d9635, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4911,9 +4911,9 @@ GameObject:
   - component: {fileID: 896269294299414643}
   - component: {fileID: 1729522699137759696}
   - component: {fileID: 2680660513773263194}
-  - component: {fileID: 5600606145300902851}
+  - component: {fileID: -3137485041199260084}
   m_Layer: 6
-  m_Name: Toon Projectiles 2 - Arrow Muzzle
+  m_Name: Arrow Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9759,7 +9759,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 12fb1d84a82a2de4f8b3e8b1f2747b43, type: 2}
+  - {fileID: 2100000, guid: f516e595f99d2c54f882cf46f2255cd4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9812,7 +9812,7 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &5600606145300902851
+--- !u!114 &-3137485041199260084
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9821,14 +9821,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7116297704741376817}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7820685bb7484defb2c7faf26b4ca931, type: 3}
+  m_Script: {fileID: 11500000, guid: af0046768f616f74b9896257b1796f5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToDestroy: 5
-  triggerWhenProjectileSet: 1
-  objectsToDisableImmediately: []
-  delayToDisableObjects: 0.05
-  reenableThemOnEnable: 1
+  m_AutoShutdownTime: 1
 --- !u!1 &8421961299667229717
 GameObject:
   m_ObjectHideFlags: 0
@@ -14694,7 +14690,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b2bcced4c3bf44b4387e9681e8e9dce0, type: 2}
+  - {fileID: 2100000, guid: caa5d03f2c3027148b70f4e303fbfb33, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

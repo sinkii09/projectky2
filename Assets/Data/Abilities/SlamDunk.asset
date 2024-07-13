@@ -22,6 +22,7 @@ MonoBehaviour:
   executeTime: 0
   durationTime: 0
   cooldownTime: 0
+  Cost: 0
   projectileInfoList: []
   weaponVisual: []
   effect:
@@ -29,6 +30,7 @@ MonoBehaviour:
   - {fileID: 7029067538941937895, guid: 13ffad0aee551704eaf16b9def80090d, type: 3}
   - {fileID: 1429954232896169633, guid: 83036083a4ebcd34f98131bd3cf6f4d2, type: 3}
   indicatorTexture: {fileID: 0}
+  IsSpecialAbility: 1
   CheckAmount: 0
   ShowIndicator: 1
   targetLayer:

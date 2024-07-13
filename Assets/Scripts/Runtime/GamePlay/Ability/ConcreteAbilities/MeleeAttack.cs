@@ -9,7 +9,7 @@ public class MeleeAttack : Ability
     {
         serverCharacter.physicsWrapper.Transform.forward = data.Direction;
         serverCharacter.ServerAnimationHandler.NetworkAnimator.SetTrigger(abilityAnimationTrigger);
-        serverCharacter.ClientCharacter.ClientPlayEffectRpc(serverCharacter.physicsWrapper.Transform.position, serverCharacter.physicsWrapper.Transform.rotation, 0,0);
+        serverCharacter.ClientCharacter.ClientPlayEffectRpc(serverCharacter.physicsWrapper.Transform.position, serverCharacter.physicsWrapper.Transform.rotation, 0,IsSpecialAbility);
         TriggerAttack(serverCharacter);
         
     }
@@ -51,7 +51,7 @@ public class MeleeAttack : Ability
             var damageable = results[i].collider.GetComponent<IDamageable>();
             if (damageable != null && damageable.IsDamageable())
             {
-                serverCharacter.ClientCharacter.ClientPlayEffectRpc(results[i].point, serverCharacter.physicsWrapper.Transform.rotation, 1,0);
+                serverCharacter.ClientCharacter.ClientPlayEffectRpc(results[i].point, serverCharacter.physicsWrapper.Transform.rotation, 1,false);
                 foundFoe = damageable;
             }
         }

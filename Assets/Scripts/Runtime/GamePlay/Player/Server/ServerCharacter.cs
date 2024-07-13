@@ -152,6 +152,7 @@ public class ServerCharacter : NetworkBehaviour
     [Rpc(SendTo.Server)]
     public void SendCharacterInputServerRpc(Vector3 movementTarget, bool canJump = false)
     {
+        if (!GamePlayBehaviour.Instance.IsGameStart.Value) return;
         if (isGameOver.Value) return;
         if (LifeState.Value != LifeStateEnum.Alive) return;
         if (m_Movement.IsPerformingForcedMovement()) return;
@@ -179,11 +180,11 @@ public class ServerCharacter : NetworkBehaviour
     }
     public void RecvAbilityRequest(AbilityRequest data)
     {
+        if (!GamePlayBehaviour.Instance.IsGameStart.Value) return;
         if (isGameOver.Value) return;
         if (LifeState.Value != LifeStateEnum.Alive) return;
         
         m_ServerAbilityHandler.ReceiveAbilityRequest(data);
-        Debug.Log(data.Ability.name + " server");
     }
     public void DequeueAbility()
     {

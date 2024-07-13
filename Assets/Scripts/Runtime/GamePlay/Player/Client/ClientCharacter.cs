@@ -76,6 +76,7 @@ public class ClientCharacter : NetworkBehaviour
     }
     private void Update()
     {
+        if (!GamePlayBehaviour.Instance.IsGameStart.Value) return;
         if (m_ClientVisualsAnimator)
         {
             OurAnimator.SetFloat(m_VisualizationConfiguration.SpeedVariableID, m_CurrentSpeed);
@@ -187,7 +188,6 @@ public class ClientCharacter : NetworkBehaviour
             m_MainPlayerIngameCard = FindObjectOfType<MainPlayerIngameCard>();
             m_MainPlayerIngameCard.UpdateCurrentMana(serverCharacter.ManaPoint.Value);
             counter = m_MainPlayerIngameCard.counter;
-            counter.Hide();
             CharacterSpawner spawner = FindObjectOfType<CharacterSpawner>();
             foreach(var player in spawner.Players)
             {
@@ -276,10 +276,10 @@ public class ClientCharacter : NetworkBehaviour
     }
 
     [Rpc(SendTo.ClientsAndHost)]
-    internal void ClientPlayEffectRpc(Vector3 position,Quaternion rotation,int num = 0, int special = -1)
+    internal void ClientPlayEffectRpc(Vector3 position,Quaternion rotation,int num = 0, bool special = false)
     {
         Ability ability;
-        if (special == -1)
+        if (special == true)
         {
             ability = m_ServerCharacter.CharacterStats.SpecialAbility;
         }
@@ -288,7 +288,6 @@ public class ClientCharacter : NetworkBehaviour
             
             var weapon = GamePlayDataSource.Instance.GetWeaponPrototypeByID(m_ServerCharacter.CurrentWeaponId.Value);
             ability = weapon.Ability;
-            Debug.Log(ability.name);
         }
         m_ClientAbilityHandler.PlayAbility(ability, position,rotation,num);
     }

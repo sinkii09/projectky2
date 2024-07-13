@@ -31,7 +31,8 @@ MonoBehaviour:
     Damage: 10
     MaxVictims: 0
   weaponVisual: []
-  effect: []
+  effect:
+  - {fileID: 8987692157773225775, guid: 31525ce3ea452425ea0b0962d5672101, type: 3}
   indicatorTexture: {fileID: 0}
   CheckAmount: 1
   ShowIndicator: 1
