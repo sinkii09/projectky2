@@ -359,7 +359,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.0010375977}
+  m_AnchoredPosition: {x: 0, y: 0.00091552734}
   m_SizeDelta: {x: -20, y: -44.795586}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &94193725
@@ -422,10 +422,10 @@ RectTransform:
   - {fileID: 2127878649}
   m_Father: {fileID: 23138473}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 115, y: -32.5}
-  m_SizeDelta: {x: 250, y: 45}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 250, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &123903402
 MonoBehaviour:
@@ -4450,7 +4450,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1302092794}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.99999845
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -7538,10 +7538,10 @@ RectTransform:
   - {fileID: 1783581244}
   m_Father: {fileID: 23138473}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 290, y: -32.5}
-  m_SizeDelta: {x: 80, y: 45}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 80, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1493413373
 MonoBehaviour:
@@ -10456,7 +10456,7 @@ MonoBehaviour:
   nextBtn: {fileID: 468699431}
   map1Sprite: {fileID: 21300000, guid: a850d9023bcb773419ac0b019e6a2961, type: 3}
   map2Sprite: {fileID: 21300000, guid: 680a312559414ca47add2955aabd9ecd, type: 3}
-  map1Name: Village
+  map1Name: Laps
   map2Name: Dungeon
 --- !u!114 &2108029134
 MonoBehaviour:

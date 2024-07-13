@@ -89,15 +89,10 @@ public class GamePlayBehaviour : NetworkBehaviour
     {
         if(currentGamePlayState == GamePlayState.PlayGame && isCharacterSet)
         {
-            Debug.Log("game play time expired");
             if(!IsGameStart.Value)
             {
-                Debug.Log("ready");
                 IsGameStart.Value = true;
-                Debug.Log(IsGameStart.Value);
-                
                 m_countDownTimer.StartCountdown(m_InGameCountdownDuration);
-
                 ClientPlayBGMRpc(4);
             }
             else
@@ -119,7 +114,6 @@ public class GamePlayBehaviour : NetworkBehaviour
         else if(sceneName == m_MapScene)
         {
             m_countDownTimer.StartCountdown(m_GameStartDelay);
-            Debug.Log("Start delay");
             return;
         }
         else if(sceneName == m_MainScene)

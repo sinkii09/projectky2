@@ -17,11 +17,7 @@ public class CountDownTimer : NetworkBehaviour
 
     private void Update()
     {
-        if (!IsServer && !IsSpawned) return;
-        MainCountdown();
-    }
-    void MainCountdown()
-    {
+        if (!IsServer) return;
         if (!isStartCountdown) return;
         float elapsedTime = NetworkManager.LocalTime.TimeAsFloat - startTime;
         remainingTime.Value = Mathf.Max(0, countdownDuration - elapsedTime);
@@ -39,11 +35,9 @@ public class CountDownTimer : NetworkBehaviour
 
     public void StartCountdown(float duration)
     {
-        Debug.Log("duration " + duration );
         countdownDuration = duration;
         startTime = NetworkManager.LocalTime.TimeAsFloat;
         isStartCountdown = true;
-        Debug.Log("start countdown");
     }
     public float GetRemainingTime()
     {
@@ -53,11 +47,9 @@ public class CountDownTimer : NetworkBehaviour
     {
         if (remainingTime.Value > 0)
         {
-            Debug.Log(remainingTime.Value);
             return;
         }
-        Debug.Log("on time expired");
-        OnTimeExpired?.Invoke();
         isStartCountdown = false;
+        OnTimeExpired?.Invoke();
     }
 }

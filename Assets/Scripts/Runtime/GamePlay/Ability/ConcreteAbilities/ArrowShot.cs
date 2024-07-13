@@ -44,6 +44,7 @@ public class ArrowShot : Ability
     }
     public override void OnPlayClient(ClientCharacter clientCharacter, Vector3 position, Quaternion rotation, int num = 0)
     {
+        Debug.Log("trigger effect");
         var abilityFX = ParticlePool.Singleton.GetObject(effect[0], position, Quaternion.identity);
         abilityFX.GetComponent<SpecialFXGraphic>().OnInitialized(effect[0]);
         bool hasVFX = abilityFX.TryGetComponent(out VisualEffect VFX);

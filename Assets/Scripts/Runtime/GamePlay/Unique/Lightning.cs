@@ -9,21 +9,30 @@ public class Lightning : UniqueEffect
     [SerializeField] int damage;
     [SerializeField] float radius;
     [SerializeField] Collider[] hitColliders;
+
+    bool isStart;
+    float timer;
+    private void FixedUpdate()
+    {
+        if(IsServer && isStart)
+        {
+            if(Time.time >= timer + lifeTime)
+            {
+                CheckCollision();
+                if (NetworkObject != null)
+                {
+                    NetworkObject.Despawn(true);
+                }
+            }
+        }
+    }
     public override void OnNetworkSpawn()
     {
         if(IsServer)
         {
             SendClientDoEffectRpc(transform.position);
-            StartCoroutine(DoDamage());
-        }
-    }
-    IEnumerator DoDamage()
-    {
-        yield return new WaitForSeconds(lifeTime);
-        CheckCollision();
-        if (NetworkObject != null)
-        {
-            NetworkObject.Despawn(true);
+            timer = Time.time;
+            isStart = true;
         }
     }
     void CheckCollision()

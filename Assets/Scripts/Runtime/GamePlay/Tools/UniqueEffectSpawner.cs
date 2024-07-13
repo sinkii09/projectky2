@@ -70,7 +70,7 @@ public class UniqueEffectSpawner : NetworkBehaviour
         {
             RandomPositionInRange();
         }
-        return newPosition + Vector3.up * 2;
+        return newPosition;
     }
     bool IsAvailablePosion(Vector3 position)
     {
