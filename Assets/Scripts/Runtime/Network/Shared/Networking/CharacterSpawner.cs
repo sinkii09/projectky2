@@ -22,7 +22,7 @@ public class CharacterSpawner : NetworkBehaviour,IDisposable
     public Dictionary<ulong, ServerCharacter> PlayerCharacters = new Dictionary<ulong, ServerCharacter>();
     
     public event Action OnSpawnComplete;
-
+    public event Action<ulong,ulong> OnPlayerKilled;
 
     private void Awake()
     {
@@ -122,6 +122,11 @@ public class CharacterSpawner : NetworkBehaviour,IDisposable
                     Players[i].Dead);
             }
         }
+    }
+    [Rpc(SendTo.ClientsAndHost)]
+    public void SendKillNotifyRpc(ulong killPlayer, ulong deadPlayer)
+    {
+        OnPlayerKilled?.Invoke(killPlayer, deadPlayer);
     }
 
     [Rpc(SendTo.ClientsAndHost)]

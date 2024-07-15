@@ -17,5 +17,4 @@ public class WeaponData : ScriptableObject
     public int Amount { get { return amount; } }
     public Ability Ability { get {  return ability; } }
 
-    public Sprite Icon { get { return icon; } }
 }

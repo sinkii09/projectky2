@@ -51,6 +51,7 @@ public class ClientCharacter : NetworkBehaviour
     [SerializeField] GameObject m_NewWeaponPart;
     [SerializeField] GameObject m_BaseWeaponPart;
 
+    [SerializeField] GameIndicator enemyIndicator;
     #endregion
     PositionLerper m_PositionLerper;
 
@@ -291,7 +292,22 @@ public class ClientCharacter : NetworkBehaviour
         }
         m_ClientAbilityHandler.PlayAbility(ability, position,rotation,num);
     }
+    [Rpc(SendTo.ClientsAndHost)]
+    public void ShowAbilityIndicatorRpc(ulong ownerId, Vector3 position, float radius, bool special = true)
+    {
+        Ability ability;
+        if (special == true)
+        {
+            ability = m_ServerCharacter.CharacterStats.SpecialAbility;
+        }
+        else
+        {
 
+            var weapon = GamePlayDataSource.Instance.GetWeaponPrototypeByID(m_ServerCharacter.CurrentWeaponId.Value);
+            ability = weapon.Ability;
+        }
+        m_ClientAbilityHandler.ShowAbilityIndicator(ability,position,radius);
+    }
     [Rpc(SendTo.ClientsAndHost)]
     internal void DeniedActionRpc()
     {

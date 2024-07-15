@@ -33,7 +33,10 @@ MonoBehaviour:
   weaponVisual: []
   effect:
   - {fileID: 2541595241761321501, guid: c3af72d6fa4c34445a86d0c778c33dc2, type: 3}
-  indicatorTexture: {fileID: 0}
+  indicatorFX: {fileID: 0}
+  inputIndicatorTexture: {fileID: 0}
+  AbilityIcon: {fileID: 21300000, guid: 9b31803e58d6ac94fb1c6c94017d635b, type: 3}
+  IsSpecialAbility: 0
   CheckAmount: 1
   ShowIndicator: 1
   maxHeight: 15

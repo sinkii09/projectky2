@@ -27,7 +27,9 @@ MonoBehaviour:
   weaponVisual: []
   effect:
   - {fileID: 2040460775051823323, guid: e87c97282711c884ba583a33670a1e78, type: 3}
-  indicatorTexture: {fileID: 0}
+  indicatorFX: {fileID: 0}
+  inputIndicatorTexture: {fileID: 0}
+  AbilityIcon: {fileID: 21300000, guid: 7c8b51a3d39297d4c903e21528c05409, type: 3}
   IsSpecialAbility: 1
   CheckAmount: 0
   ShowIndicator: 1

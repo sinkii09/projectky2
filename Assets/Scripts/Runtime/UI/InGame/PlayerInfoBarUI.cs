@@ -48,7 +48,7 @@ public class PlayerInfoBarUI : MonoBehaviour
         healthbarUI.maxValue = serverCharacter.HitPoints;
         healthbarUI.value = healthbarUI.maxValue;
         var currentWeapon = GamePlayDataSource.Instance.GetWeaponPrototypeByID(serverCharacter.CurrentWeaponId.Value);
-        weaponIcon.sprite = currentWeapon.Icon;
+        weaponIcon.sprite = currentWeapon.Ability.AbilityIcon;
         fillImage.color = isOwner ? Color.white : Color.red;
         playerName.text = name;
 
@@ -69,7 +69,7 @@ public class PlayerInfoBarUI : MonoBehaviour
 
     private void OnWeaponChange(WeaponID previousValue, WeaponID newValue)
     {
-        weaponIcon.sprite = GamePlayDataSource.Instance.GetWeaponPrototypeByID(newValue).Icon;
+        weaponIcon.sprite = GamePlayDataSource.Instance.GetWeaponPrototypeByID(newValue).Ability.AbilityIcon;
     }
 
 }

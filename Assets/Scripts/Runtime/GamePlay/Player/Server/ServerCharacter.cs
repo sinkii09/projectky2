@@ -252,6 +252,7 @@ public class ServerCharacter : NetworkBehaviour
             if(inflicter != null)
             {
                 m_CharacterSpawner.UpdateKill(m_LastInflicter.OwnerClientId);
+                m_CharacterSpawner.SendKillNotifyRpc(m_LastInflicter.OwnerClientId, OwnerClientId);
             }
         }
         m_CharacterSpawner.UpdateHealth(OwnerClientId, HitPoints, LifeState.Value == LifeStateEnum.Alive);

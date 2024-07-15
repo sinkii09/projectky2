@@ -29,7 +29,10 @@ MonoBehaviour:
   - {fileID: 6489904609392337134, guid: 6bb3c43c574ec1c4cbd6eacbde312dde, type: 3}
   - {fileID: 7029067538941937895, guid: 13ffad0aee551704eaf16b9def80090d, type: 3}
   - {fileID: 1429954232896169633, guid: 83036083a4ebcd34f98131bd3cf6f4d2, type: 3}
-  indicatorTexture: {fileID: 0}
+  indicatorFX: {fileID: 7157940071616837747, guid: 656f5fc0d8a01af4d9903f5be985536e,
+    type: 3}
+  inputIndicatorTexture: {fileID: 0}
+  AbilityIcon: {fileID: 21300000, guid: 77ccb233703a73246baf50cf30222df2, type: 3}
   IsSpecialAbility: 1
   CheckAmount: 0
   ShowIndicator: 1

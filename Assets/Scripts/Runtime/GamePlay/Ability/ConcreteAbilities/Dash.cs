@@ -88,7 +88,7 @@ public class Dash : Ability
         serverCharacter.Movement.StartDash(data.Direction,speed,dashTime);
         isDashing = true;
     }
-    public override void OnPlayClient(ClientCharacter clientCharacter, Vector3 position,Quaternion rotation, int num = 0)
+    public override void OnPlayEffectClient(ClientCharacter clientCharacter, Vector3 position,Quaternion rotation, int num = 0)
     {
         var abilityFX = ParticlePool.Singleton.GetObject(effect[num], position, rotation);
         abilityFX.GetComponent<SpecialFXGraphic>().OnInitialized(effect[num]);

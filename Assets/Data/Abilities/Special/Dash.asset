@@ -28,7 +28,9 @@ MonoBehaviour:
   effect:
   - {fileID: 40428518095029017, guid: 90ea498c41b5a4c41a24b78b4038aba7, type: 3}
   - {fileID: 5880797563127281583, guid: 265d3a5ba69981a4698ceabcedf368b0, type: 3}
-  indicatorTexture: {fileID: 0}
+  indicatorFX: {fileID: 0}
+  inputIndicatorTexture: {fileID: 0}
+  AbilityIcon: {fileID: 21300000, guid: 11d30d34c9e992144b61ed66a1a49c37, type: 3}
   IsSpecialAbility: 1
   CheckAmount: 0
   ShowIndicator: 1

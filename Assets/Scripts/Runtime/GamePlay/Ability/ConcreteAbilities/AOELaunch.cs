@@ -48,7 +48,7 @@ public class AOELaunch : Ability
         serverCharacter.ClientCharacter.ClientPlayEffectRpc(data.Position, serverCharacter.physicsWrapper.Transform.rotation, special: IsSpecialAbility);
     }
 
-    public override void OnPlayClient(ClientCharacter clientCharacter,Vector3 position, Quaternion rotation, int num = 0)
+    public override void OnPlayEffectClient(ClientCharacter clientCharacter,Vector3 position, Quaternion rotation, int num = 0)
     {
         var abilityFX = ParticlePool.Singleton.GetObject(effect[0], position, Quaternion.identity);
         abilityFX.GetComponent<SpecialFXGraphic>().OnInitialized(effect[0]);

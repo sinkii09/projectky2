@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class ClientAbilityHandler
 {
@@ -11,6 +13,11 @@ public class ClientAbilityHandler
     }
     public void PlayAbility(Ability ability,Vector3 position,Quaternion rotation,int num = 0)
     {
-        ability.OnPlayClient(clientCharacter, position,rotation,num);
+        ability.OnPlayEffectClient(clientCharacter, position,rotation,num);
+    }
+
+    internal void ShowAbilityIndicator(Ability ability,Vector3 position,float radius)
+    {
+        ability.OnShowIndicatorClient(position,radius);
     }
 }

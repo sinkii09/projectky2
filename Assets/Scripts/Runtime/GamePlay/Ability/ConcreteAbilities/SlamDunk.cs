@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.VFX;
 
 [CreateAssetMenu(fileName = "SlamDunk", menuName = "Abilities/SlamDunk")]
 public class SlamDunk : Ability
@@ -18,6 +19,7 @@ public class SlamDunk : Ability
         this.data = data;
         serverCharacter.physicsWrapper.Transform.forward = data.Direction;
         serverCharacter.ServerAnimationHandler.NetworkAnimator.SetTrigger(abilityAnimationTrigger);
+        serverCharacter.ClientCharacter.ShowAbilityIndicatorRpc(serverCharacter.OwnerClientId,data.Position, Radius);
         PerformAbility(serverCharacter, data);
     }
     public override void OnAbilityUpdate(ServerCharacter serverCharacter)
@@ -91,7 +93,7 @@ public class SlamDunk : Ability
         isStart = true;
         serverCharacter.Movement.Jump();
     }
-    public override void OnPlayClient(ClientCharacter clientCharacter, Vector3 position, Quaternion rotation, int num = 0)
+    public override void OnPlayEffectClient(ClientCharacter clientCharacter, Vector3 position, Quaternion rotation, int num = 0)
     {
         foreach (var effect in effect)
         {

@@ -56,7 +56,7 @@ public class ClientInputSender : NetworkBehaviour
         m_ChatUI = FindObjectOfType<ChatUI>();
 
         m_RangeIndicator.Initialize(m_PhysicsWrapper.Transform);
-        m_RadiusIndicator.Initialize(m_MousePoint,m_ServerCharacter.CharacterStats.SpecialAbility.indicatorTexture);
+        m_RadiusIndicator.Initialize(m_MousePoint,m_ServerCharacter.CharacterStats.SpecialAbility.inputIndicatorTexture);
         
         m_InputReader.MoveEvent += InputReader_MoveEvent;
         m_InputReader.SpecialInputEvent += InputReader_SpecialInputEvent;

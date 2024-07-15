@@ -34,7 +34,9 @@ MonoBehaviour:
   effect:
   - {fileID: 2871721536569910191, guid: 6707f4864c992a4499a11b1316255b93, type: 3}
   - {fileID: 5642766282230003982, guid: b5c8ca7ed10b61e499cce8ec3b6e2e4c, type: 3}
-  indicatorTexture: {fileID: 0}
+  indicatorFX: {fileID: 0}
+  inputIndicatorTexture: {fileID: 0}
+  AbilityIcon: {fileID: 21300000, guid: 19552f1c00816364385830a16eaf8c13, type: 3}
   IsSpecialAbility: 1
   CheckAmount: 0
   ShowIndicator: 1

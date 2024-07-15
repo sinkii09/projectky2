@@ -53,7 +53,7 @@ public class CircleShot : Ability
         }
         throw new Exception($"Action {name} has no usable Projectiles!");
     }
-    public override void OnPlayClient(ClientCharacter clientCharacter, Vector3 position, Quaternion rotation, int num = 0)
+    public override void OnPlayEffectClient(ClientCharacter clientCharacter, Vector3 position, Quaternion rotation, int num = 0)
     {
         foreach(var effect in effect)
         {

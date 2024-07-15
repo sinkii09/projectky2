@@ -26,12 +26,12 @@ public class MainPlayerIngameCard : PlayerIngameCard
     public void UpdateBaseAttackWeapon(WeaponID weaponID)
     {
         var weapon = GamePlayDataSource.Instance.GetWeaponPrototypeByID(weaponID);
-        weaponIcon.sprite = weapon.Icon;
+        weaponIcon.sprite = weapon.Ability.AbilityIcon;
         weaponNameText.text = weapon.Name;
     }
     public void UpdateSpecial(CharacterStats stats)
     {
-        specialIcon.sprite = stats.SpecialIcon;
+        specialIcon.sprite = stats.SpecialAbility.AbilityIcon;
         manaCostText.text = stats.SpecialAbility.Cost.ToString();
     }
     public void UpdateCurrentMana(int value)

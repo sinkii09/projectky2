@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public abstract class Ability : ScriptableObject
 {
@@ -25,7 +26,9 @@ public abstract class Ability : ScriptableObject
     public ProjectileInfo[] projectileInfoList;
     public GameObject[] weaponVisual;
     public GameObject[] effect;
-    public Texture indicatorTexture;
+    public GameObject indicatorFX;
+    public Texture inputIndicatorTexture;
+    public Sprite AbilityIcon;
     public bool IsSpecialAbility = false;
     public bool CheckAmount = true;
     public bool ShowIndicator = true;
@@ -67,8 +70,18 @@ public abstract class Ability : ScriptableObject
     {
         
     }
-    public virtual void OnPlayClient(ClientCharacter clientCharacter,Vector3 position,Quaternion rotation,int num = 0) { }
-
+    public virtual void OnPlayEffectClient(ClientCharacter clientCharacter,Vector3 position,Quaternion rotation,int num = 0) { }
+    public virtual void OnShowIndicatorClient(Vector3 position,float radius) 
+    {
+        if(!indicatorFX) { return; }
+        var indicator = ParticlePool.Singleton.GetObject(indicatorFX, position, Quaternion.identity);
+        indicator.GetComponent<SpecialFXGraphic>().OnInitialized(indicatorFX);
+        if (indicator.TryGetComponent(out VisualEffect effect))
+        {
+            effect.SetFloat("Diameter", radius);
+            effect.Play();
+        }
+    }
     protected IEnumerator ExecuteTimeDelay()
     {
         yield return new WaitForSeconds(executeTime);

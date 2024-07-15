@@ -37,7 +37,7 @@ public class ArrowShot : Ability
         }
         throw new System.Exception($"Action {name} has no usable Projectiles!");
     }
-    public override void OnPlayClient(ClientCharacter clientCharacter, Vector3 position, Quaternion rotation, int num = 0)
+    public override void OnPlayEffectClient(ClientCharacter clientCharacter, Vector3 position, Quaternion rotation, int num = 0)
     {
         Debug.Log("trigger effect");
         var abilityFX = ParticlePool.Singleton.GetObject(effect[0], position, Quaternion.identity);

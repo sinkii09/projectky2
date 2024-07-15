@@ -22,11 +22,15 @@ MonoBehaviour:
   executeTime: 0.2
   durationTime: 0
   cooldownTime: 1
+  Cost: 0
   projectileInfoList: []
   weaponVisual: []
   effect:
   - {fileID: 4437618558610173464, guid: 552891765cf1b1a48815f00b0ac18d83, type: 3}
   - {fileID: 8525990746615576120, guid: b85d21f3b8fed714bacf0c4fd50fa512, type: 3}
-  indicatorTexture: {fileID: 0}
+  indicatorFX: {fileID: 0}
+  inputIndicatorTexture: {fileID: 0}
+  AbilityIcon: {fileID: 21300000, guid: cb6f80073a3ba8047b6aecbecad09577, type: 3}
+  IsSpecialAbility: 0
   CheckAmount: 0
   ShowIndicator: 0

@@ -14,6 +14,7 @@ public class InGameDisplay : MonoBehaviour
     [SerializeField] private CharacterDatabase m_CharacterDatabase;
     [SerializeField] private CharacterSpawner m_CharacterSpawner;
     [SerializeField] private Transform m_PlayerIngameCardHolder;
+    [SerializeField] private KillNotifyHolder m_KillNotifyCardHolder;
     [SerializeField] private PlayerIngameCard m_PlayerIngameCardPrefab;
     [SerializeField] private MainPlayerIngameCard m_MainPlayerStatus;
     [SerializeField] private GameObject m_GameOverUI;
@@ -75,6 +76,7 @@ public class InGameDisplay : MonoBehaviour
     {
         countDownTimer = FindObjectOfType<CountDownTimer>();
         m_CharacterSpawner.Players.OnListChanged += Players_OnListChanged;
+        m_CharacterSpawner.OnPlayerKilled += M_CharacterSpawner_OnPlayerKilled;
         NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneManager_OnLoadEventCompleted;
         gamePlayBehaviour = FindObjectOfType<GamePlayBehaviour>();
         if( gamePlayBehaviour != null )
@@ -87,6 +89,7 @@ public class InGameDisplay : MonoBehaviour
     void OnNetworkDeSpawn()
     {
         m_CharacterSpawner.Players.OnListChanged -= Players_OnListChanged;
+        m_CharacterSpawner.OnPlayerKilled -= M_CharacterSpawner_OnPlayerKilled;
         NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= SceneManager_OnLoadEventCompleted;
         if (gamePlayBehaviour != null)
         {
@@ -127,6 +130,25 @@ public class InGameDisplay : MonoBehaviour
         }
     }
 
+
+    private void M_CharacterSpawner_OnPlayerKilled(ulong killPlayer, ulong deadPlayer)
+    {
+        string killPlayerName = "";
+        string deadPlayerName = "";
+
+        foreach (var player in  m_CharacterSpawner.Players)
+        {
+            if(player.ClientId == killPlayer)
+            {
+                killPlayerName = player.ClientName;
+            }
+            else if (player.ClientId == deadPlayer)
+            {
+                deadPlayerName = player.ClientName;
+            }
+        }
+        m_KillNotifyCardHolder.UpdateCardList(killPlayerName, deadPlayerName);
+    }
 
     private void OnGameOver(bool previousValue, bool newValue)
     {
