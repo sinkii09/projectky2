@@ -9,7 +9,6 @@ public class WeaponData : ScriptableObject
     [SerializeField] GameObject visual;
     [SerializeField] int amount;
     [SerializeField] Ability ability;
-    [SerializeField] Sprite icon;
 
     public WeaponID Id;
     public string Name { get { return weaponName; } }
