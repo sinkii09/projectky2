@@ -11,20 +11,22 @@ public class BouncingBullet : NetworkBehaviour
     LayerMask targetLayer;
     LayerMask blockLayer;
 
+    Vector3 startPos;
+    Vector3 direction;
     int bounceAmount;
     int damage;
     float speed;
     float range;
     float timer;
     ServerCharacter spawner;
-    Rigidbody rb;
+
     public void Initialize(in ProjectileInfo info, ServerCharacter serverCharacter)
     {
-
+        direction = transform.forward;
         damage = info.Damage;
         range = info.Range;
         speed = info.Speed;
-        rb = GetComponent<Rigidbody>();
+        Debug.Log($"range {range} && speed {speed}");
         spawner = serverCharacter;
 
         bounceAmount = 0;
@@ -37,7 +39,7 @@ public class BouncingBullet : NetworkBehaviour
         if(IsServer)
         {
             timer = Time.time;
-            rb.velocity = transform.forward * 25;
+            startPos = transform.position;
         }
         if(IsClient)
         {
@@ -62,7 +64,29 @@ public class BouncingBullet : NetworkBehaviour
     {
         if(IsServer)
         {
-            if (Time.time > timer + range / 10)
+            if (Time.time - timer > (range / speed))
+            {
+                if (!NetworkObject)
+                {
+                    NetworkObject.Despawn();
+                }
+            }
+            RaycastCheck();
+        }
+
+    }
+    void RaycastCheck()
+    {
+        float distanceToMove = speed * Time.fixedDeltaTime;
+        Ray ray = new Ray(transform.position,transform.forward);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, distanceToMove, blockLayer))
+        {
+            transform.position = hit.point;
+            direction = new Vector3(Vector3.Reflect(transform.forward, hit.normal).x,direction.y, Vector3.Reflect(transform.forward, hit.normal).z);
+            ClientHitEnemyRpc(transform.position);
+            bounceAmount++;
+            if (bounceAmount >= maxBounceAmount)
             {
                 if (!NetworkObject)
                 {
@@ -70,25 +94,26 @@ public class BouncingBullet : NetworkBehaviour
                 }
             }
         }
-
-    }
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(!IsServer) return;
-        if (((1 << collision.gameObject.layer) & blockLayer) != 0)
+        else
         {
-            ClientHitEnemyRpc(transform.position);
-            if (bounceAmount > maxBounceAmount && !NetworkObject)
-            {
-                NetworkObject.Despawn();
-            }
-            bounceAmount++;
+            transform.position += direction * distanceToMove;
+            //if (Vector3.Distance(transform.position, startPos) > range)
+            //{
+            //    if (!NetworkObject)
+            //    {
+            //        NetworkObject.Despawn();
+            //    }
+            //}
         }
-        if(((1 << collision.gameObject.layer) & targetLayer) != 0)
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!IsServer) return;
+        if (((1 << other.gameObject.layer) & targetLayer) != 0)
         {
-            var serverCharacter = collision.gameObject.GetComponent<ServerCharacter>();
+            var serverCharacter = other.gameObject.GetComponent<ServerCharacter>();
             if (serverCharacter != null && serverCharacter.OwnerClientId == spawner.OwnerClientId) return;
-            var damageable = collision.gameObject.GetComponent<IDamageable>();
+            var damageable = other.gameObject.GetComponent<IDamageable>();
             if (damageable != null && damageable.IsDamageable())
             {
                 ClientHitEnemyRpc(transform.position);

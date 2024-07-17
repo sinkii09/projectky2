@@ -12,15 +12,18 @@ public class SlamDunk : Ability
     private Vector3 startPoint;
     private Vector3 controlPoint;
     private Vector3 endPoint;
-    public LayerMask targetLayer;
+    LayerMask targetLayer;
+    LayerMask obstacleLayer;
     private Collider[] hitColliders = new Collider[10];
+
     public override void Activate(ServerCharacter serverCharacter, AbilityRequest data)
     {
         this.data = data;
         serverCharacter.physicsWrapper.Transform.forward = data.Direction;
         serverCharacter.ServerAnimationHandler.NetworkAnimator.SetTrigger(abilityAnimationTrigger);
-        serverCharacter.ClientCharacter.ShowAbilityIndicatorRpc(serverCharacter.OwnerClientId,data.Position, Radius);
-        PerformAbility(serverCharacter, data);
+        
+
+        PerformAbility(serverCharacter, data.Position);
     }
     public override void OnAbilityUpdate(ServerCharacter serverCharacter)
     {
@@ -63,10 +66,15 @@ public class SlamDunk : Ability
 
         return distance;
     }
+    private Vector3 CalculateHighestBezierPoint(Vector3 startPoint, Vector3 controlPoint, Vector3 endPoint)
+    {
+        float highestT = 0.5f;
+        return CalculateBezierPoint(highestT, startPoint, controlPoint, endPoint);
+    }
     private void OnHit(ServerCharacter serverCharacter)
     {
         serverCharacter.Movement.CancelMove();
-        serverCharacter.ClientCharacter.ClientPlayEffectRpc(data.Position, serverCharacter.physicsWrapper.Transform.rotation,special:IsSpecialAbility);
+        serverCharacter.ClientCharacter.ClientPlayEffectRpc(endPoint, serverCharacter.physicsWrapper.Transform.rotation,special:IsSpecialAbility);
         isStart = false;
         int hitCount = Physics.OverlapSphereNonAlloc(serverCharacter.physicsWrapper.Transform.position, data.Ability.Radius, hitColliders, targetLayer);
         for (int i = 0; i < hitCount; i++)
@@ -81,17 +89,28 @@ public class SlamDunk : Ability
         }
     }
 
-    private void PerformAbility(ServerCharacter serverCharacter, AbilityRequest data)
+    private void PerformAbility(ServerCharacter serverCharacter, Vector3 position)
     {
         t = 0;
         targetLayer = 1 << LayerMask.NameToLayer("PCs");
+        obstacleLayer = 1<< LayerMask.NameToLayer("Environment");
         startPoint = serverCharacter.physicsWrapper.Transform.position;
-        endPoint = data.Position;
+        endPoint = position;
+        
+        Vector3 highestPoint = CalculateHighestBezierPoint(startPoint, controlPoint, endPoint);
+        Vector3 checkPoint = new Vector3(startPoint.x,highestPoint.y,startPoint.z);
+        RaycastHit hit;
+        if (Physics.Raycast(checkPoint, (endPoint - startPoint).normalized, out hit, Vector3.Distance(startPoint, endPoint), obstacleLayer))
+        {
+            Vector3 XZhitPoint = new Vector3(hit.point.x,endPoint.y,hit.point.z);
+            endPoint = XZhitPoint - (XZhitPoint - startPoint).normalized * 2f;
+        }
         controlPoint = (startPoint + endPoint) / 2 + Vector3.up * 10;
         totalDistance = CalculateTotalDistance();
         
         isStart = true;
         serverCharacter.Movement.Jump();
+        serverCharacter.ClientCharacter.ShowAbilityIndicatorRpc(serverCharacter.OwnerClientId, endPoint, Radius);
     }
     public override void OnPlayEffectClient(ClientCharacter clientCharacter, Vector3 position, Quaternion rotation, int num = 0)
     {

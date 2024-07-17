@@ -27,6 +27,7 @@ public class CharacterSelectDisplay : NetworkBehaviour
     private NetworkList<int> characterIdList;
 
     bool isGameStart;
+    bool isCountdownStart;
     private void Awake()
     {
         players = new NetworkList<CharacterSelectState>();
@@ -40,7 +41,7 @@ public class CharacterSelectDisplay : NetworkBehaviour
         {
             if(countDownTimer)
             {
-                if(GamePlayBehaviour.Instance.IsStartCharSelect.Value && countDownTimer.GetRemainingTime() <= 0)
+                if(isCountdownStart && countDownTimer.GetRemainingTime() <= 0)
                 {
                     lockInButton.interactable = false;
                     foreach (CharacterSelectButton item in characterButtons)
@@ -60,7 +61,6 @@ public class CharacterSelectDisplay : NetworkBehaviour
         countDownTimer = FindObjectOfType<CountDownTimer>();
         if (IsClient)
         {
-            Debug.Log("player spawned charselect");
             Character[] allCharacters = characterDatabase.GetAllCharacters();
 
             foreach (var character in allCharacters)
@@ -78,12 +78,9 @@ public class CharacterSelectDisplay : NetworkBehaviour
         {
             NetworkManager.Singleton.OnClientConnectedCallback += HandleClientConnected;
             NetworkManager.Singleton.OnClientDisconnectCallback += HandleClientDisconnected;
+            GamePlayBehaviour.Instance.IsStartCharSelect.OnValueChanged += OnStartCharSelect;
             countDownTimer.OnTimeExpired += CountDownTimer_OnTimeExpired;
-            foreach (var clientId in NetworkManager.Singleton.ConnectedClientsIds)
-            {
-                Debug.Log($"client already connected: {clientId}");
-                HandleClientConnected(clientId);
-            }
+
             foreach (var character in characterDatabase.GetAllCharacters())
             {
                 characterIdList.Add(character.Id);
@@ -110,10 +107,24 @@ public class CharacterSelectDisplay : NetworkBehaviour
         {
             NetworkManager.Singleton.OnClientConnectedCallback -= HandleClientConnected;
             NetworkManager.Singleton.OnClientDisconnectCallback -= HandleClientDisconnected;
+            GamePlayBehaviour.Instance.IsStartCharSelect.OnValueChanged -= OnStartCharSelect;
             countDownTimer.OnTimeExpired -= CountDownTimer_OnTimeExpired;
         }
         
     }
+
+    private void OnStartCharSelect(bool previousValue, bool newValue)
+    {
+        if(newValue)
+        {
+            isCountdownStart = true;
+            foreach (var clientId in NetworkManager.Singleton.ConnectedClientsIds)
+            {
+                HandleClientConnected(clientId);
+            }
+        }
+    }
+
     private void HandleClientConnected(ulong clientId)
     {
         var clientName = NetworkServer.Instance.GetNetworkedPlayer(clientId).PlayerName.Value;

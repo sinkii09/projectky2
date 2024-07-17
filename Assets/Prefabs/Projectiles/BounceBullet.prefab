@@ -10120,9 +10120,9 @@ GameObject:
   - component: {fileID: 1349775423125945440}
   - component: {fileID: 2380156774571299083}
   - component: {fileID: 2161666127466319152}
-  - component: {fileID: 7088512425355543899}
-  - component: {fileID: 6711946420897012276}
   - component: {fileID: -5710814492018783643}
+  - component: {fileID: 6212139914039696513}
+  - component: {fileID: -717168516615960904}
   m_Layer: 8
   m_Name: BounceBullet
   m_TagString: Untagged
@@ -10158,7 +10158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1795226386
+  GlobalObjectIdHash: 2233104359
   InScenePlacedSourceGlobalObjectIdHash: 1030419926
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -10213,13 +10213,28 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 0.25
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &7088512425355543899
+--- !u!114 &-5710814492018783643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8787849450496161361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd6e468a93f79734c8bc6b7a6d7d927d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visual: {fileID: 4111097773279721341}
+  hitFx: {fileID: 2955623459812423943, guid: f5507a8c6a22c404ab324980c4e8a11b, type: 3}
+  maxBounceAmount: 3
+--- !u!54 &6212139914039696513
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10242,11 +10257,11 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 1
-  m_Constraints: 0
+  m_Constraints: 4
   m_CollisionDetection: 2
---- !u!114 &6711946420897012276
+--- !u!114 &-717168516615960904
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10258,18 +10273,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-5710814492018783643
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8787849450496161361}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd6e468a93f79734c8bc6b7a6d7d927d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  visual: {fileID: 4111097773279721341}
-  hitFx: {fileID: 2955623459812423943, guid: f5507a8c6a22c404ab324980c4e8a11b, type: 3}
-  maxBounceAmount: 2
