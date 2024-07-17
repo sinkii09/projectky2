@@ -78,7 +78,7 @@ public abstract class Ability : ScriptableObject
         indicator.GetComponent<SpecialFXGraphic>().OnInitialized(indicatorFX);
         if (indicator.TryGetComponent(out VisualEffect effect))
         {
-            effect.SetFloat("Diameter", radius);
+            effect.SetFloat("Diameter", radius*2);
             effect.Play();
         }
     }

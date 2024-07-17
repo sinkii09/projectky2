@@ -41,7 +41,6 @@ public class CharacterSpawner : NetworkBehaviour,IDisposable
         {
             if(!player.IsAlive && Time.time > player.DeadTime + m_ReviveDuration)
             {
-                Debug.Log(player.DeadTime);
                 PlayerCharacters[player.ClientId].Revive(GetRandomTransformInList().position + Vector3.up);
             }
         }
@@ -52,16 +51,18 @@ public class CharacterSpawner : NetworkBehaviour,IDisposable
         SpawnPlayerCharacter();
 
         GamePlayBehaviour.Instance.OnGameOver += GamePlayerBehaviour_OnGameOver;
+        GamePlayBehaviour.Instance.completePlayerCount.OnValueChanged += GamePlayerBehaviour_CheckPlayerLoadComplete;
     }
 
     public override void OnNetworkDespawn()
     {
-        
+        if (!IsServer) return;
         foreach (NetworkObject obj in networkObjects)
         {
             Destroy(obj);
         }
         GamePlayBehaviour.Instance.OnGameOver += GamePlayerBehaviour_OnGameOver;
+        GamePlayBehaviour.Instance.completePlayerCount.OnValueChanged -= GamePlayerBehaviour_CheckPlayerLoadComplete;
     }
 
     public void SpawnPlayerCharacter()
@@ -80,6 +81,15 @@ public class CharacterSpawner : NetworkBehaviour,IDisposable
         }
         LoadCompleteNotifyClientRpc();
     }
+
+    private void GamePlayerBehaviour_CheckPlayerLoadComplete(int previousValue, int newValue)
+    {
+        //if(newValue > 0 && newValue == Players.Count)
+        //{
+        //    GamePlayBehaviour.Instance.OnPlayersLoadComplete();
+        //}
+    }
+
     private void AddToPlayerList(UserData data, NetworkObject characterInstance)
     {
         ServerCharacter serverCharacter = characterInstance.gameObject.GetComponent<ServerCharacter>();

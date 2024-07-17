@@ -56,11 +56,13 @@ public class MultiplayServerQueryService : IDisposable
     public void AddPlayer()
     {
         m_ServerQueryHandler.CurrentPlayers += 1;
+        SceneTransitionManager.Instance.SetTotalPlayers(m_ServerQueryHandler.CurrentPlayers);
     }
 
     public void RemovePlayer()
     {
         m_ServerQueryHandler.CurrentPlayers -= 1;
+        SceneTransitionManager.Instance.SetTotalPlayers(m_ServerQueryHandler.CurrentPlayers);
     }
 
     public void SetMap(string newMap)

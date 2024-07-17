@@ -64,7 +64,7 @@ VisualEffect:
       m_Array: []
     m_Vector4f:
       m_Array:
-      - m_Value: {x: 271.17404, y: 213.02518, z: 42.60504, w: 1}
+      - m_Value: {x: 2.1185472, y: 1.6642592, z: 0.3328519, w: 1}
         m_Name: BrightColor
         m_Overridden: 1
       - m_Value: {x: 1.154717, y: 0.14287312, z: 0.10239937, w: 1}

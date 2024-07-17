@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class CharacterSelectDisplay : NetworkBehaviour
 {
     [Header("References")]
-    [SerializeField] private Camera overlayCAM;
+    [SerializeField] private Canvas canvas;
     [SerializeField] private CharacterDatabase characterDatabase;
     [SerializeField] private Transform charactersHolder;
     [SerializeField] private CharacterSelectButton selectButtonPrefab;
@@ -30,7 +31,7 @@ public class CharacterSelectDisplay : NetworkBehaviour
     {
         players = new NetworkList<CharacterSelectState>();
         characterIdList = new NetworkList<int>();
-
+        canvas.worldCamera = Camera.main;
         characterInfoPanel.SetActive(false);
     }
     private void Update()
@@ -39,7 +40,7 @@ public class CharacterSelectDisplay : NetworkBehaviour
         {
             if(countDownTimer)
             {
-                if(countDownTimer.GetRemainingTime() <= 0)
+                if(GamePlayBehaviour.Instance.IsStartCharSelect.Value && countDownTimer.GetRemainingTime() <= 0)
                 {
                     lockInButton.interactable = false;
                     foreach (CharacterSelectButton item in characterButtons)
@@ -59,6 +60,7 @@ public class CharacterSelectDisplay : NetworkBehaviour
         countDownTimer = FindObjectOfType<CountDownTimer>();
         if (IsClient)
         {
+            Debug.Log("player spawned charselect");
             Character[] allCharacters = characterDatabase.GetAllCharacters();
 
             foreach (var character in allCharacters)
@@ -69,7 +71,7 @@ public class CharacterSelectDisplay : NetworkBehaviour
             }
 
             players.OnListChanged += HandlePlayersStateChanged;
-            
+
         }
 
         if (IsServer)
@@ -79,6 +81,7 @@ public class CharacterSelectDisplay : NetworkBehaviour
             countDownTimer.OnTimeExpired += CountDownTimer_OnTimeExpired;
             foreach (var clientId in NetworkManager.Singleton.ConnectedClientsIds)
             {
+                Debug.Log($"client already connected: {clientId}");
                 HandleClientConnected(clientId);
             }
             foreach (var character in characterDatabase.GetAllCharacters())
@@ -148,8 +151,6 @@ public class CharacterSelectDisplay : NetworkBehaviour
         //{
         //    Destroy(introInstance);
         //}
-
-        //introInstance = Instantiate(character.IntroPrefab, introSpawnPoint);
 
         SelectServerRpc(character.Id);
     }
@@ -242,6 +243,8 @@ public class CharacterSelectDisplay : NetworkBehaviour
 
     private void HandlePlayersStateChanged(NetworkListEvent<CharacterSelectState> changeEvent)
     {
+        Debug.Log("player state change");
+        Debug.Log(players.Count);
         for (int i = 0; i < playerCards.Length; i++)
         {
             if (players.Count > i)

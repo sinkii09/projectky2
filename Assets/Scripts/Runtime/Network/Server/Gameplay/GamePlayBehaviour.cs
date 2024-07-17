@@ -1,131 +1,146 @@
 using System;
 using System.Collections;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
-public enum GamePlayState
-{
-    Undefined,
-    SelectCharacter,
-    PlayGame,
-    GameOver
-}
 
 public class GamePlayBehaviour : NetworkBehaviour
 {
     public static GamePlayBehaviour Instance { get; private set; }
-    [SerializeField] string m_CharSelectScene;
-    [SerializeField] string m_MapScene;
-    [SerializeField] string m_PostScene;
-    [SerializeField] string m_MainScene;
+    [SerializeField] GameObject CMCam;
+    [SerializeField] GameObject LoadingScreen;
     [SerializeField] CountDownTimer m_countDownTimer;
     [SerializeField] float m_CharSelectCountdownDuration;
     [SerializeField] float m_InGameCountdownDuration;
     [SerializeField] float m_GameStartDelay;
-    private GamePlayState currentGamePlayState = GamePlayState.Undefined;
 
     public event Action OnGameOver;
     bool isCharacterSet;
+    public NetworkVariable<bool> IsStartCharSelect { get; private set; } = new NetworkVariable<bool>(false);
     public NetworkVariable<bool> IsGameStart { get; private set; } = new NetworkVariable<bool>(false);
     public NetworkVariable<bool> IsGameOver { get; private set; } = new NetworkVariable<bool>(false);
+
+    public NetworkVariable<int> completePlayerCount { get; private set; } = new NetworkVariable<int>(0);
 
     private void Awake()
     {
         Instance = this;
     }
-    public void LoadState(GamePlayState state)
-    {
-        currentGamePlayState = state;
-        
-        switch (state)
-        {
-            case GamePlayState.SelectCharacter:
-                NetworkManager.SceneManager.LoadScene(m_CharSelectScene, LoadSceneMode.Additive);
-                break;
-            case GamePlayState.PlayGame:
-                UnloadScene(m_CharSelectScene, () =>
-                {
-                    isCharacterSet = true;
-                    NetworkServer.Instance.CreateGameSession();
-                    NetworkManager.SceneManager.LoadScene(m_MapScene, LoadSceneMode.Additive);
-                });
-                break;
-            case GamePlayState.GameOver:
-                Debug.Log("Load post scene");
-                NetworkManager.SceneManager.LoadScene(m_PostScene, LoadSceneMode.Single);
-                break;
-        }
-    }
-    private void UnloadScene(string sceneName, Action onComplete)
-    {
-        StartCoroutine(UnloadSceneCoroutine(sceneName, onComplete));
-    }
-
-    private IEnumerator UnloadSceneCoroutine(string sceneName, Action onComplete)
-    {
-        var asyncUnload = NetworkManager.SceneManager.UnloadScene(SceneManager.GetSceneByName(sceneName));
-        yield return asyncUnload;
-        onComplete?.Invoke();
-    }
     public override void OnNetworkSpawn()
     {
-        if (!IsServer)
+        if (IsServer)
         {
-            enabled = false;
-            return;
+            m_countDownTimer.OnTimeExpired += CountDownTimer_OnTimeExpired;
+            SceneTransitionManager.Instance.OnPlayersLoadComplete += OnPlayersLoadComplete;
         }
         
-        NetworkManager.SceneManager.OnLoadEventCompleted += SceneManager_OnLoadEventCompleted;
-        m_countDownTimer.OnTimeExpired += CountDownTimer_OnTimeExpired;
+        if(IsClient)
+        {
+            SceneTransitionManager.Instance.OnLocalLoadComplete += OnLocalLoadComplete;
+            SceneTransitionManager.Instance.OnSceneLoad += OnSceneLoad;
+        }
+
+        GameStateManager.Instance.OnGamePlayStateChanged += Instance_OnGamePlayStateChanged;
     }
 
     public override void OnNetworkDespawn()
     {
-        NetworkManager.SceneManager.OnLoadEventCompleted -= SceneManager_OnLoadEventCompleted;
-        m_countDownTimer.OnTimeExpired -= CountDownTimer_OnTimeExpired;
+        if (IsServer) 
+        {
+            m_countDownTimer.OnTimeExpired -= CountDownTimer_OnTimeExpired;
+            SceneTransitionManager.Instance.OnPlayersLoadComplete -= OnPlayersLoadComplete;
+        }
+        if(IsClient)
+        {
+            SceneTransitionManager.Instance.OnLocalLoadComplete -= OnLocalLoadComplete;
+            SceneTransitionManager.Instance.OnSceneLoad -= OnSceneLoad;
+        }
+        GameStateManager.Instance.OnGamePlayStateChanged += Instance_OnGamePlayStateChanged;
     }
-    private void CountDownTimer_OnTimeExpired()
+
+    private void Instance_OnGamePlayStateChanged(GamePlayState arg1, GamePlayState arg2)
     {
-        if(currentGamePlayState == GamePlayState.PlayGame && isCharacterSet)
+        if(IsClient)
         {
-            if(!IsGameStart.Value)
+            if(arg2 != GamePlayState.GameOver)
             {
-                IsGameStart.Value = true;
-                m_countDownTimer.StartCountdown(m_InGameCountdownDuration);
-                ClientPlayBGMRpc(4);
+                LoadingScreen.SetActive(true);
             }
-            else
-            {
-                OnGameOver?.Invoke();
-                IsGameOver.Value = true;
-                LoadSceneDelay(5, GamePlayState.GameOver);
-            }
-        }
-    }
-    private void SceneManager_OnLoadEventCompleted(string sceneName, LoadSceneMode loadSceneMode, System.Collections.Generic.List<ulong> clientsCompleted, System.Collections.Generic.List<ulong> clientsTimedOut)
-    {
-        if(sceneName == m_CharSelectScene)
-        {
-            ClientPlayBGMRpc(2);
-            m_countDownTimer.StartCountdown(m_CharSelectCountdownDuration);
-            return;
-        }
-        else if(sceneName == m_MapScene)
-        {
-            m_countDownTimer.StartCountdown(m_GameStartDelay);
-            return;
-        }
-        else if(sceneName == m_MainScene)
-        {
-            LoadState(GamePlayState.SelectCharacter);
         }
     }
 
+    private void CountDownTimer_OnTimeExpired()
+    {
+        if (IsServer)
+        {
+            var state = GameStateManager.Instance.CurrentGamePlayState.Value;
+            switch (state)
+            {
+                case GamePlayState.SelectCharacter:
+                    isCharacterSet = true;
+                    break;
+                case GamePlayState.PlayGame:
+                    Debug.Log($"CountDownTimer_OnTimeExpired called. Current GamePlayState: {state}, IsCharacterSet: {isCharacterSet}, IsGameStart: {IsGameStart.Value}");
+                    if (!IsGameStart.Value)
+                    {
+                        IsGameStart.Value = true;
+                        m_countDownTimer.StartCountdown(m_InGameCountdownDuration);
+                        ClientPlayBGMRpc(4);
+                    }
+                    else
+                    {
+                        OnGameOver?.Invoke();
+                        IsGameOver.Value = true;
+                        LoadSceneDelay(5, GamePlayState.GameOver);
+                    }
+                    break;
+            }
+        }
+    }
+    public void OnPlayersLoadComplete()
+    {
+        var state = GameStateManager.Instance.CurrentGamePlayState.Value;
+        switch (state)
+        {
+            case GamePlayState.Undefined:
+                ClientToggleLoadingRpc(true);
+                GameStateManager.Instance.SetGamePlayState(GamePlayState.SelectCharacter);
+                break;
+            case GamePlayState.SelectCharacter:
+                NetworkServer.Instance.CreateGameSession();
+                m_countDownTimer.StartCountdown(m_CharSelectCountdownDuration);
+                IsStartCharSelect.Value = true;
+                break;
+            case GamePlayState.PlayGame:
+                m_countDownTimer.StartCountdown(m_GameStartDelay);
+                break;   
+        }
+    }
+
+    private void OnSceneLoad()
+    {
+    }
+
+    private void OnLocalLoadComplete()
+    {
+        LoadingScreen.SetActive(false);
+        var state = GameStateManager.Instance.CurrentGamePlayState.Value;
+        switch (state)
+        {
+            case GamePlayState.SelectCharacter:
+                AudioManager.Instance.PlayBGMNumber(2);
+                break;
+            case GamePlayState.PlayGame:
+                Camera.main.orthographic = false;
+                CMCam.SetActive(true);
+                break;
+        }
+    }
     IEnumerator LoadGamePlayCoroutine(float time,GamePlayState state)
     {
         yield return new WaitForSeconds(time);
-        LoadState(state);
+        GameStateManager.Instance.SetGamePlayState(state);
     }
     public void LoadSceneDelay(float time,GamePlayState state)
     {
@@ -137,8 +152,8 @@ public class GamePlayBehaviour : NetworkBehaviour
         AudioManager.Instance.PlayBGMNumber(num);
     }
     [Rpc(SendTo.ClientsAndHost)]
-    void ClientDebugRpc(float time)
+    void ClientToggleLoadingRpc(bool isActive)
     {
-        Debug.Log(time);
+        LoadingScreen.SetActive(isActive);
     }
 }

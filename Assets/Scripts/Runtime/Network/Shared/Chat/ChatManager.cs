@@ -11,7 +11,7 @@ public class ChatManager : MonoBehaviour
 {
     private SocketIO client;
 
-    private string url = "http://localhost:3000";
+    private string url = "https://projectky2-bdb1fda54766.herokuapp.com";
     private string roomId = string.Empty;
     public string RoomId { get; set; }
     User user;

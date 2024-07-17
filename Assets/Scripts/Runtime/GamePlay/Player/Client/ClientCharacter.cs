@@ -134,7 +134,6 @@ public class ClientCharacter : NetworkBehaviour
         if(m_MainPlayerIngameCard!=null)
         {
             m_MainPlayerIngameCard.UpdateCurrentMana(newValue);
-            Debug.Log(newValue);
         }
     }
 
@@ -286,7 +285,6 @@ public class ClientCharacter : NetworkBehaviour
         }
         else
         {
-            
             var weapon = GamePlayDataSource.Instance.GetWeaponPrototypeByID(m_ServerCharacter.CurrentWeaponId.Value);
             ability = weapon.Ability;
         }
