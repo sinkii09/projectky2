@@ -20,6 +20,7 @@ public class ServerCharacter : NetworkBehaviour
     public NetworkVariable<ulong> TargetId { get; } = new NetworkVariable<ulong>();
     public NetworkVariable<bool> isGameOver { get; } = new NetworkVariable<bool>(false);
     public NetworkVariable<LifeStateEnum> LifeState { get; } = new NetworkVariable<LifeStateEnum>(LifeStateEnum.Alive);
+    public NetworkVariable<bool> IsInvincilbe { get; private set; } = new NetworkVariable<bool>(false);
     public bool IsValidTarget => LifeState.Value != LifeStateEnum.Dead;
     public int HitPoints
     {
@@ -216,12 +217,19 @@ public class ServerCharacter : NetworkBehaviour
             rb.useGravity = true;
             m_PhysicsWrapper.DamageCollider.enabled = true;
             m_ClientCharacter.SetActiveVisual(true);
+            SetInvincible(true);
+            StartCoroutine(DisableInvincible());
         }
     }
     IEnumerator DisableVisual()
     {
         yield return new WaitForSeconds(2);
         m_ClientCharacter.SetActiveVisual(false);
+    }
+    IEnumerator DisableInvincible()
+    {
+        yield return new WaitForSeconds(3);
+        SetInvincible(false);
     }
     public void PlaySkill(ref SkillRequestData data)
     {
@@ -230,6 +238,10 @@ public class ServerCharacter : NetworkBehaviour
             m_Movement.CancelMove();
         }
         m_ServerSkillPlayer.PlaySkill(ref data);
+    }
+    public void SetInvincible(bool isActive)
+    {
+        IsInvincilbe.Value = isActive;
     }
     void ReceiveHP(int HP, ServerCharacter inflicter = null)
     {

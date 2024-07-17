@@ -42,6 +42,7 @@ public class BoomerangShot : Ability
     public override void OnPlayEffectClient(ClientCharacter clientCharacter, Vector3 position, Quaternion rotation, int num = 0)
     {
         var abilityFX = ParticlePool.Singleton.GetObject(effect[0], position, Quaternion.identity);
+        abilityFX.transform.position = clientCharacter.transform.localToWorldMatrix.MultiplyPoint(abilityFX.transform.position);
         abilityFX.GetComponent<SpecialFXGraphic>().OnInitialized(effect[0]);
         bool hasVFX = abilityFX.TryGetComponent(out VisualEffect VFX);
         if (hasVFX)

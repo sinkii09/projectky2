@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4242115910008277133}
   - component: {fileID: 6811914133394990888}
   - component: {fileID: 8307694886283998591}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4911,7 +4911,7 @@ GameObject:
   - component: {fileID: 7952940394571953950}
   - component: {fileID: 122732767937426040}
   - component: {fileID: 4708570055736415414}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Flash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9830,7 +9830,7 @@ GameObject:
   - component: {fileID: 3714901639446991294}
   - component: {fileID: 2233840659826474549}
   - component: {fileID: 774561763771852359}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Toon Projectiles 2 - Red Star Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9846,7 +9846,7 @@ Transform:
   m_GameObject: {fileID: 8987692157773225775}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.25, y: 1, z: 1}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:

@@ -12,6 +12,8 @@ public class DamageReceiver : NetworkBehaviour, IDamageable
 
     [SerializeField]
     ServerCharacter serverCharacter;
+
+    
     public IDamageable.SpecialDamageFlags GetSpecialDamageFlags()
     {
         return IDamageable.SpecialDamageFlags.None;
@@ -19,7 +21,7 @@ public class DamageReceiver : NetworkBehaviour, IDamageable
 
     public bool IsDamageable()
     {
-        return serverCharacter.LifeState.Value == LifeStateEnum.Alive;
+        return serverCharacter.LifeState.Value == LifeStateEnum.Alive || !serverCharacter.IsInvincilbe.Value ;
     }
 
     public void ReceiveHP(int HP, ServerCharacter inflicter = null )

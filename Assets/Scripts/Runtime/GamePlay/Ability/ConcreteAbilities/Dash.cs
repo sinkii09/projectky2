@@ -16,6 +16,8 @@ public class Dash : Ability
     Rigidbody rb;
     AbilityRequest data;
     private Collider[] hitColliders = new Collider[10];
+
+    ServerCharacter character;
     public override void Activate(ServerCharacter serverCharacter, AbilityRequest data)
     {
         serverCharacter.physicsWrapper.Transform.forward = data.Direction;
@@ -23,6 +25,7 @@ public class Dash : Ability
         serverCharacter.ClientCharacter.ClientPlayEffectRpc(serverCharacter.physicsWrapper.transform.position, serverCharacter.physicsWrapper.Transform.rotation,special:IsSpecialAbility);
         rb = serverCharacter.GetComponent<Rigidbody>();
         this.data = data;
+        character = serverCharacter;
     }
     public override void OnAbilityUpdate(ServerCharacter serverCharacter)
     {
@@ -39,6 +42,7 @@ public class Dash : Ability
     public override void OnReset()
     {
         isDashing=false;
+        character.SetInvincible(false);
     }
 
     void CheckCollision(ServerCharacter serverCharacter)
@@ -86,6 +90,7 @@ public class Dash : Ability
         }
         dashTime = distance / speed;
         serverCharacter.Movement.StartDash(data.Direction,speed,dashTime);
+        serverCharacter.SetInvincible(true);
         isDashing = true;
     }
     public override void OnPlayEffectClient(ClientCharacter clientCharacter, Vector3 position,Quaternion rotation, int num = 0)

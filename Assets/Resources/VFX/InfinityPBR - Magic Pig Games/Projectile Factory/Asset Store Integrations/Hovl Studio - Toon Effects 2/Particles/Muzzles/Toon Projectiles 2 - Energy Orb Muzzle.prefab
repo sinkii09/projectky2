@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3450981617201102835}
   - component: {fileID: 3408759432257526832}
   - component: {fileID: 3641759116891911975}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Toon Projectiles 2 - Energy Orb Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 2541595241761321501}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.25, y: 1, z: 1}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -4936,7 +4936,7 @@ GameObject:
   - component: {fileID: 4737043645663004800}
   - component: {fileID: 2550404639083997410}
   - component: {fileID: 4386108772754326309}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}

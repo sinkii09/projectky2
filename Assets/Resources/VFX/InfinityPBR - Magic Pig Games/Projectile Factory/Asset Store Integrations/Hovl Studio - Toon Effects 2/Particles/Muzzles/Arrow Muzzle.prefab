@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4157001529040902019}
   - component: {fileID: 8134645614693744010}
   - component: {fileID: 7032540888716544018}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4912,7 +4912,7 @@ GameObject:
   - component: {fileID: 1729522699137759696}
   - component: {fileID: 2680660513773263194}
   - component: {fileID: -3137485041199260084}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Arrow Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4928,7 +4928,7 @@ Transform:
   m_GameObject: {fileID: 7116297704741376817}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.25, y: 1, z: 1}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -9836,7 +9836,7 @@ GameObject:
   - component: {fileID: 2281112872533664621}
   - component: {fileID: 3020614198615175552}
   - component: {fileID: 5270143780619970138}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Flash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
