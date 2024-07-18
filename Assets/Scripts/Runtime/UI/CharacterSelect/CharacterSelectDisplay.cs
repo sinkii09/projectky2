@@ -254,8 +254,6 @@ public class CharacterSelectDisplay : NetworkBehaviour
 
     private void HandlePlayersStateChanged(NetworkListEvent<CharacterSelectState> changeEvent)
     {
-        Debug.Log("player state change");
-        Debug.Log(players.Count);
         for (int i = 0; i < playerCards.Length; i++)
         {
             if (players.Count > i)

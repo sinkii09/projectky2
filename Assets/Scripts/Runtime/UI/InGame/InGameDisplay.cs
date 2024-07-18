@@ -20,18 +20,17 @@ public class InGameDisplay : MonoBehaviour
     [SerializeField] private GameObject m_GameOverUI;
     [SerializeField] private TextMeshProUGUI m_TimerText;
     [SerializeField] private Button ExtButton;
-    [SerializeField] private GameObject m_CenterTimer;
+    [SerializeField] private Counter m_CenterTimer;
     
     Dictionary<ulong, PlayerIngameCard> playerCards = new Dictionary<ulong, PlayerIngameCard>();
 
-    GamePlayBehaviour gamePlayBehaviour;
     CountDownTimer countDownTimer;
     private void Awake()
     {
         m_NetcodeHooks.OnNetworkSpawnHook += OnNetworkSpawn;
         m_NetcodeHooks.OnNetworkDespawnHook += OnNetworkDeSpawn;
         ExtButton.onClick.AddListener(ExitButtonClick);
-
+        m_CenterTimer.gameObject.SetActive(true);
         m_GameOverUI.SetActive(false);
         Instance = this;
     }
@@ -40,10 +39,8 @@ public class InGameDisplay : MonoBehaviour
         if (NetworkManager.Singleton.IsClient)
         {
             if (!countDownTimer) return;
-            if (!gamePlayBehaviour) return;
-            if(gamePlayBehaviour.IsGameStart.Value)
+            if(GamePlayBehaviour.Instance.IsGameStart.Value)
             {
-                m_CenterTimer.SetActive(false);
                 float duration = countDownTimer.GetRemainingTime();
                 TimeSpan timeSpan = TimeSpan.FromSeconds(duration);
                 m_TimerText.text = $"{timeSpan.Minutes}:{timeSpan.Seconds}";
@@ -52,14 +49,13 @@ public class InGameDisplay : MonoBehaviour
             {
                 float duration = countDownTimer.GetRemainingTime();
                 TimeSpan timeSpan = TimeSpan.FromSeconds(duration);
-                TextMeshProUGUI TimerText = m_CenterTimer.GetComponentInChildren<TextMeshProUGUI>();
                 if(timeSpan.Seconds <= 1) 
                 {
-                    TimerText.text = "READY!";
+                    m_CenterTimer.GetGUIText().text = "READY!";
                 }
                 else
                 {
-                    TimerText.text = $"{timeSpan.Seconds - 1}";            
+                    m_CenterTimer.GetGUIText().text = $"{timeSpan.Seconds - 1}";            
                 }
             }
         }
@@ -78,12 +74,9 @@ public class InGameDisplay : MonoBehaviour
         m_CharacterSpawner.Players.OnListChanged += Players_OnListChanged;
         m_CharacterSpawner.OnPlayerKilled += M_CharacterSpawner_OnPlayerKilled;
         NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneManager_OnLoadEventCompleted;
-        gamePlayBehaviour = FindObjectOfType<GamePlayBehaviour>();
-        if( gamePlayBehaviour != null )
-        {
-            gamePlayBehaviour.IsGameOver.OnValueChanged += OnGameOver;
-        }
-        m_CenterTimer.SetActive(true);
+        GamePlayBehaviour.Instance.IsGameOver.OnValueChanged += OnGameOver;
+        GamePlayBehaviour.Instance.IsGameStart.OnValueChanged += OnGameStart;
+        
     }
 
     void OnNetworkDeSpawn()
@@ -91,9 +84,15 @@ public class InGameDisplay : MonoBehaviour
         m_CharacterSpawner.Players.OnListChanged -= Players_OnListChanged;
         m_CharacterSpawner.OnPlayerKilled -= M_CharacterSpawner_OnPlayerKilled;
         NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= SceneManager_OnLoadEventCompleted;
-        if (gamePlayBehaviour != null)
+        GamePlayBehaviour.Instance.IsGameOver.OnValueChanged -= OnGameOver;
+        GamePlayBehaviour.Instance.IsGameStart.OnValueChanged -= OnGameStart;
+    }
+
+    private void OnGameStart(bool previousValue, bool newValue)
+    {
+        if(newValue)
         {
-            gamePlayBehaviour.IsGameOver.OnValueChanged -= OnGameOver;
+            m_CenterTimer.gameObject.SetActive(false);
         }
     }
 
@@ -149,7 +148,17 @@ public class InGameDisplay : MonoBehaviour
         }
         m_KillNotifyCardHolder.UpdateCardList(killPlayerName, deadPlayerName);
     }
-
+    public void ActiveCenterTimer(bool isActive)
+    {
+        if(isActive)
+        {
+            m_CenterTimer.Show();
+        }
+        else
+        {
+            m_CenterTimer.Hide();
+        }
+    }
     private void OnGameOver(bool previousValue, bool newValue)
     {
         m_GameOverUI.SetActive(newValue);

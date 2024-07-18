@@ -48,9 +48,9 @@ public class ClientCharacter : NetworkBehaviour
     #region VFX
     [SerializeField] GameObject m_RevivePart;
     [SerializeField] GameObject m_FaintedPart;
-    [SerializeField] GameObject m_NewWeaponPart;
-    [SerializeField] GameObject m_BaseWeaponPart;
-
+    [SerializeField] GameObject[] m_NewWeaponPart;
+    [SerializeField] GameObject[] m_BaseWeaponPart;
+    [SerializeField] GameObject m_ShieldFX;
     [SerializeField] GameIndicator enemyIndicator;
     #endregion
     PositionLerper m_PositionLerper;
@@ -141,13 +141,21 @@ public class ClientCharacter : NetworkBehaviour
     {
         if(newValue == serverCharacter.CharacterStats.WeaponData.Id)
         {
-            var fx = ParticlePool.Singleton.GetObject(m_NewWeaponPart, m_ServerCharacter.physicsWrapper.transform.position, Quaternion.identity);
-            fx.GetComponent<SpecialFXGraphic>().OnInitialized(m_NewWeaponPart);
+            foreach (var part in m_BaseWeaponPart)
+            {
+                var fx = ParticlePool.Singleton.GetObject(part, m_ServerCharacter.physicsWrapper.transform.position, Quaternion.identity);
+                fx.transform.parent = m_Visual.transform;
+                fx.GetComponent<SpecialFXGraphic>().OnInitialized(part);
+            }
         }
         else
         {
-            var fx = ParticlePool.Singleton.GetObject(m_BaseWeaponPart, m_ServerCharacter.physicsWrapper.transform.position, Quaternion.identity);
-            fx.GetComponent<SpecialFXGraphic>().OnInitialized(m_BaseWeaponPart);
+            foreach (var part in m_NewWeaponPart)
+            {
+                var fx = ParticlePool.Singleton.GetObject(part, m_ServerCharacter.physicsWrapper.transform.position, Quaternion.identity);
+                fx.transform.parent = m_Visual.transform;
+                fx.GetComponent<SpecialFXGraphic>().OnInitialized(part);
+            }
         }
     }
 
@@ -156,24 +164,22 @@ public class ClientCharacter : NetworkBehaviour
         if(newValue == LifeStateEnum.Alive)
         {
             m_RevivePart.SetActive(true);
-
+            m_ShieldFX.SetActive(true);
             if (serverCharacter.OwnerClientId == NetworkManager.Singleton.LocalClientId)
             {
                 colorAdjustments.saturation.value = 0;
-                if(counter!=null)
-                counter.Hide();
+                InGameDisplay.Instance.ActiveCenterTimer(false);
             }
         }
         if(newValue == LifeStateEnum.Dead)
         {
             var fx =  ParticlePool.Singleton.GetObject(m_FaintedPart, m_ServerCharacter.physicsWrapper.transform.position,Quaternion.identity);
             fx.GetComponent<SpecialFXGraphic>().OnInitialized(m_FaintedPart);
-
-            if(serverCharacter.OwnerClientId == NetworkManager.Singleton.LocalClientId)
+            m_ShieldFX.SetActive(false);
+            if (serverCharacter.OwnerClientId == NetworkManager.Singleton.LocalClientId)
             {
                 colorAdjustments.saturation.value = -100;
-                if (counter != null)
-                    counter.Show();
+                InGameDisplay.Instance.ActiveCenterTimer(true);
             }
         }
     }
@@ -186,8 +192,6 @@ public class ClientCharacter : NetworkBehaviour
             {
                 gameObject.AddComponent<CameraController>();
             }
-            m_MainPlayerIngameCard = FindObjectOfType<MainPlayerIngameCard>();
-            counter = m_MainPlayerIngameCard.counter;
             CharacterSpawner spawner = FindObjectOfType<CharacterSpawner>();
             foreach(var player in spawner.Players)
             {

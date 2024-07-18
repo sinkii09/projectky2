@@ -12,7 +12,7 @@ public enum friendUIState
     friendRequest,
     findUser,
 }
-public class FriendListUI : MonoBehaviour
+public class FriendListUI : ToggleWindow
 {
     [SerializeField] Transform viewContent;
     [SerializeField] FriendCard friendCardPrefab;

@@ -13,7 +13,7 @@ public class UserManager : MonoBehaviour
     public static UserManager Instance { get; set; }
 
     string domain = "https://projectky2-bdb1fda54766.herokuapp.com";
-    private string updateUserRankUrl = "https://projectky2-bdb1fda54766.herokuapp.com/users/update-rank-server";
+    //private string updateUserRankUrl = "https://projectky2-bdb1fda54766.herokuapp.com/users/update-rank-server";
     private string updateNameOrPasswordUrl = "https://projectky2-bdb1fda54766.herokuapp.com/users/updateUser";
     private string loginUrl = "https://projectky2-bdb1fda54766.herokuapp.com/auth/login";
     private string registerUrl = "https://projectky2-bdb1fda54766.herokuapp.com/auth/register";
@@ -125,7 +125,7 @@ public class UserManager : MonoBehaviour
     public IEnumerator UpdateUserDataRequest(UpdateUserPartialDto userDto)
     {
         string json = JsonUtility.ToJson(userDto);
-        UnityWebRequest request = new UnityWebRequest(updateUserRankUrl, "PATCH");
+        UnityWebRequest request = new UnityWebRequest($"{domain}/users/update-rank-server", "PATCH");
         byte[] bodyRaw = new System.Text.UTF8Encoding().GetBytes(json);
         request.uploadHandler = new UploadHandlerRaw(bodyRaw);
         request.downloadHandler = new DownloadHandlerBuffer();
@@ -161,7 +161,7 @@ public class UserManager : MonoBehaviour
     }
     private IEnumerator ServerGetUserDataRequest(string id, Action<UpdateUserPartialDto, bool> result)
     {
-        using (UnityWebRequest request = new UnityWebRequest($"https://projectky2-bdb1fda54766.herokuapp.com/users/get-user-server/:{id}", "GET"))
+        using (UnityWebRequest request = new UnityWebRequest($"{domain}/users/get-user-server/:{id}", "GET"))
         {
             request.downloadHandler = new DownloadHandlerBuffer();
             request.SetRequestHeader("Authorization", $"Bearer {accessToken}");
@@ -209,7 +209,7 @@ public class UserManager : MonoBehaviour
     }
     private IEnumerator FindUserRequest(string userInput,Action<GetPlayerResponse> successGetUser,Action<string> failedGetUser)
     {
-        string findPlayerUrl = $"https://projectky2-bdb1fda54766.herokuapp.com/users/{userInput}";
+        string findPlayerUrl = $"{domain}/users/{userInput}";
         UnityWebRequest request = UnityWebRequest.Get(findPlayerUrl);
         request.SetRequestHeader("Content-Type", "application/json");
         request.SetRequestHeader("Authorization", $"Bearer {accessToken}");
@@ -226,13 +226,59 @@ public class UserManager : MonoBehaviour
             failedGetUser?.Invoke(request.downloadHandler.text);
         }  
     }
+    public void FetchUserRank(Action<UserRank> success, Action failed)
+    {
+        StartCoroutine(FetchUserRankRequest(success, failed));
+    }
+    IEnumerator FetchUserRankRequest(Action<UserRank> success, Action failed)
+    {
+        string url = $"{domain}/users/get-rank";
+        UnityWebRequest request = UnityWebRequest.Get(url);
+        request.SetRequestHeader("Content-Type", "application/json");
+        request.SetRequestHeader("Authorization", $"Bearer {accessToken}");
+        yield return request.SendWebRequest();
+        if (request.result == UnityWebRequest.Result.Success)
+        {
+
+            string responseJson = request.downloadHandler.text;
+            UserRank rank = JsonUtility.FromJson<UserRank>(responseJson);
+            success?.Invoke(rank);
+        }
+        else
+        {
+            failed?.Invoke();
+        }
+    }
+    public void FetchLeaderboard(Action<List<LeadUser>> success, Action<string> failed)
+    {
+        StartCoroutine(FetchLeaderboardRequest(success, failed));
+    }
+    IEnumerator FetchLeaderboardRequest(Action<List<LeadUser>> success, Action<string> failed)
+    {
+        string url = $"{domain}/users/leader";
+        UnityWebRequest request = UnityWebRequest.Get(url);
+        request.SetRequestHeader("Content-Type", "application/json");
+        request.SetRequestHeader("Authorization", $"Bearer {accessToken}");
+        yield return request.SendWebRequest();
+        if (request.result == UnityWebRequest.Result.Success)
+        {
+
+            string responseJson = request.downloadHandler.text;
+            List<LeadUser> friendDatas = JsonUtility.FromJson<Leaderboard>(responseJson).users;
+            success?.Invoke(friendDatas);
+        }
+        else
+        {
+            failed?.Invoke(request.downloadHandler.text);
+        }
+    }
     public void FetchFriendList(Action<List<FriendData>> success, Action<string> failed)
     {
         StartCoroutine(FetchFriendListRequest(success, failed));
     }
     IEnumerator FetchFriendListRequest(Action<List<FriendData>> success, Action<string> failed)
     {
-        string url = $"https://projectky2-bdb1fda54766.herokuapp.com/friends/friendList";
+        string url = $"{domain}/friends/friendList";
         UnityWebRequest request = UnityWebRequest.Get(url);
         request.SetRequestHeader("Content-Type", "application/json");
         request.SetRequestHeader("Authorization", $"Bearer {accessToken}");
@@ -412,6 +458,25 @@ public class UserManager : MonoBehaviour
             }
         }
     }
+}
+[System.Serializable]
+public class Leaderboard
+{
+    public List<LeadUser> users;
+}
+[System.Serializable]
+public class LeadUser
+{
+    public string _id;
+    public string username;
+    public int rankpoints;
+    public int rank;
+}[System.Serializable]
+public class UserRank
+{
+    public string _id;
+    public int rankpoints;
+    public int rank;
 }
 [System.Serializable]
 public class FriendList

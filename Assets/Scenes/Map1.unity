@@ -736,7 +736,7 @@ MonoBehaviour:
   m_GameOverUI: {fileID: 1955364036}
   m_TimerText: {fileID: 1573058893}
   ExtButton: {fileID: 998619231}
-  m_CenterTimer: {fileID: 391745364}
+  m_CenterTimer: {fileID: 391745368}
 --- !u!114 &627514134
 MonoBehaviour:
   m_ObjectHideFlags: 0

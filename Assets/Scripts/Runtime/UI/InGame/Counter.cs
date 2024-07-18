@@ -34,4 +34,8 @@ public class Counter : MonoBehaviour
         isStart=false;
         gameObject.SetActive(false);
     }
+    public TextMeshProUGUI GetGUIText()
+    {
+        return counterText;
+    }
 }

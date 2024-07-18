@@ -1,15 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class ChatUI : MonoBehaviour
 {
     [SerializeField] ChatManager chatManager;
     [SerializeField] GameObject chatWindow;
-    [SerializeField] Button closeWindowBtn;
+    [SerializeField] GameObject redNote;
+    [SerializeField] Toggle chatToggle;
+    [SerializeField] Button sendTextBtn;
     [SerializeField] TMP_InputField chatInputField;
     [SerializeField] Transform chatContainer;
     [SerializeField] TextMeshProUGUI chatText;
@@ -25,12 +29,14 @@ public class ChatUI : MonoBehaviour
     }
     private void Start()
     {
-        closeWindowBtn.onClick.AddListener(() => { Closewindow(); AudioManager.Instance.PlaySFXNumber(0); });
+        chatToggle.onValueChanged.AddListener((isOn) => OnToggleValueChanged(isOn));
+        sendTextBtn.onClick.AddListener(() => { SendText(); AudioManager.Instance.PlaySFXNumber(0); });
     }
+
     private void OnDestroy()
     {
         chatText.text = null;
-        closeWindowBtn.onClick.RemoveAllListeners();
+        sendTextBtn.onClick.RemoveAllListeners();
     }
     private void Update()
     {
@@ -48,18 +54,7 @@ public class ChatUI : MonoBehaviour
             }
             else
             {
-
-                if(!string.IsNullOrWhiteSpace(chatInputField.text))
-                {
-                    chatManager.SendChatMessage(chatInputField.text);
-                    chatInputField.text = string.Empty;
-                    EventSystem.current.SetSelectedGameObject(chatInputField.gameObject, null);
-                    chatInputField.OnPointerClick(new PointerEventData(EventSystem.current));
-                }
-                else
-                {
-                    chatWindow.SetActive(false);
-                }
+                SendText();
             }
         }
         if (chatList.Count > 25)
@@ -76,6 +71,16 @@ public class ChatUI : MonoBehaviour
             IsChating= false;
         }
     }
+    void SendText()
+    {
+        if (!string.IsNullOrWhiteSpace(chatInputField.text))
+        {
+            chatManager.SendChatMessage(chatInputField.text);
+            chatInputField.text = string.Empty;
+            EventSystem.current.SetSelectedGameObject(chatInputField.gameObject, null);
+            chatInputField.OnPointerClick(new PointerEventData(EventSystem.current));
+        }
+    }
     public void ClearLog()
     {
         foreach (var chat in chatList)
@@ -89,20 +94,18 @@ public class ChatUI : MonoBehaviour
         var chat = Instantiate(chatText, chatContainer);
         chat.text += $"{chatMessage.SenderName}: {chatMessage.Message}\n";
         chatList.Add(chat);
-        UnityMainThreadDispatcher.Instance().Enqueue(() =>
+        if(!chatWindow.activeInHierarchy && !redNote.activeInHierarchy)
         {
-            ScrollToBottom();
-        });
-    }
-    private void ScrollToBottom()
-    {
-        //scrollRect.verticalNormalizedPosition = 0f;
-    }
-    void Closewindow()
-    {
-        if(chatWindow.activeInHierarchy && chatWindow.gameObject != null)
-        {
-            chatWindow.SetActive(false);
+            redNote.SetActive(true);
         }
+    }
+
+    private void OnToggleValueChanged(bool isOn)
+    {
+        if(isOn)
+        {
+            redNote.SetActive(false);
+        }
+        chatWindow?.SetActive(isOn);
     }
 }
