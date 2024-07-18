@@ -609,6 +609,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main Camera
       objectReference: {fileID: 0}
+    - target: {fileID: 7357247739845609434, guid: 0ff0bc2ceecc1c54b98cf8b75a331049,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -792,7 +797,7 @@ PrefabInstance:
     - target: {fileID: 5291310365198717544, guid: fa1769a5a15376343bbb45f56b3f84d8,
         type: 3}
       propertyPath: m_RenderMode
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7265975145141917644, guid: fa1769a5a15376343bbb45f56b3f84d8,
         type: 3}
@@ -802,7 +807,7 @@ PrefabInstance:
     - target: {fileID: 7265975145141917644, guid: fa1769a5a15376343bbb45f56b3f84d8,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1129,16 +1134,6 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 838922546}
-    - target: {fileID: 3868814652275501605, guid: b76e56f98f7681340a1a871096dba2a8,
-        type: 3}
-      propertyPath: m_RenderMode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4253299625529753845, guid: b76e56f98f7681340a1a871096dba2a8,
-        type: 3}
-      propertyPath: m_Value
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6575960205107252199, guid: b76e56f98f7681340a1a871096dba2a8,
         type: 3}
       propertyPath: chatManager
@@ -1152,7 +1147,7 @@ PrefabInstance:
     - target: {fileID: 6702561151465468663, guid: b76e56f98f7681340a1a871096dba2a8,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.00012207031
+      value: -0.000061035156
       objectReference: {fileID: 0}
     - target: {fileID: 7140179819973924796, guid: b76e56f98f7681340a1a871096dba2a8,
         type: 3}
@@ -1290,11 +1285,6 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 838922546}
-    - target: {fileID: 568734015165827718, guid: abbbb3e94d8a6b34ab92d5546c5d4a3b,
-        type: 3}
-      propertyPath: m_RenderMode
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1189584805136166238, guid: abbbb3e94d8a6b34ab92d5546c5d4a3b,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -1405,26 +1395,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3359025210805598551, guid: abbbb3e94d8a6b34ab92d5546c5d4a3b,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3359025210805598551, guid: abbbb3e94d8a6b34ab92d5546c5d4a3b,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3359025210805598551, guid: abbbb3e94d8a6b34ab92d5546c5d4a3b,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3359025210805598551, guid: abbbb3e94d8a6b34ab92d5546c5d4a3b,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3897577098939872981, guid: abbbb3e94d8a6b34ab92d5546c5d4a3b,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -1463,16 +1433,6 @@ PrefabInstance:
     - target: {fileID: 5137323126112291639, guid: abbbb3e94d8a6b34ab92d5546c5d4a3b,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6485780239185850059, guid: abbbb3e94d8a6b34ab92d5546c5d4a3b,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6485780239185850059, guid: abbbb3e94d8a6b34ab92d5546c5d4a3b,
-        type: 3}
-      propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8565614697646248184, guid: abbbb3e94d8a6b34ab92d5546c5d4a3b,
