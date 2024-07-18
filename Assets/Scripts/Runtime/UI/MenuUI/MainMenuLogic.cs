@@ -14,19 +14,20 @@ public class MainMenuLogic : MonoBehaviour
     public enum MenuState
     {
         MainMenu,
-        Lobby,
         Loading
     }
     MenuState state;
 
     [SerializeField] TextMeshProUGUI profileName_TMP;
 
-    [SerializeField] GameObject MainMenu, Lobby ,Loading;
+    [SerializeField] GameObject MainMenu ,Loading;
 
     List<GameObject> UIList;
 
     [SerializeField] ProfileUI profileUI;
     [SerializeField] Button showProfileBtn;
+    [SerializeField] Button exitBtn;
+
     public GameQueue GameQueue {  get; set; }
     public PlayMode PlayMode { get; set; }
     private void Awake()
@@ -34,7 +35,6 @@ public class MainMenuLogic : MonoBehaviour
         UIList = new List<GameObject>
         {
             MainMenu,
-            Lobby,
             Loading
         };
         gameManager = ClientSingleton.Instance.Manager;
@@ -43,11 +43,13 @@ public class MainMenuLogic : MonoBehaviour
     void Start()
     {
         showProfileBtn.onClick.AddListener(ShowProfile);
+        exitBtn.onClick.AddListener(ExitApplication);
         ToMainMenu();
     }
     private void OnDestroy()
     {
         showProfileBtn?.onClick.RemoveListener(ShowProfile);
+        exitBtn.onClick.RemoveListener(ExitApplication);
     }
     #region Profile
     private void ShowProfile()
@@ -72,6 +74,14 @@ public class MainMenuLogic : MonoBehaviour
     public void FetchFriendRequestList(Action<List<FriendData>> success, Action<string> failed)
     {
         UserManager.Instance.FetchFriendRequestList(success,failed);
+    }
+    public void FetchLeaderBoard(Action<List<LeadUser>> success, Action<string> failed)
+    {
+        UserManager.Instance.FetchLeaderboard(success,failed);
+    }
+    public void FetchUserRank(Action<UserRank> success, Action failed)
+    {
+        UserManager.Instance.FetchUserRank(success, failed);
     }
     #endregion
 
@@ -134,9 +144,6 @@ public class MainMenuLogic : MonoBehaviour
             case MenuState.MainMenu:
                 MainMenu.SetActive(true);
                 break;
-            case MenuState.Lobby:
-                Lobby.SetActive(true);
-                break;
             case MenuState.Loading: 
                 Loading.SetActive(true);
                 break;    
@@ -151,10 +158,6 @@ public class MainMenuLogic : MonoBehaviour
         profileName_TMP.text = ClientSingleton.Instance.Manager.User.Name;
         SwitchUI(MenuState.MainMenu);
         HideProfile();
-    }
-    public void ToLobby()
-    {
-        SwitchUI(MenuState.Lobby);
     }
     internal void Logout()
     {

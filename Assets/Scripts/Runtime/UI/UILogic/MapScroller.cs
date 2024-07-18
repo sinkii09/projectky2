@@ -11,6 +11,7 @@ public class MapScroller : MonoBehaviour
     [SerializeField] TextMeshProUGUI mapName;
     [SerializeField] Button prevBtn;
     [SerializeField] Button nextBtn;
+    [SerializeField] GameObject body;
 
     [SerializeField] Sprite map1Sprite;
     [SerializeField] Sprite map2Sprite;
@@ -78,5 +79,17 @@ public class MapScroller : MonoBehaviour
     public Map GetCurrentMap()
     {
         return mapList[currentIndex];
+    }
+    public void ToFindMatchState(bool isActive)
+    {
+        body.SetActive(!isActive);
+        if(!isActive)
+        {
+            mapName.text = mapNameDictionary[mapList[currentIndex]];
+        }
+        else
+        {
+            mapName.text = "In Queue";
+        }
     }
 }

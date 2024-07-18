@@ -468,9 +468,9 @@ public class Leaderboard
 public class LeadUser
 {
     public string _id;
-    public string username;
-    public int rankpoints;
-    public int rank;
+    public string name;
+    public string rankpoints;
+    public string rank;
 }[System.Serializable]
 public class UserRank
 {

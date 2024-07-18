@@ -449,10 +449,10 @@ TextureImporter:
       name: Elements-01_19
       rect:
         serializedVersion: 2
-        x: 3123
-        y: 696.5
-        width: 1041.75
-        height: 694.5
+        x: 2646
+        y: 578
+        width: 935
+        height: 126
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -504,48 +504,6 @@ TextureImporter:
       bones: []
       spriteID: 8f493f7ce40cf77489444741187dba28
       internalID: -1712653297
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Elements-01_22
-      rect:
-        serializedVersion: 2
-        x: 2082
-        y: 8
-        width: 1042
-        height: 694
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 07b47e4a1d674b54ebc92efac9fa9b66
-      internalID: 1984681131
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Elements-01_23
-      rect:
-        serializedVersion: 2
-        x: 3123
-        y: 2.5
-        width: 1041.75
-        height: 694.5
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 141ce1cd75864ae4f96e538ff882bcb4
-      internalID: 1536794854
       vertices: []
       indices: 
       edges: []
