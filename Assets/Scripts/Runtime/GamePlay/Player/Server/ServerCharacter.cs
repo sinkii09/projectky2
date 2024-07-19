@@ -75,7 +75,8 @@ public class ServerCharacter : NetworkBehaviour
     private CharacterSpawner m_CharacterSpawner;
 
     private Rigidbody rb;
-
+    private SphereCollider sphereCollider;
+    private LayerMask mask;
     private float startTime;
     #endregion
 
@@ -89,6 +90,8 @@ public class ServerCharacter : NetworkBehaviour
         m_ServerAbilityHandler = new ServerAbilityHandler(this,m_Movement);
         NetHealthState = GetComponent<NetworkHealthState>();
         rb = GetComponent<Rigidbody>(); 
+        sphereCollider = GetComponent<SphereCollider>();
+        mask = LayerMask.GetMask("Environment");
     }
     private void Update()
     {
@@ -132,9 +135,16 @@ public class ServerCharacter : NetworkBehaviour
         LifeState.OnValueChanged += OnLifeStateChanged;
         m_DamageReceiver.DamageReceived += ReceiveHP;
         m_DamageReceiver.CollisionEntered += CollisionEntered;
-        
+
+        sendClientInfoRpc();
     }
 
+    [Rpc(SendTo.ClientsAndHost)]
+    void sendClientInfoRpc()
+    {
+        Debug.Log("isCollider isnable " + sphereCollider.enabled);
+        Debug.Log("is sphere trigger?" + sphereCollider.isTrigger);
+    }
     public override void OnNetworkDespawn()
     {
         m_GamePlayBehaviour.OnGameOver -= GamePlayBehaviour_IsGameOver;
@@ -241,6 +251,10 @@ public class ServerCharacter : NetworkBehaviour
     }
     public void SetInvincible(bool isActive)
     {
+        if (!IsServer)
+        {
+            return;
+        }
         IsInvincilbe.Value = isActive;
     }
     void ReceiveHP(int HP, ServerCharacter inflicter = null)
@@ -293,6 +307,20 @@ public class ServerCharacter : NetworkBehaviour
         if(m_ServerSkillPlayer != null)
         {
             m_ServerSkillPlayer.CollisionEntered(collision);
+        }
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if((1 << collision.gameObject.layer & mask) != 0)
+        {
+            Debug.Log("hitwall");
+        }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if ((1 << other.gameObject.layer & mask) != 0)
+        {
+            Debug.Log("hitwall trigger");
         }
     }
     #endregion

@@ -9,7 +9,7 @@ public class MatchFindingUI : MonoBehaviour
 {
     [SerializeField] Button PlayButton;
     [SerializeField] MapScroller MapScroller;
-
+    [SerializeField] ToggleSwitch modeSwitch;
     [SerializeField] TextMeshProUGUI timer_TMP;
 
     [SerializeField] MainMenuLogic mainMenuLogic;
@@ -18,6 +18,7 @@ public class MatchFindingUI : MonoBehaviour
     bool isMatchMake;
     private void Start()
     {
+        
         mainMenuLogic.OnTimeLapse += UpdateTimer;
         PlayButton.onClick.AddListener(() => { FindMatch(); AudioManager.Instance.PlaySFXNumber(0); });
         timer_TMP.text = "00:00";
@@ -27,6 +28,7 @@ public class MatchFindingUI : MonoBehaviour
         mainMenuLogic.OnTimeLapse -= UpdateTimer;
         PlayButton.onClick.RemoveAllListeners();
     }
+
     public void FindMatch()
     {
         Map map = MapScroller.GetCurrentMap();

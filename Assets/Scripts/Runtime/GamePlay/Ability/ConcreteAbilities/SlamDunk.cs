@@ -98,7 +98,7 @@ public class SlamDunk : Ability
         endPoint = position;
         
         Vector3 highestPoint = CalculateHighestBezierPoint(startPoint, controlPoint, endPoint);
-        Vector3 checkPoint = new Vector3(startPoint.x,highestPoint.y,startPoint.z);
+        Vector3 checkPoint = new Vector3(startPoint.x,highestPoint.y+ 3,startPoint.z);
         RaycastHit hit;
         if (Physics.Raycast(checkPoint, (endPoint - startPoint).normalized, out hit, Vector3.Distance(startPoint, endPoint), obstacleLayer))
         {

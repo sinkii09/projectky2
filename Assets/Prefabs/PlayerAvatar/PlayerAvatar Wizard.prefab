@@ -2592,6 +2592,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerAvatar Wizard
       objectReference: {fileID: 0}
+    - target: {fileID: 2757143885375831720, guid: 373a1ec08978e47468756f8df154afd3,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2757143885375831720, guid: 373a1ec08978e47468756f8df154afd3,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2757143885375831720, guid: 373a1ec08978e47468756f8df154afd3,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2757143885375831720, guid: 373a1ec08978e47468756f8df154afd3,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3540110407470139084, guid: 373a1ec08978e47468756f8df154afd3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2647,6 +2667,36 @@ PrefabInstance:
       propertyPath: m_Avatar
       value: 
       objectReference: {fileID: 9000000, guid: bed7a092d53e7c748bd65db98cebf9d6, type: 3}
+    - target: {fileID: 4335383746291517567, guid: 373a1ec08978e47468756f8df154afd3,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4335383746291517567, guid: 373a1ec08978e47468756f8df154afd3,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589420345771595784, guid: 373a1ec08978e47468756f8df154afd3,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589420345771595784, guid: 373a1ec08978e47468756f8df154afd3,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589420345771595784, guid: 373a1ec08978e47468756f8df154afd3,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589420345771595784, guid: 373a1ec08978e47468756f8df154afd3,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5474470099739051711, guid: 373a1ec08978e47468756f8df154afd3,
         type: 3}
       propertyPath: CharacterStats

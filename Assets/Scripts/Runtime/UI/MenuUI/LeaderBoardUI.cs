@@ -48,7 +48,10 @@ public class LeaderBoardUI : ToggleWindow
     {
         foreach( LeaderboardCard card in cardList )
         {
-            Destroy(card.gameObject);
+            if(card)
+            {
+                Destroy(card.gameObject);
+            }
         }
         foreach(var user in  list )
         {

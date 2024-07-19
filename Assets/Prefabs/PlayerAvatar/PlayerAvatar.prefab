@@ -64,7 +64,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 1
   m_Constraints: 126
   m_CollisionDetection: 1
@@ -234,7 +234,6 @@ Transform:
   - {fileID: 795308387383217735}
   - {fileID: 4612186177502370911}
   - {fileID: 801560453037575668}
-  - {fileID: 8202453313691110867}
   - {fileID: 2403518217865062593}
   m_Father: {fileID: 2300609475707364900}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -303,7 +302,8 @@ MonoBehaviour:
   m_BaseWeaponPart:
   - {fileID: 6126188424833946103, guid: a58aa9a78f2b45b45bb0f3e2e1e3ad3c, type: 3}
   - {fileID: 3732551427800355369, guid: 3e2226b0718f88b40ad98d970390f416, type: 3}
-  m_ShieldFX: {fileID: 8108887462266494054}
+  m_ShieldFX: {fileID: 1289543790355709915, guid: b99922c2f59b1a542bdd06ae8bee47ae,
+    type: 3}
   enemyIndicator: {fileID: 0}
 --- !u!95 &3639332045119622451
 Animator:
@@ -1097,86 +1097,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 155207ba6f5c38644b8fd56a47cfcaf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &7020530252891104189
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1905275175427879882}
-    m_Modifications:
-    - target: {fileID: 1205021609740332654, guid: b99922c2f59b1a542bdd06ae8bee47ae,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1205021609740332654, guid: b99922c2f59b1a542bdd06ae8bee47ae,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1205021609740332654, guid: b99922c2f59b1a542bdd06ae8bee47ae,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1205021609740332654, guid: b99922c2f59b1a542bdd06ae8bee47ae,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1205021609740332654, guid: b99922c2f59b1a542bdd06ae8bee47ae,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1205021609740332654, guid: b99922c2f59b1a542bdd06ae8bee47ae,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1205021609740332654, guid: b99922c2f59b1a542bdd06ae8bee47ae,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1205021609740332654, guid: b99922c2f59b1a542bdd06ae8bee47ae,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1205021609740332654, guid: b99922c2f59b1a542bdd06ae8bee47ae,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1205021609740332654, guid: b99922c2f59b1a542bdd06ae8bee47ae,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1289543790355709915, guid: b99922c2f59b1a542bdd06ae8bee47ae,
-        type: 3}
-      propertyPath: m_Name
-      value: Magic shield blue
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: b99922c2f59b1a542bdd06ae8bee47ae, type: 3}
---- !u!1 &8108887462266494054 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1289543790355709915, guid: b99922c2f59b1a542bdd06ae8bee47ae,
-    type: 3}
-  m_PrefabInstance: {fileID: 7020530252891104189}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &8202453313691110867 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1205021609740332654, guid: b99922c2f59b1a542bdd06ae8bee47ae,
-    type: 3}
-  m_PrefabInstance: {fileID: 7020530252891104189}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7586483748844309340
 PrefabInstance:
   m_ObjectHideFlags: 0

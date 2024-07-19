@@ -105,6 +105,7 @@ public class ClientCharacter : NetworkBehaviour
         m_ServerCharacter.LifeState.OnValueChanged += OnLifeStateChanged;
         m_ServerCharacter.CurrentWeaponId.OnValueChanged += OnCurrentWeaponChanged;
         m_ServerCharacter.ManaPoint.OnValueChanged += OnManaPointChanged;
+        m_ServerCharacter.IsInvincilbe.OnValueChanged += OnInvincibleChanged;
         OnMovementStatusChanged(MovementStatus.Normal, m_ServerCharacter.MovementStatus.Value);
 
         transform.SetPositionAndRotation(serverCharacter.physicsWrapper.Transform.position, serverCharacter.physicsWrapper.Transform.rotation);
@@ -124,9 +125,21 @@ public class ClientCharacter : NetworkBehaviour
             m_ServerCharacter.CurrentWeaponId.OnValueChanged -= OnCurrentWeaponChanged;
             m_ClientInputSender.ClientMoveEvent -= OnMoveInput;
             m_ServerCharacter.ManaPoint.OnValueChanged -= OnManaPointChanged;
+            m_ServerCharacter.IsInvincilbe.OnValueChanged -= OnInvincibleChanged;
         }
         NetworkManager.SceneManager.OnLoadEventCompleted -= SceneManager_OnLoadEventCompleted;
         enabled = false;
+    }
+
+    private void OnInvincibleChanged(bool previousValue, bool newValue)
+    {
+        Debug.Log("invincible");
+        if (newValue)
+        {
+            var fx = ParticlePool.Singleton.GetObject(m_ShieldFX, m_ServerCharacter.physicsWrapper.transform.position, Quaternion.identity);
+            fx.transform.parent = m_Visual.transform;
+            fx.GetComponent<SpecialFXGraphic>().OnInitialized(m_ShieldFX);
+        }
     }
 
     private void OnManaPointChanged(int previousValue, int newValue)
@@ -163,8 +176,8 @@ public class ClientCharacter : NetworkBehaviour
     {
         if(newValue == LifeStateEnum.Alive)
         {
+            Debug.Log("isRevive");
             m_RevivePart.SetActive(true);
-            m_ShieldFX.SetActive(true);
             if (serverCharacter.OwnerClientId == NetworkManager.Singleton.LocalClientId)
             {
                 colorAdjustments.saturation.value = 0;
@@ -175,7 +188,6 @@ public class ClientCharacter : NetworkBehaviour
         {
             var fx =  ParticlePool.Singleton.GetObject(m_FaintedPart, m_ServerCharacter.physicsWrapper.transform.position,Quaternion.identity);
             fx.GetComponent<SpecialFXGraphic>().OnInitialized(m_FaintedPart);
-            m_ShieldFX.SetActive(false);
             if (serverCharacter.OwnerClientId == NetworkManager.Singleton.LocalClientId)
             {
                 colorAdjustments.saturation.value = -100;
@@ -193,7 +205,8 @@ public class ClientCharacter : NetworkBehaviour
                 gameObject.AddComponent<CameraController>();
             }
             CharacterSpawner spawner = FindObjectOfType<CharacterSpawner>();
-            foreach(var player in spawner.Players)
+            m_MainPlayerIngameCard = FindObjectOfType<MainPlayerIngameCard>();
+            foreach (var player in spawner.Players)
             {
                 if(player.ClientId == serverCharacter.OwnerClientId)
                 {

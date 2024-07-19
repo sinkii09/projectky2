@@ -6,79 +6,21 @@ using UnityEngine;
 
 public class TestMoveScript : MonoBehaviour
 {
-    public Vector3 startPoint;
-    public Vector3 controlPoint;
-    public Vector3 endPoint;
+    public float speed = 5f;
+    private Rigidbody rb;
 
-    private float t;
-    private float totalDistance;
-    public float speed;
-
-    [SerializeField] GameObject testObject;
-
-    [SerializeField] GameObject particleHit;
-
-    bool islaunch;
-    private void Update()
+    void Start()
     {
-        if(Input.GetMouseButtonDown(0))
-        {
-            Launch();
-        }
-        if(islaunch)
-        {
-            if (t < 1)
-            {
-                t += Time.deltaTime * speed / totalDistance;
-                testObject.transform.position = CalculateBezierPoint(t, startPoint, controlPoint, endPoint);
-            }
-            else
-            {
-                OnHit();
-            }
-        }
+        rb = GetComponent<Rigidbody>();
     }
-    void Launch()
-    {
-        startPoint = transform.position;
-        endPoint = new Vector3(5,0,5);
-        controlPoint = (startPoint + endPoint) / 2 + Vector3.up * 10;
-        totalDistance = CalculateTotalDistance();
-        t = 0;
-        islaunch = true;
-    }
-    private Vector3 CalculateBezierPoint(float t, Vector3 startPoint, Vector3 controlPoint, Vector3 endPoint)
-    {
-        float u = 1 - t;
-        float tt = t * t;
-        float uu = u * u;
-        Vector3 position = uu * startPoint; // u^2 * P0
-        position += 2 * u * t * controlPoint; // 2 * u * t * P1
-        position += tt * endPoint; // t^2 * P2
-        return position;
-    }
-    private float CalculateTotalDistance(int segments = 20)
-    {
-        float distance = 0f;
-        Vector3 previousPoint = startPoint;
 
-        for (int i = 1; i <= segments; i++)
-        {
-            float t = (float)i / segments;
-            Vector3 currentPoint = CalculateBezierPoint(t, startPoint, controlPoint, endPoint);
-            distance += Vector3.Distance(previousPoint, currentPoint);
-            previousPoint = currentPoint;
-        }
-
-        return distance;
-    }
-    void OnHit()
+    void FixedUpdate()
     {
-        if (islaunch)
-        {
-            var partObj = ParticlePool.Singleton.GetObject(particleHit, testObject.transform.position, testObject.transform.rotation);
-            partObj.GetComponent<SpecialFXGraphic>().OnInitialized(particleHit);
-            islaunch = false;
-        }
+        float moveHorizontal = Input.GetAxis("Horizontal");
+        float moveVertical = Input.GetAxis("Vertical");
+
+        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+
+        rb.MovePosition(rb.position + movement * speed * Time.deltaTime);
     }
 }

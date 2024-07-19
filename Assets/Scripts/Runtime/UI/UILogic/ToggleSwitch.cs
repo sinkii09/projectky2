@@ -79,7 +79,10 @@ public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
     {
         Toggle();
     }
-
+    public void ToggleByScripts()
+    {
+        Toggle();
+    }
 
     private void Toggle()
     {
