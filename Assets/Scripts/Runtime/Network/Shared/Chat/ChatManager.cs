@@ -93,6 +93,7 @@ public class ChatManager : MonoBehaviour
             throw new Exception(e.ToString());
         }
         isInitialize = true;
+        chatUI.ActiveChatUI(true);
     }
     public async void SendChatMessage(string message)
     {

@@ -28,14 +28,18 @@ public class FriendCard : MonoBehaviour
     private void DeleteFriend()
     {
         userManager.DeleteFriend(idText.text,Result);
+        cancelButton.interactable = false;
     }
 
     void Result(string result,bool isDestroy)
     {
-        Debug.Log(result);
         if (isDestroy)
         {
             Destroy(gameObject);
+        }
+        else
+        {
+            cancelButton.interactable = true;
         }
     }
     public void Initialize(string id, string name, UserManager userManager)

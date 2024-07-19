@@ -264,8 +264,8 @@ public class UserManager : MonoBehaviour
         {
 
             string responseJson = request.downloadHandler.text;
-            List<LeadUser> friendDatas = JsonUtility.FromJson<Leaderboard>(responseJson).users;
-            success?.Invoke(friendDatas);
+            List<LeadUser> data = JsonUtility.FromJson<Leaderboard>(responseJson).users;
+            success?.Invoke(data);
         }
         else
         {

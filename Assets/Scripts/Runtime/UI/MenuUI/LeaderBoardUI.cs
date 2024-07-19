@@ -24,7 +24,7 @@ public class LeaderBoardUI : ToggleWindow
     public override void Active(bool isActive)
     {
         base.Active(isActive);
-        if(isActive )
+        if(isActive)
         {
             mainMenuLogic.FetchLeaderBoard(FetchLeaderBoardSuccess, FetchLeaderBoardFailed);
             mainMenuLogic.FetchUserRank(FetchUserRankSuccess, FetchUserRankFailed);
@@ -33,14 +33,14 @@ public class LeaderBoardUI : ToggleWindow
 
     private void FetchUserRankSuccess(UserRank info)
     {
-        userOrderText.text = ClientSingleton.Instance.Manager.User.Name;
+        userNameText.text = ClientSingleton.Instance.Manager.User.Name;
         userOrderText.text = info.rank.ToString();
         userPointText.text = info.rankpoints.ToString();
     }
 
     private void FetchUserRankFailed()
     {
-        userOrderText.text = string.Empty;
+        userNameText.text = string.Empty;
         userOrderText.text = string.Empty;
         userPointText.text = string.Empty;
     }

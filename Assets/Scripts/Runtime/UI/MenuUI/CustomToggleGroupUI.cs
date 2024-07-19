@@ -29,7 +29,7 @@ public class CustomToggleGroupUI : MonoBehaviour
 
     private void OnToggleValueChanged(ToggleWindowPair pair, bool isOn)
     {
-        if(isOn)
+        if (isOn)
         {
             AudioManager.Instance.PlaySFXNumber(0);
         }

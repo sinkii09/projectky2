@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class ChatUI : MonoBehaviour
@@ -26,6 +25,7 @@ public class ChatUI : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         chatWindow.SetActive(false);
+        ActiveChatUI(false);
     }
     private void Start()
     {
@@ -107,5 +107,10 @@ public class ChatUI : MonoBehaviour
             redNote.SetActive(false);
         }
         chatWindow?.SetActive(isOn);
+    }
+
+    public void ActiveChatUI(bool isOn)
+    {
+        chatToggle.gameObject.SetActive(isOn);
     }
 }
