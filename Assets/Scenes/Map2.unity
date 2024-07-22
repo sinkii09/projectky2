@@ -6104,6 +6104,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 19.54
       objectReference: {fileID: 0}
+    - target: {fileID: 129477570999224561, guid: c69486dcd30f89b409d5e9b7fe73ab97,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 33
+      objectReference: {fileID: 0}
     - target: {fileID: 2160720895076643953, guid: c69486dcd30f89b409d5e9b7fe73ab97,
         type: 3}
       propertyPath: m_Convex
@@ -6118,6 +6123,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Convex
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6478251898288487570, guid: c69486dcd30f89b409d5e9b7fe73ab97,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6478251898288487570, guid: c69486dcd30f89b409d5e9b7fe73ab97,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -27
       objectReference: {fileID: 0}
     - target: {fileID: 6909621307897862182, guid: c69486dcd30f89b409d5e9b7fe73ab97,
         type: 3}
