@@ -98,7 +98,7 @@ public class ServerCharacter : NetworkBehaviour
         m_ServerSkillPlayer.OnUpdate();
         m_ServerAbilityHandler.OnUpdate();
 
-
+        
     }
     private void FixedUpdate()
     {
@@ -112,6 +112,14 @@ public class ServerCharacter : NetworkBehaviour
             if(ManaPoint.Value > 100)
             {
                 ManaPoint.Value = 100;
+            }
+            if(IsServer)
+            {
+                sendClientInfoRpc(rb.isKinematic);
+            }
+            else
+            {
+                Debug.Log("isClient");
             }
         }
     }
@@ -135,15 +143,12 @@ public class ServerCharacter : NetworkBehaviour
         LifeState.OnValueChanged += OnLifeStateChanged;
         m_DamageReceiver.DamageReceived += ReceiveHP;
         m_DamageReceiver.CollisionEntered += CollisionEntered;
-
-        sendClientInfoRpc();
     }
 
     [Rpc(SendTo.ClientsAndHost)]
-    void sendClientInfoRpc()
+    void sendClientInfoRpc(bool state)
     {
-        Debug.Log("isCollider isnable " + sphereCollider.enabled);
-        Debug.Log("is sphere trigger?" + sphereCollider.isTrigger);
+        Debug.Log("isKinematic: " + state);
     }
     public override void OnNetworkDespawn()
     {
@@ -309,19 +314,21 @@ public class ServerCharacter : NetworkBehaviour
             m_ServerSkillPlayer.CollisionEntered(collision);
         }
     }
-    private void OnCollisionEnter(Collision collision)
-    {
-        if((1 << collision.gameObject.layer & mask) != 0)
-        {
-            Debug.Log("hitwall");
-        }
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        if ((1 << other.gameObject.layer & mask) != 0)
-        {
-            Debug.Log("hitwall trigger");
-        }
-    }
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    sendClientInfoRpc(true);
+    //    m_Movement.SetCollisionNormal(collision.contacts[0].normal,true);
+    //}
+
+    //private void OnCollisionStay(Collision collision)
+    //{
+    //    m_Movement.SetCollisionNormal(collision.contacts[0].normal, true);
+    //}
+
+    //private void OnCollisionExit(Collision collision)
+    //{
+    //    sendClientInfoRpc(false);
+    //    m_Movement.SetCollisionNormal(Vector3.zero, false);
+    //}
     #endregion
 }

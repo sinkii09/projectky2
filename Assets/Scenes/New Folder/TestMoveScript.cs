@@ -21,6 +21,8 @@ public class TestMoveScript : MonoBehaviour
 
         Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
 
-        rb.MovePosition(rb.position + movement * speed * Time.deltaTime);
+        //rb.MovePosition(rb.position + movement * speed * Time.deltaTime);
+        transform.position += movement * speed * Time.deltaTime;
+        rb.position = transform.position;
     }
 }

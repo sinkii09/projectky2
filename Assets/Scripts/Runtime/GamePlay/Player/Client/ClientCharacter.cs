@@ -77,7 +77,15 @@ public class ClientCharacter : NetworkBehaviour
     }
     private void Update()
     {
+
         if (!GamePlayBehaviour.Instance.IsGameStart.Value) return;
+
+        m_LerpedPosition = m_PositionLerper.LerpPosition(m_LerpedPosition,
+            serverCharacter.physicsWrapper.Transform.position);
+        m_LerpedRotation = m_RotationLerper.LerpRotation(m_LerpedRotation,
+            serverCharacter.physicsWrapper.Transform.rotation);
+        transform.SetPositionAndRotation(m_LerpedPosition, m_LerpedRotation);
+
         if (m_ClientVisualsAnimator)
         {
             OurAnimator.SetFloat(m_VisualizationConfiguration.SpeedVariableID, m_CurrentSpeed);

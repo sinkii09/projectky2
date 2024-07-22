@@ -46,6 +46,8 @@ public class CharacterMovement : NetworkBehaviour
     private float dashSpeed;
 
     bool CanMove;
+    private Vector3 collisionNormal = Vector3.zero;
+    private bool isColliding = false;
     private void Awake()
     {
         enabled = false;
@@ -146,9 +148,10 @@ public class CharacterMovement : NetworkBehaviour
                 return;
             }
         }
-        transform.parent.position += movementVector * desiredMovementAmount;
+        m_Rigidbody.MovePosition(m_Rigidbody.position + movementVector * desiredMovementAmount);
+        //transform.parent.position += movementVector * desiredMovementAmount;
         transform.parent.rotation = Quaternion.LookRotation(moveDirection);
-        m_Rigidbody.position = transform.position;
+       // m_Rigidbody.position = transform.position;
         m_Rigidbody.rotation = transform.rotation;
     }
     public bool IsMoving()
@@ -162,7 +165,13 @@ public class CharacterMovement : NetworkBehaviour
     public void SetMoveDirection(Vector3 moveDirection)
     {
         m_MovementState = MovementState.Moving;
-        this.moveDirection = new Vector3(moveDirection.x, 0, moveDirection.y).normalized;
+        Vector3 movement = new Vector3(moveDirection.x, 0, moveDirection.y).normalized;
+        this.moveDirection = movement;
+        //if(isColliding)
+        //{
+        //    this.moveDirection = Vector3.ProjectOnPlane(movement, collisionNormal);
+        //    Debug.Log(moveDirection);
+        //}
     }
     public void StartDash(Vector3 direction, float speed, float duration)
     {
@@ -184,6 +193,11 @@ public class CharacterMovement : NetworkBehaviour
         m_ForcedSpeed = speed;
         m_SpecialModeDurationRemaining = duration;
     }
+    public void SetCollisionNormal(Vector3 normal,bool colliding)
+    {
+        collisionNormal = normal;
+        isColliding = colliding;
+    }
     private MovementStatus GetMovementStatus(MovementState movementState)
     {
         switch (movementState)
@@ -200,4 +214,5 @@ public class CharacterMovement : NetworkBehaviour
                 return MovementStatus.Normal;
         }
     }
+
 }
