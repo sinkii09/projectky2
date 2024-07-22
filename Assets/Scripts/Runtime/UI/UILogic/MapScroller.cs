@@ -15,9 +15,11 @@ public class MapScroller : MonoBehaviour
 
     [SerializeField] Sprite map1Sprite;
     [SerializeField] Sprite map2Sprite;
+    [SerializeField] Sprite map3Sprite;
 
     [SerializeField] string map1Name;
     [SerializeField] string map2Name;
+    [SerializeField] string map3Name;
 
     Dictionary<Map, Sprite> mapSpriteDictionary;
     Dictionary<Map, string> mapNameDictionary;

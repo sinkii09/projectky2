@@ -8,6 +8,7 @@ public enum Map
 {
     Map1,
     Map2,
+    Map3,
 }
 public enum PlayMode
 {
