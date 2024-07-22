@@ -12,6 +12,7 @@ public enum MovementState
     Knockback = 3,
     Jump = 4,
     Dashing = 5,
+    Teleport = 6,
 }
 [Serializable]
 public enum MovementStatus
@@ -26,6 +27,8 @@ public enum MovementStatus
 }
 public class CharacterMovement : NetworkBehaviour
 {
+
+
     [SerializeField]
     Rigidbody m_Rigidbody;
     [SerializeField]
@@ -45,9 +48,9 @@ public class CharacterMovement : NetworkBehaviour
     private float m_ForcedSpeed;
     private float dashSpeed;
 
-    bool CanMove;
-    private Vector3 collisionNormal = Vector3.zero;
-    private bool isColliding = false;
+    private bool canTele;
+    private Teleport teleportGate;
+
     private void Awake()
     {
         enabled = false;
@@ -58,7 +61,6 @@ public class CharacterMovement : NetworkBehaviour
         if (IsServer)
         {
             enabled = true;
-            CanMove = true;
         }
     }
 
@@ -67,7 +69,7 @@ public class CharacterMovement : NetworkBehaviour
         if (IsServer)
         {
             enabled = false;
-            CanMove = false;
+
         }
     }
     public void CancelMove()
@@ -79,9 +81,11 @@ public class CharacterMovement : NetworkBehaviour
         CancelMove();
         m_MovementState = MovementState.Jump;
     }
-    public void CanMoving(bool isTrue)
+
+    public void TeleportInfo(bool canTele, Teleport gate)
     {
-        CanMove = isTrue;
+        this.canTele = canTele;
+        teleportGate = canTele? gate: null;
     }
     private void FixedUpdate()
     {
@@ -109,7 +113,10 @@ public class CharacterMovement : NetworkBehaviour
         {
             return;
         }
-
+        else if (m_MovementState == MovementState.Teleport)
+        {
+            return;
+        }
         else if (m_MovementState == MovementState.Jump)
         {
             return;
@@ -160,7 +167,7 @@ public class CharacterMovement : NetworkBehaviour
     }
     public bool IsPerformingForcedMovement()
     {
-        return m_MovementState == MovementState.Knockback || m_MovementState == MovementState.Charging || m_MovementState == MovementState.Dashing;
+        return m_MovementState == MovementState.Knockback || m_MovementState == MovementState.Charging || m_MovementState == MovementState.Dashing || m_MovementState == MovementState.Teleport || m_MovementState == MovementState.Jump;
     }
     public void SetMoveDirection(Vector3 moveDirection)
     {
@@ -186,6 +193,15 @@ public class CharacterMovement : NetworkBehaviour
         jumpDirection = (transform.forward + transform.up);
         m_SpecialModeDurationRemaining = 1.5f;
     }
+    public void SetTele()
+    {
+        if(canTele && teleportGate)
+        {
+            CancelMove();
+            m_MovementState = MovementState.Teleport;
+            teleportGate.StartTele(m_ServerCharacter);
+        }
+    }
     public void StartKnockback(Vector3 knocker, float speed, float duration)
     {
         m_MovementState = MovementState.Knockback;
@@ -193,11 +209,7 @@ public class CharacterMovement : NetworkBehaviour
         m_ForcedSpeed = speed;
         m_SpecialModeDurationRemaining = duration;
     }
-    public void SetCollisionNormal(Vector3 normal,bool colliding)
-    {
-        collisionNormal = normal;
-        isColliding = colliding;
-    }
+
     private MovementStatus GetMovementStatus(MovementState movementState)
     {
         switch (movementState)
@@ -205,6 +217,8 @@ public class CharacterMovement : NetworkBehaviour
             case MovementState.Idle:
                 return MovementStatus.Idle;
             case MovementState.Knockback:
+                return MovementStatus.Uncontrolled;
+            case MovementState.Teleport:
                 return MovementStatus.Uncontrolled;
             case MovementState.Jump:
                 return MovementStatus.Jump;

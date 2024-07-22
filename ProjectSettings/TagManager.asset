@@ -6,6 +6,12 @@ TagManager:
   tags:
   - FxTemporaire
   - Environment
+  - Ground
+  - LightingBaked
+  - LightingRealtime
+  - Bullet
+  - Ghost
+  - DeathZone
   layers:
   - Default
   - TransparentFX
@@ -21,7 +27,7 @@ TagManager:
   - Intro
   - IgnorPost
   - IgnoreShading
-  - 
+  - DeathZone
   - 
   - 
   - 

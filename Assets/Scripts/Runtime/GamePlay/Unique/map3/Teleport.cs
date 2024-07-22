@@ -1,12 +1,11 @@
 using System.Collections;
+using Unity.Netcode;
 using UnityEngine;
 
-public class Teleport : MonoBehaviour
+public class Teleport : NetworkBehaviour
 {
     public Transform telepointTo;
     private bool canTeleport = true; // Flag to control teleportation
-    private bool playerInTrigger = false; // Flag to check if player is in the trigger
-    private Collider playerCollider; // Store the player collider
     private Collider triggerCollider;
 
     private void Start()
@@ -16,57 +15,42 @@ public class Teleport : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if(!IsServer) { return; }
         if(other.CompareTag("Player") && canTeleport)
         {
-            playerInTrigger = true; // Player is in the trigger
-            playerCollider = other; // Store the player collider
-            Debug.Log("Player entered teleport trigger. Press 'F' for teleport.");
+            var player = other.gameObject.GetComponent<ServerCharacter>();
+            player.SetupTeleport(true,this);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if (!IsServer) { return; }
+        if (other.CompareTag("Player"))
         {
-            playerInTrigger = false; // Player left the trigger
-            playerCollider = null; // Clear the player collider
-            Debug.Log("Player left teleport trigger.");
+            var player = other.gameObject.GetComponent<ServerCharacter>();
+            player.SetupTeleport(false, this);
         }
     }
-
-    private void Update()
+    public void StartTele(ServerCharacter serverCharacter)
     {
-        if(playerInTrigger && Input.GetKeyDown(KeyCode.F))
+        
+        if(IsServer && canTeleport)
         {
-            Debug.Log("Player pressed 'F' to teleport.");
-            StartCoroutine(TeleportPlayer());
+            StartCoroutine(TeleportPlayer(serverCharacter));
         }
     }
-
-    IEnumerator TeleportPlayer()
+    IEnumerator TeleportPlayer(ServerCharacter serverCharacter)
     {
         canTeleport = false; // Disable teleportation
-        playerInTrigger = false; // Reset the flag
         triggerCollider.enabled = false; // Disable the trigger collider
 
-        // Freeze the player's movement
-        CharacterMovement characterMovement = playerCollider.GetComponent<CharacterMovement>();
-        if(characterMovement != null)
-        {
-            characterMovement.enabled = false;
-        }
 
         yield return new WaitForSeconds(1);
 
-        playerCollider.transform.position = telepointTo.position;
+        serverCharacter.physicsWrapper.Transform.position = telepointTo.position;
 
-        // Unfreeze the player's movement
-        if(characterMovement != null)
-        {
-            characterMovement.enabled = true;
-        }
-
-        yield return new WaitForSeconds(3); // Wait for 3 seconds
+        yield return new WaitForSeconds(5); // Wait for 3 seconds
         canTeleport = true; // Enable teleportation again
         triggerCollider.enabled = true; // Re-enable the trigger collider
     }

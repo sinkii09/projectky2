@@ -1,32 +1,33 @@
+using Unity.Netcode;
 using UnityEngine;
 
-public class SafePoint : MonoBehaviour
+public class SafePoint : NetworkBehaviour
 {
-    CharacterMovement player;
+    ServerCharacter player;
 
     void OnTriggerEnter(Collider other)
     {
+        if (!IsServer) return;
         if(other.CompareTag("Player"))
         {
             Debug.Log("Enter safe area!");
-            player = other.GetComponent<CharacterMovement>();
+            player = other.GetComponent<ServerCharacter>();
             if(player != null)
             {
                 // Calculate healRate as 10% of player's maxHealth
-                //float healRate = player.maxHealth * 0.1f;
-                //player.StartHealing(healRate);
+                float healRate = player.CharacterStats.BaseHP * 0.1f;
+                other.GetComponent<DamageReceiver>().ReceiveHP((int)healRate);
             }
         }
     }
 
     void OnTriggerExit(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if (!IsServer) return;
+        if (other.CompareTag("Player"))
         {
-            Debug.Log("Out of safe area!");
             if(player != null)
             {
-                //player.StopHealing();
                 player = null;
             }
         }
@@ -36,12 +37,12 @@ public class SafePoint : MonoBehaviour
     {
         if(other.CompareTag("Player"))
         {
-            player = other.GetComponent<CharacterMovement>();
-            if(player != null) //&& !player.isHealing)
+            player = other.GetComponent<ServerCharacter>();
+            if (player != null)
             {
                 // Calculate healRate as 10% of player's maxHealth
-                //float healRate = player.maxHealth * 0.1f;
-                //player.StartHealing(healRate);
+                float healRate = player.CharacterStats.BaseHP * 0.1f;
+                other.GetComponent<DamageReceiver>().ReceiveHP((int)healRate);
             }
         }
     }

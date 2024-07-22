@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class GhostAI : MonoBehaviour
+public class GhostAI : NetworkBehaviour
 {
     private NavMeshAgent ghost;
     private Animator animator;
@@ -36,7 +37,7 @@ public class GhostAI : MonoBehaviour
     void Start()
     {
         ghost = GetComponent<NavMeshAgent>();
-        if(ghost == null)
+        if (ghost == null)
         {
             Debug.LogError("NavMeshAgent component not found on " + gameObject.name);
         }
@@ -45,16 +46,47 @@ public class GhostAI : MonoBehaviour
 
         // Find all players in the scene
         players = new List<Transform>();
-        GameObject [] playerObjects = GameObject.FindGameObjectsWithTag("Player");
-        foreach(GameObject playerObject in playerObjects)
+    }
+
+    public override void OnDestroy()
+    {
+        base.OnDestroy();
+        if (spawner != null)
+        {
+            spawner.RemoveGhost(gameObject);
+        }
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        if(IsServer)
+        {
+            NetworkManager.SceneManager.OnLoadEventCompleted += SceneManager_OnLoadEventCompleted;
+
+        }
+
+    }
+
+    private void SceneManager_OnLoadEventCompleted(string sceneName, UnityEngine.SceneManagement.LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
+    {
+        GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject playerObject in playerObjects)
         {
             players.Add(playerObject.transform);
         }
     }
 
+    public override void OnNetworkDespawn()
+    {
+        if(IsServer)
+        {
+            players.Clear();
+        }
+    }
     // Update is called once per frame
     void Update()
     {
+        if(!IsServer && !IsSpawned) { return; }
         if(HP <= 0)
         {
             SetDissolveAnimation();
@@ -139,20 +171,22 @@ public class GhostAI : MonoBehaviour
     {
         Transform closestPlayer = null;
         float closestDistance = Mathf.Infinity;
-
-        foreach(Transform player in players)
+        if(players.Count > 0)
         {
-            if(player != null)
+            foreach (Transform player in players)
             {
-                float distance = Vector3.Distance(transform.position, player.position);
-                if(distance < closestDistance)
+                if (player != null)
                 {
-                    closestDistance = distance;
-                    closestPlayer = player;
+                    float distance = Vector3.Distance(transform.position, player.position);
+                    if (distance < closestDistance)
+                    {
+                        closestDistance = distance;
+                        closestPlayer = player;
+                    }
                 }
             }
-        }
 
+        }
         return closestPlayer;
     }
 
@@ -196,9 +230,13 @@ public class GhostAI : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.CompareTag("Player"))
+        if (!IsServer) return;
         {
-            SetAttackAnimation();
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                SetAttackAnimation();
+            }
+
         }
     }
 
@@ -207,11 +245,5 @@ public class GhostAI : MonoBehaviour
         this.spawner = spawner;
     }
 
-    void OnDestroy()
-    {
-        if(spawner != null)
-        {
-            spawner.RemoveGhost(gameObject);
-        }
-    }
+
 }

@@ -1,9 +1,13 @@
+using Unity.Netcode;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class Bullet : NetworkBehaviour
 {
     void OnCollisionEnter(Collision collision)
     {
-        Destroy(gameObject); // Destroy the bullet on collision
+        if (IsServer)
+        {
+            Destroy(gameObject); // Destroy the bullet on collision
+        }
     }
 }

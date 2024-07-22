@@ -336,5 +336,10 @@ public class ClientCharacter : NetworkBehaviour
     {
         AudioManager.Instance.PlaySFXNumber(1);
     }
+
+    internal void OnTriggerTeleGate(bool canTele, Teleport gate)
+    {
+        throw new NotImplementedException();
+    }
 }
 

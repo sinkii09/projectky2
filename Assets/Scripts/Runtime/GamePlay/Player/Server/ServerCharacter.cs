@@ -27,7 +27,7 @@ public class ServerCharacter : NetworkBehaviour
         get => NetHealthState.HitPoints.Value;
         private set => NetHealthState.HitPoints.Value = value;
     }
-    public NetworkVariable <int> ManaPoint { get; } = new NetworkVariable<int>();
+    public NetworkVariable<int> ManaPoint { get; } = new NetworkVariable<int>();
     ServerCharacter m_LastInflicter;
     public bool CanPerformSkills => LifeState.Value == LifeStateEnum.Alive;
     #endregion
@@ -65,7 +65,7 @@ public class ServerCharacter : NetworkBehaviour
     private ServerSkillPlayer m_ServerSkillPlayer;
     public ServerSkillPlayer ServerSkillPlayer => m_ServerSkillPlayer;
 
-    private ServerAbilityHandler m_ServerAbilityHandler;    
+    private ServerAbilityHandler m_ServerAbilityHandler;
     public NetworkHealthState NetHealthState { get; private set; }
 
 
@@ -86,10 +86,10 @@ public class ServerCharacter : NetworkBehaviour
     {
         m_GamePlayBehaviour = FindObjectOfType<GamePlayBehaviour>();
         m_CharacterSpawner = FindObjectOfType<CharacterSpawner>();
-        m_ServerSkillPlayer = new ServerSkillPlayer(this,m_Movement);
-        m_ServerAbilityHandler = new ServerAbilityHandler(this,m_Movement);
+        m_ServerSkillPlayer = new ServerSkillPlayer(this, m_Movement);
+        m_ServerAbilityHandler = new ServerAbilityHandler(this, m_Movement);
         NetHealthState = GetComponent<NetworkHealthState>();
-        rb = GetComponent<Rigidbody>(); 
+        rb = GetComponent<Rigidbody>();
         sphereCollider = GetComponent<SphereCollider>();
         mask = LayerMask.GetMask("Environment");
     }
@@ -98,7 +98,7 @@ public class ServerCharacter : NetworkBehaviour
         m_ServerSkillPlayer.OnUpdate();
         m_ServerAbilityHandler.OnUpdate();
 
-        
+
     }
     private void FixedUpdate()
     {
@@ -109,11 +109,11 @@ public class ServerCharacter : NetworkBehaviour
                 ManaPoint.Value += 1;
                 startTime = Time.time;
             }
-            if(ManaPoint.Value > 100)
+            if (ManaPoint.Value > 100)
             {
                 ManaPoint.Value = 100;
             }
-            if(IsServer)
+            if (IsServer)
             {
                 sendClientInfoRpc(rb.isKinematic);
             }
@@ -174,7 +174,7 @@ public class ServerCharacter : NetworkBehaviour
         if (m_Movement.IsPerformingForcedMovement()) return;
         if (m_ServerSkillPlayer.GetActiveSkillInfo(out SkillRequestData skillRequestData))
         {
-            if(GamePlayDataSource.Instance.GetSkillPrototypeByID(skillRequestData.SkillID).Config.ActionInterruptible)
+            if (GamePlayDataSource.Instance.GetSkillPrototypeByID(skillRequestData.SkillID).Config.ActionInterruptible)
             {
                 m_ServerSkillPlayer.ClearActions(false);
             }
@@ -188,7 +188,7 @@ public class ServerCharacter : NetworkBehaviour
         if (isGameOver.Value) return;
         if (LifeState.Value != LifeStateEnum.Alive) return;
         SkillRequestData data1 = data;
-        if(!GamePlayDataSource.Instance.GetSkillPrototypeByID(data1.SkillID).Config.IsFriendly)
+        if (!GamePlayDataSource.Instance.GetSkillPrototypeByID(data1.SkillID).Config.IsFriendly)
         {
             ServerSkillPlayer.OnGameplayActivity(Skill.GameplayActivity.UsingAttackAction);
         }
@@ -199,7 +199,7 @@ public class ServerCharacter : NetworkBehaviour
         if (!GamePlayBehaviour.Instance.IsGameStart.Value) return;
         if (isGameOver.Value) return;
         if (LifeState.Value != LifeStateEnum.Alive) return;
-        
+
         m_ServerAbilityHandler.ReceiveAbilityRequest(data);
     }
     public void DequeueAbility()
@@ -219,7 +219,7 @@ public class ServerCharacter : NetworkBehaviour
 
     void OnLifeStateChanged(LifeStateEnum prevState, LifeStateEnum newState)
     {
-        if(newState != LifeStateEnum.Alive)
+        if (newState != LifeStateEnum.Alive)
         {
             m_ServerSkillPlayer.ClearActions(true);
             m_Movement.CancelMove();
@@ -248,7 +248,7 @@ public class ServerCharacter : NetworkBehaviour
     }
     public void PlaySkill(ref SkillRequestData data)
     {
-        if(data.CancelMovement)
+        if (data.CancelMovement)
         {
             m_Movement.CancelMove();
         }
@@ -264,23 +264,24 @@ public class ServerCharacter : NetworkBehaviour
     }
     void ReceiveHP(int HP, ServerCharacter inflicter = null)
     {
-        if(inflicter!=null)
+        if (inflicter != null)
         {
             m_LastInflicter = inflicter;
         }
-        if(HP > 0)
+        if (HP > 0)
         {
+
         }
         else
         {
             ServerAnimationHandler.NetworkAnimator.SetTrigger("HitReact1");
         }
         HitPoints = Mathf.Clamp(HitPoints + HP, 0, CharacterStats.BaseHP);
-        if(HitPoints <= 0)
+        if (HitPoints <= 0)
         {
             HitPoints = 0;
             LifeState.Value = LifeStateEnum.Dead;
-            if(inflicter != null)
+            if (inflicter != null)
             {
                 m_CharacterSpawner.UpdateKill(m_LastInflicter.OwnerClientId);
                 m_CharacterSpawner.SendKillNotifyRpc(m_LastInflicter.OwnerClientId, OwnerClientId);
@@ -290,7 +291,7 @@ public class ServerCharacter : NetworkBehaviour
     }
     public void ReceiveMP(int point)
     {
-        if(ManaPoint.Value < 100)
+        if (ManaPoint.Value < 100)
         {
             ManaPoint.Value += point;
         }
@@ -307,6 +308,11 @@ public class ServerCharacter : NetworkBehaviour
         yield return new WaitForSeconds(1);
         LifeState.Value = LifeStateEnum.Alive;
     }
+    public void SetupTeleport(bool canTele, Teleport gate)
+    {
+        m_Movement.TeleportInfo(canTele,gate);
+        m_ClientCharacter.OnTriggerTeleGate(canTele, gate);
+    }
     void CollisionEntered(Collision collision)
     {
         if(m_ServerSkillPlayer != null)
@@ -314,11 +320,15 @@ public class ServerCharacter : NetworkBehaviour
             m_ServerSkillPlayer.CollisionEntered(collision);
         }
     }
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    sendClientInfoRpc(true);
-    //    m_Movement.SetCollisionNormal(collision.contacts[0].normal,true);
-    //}
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(IsServer)
+        {
+            if(collision.gameObject.CompareTag("DeathZone"))
+            ReceiveHP(-9999);
+        }
+        
+    }
 
     //private void OnCollisionStay(Collision collision)
     //{
