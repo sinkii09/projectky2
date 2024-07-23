@@ -10,7 +10,7 @@ public class Dash : Ability
     private Vector3 startPos;
     private float dashTime;
     private float distance;
-    private float speed = 60;
+    private float speed = 50;
     private bool isDashing = false;
     
     Rigidbody rb;
@@ -18,6 +18,7 @@ public class Dash : Ability
     private Collider[] hitColliders = new Collider[10];
 
     ServerCharacter character;
+    List<ServerCharacter> damageCharacterList = new List<ServerCharacter>();
     public override void Activate(ServerCharacter serverCharacter, AbilityRequest data)
     {
         serverCharacter.physicsWrapper.Transform.forward = data.Direction;
@@ -43,6 +44,7 @@ public class Dash : Ability
     {
         isDashing=false;
         character.SetInvincible(false);
+        damageCharacterList.Clear();
     }
 
     void CheckCollision(ServerCharacter serverCharacter)
@@ -51,7 +53,9 @@ public class Dash : Ability
         for (int i = 0; i < hitCount; i++)
         {
             var other = hitColliders[i].GetComponent<ServerCharacter>();
-            if (other != null && other.OwnerClientId == serverCharacter.OwnerClientId) continue;
+            if(other == null) continue;
+            if (other.OwnerClientId == serverCharacter.OwnerClientId) continue;
+            if(damageCharacterList.Contains(other)) continue;
             var damageable = hitColliders[i].GetComponent<IDamageable>();
             if (damageable != null && damageable.IsDamageable())
             {
@@ -61,7 +65,7 @@ public class Dash : Ability
                 {
                     serverCharacter.ClientCharacter.ClientPlayEffectRpc(collisionPoint, serverCharacter.physicsWrapper.Transform.rotation, 1,IsSpecialAbility);
                 }
-                
+                damageCharacterList.Add(other);
             }
         }
     }

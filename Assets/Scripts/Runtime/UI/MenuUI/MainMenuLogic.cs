@@ -1,3 +1,4 @@
+using Mono.Cecil.Cil;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,6 +23,8 @@ public class MainMenuLogic : MonoBehaviour
 
     [SerializeField] GameObject MainMenu ,Loading;
 
+    [SerializeField] Transform ModelHolder;
+    [SerializeField] CharacterDatabase characterDatabase;
     List<GameObject> UIList;
 
     [SerializeField] ProfileUI profileUI;
@@ -45,6 +48,7 @@ public class MainMenuLogic : MonoBehaviour
         showProfileBtn.onClick.AddListener(ShowProfile);
         exitBtn.onClick.AddListener(ExitApplication);
         ToMainMenu();
+        SpawnRandomModel();
     }
     private void OnDestroy()
     {
@@ -164,4 +168,15 @@ public class MainMenuLogic : MonoBehaviour
         ClientSingleton.Instance.Logout();
     }
     #endregion
+
+    void SpawnRandomModel()
+    {
+        if (ModelHolder.childCount>0)
+        {
+            return;
+        }
+        var characters = characterDatabase.GetAllCharacters();
+        int idx = UnityEngine.Random.Range(0, characters.Length);
+        Instantiate(characters[idx].IntroPrefab, ModelHolder);
+    }
 }
