@@ -30,7 +30,7 @@ public class ChatUI : MonoBehaviour
     private void Start()
     {
         chatToggle.onValueChanged.AddListener((isOn) => OnToggleValueChanged(isOn));
-        sendTextBtn.onClick.AddListener(() => { SendText(); AudioManager.Instance.PlaySFXNumber(0); });
+        sendTextBtn.onClick.AddListener(() => { SendText(); AudioManager.Instance.PlaySFX("Btn_click01"); });
     }
 
     private void OnDestroy()

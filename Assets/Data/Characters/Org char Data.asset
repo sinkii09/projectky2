@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Org char Data
   m_EditorClassIdentifier: 
   id: 3
-  displayName: Char 3
+  displayName: Grunt
   icon: {fileID: 21300000, guid: 7e4eca9483468ec4788e4e019cc089e3, type: 3}
   introPrefab: {fileID: 3136906065427547983, guid: 088654b390d35d14d99ab0096c5c92e0,
     type: 3}

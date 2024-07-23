@@ -16,3 +16,5 @@ MonoBehaviour:
   visual: {fileID: 8972084874226991164, guid: 25c5bce5364be774f859e229ef1f990c, type: 3}
   amount: 10
   ability: {fileID: 11400000, guid: 3f2d7a5b39e79c44e945ca4c64be8148, type: 2}
+  weaponPrefab: {fileID: 7812302263167103686, guid: fd5197093a015354a9ddf884f4c9dd07,
+    type: 3}

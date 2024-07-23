@@ -186,7 +186,7 @@ public class CharacterSelectDisplay : NetworkBehaviour
     }
     public void LockIn()
     {
-        AudioManager.Instance.PlaySFXNumber(0);
+        AudioManager.Instance.PlaySFX("Btn_click01");
         lockInButton.interactable = false;
         LockInServerRpc();
     }

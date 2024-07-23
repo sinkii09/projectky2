@@ -100,6 +100,7 @@ public class Dash : Ability
         if (num == 0)
         {
             abilityFX.transform.SetParent(clientCharacter.transform);
+            OnPlaySFXClient(position);
         }
     }
 }

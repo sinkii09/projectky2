@@ -119,5 +119,6 @@ public class SlamDunk : Ability
             var abilityFX = ParticlePool.Singleton.GetObject(effect, position, Quaternion.identity);
             abilityFX.GetComponent<SpecialFXGraphic>().OnInitialized(effect);
         }
+        OnPlaySFXClient(position);
     }
 }

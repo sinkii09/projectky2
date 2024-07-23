@@ -32,8 +32,8 @@ public class PopupManager : MonoBehaviour
     {
         popupPanel.SetActive(false);
 
-        confirmButton.onClick.AddListener(() => { OnConfirmButtonClick(); AudioManager.Instance.PlaySFXNumber(0); });
-        cancelButton.onClick.AddListener(() => { OnCancelButtonClick(); AudioManager.Instance.PlaySFXNumber(0); });
+        confirmButton.onClick.AddListener(() => { OnConfirmButtonClick(); AudioManager.Instance.PlaySFX("Btn_click01"); });
+        cancelButton.onClick.AddListener(() => { OnCancelButtonClick(); AudioManager.Instance.PlaySFX("Btn_click01"); });
     }
     public virtual void ShowPopup(string message, UnityAction onConfirm = null, UnityAction onCancel = null)
     {

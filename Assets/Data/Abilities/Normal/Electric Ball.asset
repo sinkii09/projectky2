@@ -17,7 +17,7 @@ MonoBehaviour:
   Radius: 0
   MinRange: 1
   MaxRange: 30
-  abilityAnimationTrigger: Bomb
+  abilityAnimationTrigger: Gun
   rejectionAnimationTrigger: 
   executeTime: 0.15
   durationTime: 0
@@ -39,4 +39,5 @@ MonoBehaviour:
   IsSpecialAbility: 0
   CheckAmount: 1
   ShowIndicator: 1
+  SFX_Name: 
   maxHeight: 15

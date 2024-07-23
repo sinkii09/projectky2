@@ -101,7 +101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1584253406
+  GlobalObjectIdHash: 582647156
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -250,6 +250,7 @@ GameObject:
   - component: {fileID: 3639332045119622451}
   - component: {fileID: 8387236390001083752}
   - component: {fileID: 4518551342419109000}
+  - component: {fileID: 73356027740712102}
   m_Layer: 0
   m_Name: Client
   m_TagString: Untagged
@@ -293,6 +294,7 @@ MonoBehaviour:
     type: 2}
   m_PlayerInfoBarUI: {fileID: 2433112305272100053}
   m_Aura: {fileID: 1436499705422747565}
+  m_WeaponVisualHolder: {fileID: 73356027740712102}
   m_RevivePart: {fileID: 900189712313222277}
   m_FaintedPart: {fileID: 3125908671876608230, guid: 2e07e5ba5a6e8b74d8206f9be0e29d37,
     type: 3}
@@ -415,6 +417,20 @@ MonoBehaviour:
     TriggerNameHash: -2083125633
     TransitionIndex: 3
   m_Animator: {fileID: 3639332045119622451}
+--- !u!114 &73356027740712102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4981104397014842426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d748ae4350891164dbe111a000a0d687, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  handSlot: {fileID: 0}
+  baseWeapon: {fileID: 0}
 --- !u!1 &7199043946590893519
 GameObject:
   m_ObjectHideFlags: 0

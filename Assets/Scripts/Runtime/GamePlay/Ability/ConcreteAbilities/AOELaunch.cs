@@ -57,5 +57,6 @@ public class AOELaunch : Ability
         {
             VFX.Play();
         }
+        OnPlaySFXClient(position);
     }
 }

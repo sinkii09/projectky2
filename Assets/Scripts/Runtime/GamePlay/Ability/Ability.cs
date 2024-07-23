@@ -32,6 +32,7 @@ public abstract class Ability : ScriptableObject
     public bool IsSpecialAbility = false;
     public bool CheckAmount = true;
     public bool ShowIndicator = true;
+    public string SFX_Name;
     public float TimeStarted {  get; set; }
     public float TimeRunning { get { return (Time.time - TimeStarted); } }
     
@@ -71,6 +72,13 @@ public abstract class Ability : ScriptableObject
         
     }
     public virtual void OnPlayEffectClient(ClientCharacter clientCharacter,Vector3 position,Quaternion rotation,int num = 0) { }
+    public virtual void OnPlaySFXClient(Vector3 position)
+    {
+        if(!string.IsNullOrEmpty(SFX_Name))
+        {
+            AudioManager.Instance.PlaySFXAtPosition(SFX_Name,position);
+        }
+    }
     public virtual void OnShowIndicatorClient(Vector3 position,float radius) 
     {
         if(!indicatorFX) { return; }

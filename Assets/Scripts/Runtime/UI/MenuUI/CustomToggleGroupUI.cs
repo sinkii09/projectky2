@@ -31,7 +31,7 @@ public class CustomToggleGroupUI : MonoBehaviour
     {
         if (isOn)
         {
-            AudioManager.Instance.PlaySFXNumber(0);
+            AudioManager.Instance.PlaySFX("Btn_click01");
         }
         pair.window.Active(isOn);
     }

@@ -40,7 +40,7 @@ public class LoginAndRegisterLogic : MonoBehaviour
     }
     private void Start()
     {
-        ExitButton.onClick.AddListener(() => { ExitApplication(); AudioManager.Instance.PlaySFXNumber(0); });
+        ExitButton.onClick.AddListener(() => { ExitApplication(); AudioManager.Instance.PlaySFX("Btn_click01"); });
     }
     private void OnDestroy()
     {
@@ -130,7 +130,7 @@ public class LoginAndRegisterLogic : MonoBehaviour
 
     internal void ExitApplication()
     {
-        AudioManager.Instance.PlaySFXNumber(0);
+        AudioManager.Instance.PlaySFX("Btn_click01");
 #if UNITY_EDITOR
         EditorApplication.ExitPlaymode();
 #endif

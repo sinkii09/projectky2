@@ -20,7 +20,7 @@ public class MatchFindingUI : MonoBehaviour
     {
         
         mainMenuLogic.OnTimeLapse += UpdateTimer;
-        PlayButton.onClick.AddListener(() => { FindMatch(); AudioManager.Instance.PlaySFXNumber(0); });
+        PlayButton.onClick.AddListener(() => { FindMatch(); AudioManager.Instance.PlaySFX("Btn_click01"); });
         timer_TMP.text = "00:00";
     }
     private void OnDestroy()

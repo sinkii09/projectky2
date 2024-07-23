@@ -48,5 +48,9 @@ public class MeleeAttack : Ability
     {
         var abilityFX = ParticlePool.Singleton.GetObject(effect[num], position,rotation);
         abilityFX.GetComponent<SpecialFXGraphic>().OnInitialized(effect[num]);
+        if(num == 0)
+        {
+            OnPlaySFXClient(position);
+        }
     }
 }

@@ -408,6 +408,8 @@ MonoBehaviour:
   bgmSource: {fileID: 77127386}
   sfxSource: {fileID: 780211597}
   mixer: {fileID: 24100000, guid: 2e0c0b25430d7fc40a31233a3b8984bf, type: 2}
+  mixerGroup: {fileID: 2768896352975312625, guid: 2e0c0b25430d7fc40a31233a3b8984bf,
+    type: 2}
   bgm_Clips:
   - {fileID: 8300000, guid: 83c2debd10cd91c458fb381adb3e1dc9, type: 3}
   - {fileID: 8300000, guid: 35d4fee1a5d77ff4ba90290009ff5ab6, type: 3}
@@ -415,8 +417,16 @@ MonoBehaviour:
   - {fileID: 8300000, guid: a0828e2d98b8a5440b6b65a491a8f272, type: 3}
   - {fileID: 8300000, guid: 63d2db25f9c172b4994ada12efd05b07, type: 3}
   - {fileID: 8300000, guid: 1acdb1736bb31f14fbd7e0dcab5f7873, type: 3}
-  Btn_click01: {fileID: 8300000, guid: af123c0bdce087744b0ab0df3d179672, type: 3}
-  Action_Denied: {fileID: 8300000, guid: 182ac0f4ce4d3194ca4acfcd06e1531c, type: 3}
+  sounds:
+  - name: Btn_click01
+    clip: {fileID: 8300000, guid: af123c0bdce087744b0ab0df3d179672, type: 3}
+    loop: 0
+  - name: Action_Denied
+    clip: {fileID: 8300000, guid: 182ac0f4ce4d3194ca4acfcd06e1531c, type: 3}
+    loop: 0
+  poolSize: 10
+  audioSourcePrefab: {fileID: 6461605320103591609, guid: 9b97f7a65677d544ab9a9fd3e886d52c,
+    type: 3}
 --- !u!1 &780211595
 GameObject:
   m_ObjectHideFlags: 0

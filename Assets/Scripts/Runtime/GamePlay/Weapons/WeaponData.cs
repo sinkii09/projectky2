@@ -15,5 +15,4 @@ public class WeaponData : ScriptableObject
     public GameObject Visual { get { return visual; } }
     public int Amount { get { return amount; } }
     public Ability Ability { get {  return ability; } }
-
 }

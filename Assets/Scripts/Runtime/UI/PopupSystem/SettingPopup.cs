@@ -21,8 +21,8 @@ public class SettingPopup : MonoBehaviour
     }
     private void Start()
     {
-        showButton.onClick.AddListener(() => { ShowPopup(); AudioManager.Instance.PlaySFXNumber(0); });
-        hideButton.onClick.AddListener(() => { HidePopup(); AudioManager.Instance.PlaySFXNumber(0); });
+        showButton.onClick.AddListener(() => { ShowPopup(); AudioManager.Instance.PlaySFX("Btn_click01"); });
+        hideButton.onClick.AddListener(() => { HidePopup(); AudioManager.Instance.PlaySFX("Btn_click01"); });
 
         bgmSlider.onValueChanged.AddListener(OnBGMValueChanged);
         sfxSlider.onValueChanged.AddListener(OnSFXValueChanged);

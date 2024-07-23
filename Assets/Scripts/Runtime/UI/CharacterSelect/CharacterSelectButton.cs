@@ -25,7 +25,7 @@ public class CharacterSelectButton : MonoBehaviour
     public void SelectCharacter()
     {
         characterSelect.Select(Character);
-        AudioManager.Instance.PlaySFXNumber(0);
+        AudioManager.Instance.PlaySFX("Btn_click01");
     }
 
     public void SetDisabled()

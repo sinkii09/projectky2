@@ -47,5 +47,6 @@ public class ArrowShot : Ability
         {
             VFX.Play();
         }
+        OnPlaySFXClient(position);
     }
 }

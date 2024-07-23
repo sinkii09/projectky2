@@ -20,12 +20,12 @@ public class LoginUI : MonoBehaviour
         loginButton.GetComponent<Button>().onClick.AddListener(() =>
         {
             Login();
-            AudioManager.Instance.PlaySFXNumber(0);
+            AudioManager.Instance.PlaySFX("Btn_click01");
         });
         registerButton.GetComponent<Button>().onClick.AddListener(() =>
         {
             Register();
-            AudioManager.Instance.PlaySFXNumber(0);
+            AudioManager.Instance.PlaySFX("Btn_click01");
         });   
     }
     private void Update()
@@ -41,7 +41,7 @@ public class LoginUI : MonoBehaviour
         {
             loginLogic.Login(userNameInputField.text, passwordInputField.text);
         }
-        AudioManager.Instance.PlaySFXNumber(0);
+        AudioManager.Instance.PlaySFX("Btn_click01");
     }
     public void Register()
     {

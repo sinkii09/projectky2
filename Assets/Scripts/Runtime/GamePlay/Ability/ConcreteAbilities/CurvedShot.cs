@@ -55,5 +55,6 @@ public class CurvedShot : Ability
         {
             VFX.Play();
         }
+        OnPlaySFXClient(position);
     }
 }

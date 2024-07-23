@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a12518207bec2594cb870e3508ce2332, type: 3}
   m_Name: FireBallWeapon
   m_EditorClassIdentifier: 
-  weaponName: Spell Book
+  weaponName: Blaster
   visual: {fileID: 5869083548712434043, guid: c76537f7aff3f3042984764af3a48da5, type: 3}
   amount: 10
   ability: {fileID: 11400000, guid: 480822756b5653248b354505a0092414, type: 2}
+  weaponPrefab: {fileID: 8686214549007836131, guid: 35988cc47342be64b9d39d27e73f53b8,
+    type: 3}

@@ -20,16 +20,16 @@ public class LobbyUI : MonoBehaviour
     private void Start()
     {
         ToggleMatchMake(false);
-        PlayButton.onClick.AddListener(() => { FindMatch(); AudioManager.Instance.PlaySFXNumber(0); });
+        PlayButton.onClick.AddListener(() => { FindMatch(); AudioManager.Instance.PlaySFX("Btn_click01"); });
         BackButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFXNumber(0);
+            AudioManager.Instance.PlaySFX("Btn_click01");
             ExitRoom();
         });
         CancelButton.onClick.AddListener(() =>
         {
 
-            AudioManager.Instance.PlaySFXNumber(0);
+            AudioManager.Instance.PlaySFX("Btn_click01");
             CancelFindMatch();
         });
     }

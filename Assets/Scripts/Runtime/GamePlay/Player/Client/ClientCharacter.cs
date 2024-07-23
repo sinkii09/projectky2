@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections.LowLevel.Unsafe;
 using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
@@ -33,6 +34,9 @@ public class ClientCharacter : NetworkBehaviour
     GameObject m_Aura;    
     ServerCharacter m_ServerCharacter;
     public ServerCharacter serverCharacter => m_ServerCharacter;
+
+    [SerializeField]
+    WeaponVisualHolder m_WeaponVisualHolder;
 
     ClientSkillPlayer m_ClientActionPlayer;
 
@@ -115,7 +119,7 @@ public class ClientCharacter : NetworkBehaviour
         m_ServerCharacter.ManaPoint.OnValueChanged += OnManaPointChanged;
         m_ServerCharacter.IsInvincilbe.OnValueChanged += OnInvincibleChanged;
         OnMovementStatusChanged(MovementStatus.Normal, m_ServerCharacter.MovementStatus.Value);
-
+        m_WeaponVisualHolder.UpdateWeaponVisual(serverCharacter.CurrentWeaponId.Value);
         transform.SetPositionAndRotation(serverCharacter.physicsWrapper.Transform.position, serverCharacter.physicsWrapper.Transform.rotation);
         m_LerpedPosition = transform.position;
         m_LerpedRotation = transform.rotation;
@@ -162,6 +166,7 @@ public class ClientCharacter : NetworkBehaviour
     {
         if(newValue == serverCharacter.CharacterStats.WeaponData.Id)
         {
+
             foreach (var part in m_BaseWeaponPart)
             {
                 var fx = ParticlePool.Singleton.GetObject(part, m_ServerCharacter.physicsWrapper.transform.position, Quaternion.identity);
@@ -178,6 +183,7 @@ public class ClientCharacter : NetworkBehaviour
                 fx.GetComponent<SpecialFXGraphic>().OnInitialized(part);
             }
         }
+        m_WeaponVisualHolder.UpdateWeaponVisual(newValue);
     }
 
     private void OnLifeStateChanged(LifeStateEnum previousValue, LifeStateEnum newValue)
@@ -334,7 +340,7 @@ public class ClientCharacter : NetworkBehaviour
     [Rpc(SendTo.ClientsAndHost)]
     internal void DeniedActionRpc()
     {
-        AudioManager.Instance.PlaySFXNumber(1);
+        AudioManager.Instance.PlaySFX("Action_Denied");
     }
 
     internal void OnTriggerTeleGate(bool canTele, Teleport gate)

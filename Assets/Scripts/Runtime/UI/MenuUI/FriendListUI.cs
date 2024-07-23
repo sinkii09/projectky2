@@ -42,14 +42,14 @@ public class FriendListUI : ToggleWindow
         friendListToggle.onValueChanged.AddListener((isOn) => {
             {
                 SwitchUIState(friendUIState.friendList);
-                AudioManager.Instance.PlaySFXNumber(0);
+                AudioManager.Instance.PlaySFX("Btn_click01");   
             }
         });
         friendRequestToggle.onValueChanged.AddListener((isOn) => {
             if (isOn)
             {
                 SwitchUIState(friendUIState.friendRequest);
-                AudioManager.Instance.PlaySFXNumber(0);
+                AudioManager.Instance.PlaySFX("Btn_click01");
             }
         });
 
@@ -57,10 +57,10 @@ public class FriendListUI : ToggleWindow
             if (isOn)
             {
                 SwitchUIState(friendUIState.findUser);
-                AudioManager.Instance.PlaySFXNumber(0);
+                AudioManager.Instance.PlaySFX("Btn_click01");
             }
         });
-        browserButton.onClick.AddListener(() => { Browser(); AudioManager.Instance.PlaySFXNumber(0); });
+        browserButton.onClick.AddListener(() => { Browser(); AudioManager.Instance.PlaySFX("Btn_click01"); });
 
     }
     private void OnDestroy()
@@ -70,14 +70,14 @@ public class FriendListUI : ToggleWindow
             if (isOn)
             {
                 SwitchUIState(friendUIState.friendList);
-                AudioManager.Instance.PlaySFXNumber(0);
+                AudioManager.Instance.PlaySFX("Btn_click01");
             }
         });
         friendRequestToggle.onValueChanged.RemoveListener((isOn) => {
             if (isOn)
             {
                 SwitchUIState(friendUIState.friendRequest);
-                AudioManager.Instance.PlaySFXNumber(0);
+                AudioManager.Instance.PlaySFX("Btn_click01");
             }
         });
 
@@ -85,7 +85,7 @@ public class FriendListUI : ToggleWindow
             if (isOn) 
             { 
                 SwitchUIState(friendUIState.findUser);
-                AudioManager.Instance.PlaySFXNumber(0);
+                AudioManager.Instance.PlaySFX("Btn_click01");
             }
         });
         browserButton.onClick.RemoveListener(Browser);

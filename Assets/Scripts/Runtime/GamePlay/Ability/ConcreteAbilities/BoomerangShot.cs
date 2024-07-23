@@ -49,5 +49,6 @@ public class BoomerangShot : Ability
         {
             VFX.Play();
         }
+        OnPlaySFXClient(position);
     }
 }

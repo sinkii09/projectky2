@@ -4890,6 +4890,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a5534fd0873cac4d97f2ba0dd1ba39d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &1566191092 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7543082521808408289, guid: c69486dcd30f89b409d5e9b7fe73ab97,
+    type: 3}
+  m_PrefabInstance: {fileID: 2063305947}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1566191093 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 129477570999224561, guid: c69486dcd30f89b409d5e9b7fe73ab97,
+    type: 3}
+  m_PrefabInstance: {fileID: 2063305947}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1566191094 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 264543417945440511, guid: c69486dcd30f89b409d5e9b7fe73ab97,
+    type: 3}
+  m_PrefabInstance: {fileID: 2063305947}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1566191095 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6478251898288487570, guid: c69486dcd30f89b409d5e9b7fe73ab97,
+    type: 3}
+  m_PrefabInstance: {fileID: 2063305947}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1566191096 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6159388071313080164, guid: c69486dcd30f89b409d5e9b7fe73ab97,
+    type: 3}
+  m_PrefabInstance: {fileID: 2063305947}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1566191097 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5938047871301676044, guid: c69486dcd30f89b409d5e9b7fe73ab97,
+    type: 3}
+  m_PrefabInstance: {fileID: 2063305947}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1571901900
 GameObject:
   m_ObjectHideFlags: 0
@@ -5483,12 +5519,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterDatabase: {fileID: 11400000, guid: 50cfac01ed30a604c9bdd9991115b63f, type: 2}
   m_PlayerSpawnPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1566191097}
+  - {fileID: 1566191096}
+  - {fileID: 1566191095}
+  - {fileID: 1566191094}
+  - {fileID: 1566191093}
+  - {fileID: 1566191092}
   m_ReviveDuration: 5
 --- !u!1001 &1799427523
 PrefabInstance:

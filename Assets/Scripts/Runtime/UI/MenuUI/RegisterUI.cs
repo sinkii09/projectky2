@@ -66,7 +66,7 @@ public class RegisterUI : MonoBehaviour
     void BackToLogin()
     {
         loginLogic.ToLogin();
-        AudioManager.Instance.PlaySFXNumber(0);
+        AudioManager.Instance.PlaySFX("Btn_click01");
     }
     void SignIn()
     {
@@ -90,7 +90,7 @@ public class RegisterUI : MonoBehaviour
         createUserDto.name = nicknameInputField.text;
 
         loginLogic.Register(createUserDto);
-        AudioManager.Instance.PlaySFXNumber(0);
+        AudioManager.Instance.PlaySFX("Btn_click01");
     }
 
     private void OnSwitchInputField()
