@@ -17,7 +17,7 @@ MonoBehaviour:
   Radius: 1
   MinRange: 40
   MaxRange: 40
-  abilityAnimationTrigger: Bomb
+  abilityAnimationTrigger: Special
   rejectionAnimationTrigger: 
   executeTime: 0.5
   durationTime: 0
@@ -40,3 +40,4 @@ MonoBehaviour:
   IsSpecialAbility: 1
   CheckAmount: 0
   ShowIndicator: 1
+  SFX_Name: 

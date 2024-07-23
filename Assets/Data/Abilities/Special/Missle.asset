@@ -17,7 +17,7 @@ MonoBehaviour:
   Radius: 1
   MinRange: 100
   MaxRange: 100
-  abilityAnimationTrigger: CrossBow
+  abilityAnimationTrigger: Special
   rejectionAnimationTrigger: 
   executeTime: 1
   durationTime: 0
@@ -39,3 +39,4 @@ MonoBehaviour:
   IsSpecialAbility: 1
   CheckAmount: 0
   ShowIndicator: 1
+  SFX_Name: 

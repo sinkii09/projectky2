@@ -43,7 +43,7 @@ public abstract class Ability : ScriptableObject
         {
             if(serverCharacter.ManaPoint.Value >= Cost)
             {
-                serverCharacter.ManaPoint.Value -= Cost;
+                serverCharacter.ReceiveMP(-Cost);
                 return true;
             }
             else

@@ -113,14 +113,6 @@ public class ServerCharacter : NetworkBehaviour
             {
                 ManaPoint.Value = 100;
             }
-            if (IsServer)
-            {
-                sendClientInfoRpc(rb.isKinematic);
-            }
-            else
-            {
-                Debug.Log("isClient");
-            }
         }
     }
     #endregion
@@ -293,7 +285,7 @@ public class ServerCharacter : NetworkBehaviour
     {
         if (ManaPoint.Value < 100)
         {
-            ManaPoint.Value += point;
+            ManaPoint.Value = Mathf.Clamp(ManaPoint.Value + point, 0, 100);
         }
     }
     public void Revive(Vector3 position)

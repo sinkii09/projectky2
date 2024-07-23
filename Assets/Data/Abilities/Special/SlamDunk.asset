@@ -17,7 +17,7 @@ MonoBehaviour:
   Radius: 5
   MinRange: 1
   MaxRange: 35
-  abilityAnimationTrigger: StandUp
+  abilityAnimationTrigger: Special
   rejectionAnimationTrigger: 
   executeTime: 0
   durationTime: 0
@@ -36,6 +36,4 @@ MonoBehaviour:
   IsSpecialAbility: 1
   CheckAmount: 0
   ShowIndicator: 1
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 64
+  SFX_Name: 

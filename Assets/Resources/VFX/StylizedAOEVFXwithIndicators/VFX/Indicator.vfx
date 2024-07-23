@@ -38387,7 +38387,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"347bc3122b51a364983aa4dd1d9c18ae","type":3}}'
+      m_SerializableObject: 
     m_Space: 2147483647
   m_Property:
     name: o
