@@ -39,7 +39,7 @@ public class HatSlot : MonoBehaviour
         }
         else
         {
-            var item = InventoryManager.Instance.GetClientItem(owner);
+            var item = InventoryManager.Instance.GetClientItem(owner,"hat");
             if(item != null)
             {
                 ShowHat(item.name);

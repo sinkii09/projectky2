@@ -516,9 +516,13 @@ public class UserManager : MonoBehaviour
     IEnumerator GetPlayersEquippedItemsRequest(string[] userIds, Action<UserEquippedItemsList> success, Action<string> failed)
     {
         string url = $"{domain}/users/get-allplayers-equipped";
+        UserIdsRequest requestBody = new UserIdsRequest
+        {
+            userIds = userIds
+        };
         using (UnityWebRequest request = new UnityWebRequest(url, "GET"))
         {
-            var jsonBody = JsonUtility.ToJson(new { userIds });
+            var jsonBody = JsonUtility.ToJson(requestBody);
             byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonBody);
             request.uploadHandler = new UploadHandlerRaw(bodyRaw);
             request.downloadHandler = new DownloadHandlerBuffer();
@@ -528,7 +532,7 @@ public class UserManager : MonoBehaviour
             if (request.result == UnityWebRequest.Result.Success)
             {
                 string response = request.downloadHandler.text;
-                UserEquippedItemsList data = JsonUtility.FromJson<UserEquippedItemsList>(response);
+                UserEquippedItemsList data = JsonUtility.FromJson<UserEquippedItemsList>("{\"users\":" + response + "}");
                 success?.Invoke(data);
             }
             else
@@ -537,6 +541,11 @@ public class UserManager : MonoBehaviour
             }
         }
     }
+}
+[System.Serializable]
+public class UserIdsRequest
+{
+    public string[] userIds;
 }
 [Serializable]
 public class InventoryResponse

@@ -59,6 +59,7 @@ public class ClientSingleton : MonoBehaviour
     public void Logout()
     {
         Manager?.Dispose();
+        InventoryManager.Instance.Dispose();
         ToLoginScene();
     }
     void OnDestroy()

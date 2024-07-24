@@ -70,6 +70,12 @@ public class InventoryManager : MonoBehaviour
             return;
         }
     }
+    public void Dispose()
+    {
+        localInventory.Clear();
+        matchplayClient.Clear();
+        clientEquipment.Clear();
+    }
     #region Fetch Inventory
     public void FetchInventory()
     {
@@ -88,6 +94,7 @@ public class InventoryManager : MonoBehaviour
     #endregion
     public void AddAllPlayer()
     {
+        Debug.Log("start fetch client inventory");
         List<string> userIdsList = new List<string>();
         var networkPlayers = FindObjectsOfType<NetworkPlayer>();
         if(networkPlayers != null)
@@ -126,7 +133,7 @@ public class InventoryManager : MonoBehaviour
         {
             return clientEquipment[clientId].Where(item => item.category == category).First();
         }
-        Debug.Log($"can find any item with {category}");
+        Debug.Log($"can't find any item with {category}");
         return null;
     }
     public void EquipItem(InventoryItem item)

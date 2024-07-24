@@ -204,6 +204,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5383696880596356263, guid: 373a1ec08978e47468756f8df154afd3,
+        type: 3}
+      propertyPath: hatSlot
+      value: 
+      objectReference: {fileID: 6669441760291142165}
     - target: {fileID: 5433231105627611525, guid: 373a1ec08978e47468756f8df154afd3,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -378,6 +383,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 682943969478084029}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6669441760291142165 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -3029567838647763032, guid: da619d5a036f4a74cb6e6c9d52f99d69,
+    type: 3}
+  m_PrefabInstance: {fileID: 682943969478084029}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a2553bccb4c43749afef52cc899a822, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4607042193259657625
 PrefabInstance:
   m_ObjectHideFlags: 0
