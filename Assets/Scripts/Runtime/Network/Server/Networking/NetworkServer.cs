@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Unity.Collections;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -29,8 +30,9 @@ public class NetworkServer : IDisposable
 
     public Dictionary<string, UserData> m_ClientData = new Dictionary<string, UserData>();
     public Dictionary<ulong, string> m_NetworkIdToAuth = new Dictionary<ulong, string>();
-    
+    public Dictionary<ulong, string> clientUserIdData = new Dictionary<ulong, string>();
     public List<UserData> UserDataList = new List<UserData>();
+    
     public NetworkServer(NetworkManager manager)
     {
         m_NetworkManager = manager;
@@ -96,6 +98,11 @@ public class NetworkServer : IDisposable
             playerIdList.Add(user.userId);
         }
         ServerSingleton.Instance.ServerToBackend.CreateGameSession(m_SynchedServerData.gameMode.Value, playerIdList);
+    }
+    private void SendPlayerDataToClients()
+    {
+
+
     }
     public void SetCharacter(ulong clientId, int characterId)
     {
@@ -184,6 +191,7 @@ public class NetworkServer : IDisposable
         m_NetworkIdToAuth[request.ClientNetworkId] = userData.userAuthId;
         m_ClientData[userData.userAuthId] = userData;
         UserDataList.Add(userData);
+        clientUserIdData[request.ClientNetworkId] = userData.userId;
         OnPlayerJoined?.Invoke(userData);
 
         //Set response data
@@ -197,7 +205,7 @@ public class NetworkServer : IDisposable
         //Run an async 'fire and forget' task to setup the player network object data when it is intiialized, uses main thread context.
         var scheduler = TaskScheduler.FromCurrentSynchronizationContext();
         Task.Factory.StartNew(
-            async () => await SetupPlayerPrefab(request.ClientNetworkId, userData.userName),
+            async () => await SetupPlayerPrefab(request.ClientNetworkId, userData.userName, userData.userId),
             System.Threading.CancellationToken.None,
             TaskCreationOptions.None, scheduler
         );
@@ -224,7 +232,7 @@ public class NetworkServer : IDisposable
         //OnServerPlayerDespawned?.Invoke(matchPlayerInstance);
     }
 
-    async Task SetupPlayerPrefab(ulong networkId, string playerName)
+    async Task SetupPlayerPrefab(ulong networkId, string playerName, string userId)
     {
         NetworkObject playerNetworkObject;
 
@@ -239,7 +247,7 @@ public class NetworkServer : IDisposable
         // get this client's player NetworkObject
         var networkedPlayer = GetNetworkedPlayer(networkId);
         networkedPlayer.PlayerName.Value = playerName;
-
+        networkedPlayer.UserId.Value = userId;
         OnServerPlayerSpawned?.Invoke(networkedPlayer);
     }
 

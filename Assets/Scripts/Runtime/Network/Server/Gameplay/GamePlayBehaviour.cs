@@ -130,6 +130,7 @@ public class GamePlayBehaviour : NetworkBehaviour
         {
             case GamePlayState.SelectCharacter:
                 AudioManager.Instance.PlayBGMNumber(2);
+                InventoryManager.Instance.AddAllPlayer();
                 break;
             case GamePlayState.PlayGame:
                 Camera.main.orthographic = false;

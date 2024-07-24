@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 public class HatSlot : MonoBehaviour
@@ -12,11 +13,53 @@ public class HatSlot : MonoBehaviour
     [SerializeField] GameObject hat_Viking_Visual;
     [SerializeField] GameObject hat_Wizard_Visual;
 
+    public ulong owner { get; set; }
+
     private void Awake()
     {
         foreach (Transform child in holder)
         {
             child.gameObject.SetActive(false);
+        }
+    }
+    private void Start()
+    {
+        InventoryManager.OnEquipItemSuccess += InventoryManager_OnEquipItemSuccess;
+    }
+    private void OnDestroy()
+    {
+        InventoryManager.OnEquipItemSuccess -= InventoryManager_OnEquipItemSuccess;
+    }
+    public void Initialize(ulong clientId = 0)
+    {
+        owner = clientId;
+        if(owner == 0)
+        {
+            FindEquippedHatItem();
+        }
+        else
+        {
+            var item = InventoryManager.Instance.GetClientItem(owner);
+            if(item != null)
+            {
+                ShowHat(item.name);
+            }
+        }
+    }
+    private void InventoryManager_OnEquipItemSuccess(InventoryItem item)
+    {
+        Debug.Log($"show hat: {item.itemDetails.name}");
+        ShowHat(item.itemDetails.name);
+    }
+    void FindEquippedHatItem()
+    {
+        var hatList = InventoryManager.Instance.GetItemsByCategory("hat");
+        foreach (InventoryItem item in hatList)
+        {
+            if(item.equipped)
+            {
+                ShowHat(item.itemDetails.name);
+            }
         }
     }
     public void ShowHat(string hatName)
@@ -28,7 +71,7 @@ public class HatSlot : MonoBehaviour
         }
         switch (hatName)
         {
-            case "Crow Hat":
+            case "Crown Hat":
                 hat_Crow_Visual.SetActive(true);
                 break;
             case "Gentleman Hat":
@@ -43,7 +86,9 @@ public class HatSlot : MonoBehaviour
             case "Wizard Hat":
                 hat_Wizard_Visual.SetActive(true);
                 break;
-            default: break;
+            default:
+                Debug.Log($"Unavailable Hat name: {hatName}");
+                break;
         }
     }
 }

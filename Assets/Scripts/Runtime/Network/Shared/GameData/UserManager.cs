@@ -18,7 +18,7 @@ public class UserManager : MonoBehaviour
     private string loginUrl = "https://projectky2-bdb1fda54766.herokuapp.com/auth/login";
     private string registerUrl = "https://projectky2-bdb1fda54766.herokuapp.com/auth/register";
     private string authentiCatewithCustomIdUrl = "https://projectky2-bdb1fda54766.herokuapp.com/auth/authenticate-custom-id";
-    
+
 
     string accessToken;
     public string AccessToken
@@ -30,7 +30,7 @@ public class UserManager : MonoBehaviour
     {
         if (Instance != null && Instance != this)
         {
-            
+
             Destroy(gameObject);
         }
         else
@@ -65,13 +65,13 @@ public class UserManager : MonoBehaviour
     }
     public void Login(string username, string password, Action<LoginResponse> loginSuccesCallBack, Action finishLogin)
     {
-        StartCoroutine( LoginRequest(username, password,loginSuccesCallBack,finishLogin));
+        StartCoroutine(LoginRequest(username, password, loginSuccesCallBack, finishLogin));
     }
     public void Register(CreateUserDto userDto, Action<LoginResponse> successRegister, Action<string> failedRegister)
     {
         StartCoroutine(RegisterRequest(userDto, successRegister, failedRegister));
     }
-    private IEnumerator RegisterRequest(CreateUserDto userDto,Action<LoginResponse> successRegister, Action<string> failedRegister )
+    private IEnumerator RegisterRequest(CreateUserDto userDto, Action<LoginResponse> successRegister, Action<string> failedRegister)
     {
         string json = JsonUtility.ToJson(userDto);
         byte[] bodyRaw = new System.Text.UTF8Encoding().GetBytes(json);
@@ -114,7 +114,7 @@ public class UserManager : MonoBehaviour
             string responseJson = request.downloadHandler.text;
             Debug.Log(responseJson);
             AuthenticateResponse response = JsonUtility.FromJson<AuthenticateResponse>(responseJson);
-            
+
             return response;
         }
         else
@@ -141,7 +141,7 @@ public class UserManager : MonoBehaviour
         }
     }
 
-    
+
     public void ServerUpdateData(UserData userData)
     {
         UpdateUserPartialDto dto = ConvertDataToDto(userData);
@@ -155,7 +155,7 @@ public class UserManager : MonoBehaviour
         dto.rankPoints = userData.RankPoints;
         return dto;
     }
-    public void ServerGetUserData(string id, Action<UpdateUserPartialDto,bool> callback )
+    public void ServerGetUserData(string id, Action<UpdateUserPartialDto, bool> callback)
     {
         StartCoroutine(ServerGetUserDataRequest(id, callback));
     }
@@ -178,11 +178,11 @@ public class UserManager : MonoBehaviour
             }
         }
     }
-    public void ClientUpdateUser(Action<string,bool> result,string name = "",string oldpassword = "", string newpassword = "")
+    public void ClientUpdateUser(Action<string, bool> result, string name = "", string oldpassword = "", string newpassword = "")
     {
-        StartCoroutine(UpdateNameOrPasswordRequest(name,oldpassword, newpassword, result));      
+        StartCoroutine(UpdateNameOrPasswordRequest(name, oldpassword, newpassword, result));
     }
-    private IEnumerator UpdateNameOrPasswordRequest(string name,string oldPassword, string newPassword,Action<string,bool> result)
+    private IEnumerator UpdateNameOrPasswordRequest(string name, string oldPassword, string newPassword, Action<string, bool> result)
     {
         string jsonRequestBody = $"{{\"name\":\"{name}\",\"oldpassword\":\"{oldPassword}\", \"newpassword\":\"{newPassword}\"}}";
         byte[] requestBodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonRequestBody);
@@ -195,11 +195,11 @@ public class UserManager : MonoBehaviour
             yield return request.SendWebRequest();
             if (request.result == UnityWebRequest.Result.Success)
             {
-                result?.Invoke("Update Success",true);
+                result?.Invoke("Update Success", true);
             }
             else
             {
-                result?.Invoke($"Update Failed \n {request.downloadHandler.text}",false);
+                result?.Invoke($"Update Failed \n {request.downloadHandler.text}", false);
             }
         }
     }
@@ -207,7 +207,7 @@ public class UserManager : MonoBehaviour
     {
         StartCoroutine(FindUserRequest(input, successGetUser, failedGetUser));
     }
-    private IEnumerator FindUserRequest(string userInput,Action<GetPlayerResponse> successGetUser,Action<string> failedGetUser)
+    private IEnumerator FindUserRequest(string userInput, Action<GetPlayerResponse> successGetUser, Action<string> failedGetUser)
     {
         string findPlayerUrl = $"{domain}/users/{userInput}";
         UnityWebRequest request = UnityWebRequest.Get(findPlayerUrl);
@@ -224,7 +224,7 @@ public class UserManager : MonoBehaviour
         else
         {
             failedGetUser?.Invoke(request.downloadHandler.text);
-        }  
+        }
     }
     public void FetchUserRank(Action<UserRank> success, Action failed)
     {
@@ -301,7 +301,7 @@ public class UserManager : MonoBehaviour
     {
         StartCoroutine(FetchRequestList(success, failed));
     }
-    IEnumerator FetchRequestList(Action<List<FriendData>> success,Action<string> failed)
+    IEnumerator FetchRequestList(Action<List<FriendData>> success, Action<string> failed)
     {
         string url = $"{domain}/friends/requests";
         UnityWebRequest request = UnityWebRequest.Get(url);
@@ -319,13 +319,13 @@ public class UserManager : MonoBehaviour
         }
     }
 
-    internal void AcceptFriendRequest(string text, Action<string,bool> result)
+    internal void AcceptFriendRequest(string text, Action<string, bool> result)
     {
         FriendAcceptDto dto = new FriendAcceptDto();
         dto.friendId = text;
         StartCoroutine(SendAcceptFriendRequest(dto, result));
     }
-    IEnumerator SendAcceptFriendRequest(FriendAcceptDto dto, Action<string,bool> result)
+    IEnumerator SendAcceptFriendRequest(FriendAcceptDto dto, Action<string, bool> result)
     {
         string url = $"{domain}/friends/accept";
         string json = JsonUtility.ToJson(dto);
@@ -347,13 +347,13 @@ public class UserManager : MonoBehaviour
             }
         }
     }
-    internal void DeniedFriendRequest(string text, Action<string,bool> result)
+    internal void DeniedFriendRequest(string text, Action<string, bool> result)
     {
         FriendAcceptDto dto = new FriendAcceptDto();
         dto.friendId = text;
         StartCoroutine(SendDeniedFriendRequest(dto, result));
     }
-    IEnumerator SendDeniedFriendRequest(FriendAcceptDto dto, Action<string,bool> result)
+    IEnumerator SendDeniedFriendRequest(FriendAcceptDto dto, Action<string, bool> result)
     {
         string url = $"{domain}/friends/denied";
         string json = JsonUtility.ToJson(dto);
@@ -367,11 +367,11 @@ public class UserManager : MonoBehaviour
             yield return request.SendWebRequest();
             if (request.result == UnityWebRequest.Result.Success)
             {
-                result?.Invoke("denied request Success",true);
+                result?.Invoke("denied request Success", true);
             }
             else
             {
-                result?.Invoke("denied request Failed",false);
+                result?.Invoke("denied request Failed", false);
             }
         }
     }
@@ -382,7 +382,7 @@ public class UserManager : MonoBehaviour
         dto.friendId = text;
         StartCoroutine(SendDeleteFriendRequest(dto, result));
     }
-    IEnumerator SendDeleteFriendRequest(FriendAcceptDto dto, Action<string,bool> result)
+    IEnumerator SendDeleteFriendRequest(FriendAcceptDto dto, Action<string, bool> result)
     {
         string url = $"{domain}/friends/delete";
         string json = JsonUtility.ToJson(dto);
@@ -396,11 +396,11 @@ public class UserManager : MonoBehaviour
             yield return request.SendWebRequest();
             if (request.result == UnityWebRequest.Result.Success)
             {
-                result?.Invoke("delete friend Success",true);
+                result?.Invoke("delete friend Success", true);
             }
             else
             {
-                result?.Invoke("delete friend Failed",false);
+                result?.Invoke("delete friend Failed", false);
             }
         }
     }
@@ -434,11 +434,11 @@ public class UserManager : MonoBehaviour
         }
     }
 
-    internal void ClientFetchGameResult(string id, Action<GameSessionResult,List<PlayerResult>> result, Action failed)
+    internal void ClientFetchGameResult(string id, Action<GameSessionResult, List<PlayerResult>> result, Action failed)
     {
         StartCoroutine(FetchResultRequest(id, result, failed));
     }
-    IEnumerator FetchResultRequest(string id,Action<GameSessionResult,List<PlayerResult>> result, Action failed)
+    IEnumerator FetchResultRequest(string id, Action<GameSessionResult, List<PlayerResult>> result, Action failed)
     {
         string url = $"{domain}/game-sessions/last-session/{id}";
         using (UnityWebRequest request = new UnityWebRequest(url, "GET"))
@@ -451,7 +451,7 @@ public class UserManager : MonoBehaviour
                 string response = request.downloadHandler.text;
                 GameSessionResult reponseSession = JsonUtility.FromJson<GameSessionResult>(response);
                 var responseList = reponseSession.gameResult;
-                result?.Invoke(reponseSession,responseList);
+                result?.Invoke(reponseSession, responseList);
             }
             else
             {
@@ -459,9 +459,9 @@ public class UserManager : MonoBehaviour
             }
         }
     }
-    public void FetchUserInventory(Action<List<InventoryItem>> success,Action<string> failed)
+    public void FetchUserInventory(Action<List<InventoryItem>> success, Action<string> failed)
     {
-        StartCoroutine(GetUserInventory(success,failed));
+        StartCoroutine(GetUserInventory(success, failed));
     }
     IEnumerator GetUserInventory(Action<List<InventoryItem>> success, Action<string> failed)
     {
@@ -476,6 +476,60 @@ public class UserManager : MonoBehaviour
                 string response = request.downloadHandler.text;
                 InventoryResponse inventoryResponse = JsonUtility.FromJson<InventoryResponse>(response);
                 success?.Invoke(inventoryResponse.inventory);
+            }
+            else
+            {
+                failed?.Invoke(request.error);
+            }
+        }
+    }
+
+    internal void EquipItemRequest(string itemId, Action<InventoryItem> fetchInventorySuccess, Action<string> fetchInventoryFailed)
+    {
+        StartCoroutine(SendEquipItemRequest(itemId, fetchInventorySuccess, fetchInventoryFailed));
+    }
+    IEnumerator SendEquipItemRequest(string itemId, Action<InventoryItem> success, Action<string> failed)
+    {
+        string url = $"{domain}/users/{itemId}/equip-item";
+        using (UnityWebRequest request = new UnityWebRequest(url, "PATCH"))
+        {
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Authorization", "Bearer " + accessToken);
+            yield return request.SendWebRequest();
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                string response = request.downloadHandler.text;
+                InventoryItem item = JsonUtility.FromJson<InventoryItem>(response);
+                success?.Invoke(item);
+            }
+            else
+            {
+                failed?.Invoke(request.error);
+            }
+        }
+    }
+
+    public void GetPlayersEquippedItems(string[] userIds,Action<UserEquippedItemsList> success, Action<string> failed)
+    {
+        StartCoroutine(GetPlayersEquippedItemsRequest(userIds,success,failed));
+    }
+    IEnumerator GetPlayersEquippedItemsRequest(string[] userIds, Action<UserEquippedItemsList> success, Action<string> failed)
+    {
+        string url = $"{domain}/users/get-allplayers-equipped";
+        using (UnityWebRequest request = new UnityWebRequest(url, "GET"))
+        {
+            var jsonBody = JsonUtility.ToJson(new { userIds });
+            byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonBody);
+            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+            request.SetRequestHeader("Authorization", "Bearer " + accessToken);
+            yield return request.SendWebRequest();
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                string response = request.downloadHandler.text;
+                UserEquippedItemsList data = JsonUtility.FromJson<UserEquippedItemsList>(response);
+                success?.Invoke(data);
             }
             else
             {

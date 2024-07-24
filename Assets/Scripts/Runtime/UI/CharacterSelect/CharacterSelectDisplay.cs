@@ -335,6 +335,7 @@ public class CharacterSelectDisplay : NetworkBehaviour
         var character = characterDatabase.GetCharacterById(player.CharacterId);
         var screenRect = introPointDictionary[player];
         var instance = Instantiate(character.IntroPrefab,screenRect);
+        instance.GetComponent<HatSlot>().Initialize(player.ClientId);
         introInstanceDictionary.Add(player.ClientId, instance);
         if(player.IsLockedIn)
         {

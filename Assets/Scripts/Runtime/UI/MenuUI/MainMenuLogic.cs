@@ -67,6 +67,7 @@ public class MainMenuLogic : MonoBehaviour
 
     private void InventoryManager_OnFetchInventorySuccess()
     {
+        Debug.Log("on fetch success");
         SpawnRandomModel();
     }
 
@@ -194,15 +195,6 @@ public class MainMenuLogic : MonoBehaviour
         var characters = characterDatabase.GetAllCharacters();
         int idx = UnityEngine.Random.Range(0, characters.Length);
         model = Instantiate(characters[idx].IntroPrefab, ModelHolder);
-        var hatslot = model.GetComponent<HatSlot>();
-        var hatlist = InventoryManager.Instance.GetItemsByCategory("Hat");
-        if(hatlist != null && hatlist.Count > 0)
-        {
-            string hatname = hatlist[0].itemDetails.name;
-            if (hatslot)
-            {
-                hatslot.ShowHat(hatname);
-            }
-        }
+        model.GetComponent<HatSlot>().Initialize();
     }
 }

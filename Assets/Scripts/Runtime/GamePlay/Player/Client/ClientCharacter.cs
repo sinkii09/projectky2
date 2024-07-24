@@ -38,6 +38,9 @@ public class ClientCharacter : NetworkBehaviour
     [SerializeField]
     WeaponVisualHolder m_WeaponVisualHolder;
 
+    [SerializeField]
+    HatSlot hatSlot;
+
     ClientSkillPlayer m_ClientActionPlayer;
 
     ClientAbilityHandler m_ClientAbilityHandler;
@@ -127,6 +130,8 @@ public class ClientCharacter : NetworkBehaviour
         m_RotationLerper = new RotationLerper(serverCharacter.physicsWrapper.Transform.rotation, k_LerpTime);
 
         m_ClientInputSender.ClientMoveEvent += OnMoveInput;
+
+        hatSlot.Initialize(OwnerClientId);
     }
 
     public override void OnNetworkDespawn()

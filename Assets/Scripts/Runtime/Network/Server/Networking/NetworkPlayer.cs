@@ -8,6 +8,7 @@ public class NetworkPlayer : NetworkBehaviour
     [HideInInspector]
     public NetworkVariable<NetworkString> PlayerName = new NetworkVariable<NetworkString>();
 
+    public NetworkVariable<NetworkString> UserId = new NetworkVariable<NetworkString>();
     public override void OnNetworkSpawn()
     {
         if (IsServer && !IsHost)
