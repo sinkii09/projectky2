@@ -459,6 +459,27 @@ public class UserManager : MonoBehaviour
             }
         }
     }
+    IEnumerator GetUserInventory(Action<List<InventoryItem>> success)
+    {
+        string url = $"{domain}/";
+        using (UnityWebRequest request = new UnityWebRequest(url, "GET"))
+        {
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Authorization", "Bearer " + accessToken);
+            yield return request.SendWebRequest();
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                string response = request.downloadHandler.text;
+                GameSessionResult reponseSession = JsonUtility.FromJson<GameSessionResult>(response);
+                var responseList = reponseSession.gameResult;
+
+            }
+            else
+            {
+                Debug.LogError(request.error);
+            }
+        }
+    }
 }
 [System.Serializable]
 public class Leaderboard

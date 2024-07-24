@@ -190,15 +190,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6598699661036071053}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 100, y: 99.999985, z: 99.999985}
-  m_ConstrainProportionsScale: 0
+  m_LocalRotation: {x: -0.15942833, y: -0.6857647, z: -0.15297408, w: 0.6934755}
+  m_LocalPosition: {x: 0.083, y: 0.053, z: 0.021}
+  m_LocalScale: {x: 30.000002, y: 30.000002, z: 30.000002}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2948524644701445979}
   - {fileID: 6093017431102612088}
   m_Father: {fileID: 1231668428916489743}
-  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: -25.526, y: -89.453, z: 0.412}
 --- !u!1001 &8323069859580692306
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -257,10 +257,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2622029601462132424, guid: 16a160325803ae84aa36cbf1287b9a51,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6733677253516410332, guid: 16a160325803ae84aa36cbf1287b9a51,
         type: 3}
       propertyPath: m_Name
       value: Hat4_WinterHat
+      objectReference: {fileID: 0}
+    - target: {fileID: 6733677253516410332, guid: 16a160325803ae84aa36cbf1287b9a51,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

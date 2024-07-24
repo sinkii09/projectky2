@@ -25,6 +25,7 @@ public class MainMenuLogic : MonoBehaviour
 
     [SerializeField] Transform ModelHolder;
     [SerializeField] CharacterDatabase characterDatabase;
+    
     List<GameObject> UIList;
 
     [SerializeField] ProfileUI profileUI;
@@ -33,6 +34,8 @@ public class MainMenuLogic : MonoBehaviour
 
     public GameQueue GameQueue {  get; set; }
     public PlayMode PlayMode { get; set; }
+
+    private GameObject model;
     private void Awake()
     {
         UIList = new List<GameObject>
@@ -171,12 +174,22 @@ public class MainMenuLogic : MonoBehaviour
 
     void SpawnRandomModel()
     {
-        if (ModelHolder.childCount>0)
+        if (model != null)
         {
             return;
         }
         var characters = characterDatabase.GetAllCharacters();
         int idx = UnityEngine.Random.Range(0, characters.Length);
-        Instantiate(characters[idx].IntroPrefab, ModelHolder);
+        model = Instantiate(characters[idx].IntroPrefab, ModelHolder);
+        var hatslot = model.GetComponent<HatSlot>();
+        var hatlist = InventoryManager.Instance.GetItemsByCategory("Hat");
+        if(hatlist != null && hatlist.Count > 0)
+        {
+            string hatname = hatlist[0].itemDetails.name;
+            if (hatslot)
+            {
+                hatslot.ShowHat(hatname);
+            }
+        }
     }
 }

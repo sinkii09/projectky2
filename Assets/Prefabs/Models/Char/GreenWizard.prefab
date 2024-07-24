@@ -2363,6 +2363,7 @@ GameObject:
   - component: {fileID: 4063552230360950}
   - component: {fileID: 95805638432926132}
   - component: {fileID: 136275810615880682}
+  - component: {fileID: 4768310195224688961}
   m_Layer: 0
   m_Name: GreenWizard
   m_TagString: Untagged
@@ -2431,6 +2432,18 @@ CapsuleCollider:
   m_Height: 1.8772755
   m_Direction: 1
   m_Center: {x: 0, y: 0.99, z: 0}
+--- !u!114 &4768310195224688961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1953271650171834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a2553bccb4c43749afef52cc899a822, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1956949540428108
 GameObject:
   m_ObjectHideFlags: 0
