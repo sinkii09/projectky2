@@ -459,9 +459,13 @@ public class UserManager : MonoBehaviour
             }
         }
     }
-    IEnumerator GetUserInventory(Action<List<InventoryItem>> success)
+    public void FetchUserInventory(Action<List<InventoryItem>> success,Action<string> failed)
     {
-        string url = $"{domain}/";
+        StartCoroutine(GetUserInventory(success,failed));
+    }
+    IEnumerator GetUserInventory(Action<List<InventoryItem>> success, Action<string> failed)
+    {
+        string url = $"{domain}/users/get-inventory";
         using (UnityWebRequest request = new UnityWebRequest(url, "GET"))
         {
             request.downloadHandler = new DownloadHandlerBuffer();
@@ -470,16 +474,20 @@ public class UserManager : MonoBehaviour
             if (request.result == UnityWebRequest.Result.Success)
             {
                 string response = request.downloadHandler.text;
-                GameSessionResult reponseSession = JsonUtility.FromJson<GameSessionResult>(response);
-                var responseList = reponseSession.gameResult;
-
+                InventoryResponse inventoryResponse = JsonUtility.FromJson<InventoryResponse>(response);
+                success?.Invoke(inventoryResponse.inventory);
             }
             else
             {
-                Debug.LogError(request.error);
+                failed?.Invoke(request.error);
             }
         }
     }
+}
+[Serializable]
+public class InventoryResponse
+{
+    public List<InventoryItem> inventory;
 }
 [System.Serializable]
 public class Leaderboard

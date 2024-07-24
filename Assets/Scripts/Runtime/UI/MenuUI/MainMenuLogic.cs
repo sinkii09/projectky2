@@ -51,13 +51,26 @@ public class MainMenuLogic : MonoBehaviour
         showProfileBtn.onClick.AddListener(ShowProfile);
         exitBtn.onClick.AddListener(ExitApplication);
         ToMainMenu();
-        SpawnRandomModel();
+        InventoryManager.Instance.FetchInventory();
+
+        InventoryManager.OnFetchInventorySuccess += InventoryManager_OnFetchInventorySuccess;
+        
     }
+
     private void OnDestroy()
     {
         showProfileBtn?.onClick.RemoveListener(ShowProfile);
         exitBtn.onClick.RemoveListener(ExitApplication);
+        InventoryManager.OnFetchInventorySuccess -= InventoryManager_OnFetchInventorySuccess;
     }
+    #region Inventory
+
+    private void InventoryManager_OnFetchInventorySuccess()
+    {
+        SpawnRandomModel();
+    }
+
+    #endregion
     #region Profile
     private void ShowProfile()
     {
