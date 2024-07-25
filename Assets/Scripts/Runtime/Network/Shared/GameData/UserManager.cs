@@ -661,6 +661,7 @@ public class Payload
     public string id;
     public string username;
     public string ingameName;
+    public int gold;
 }
 
 [System.Serializable]

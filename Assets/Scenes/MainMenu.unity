@@ -6770,6 +6770,7 @@ MonoBehaviour:
     type: 3}
   contentHolder: {fileID: 255288204}
   returnButton: {fileID: 1293656153}
+  balanceTxt: {fileID: 1141102372}
 --- !u!1 &1100527627
 GameObject:
   m_ObjectHideFlags: 0

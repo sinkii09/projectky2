@@ -13,6 +13,7 @@ public class ShopItemUI : MonoBehaviour
     [SerializeField] Button purchaseBtn;
 
     string itemID;
+    int itemPrice;
     public void Initialize(string id, string name, bool unique, int price, string iconName)
     {
         itemNameTxt.text = name;
@@ -20,6 +21,7 @@ public class ShopItemUI : MonoBehaviour
         priceTxt.text = price.ToString();
         itemImage.sprite = LoadIcon(iconName);
         itemID = id;
+        itemPrice = price;
         CheckAvailableItem(id);
         purchaseBtn.onClick.AddListener(() => {PurchaseItem(); AudioManager.Instance.PlaySFX("Btn_click01"); });
     }
@@ -56,7 +58,9 @@ public class ShopItemUI : MonoBehaviour
     {
         PopupManager.Instance.ShowPopup("buying Success!");
         InventoryManager.Instance.FetchInventory();
+        ShopManager.Instance.UpdateBalance(-itemPrice);
         purchaseBtn.interactable=true;
+        
     }
     void PurchaseItemFailed(string message)
     {

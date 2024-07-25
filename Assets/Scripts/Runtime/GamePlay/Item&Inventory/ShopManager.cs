@@ -10,6 +10,8 @@ public class ShopManager : MonoBehaviour
     public List<ShopItem> ShopItems = new List<ShopItem>();
 
     public static event Action OnFetchShopComplete;
+
+    public int userBalance;
     private void Awake()
     {
         if (Instance == null)
@@ -44,6 +46,10 @@ public class ShopManager : MonoBehaviour
         Debug.LogWarning(message);
     }
 
+    internal void UpdateBalance(int balance)
+    {
+        userBalance += balance;
+    }
 }
 [System.Serializable]
 public class ShopItem

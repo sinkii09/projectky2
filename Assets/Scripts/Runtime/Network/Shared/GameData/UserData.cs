@@ -24,6 +24,7 @@ public class UserData
         this.acesstoken = response.access_token;
         this.userId = response.payload.id;
         this.userName = response.payload.ingameName;
+        playerGold = response.payload.gold;
         this.userAuthId = userAuthId;
         this.networkId = networkId;
         this.userGamePreferences = userGamePreferences;

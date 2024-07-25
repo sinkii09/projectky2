@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,7 @@ public class ShopUI : MonoBehaviour
     [SerializeField] ShopItemUI shopItemUIPrefab;
     [SerializeField] Transform contentHolder;
     [SerializeField] Button returnButton;
+    [SerializeField] TextMeshProUGUI balanceTxt;
     List<ShopItemUI> shopItems = new List<ShopItemUI>();
     private void Start()
     {
@@ -40,6 +42,10 @@ public class ShopUI : MonoBehaviour
             }
             shopItems.Clear();
         }
+    }
+    private void Update()
+    {
+        balanceTxt.text = ClientSingleton.Instance.Manager.User.Data.playerGold.ToString();
     }
     private void ShopManager_OnFetchShopComplete()
     {

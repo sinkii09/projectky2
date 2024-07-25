@@ -187,6 +187,7 @@ public class MainMenuLogic : MonoBehaviour
         profileName_TMP.text = ClientSingleton.Instance.Manager.User.Name;
         SwitchUI(MenuState.MainMenu);
         HideProfile();
+        ShopManager.Instance.UpdateBalance(ClientSingleton.Instance.Manager.User.Data.playerGold);
         shopUI.gameObject.SetActive(false);
     }
     internal void Logout()
