@@ -15,7 +15,10 @@ public class ClientAbilityHandler
     {
         ability.OnPlayEffectClient(clientCharacter, position,rotation,num);
     }
-
+    public void PlaySFXAtPosition(Ability ability, Vector3 position)
+    {
+        ability.OnPlaySFXClient(position);
+    }
     internal void ShowAbilityIndicator(Ability ability,Vector3 position,float radius)
     {
         ability.OnShowIndicatorClient(position,radius);

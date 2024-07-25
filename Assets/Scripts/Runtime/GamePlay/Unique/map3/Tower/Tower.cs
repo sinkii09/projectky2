@@ -1,34 +1,54 @@
+using System;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Tower : MonoBehaviour
+public class Tower : NetworkBehaviour
 {
     public int maxHP = 100;
-    public int currentHP;
+    public NetworkVariable<int> currentHP = new NetworkVariable<int>();
     private TowerManager towerManager;
     public Slider healthSlider;
+
+    Turret turret;
     void Start()
     {
-        currentHP = maxHP;
+            turret = GetComponent<Turret>();
+
         towerManager = FindObjectOfType<TowerManager>();
-        UpdateHealthBar();
+    }
+    public override void OnNetworkSpawn()
+    {
+        if(IsServer)
+        {
+            currentHP.Value = maxHP;
+        }
+        if(IsClient)
+        {
+            UpdateHealthBar(currentHP.Value);
+            currentHP.OnValueChanged += OnCurrentHealthChanged;
+        }
     }
 
-    void Update()
+    public override void OnNetworkDespawn()
     {
-        if(Input.GetKeyDown(KeyCode.Q))
+        if (IsClient)
         {
-            TakeDamage(10);
+            currentHP.OnValueChanged -= OnCurrentHealthChanged;
         }
+    }
+
+    private void OnCurrentHealthChanged(int previousValue, int newValue)
+    {
+        UpdateHealthBar(newValue);
     }
 
     public void TakeDamage(int damage)
     {
-        currentHP -= damage;
+        currentHP.Value -= damage;
         Debug.Log("Tower HP: " + currentHP);
-        UpdateHealthBar();
 
-        if(currentHP <= 0)
+        if(currentHP.Value <= 0)
         {
             towerManager.HandleTowerDeath(this);
         }
@@ -36,17 +56,22 @@ public class Tower : MonoBehaviour
 
     public void Restore()
     {
-        currentHP = maxHP;
-        Debug.Log("Tower is back with full HP: " + currentHP);
-        UpdateHealthBar();
-        gameObject.SetActive(true);
+        currentHP.Value = maxHP;
+        Debug.Log("Tower is back with full HP: " + currentHP.Value);
+        SetTurretFiring(true);
     }
-
-    void UpdateHealthBar()
+    public void SetTurretFiring(bool canshoot)
+    {
+        if (turret)
+        {
+            turret.CanShoot = canshoot;
+        }
+    }
+    void UpdateHealthBar(int value)
     {
         if(healthSlider != null)
         {
-            SetHealth(currentHP);
+            SetHealth(value);
         }
     }
     
@@ -55,4 +80,5 @@ public class Tower : MonoBehaviour
     {
         healthSlider.value = (float)currentHP;
     }
+
 }

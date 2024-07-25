@@ -65,10 +65,10 @@ public class LoginAndRegisterLogic : MonoBehaviour
     {
         SceneManager.LoadScene("MainMenu");
     }
-    void LoginError()
+    void LoginError(string message)
     {
         ToLogin();
-        PopupManager.Instance.ShowPopup("Login Error \n please try again!");
+        PopupManager.Instance.ShowPopup($"Login Error \n {message} \n please try again!");
     }
     #endregion
 
@@ -85,7 +85,7 @@ public class LoginAndRegisterLogic : MonoBehaviour
     void FailedRegister(string error)
     {
         ToRegister();
-        PopupManager.Instance.ShowPopup("Register Error \n please try again!");
+        PopupManager.Instance.ShowPopup($"Register Error \n {error} \n please try again!");
     }
     #endregion
 

@@ -16,6 +16,8 @@ public class RegisterUI : MonoBehaviour
     [SerializeField] Button signInButton;
     [SerializeField] Button backButton;
 
+    [SerializeField] Toggle showPassword;
+    [SerializeField] Toggle showConfirm;
     private List<TMP_InputField> inputFields;
     private string allowedCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     private void Start()
@@ -23,6 +25,8 @@ public class RegisterUI : MonoBehaviour
         signInButton.GetComponent<Button>().onClick.AddListener(SignIn);
         backButton.GetComponent<Button>().onClick.AddListener(BackToLogin);
 
+        showPassword.onValueChanged.AddListener((isOn) => { ShowPassword(passwordInputField,isOn); AudioManager.Instance.PlaySFX("Btn_click01"); });
+        showConfirm.onValueChanged.AddListener((isOn) => { ShowPassword(rePasswordInputField,isOn); AudioManager.Instance.PlaySFX("Btn_click01"); });
         InitializeInputFields();
     }
     private void Update()
@@ -52,16 +56,19 @@ public class RegisterUI : MonoBehaviour
     }
     private void ValidateInput(string input)
     {
-        TMP_InputField inputField = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<TMP_InputField>();
-        string filteredInput = "";
-        foreach (char c in input)
+        TMP_InputField inputField = EventSystem.current.currentSelectedGameObject.GetComponent<TMP_InputField>();
+        if(!string.IsNullOrEmpty(input))
         {
-            if (allowedCharacters.Contains(c.ToString()))
+            string filteredInput = "";
+            foreach (char c in input)
             {
-                filteredInput += c;
+                if (allowedCharacters.Contains(c.ToString()))
+                {
+                    filteredInput += c;
+                }
             }
+            inputField.text = filteredInput;
         }
-        inputField.text = filteredInput;
     }
     void BackToLogin()
     {
@@ -103,5 +110,11 @@ public class RegisterUI : MonoBehaviour
                 break;
             }
         }
+    }
+    private void ShowPassword(TMP_InputField inputfield,bool isOn)
+    {
+        inputfield.contentType = isOn ? TMP_InputField.ContentType.Standard : TMP_InputField.ContentType.Password;
+        inputfield.ForceLabelUpdate();
+
     }
 }

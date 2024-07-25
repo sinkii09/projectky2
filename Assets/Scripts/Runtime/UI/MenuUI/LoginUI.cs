@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -13,7 +14,7 @@ public class LoginUI : MonoBehaviour
     [SerializeField] TMP_InputField passwordInputField;
     [SerializeField] Button loginButton;
     [SerializeField] Button registerButton;
-
+    [SerializeField] Toggle showPasswordToggle;
     public Selectable[] UISelectables;
     private void Start()
     {
@@ -26,8 +27,10 @@ public class LoginUI : MonoBehaviour
         {
             Register();
             AudioManager.Instance.PlaySFX("Btn_click01");
-        });   
+        });
+        showPasswordToggle.onValueChanged.AddListener((isOn) => { ShowPassword(passwordInputField,isOn);  AudioManager.Instance.PlaySFX("Btn_click01"); });
     }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Tab))
@@ -59,4 +62,11 @@ public class LoginUI : MonoBehaviour
             }
         }
     }
+
+    private void ShowPassword(TMP_InputField inputfield, bool isOn)
+    {
+        inputfield.contentType = isOn ? TMP_InputField.ContentType.Standard : TMP_InputField.ContentType.Password;
+        inputfield.ForceLabelUpdate();
+    }
+
 }

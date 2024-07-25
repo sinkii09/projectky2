@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 public class TurretArea : MonoBehaviour
@@ -17,21 +18,28 @@ public class TurretArea : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if(NetworkManager.Singleton.IsServer)
         {
-            playersInArea.Add(other.transform);
-            Debug.Log("Player entered turret area: " + other.name);
-            UpdateTurretTargets();
+            if (other.CompareTag("Player"))
+            {
+                playersInArea.Add(other.transform);
+                Debug.Log("Player entered turret area: " + other.name);
+                UpdateTurretTargets();
+            }
         }
+
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.CompareTag("Player"))
+        if (NetworkManager.Singleton.IsServer)
         {
-            playersInArea.Remove(other.transform);
-            Debug.Log("Player exited turret area: " + other.name);
-            UpdateTurretTargets();
+            if (other.CompareTag("Player"))
+            {
+                playersInArea.Remove(other.transform);
+                Debug.Log("Player exited turret area: " + other.name);
+                UpdateTurretTargets();
+            }
         }
     }
 

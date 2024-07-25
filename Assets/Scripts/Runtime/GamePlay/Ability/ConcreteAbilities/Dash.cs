@@ -24,6 +24,7 @@ public class Dash : Ability
         serverCharacter.physicsWrapper.Transform.forward = data.Direction;
         serverCharacter.ServerAnimationHandler.NetworkAnimator.SetTrigger(abilityAnimationTrigger);
         serverCharacter.ClientCharacter.ClientPlayEffectRpc(serverCharacter.physicsWrapper.transform.position, serverCharacter.physicsWrapper.Transform.rotation,special:IsSpecialAbility);
+        serverCharacter.ClientCharacter.ClientPlaySFXRpc(serverCharacter.physicsWrapper.Transform.position, special: IsSpecialAbility);
         rb = serverCharacter.GetComponent<Rigidbody>();
         this.data = data;
         character = serverCharacter;
@@ -104,7 +105,6 @@ public class Dash : Ability
         if (num == 0)
         {
             abilityFX.transform.SetParent(clientCharacter.transform);
-            OnPlaySFXClient(position);
         }
     }
 }

@@ -59,12 +59,17 @@ public class ShopItemUI : MonoBehaviour
         PopupManager.Instance.ShowPopup("buying Success!");
         InventoryManager.Instance.FetchInventory();
         ShopManager.Instance.UpdateBalance(-itemPrice);
-        purchaseBtn.interactable=true;
-        
+        if (purchaseBtn != null)
+        {
+            purchaseBtn.interactable = false;
+        }
     }
     void PurchaseItemFailed(string message)
     {
         PopupManager.Instance.ShowPopup(message);
-        purchaseBtn.interactable = true;
+        if (purchaseBtn != null)
+        {
+            purchaseBtn.interactable = true;
+        }
     }
 }

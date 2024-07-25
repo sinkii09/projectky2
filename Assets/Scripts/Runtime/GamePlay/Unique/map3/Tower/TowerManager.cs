@@ -16,7 +16,7 @@ public class TowerManager : MonoBehaviour
             Tower towerScript = tower.GetComponent<Tower>();
             if(towerScript != null)
             {
-                towerScripts [tower] = towerScript;
+                towerScripts[tower] = towerScript;
             }
         }
     }
@@ -28,8 +28,7 @@ public class TowerManager : MonoBehaviour
 
     IEnumerator DisableAndReenableTower(Tower tower)
     {
-        //Debug.Log("Tower HP is 0, disabling for 1 minute.");
-        tower.gameObject.SetActive(false);
+        tower.SetTurretFiring(false);
 
         for(int i = countdownTime; i > 0; i--)
         {

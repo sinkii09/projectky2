@@ -39,3 +39,4 @@ MonoBehaviour:
   IsSpecialAbility: 0
   CheckAmount: 1
   ShowIndicator: 1
+  SFX_Name: Arrow Shot

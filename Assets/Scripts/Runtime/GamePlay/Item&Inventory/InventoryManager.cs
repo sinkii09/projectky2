@@ -126,7 +126,30 @@ public class InventoryManager : MonoBehaviour
     {
         Debug.Log(message);
     }
-
+    public void ChangeEquipItem(string category)
+    {
+        int idx = 0;
+        var categorylist = GetItemsByCategory(category);
+        if(categorylist.Count > 0)
+        {
+            for (int i = 0; i < categorylist.Count; i++)
+            {
+                if (categorylist[i].equipped)
+                {
+                    if (i + 1 < categorylist.Count)
+                    {
+                        idx = i + 1;
+                    }
+                    else
+                    {
+                        idx = 0;
+                    }
+                    EquipItem(categorylist[idx]);
+                    break;
+                }
+            }
+        }
+    }
     public EquippedItem GetClientItem(ulong clientId,string category = "")
     {
         if(clientEquipment.ContainsKey(clientId) && clientEquipment[clientId] != null)
@@ -154,11 +177,12 @@ public class InventoryManager : MonoBehaviour
     void EquipItemSuccess(InventoryItem item)
     {
         FetchInventory();
+        Debug.Log(item.itemDetails.name);
         OnEquipItemSuccess?.Invoke(item);
     }
     void EquipItemFailed(string message)
     {
-        Debug.Log(message);
+        PopupManager.Instance.ShowPopup(message);
     }
     public List<InventoryItem> GetItemsByCategory(string category)
     {

@@ -50,6 +50,11 @@ public class ShopManager : MonoBehaviour
     {
         userBalance += balance;
     }
+    public void Dispose()
+    {
+        userBalance = 0;
+        ShopItems.Clear();
+    }
 }
 [System.Serializable]
 public class ShopItem

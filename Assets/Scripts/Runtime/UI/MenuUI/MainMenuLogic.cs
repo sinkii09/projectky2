@@ -31,11 +31,13 @@ public class MainMenuLogic : MonoBehaviour
     [SerializeField] Button showProfileBtn;
     [SerializeField] Button shopButton;
     [SerializeField] Button exitBtn;
-
+    [SerializeField] Button changeHatButton;
     public GameQueue GameQueue {  get; set; }
     public PlayMode PlayMode { get; set; }
 
     private GameObject model;
+
+    bool isfirstTime = true;
     private void Awake()
     {
         UIList = new List<GameObject>
@@ -76,7 +78,13 @@ public class MainMenuLogic : MonoBehaviour
 
     private void InventoryManager_OnFetchInventorySuccess()
     {
-        SpawnRandomModel();
+        if(isfirstTime)
+        {
+            isfirstTime = false;
+            changeHatButton.gameObject.SetActive(true);
+            changeHatButton.onClick.AddListener(() => { InventoryManager.Instance.ChangeEquipItem("hat"); AudioManager.Instance.PlaySFX("Btn_click01"); });
+            SpawnRandomModel();
+        }
     }
 
     #endregion

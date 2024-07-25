@@ -16,12 +16,13 @@ public class SlamDunk : Ability
     LayerMask obstacleLayer;
     private Collider[] hitColliders = new Collider[10];
 
+    public string hitSFX;
     public override void Activate(ServerCharacter serverCharacter, AbilityRequest data)
     {
         this.data = data;
         serverCharacter.physicsWrapper.Transform.forward = data.Direction;
         serverCharacter.ServerAnimationHandler.NetworkAnimator.SetTrigger(abilityAnimationTrigger);
-        
+        serverCharacter.ClientCharacter.ClientPlaySFXRpc(serverCharacter.physicsWrapper.Transform.position, special: IsSpecialAbility);
 
         PerformAbility(serverCharacter, data.Position);
     }
@@ -118,7 +119,7 @@ public class SlamDunk : Ability
         {
             var abilityFX = ParticlePool.Singleton.GetObject(effect, position, Quaternion.identity);
             abilityFX.GetComponent<SpecialFXGraphic>().OnInitialized(effect);
+            AudioManager.Instance.PlaySFXAtPosition(hitSFX, position);
         }
-        OnPlaySFXClient(position);
     }
 }

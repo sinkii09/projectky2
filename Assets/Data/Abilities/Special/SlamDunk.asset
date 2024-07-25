@@ -36,4 +36,5 @@ MonoBehaviour:
   IsSpecialAbility: 1
   CheckAmount: 0
   ShowIndicator: 1
-  SFX_Name: 
+  SFX_Name: Jump
+  hitSFX: Boom

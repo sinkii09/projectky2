@@ -23,16 +23,27 @@ public class ShopUI : MonoBehaviour
     }
     private void OnEnable()
     {
-        if(shopItems.Count > 0)
-        {
-            foreach (ShopItemUI item in shopItems)
-            {
-                Destroy(item.gameObject);
-            }
-            shopItems.Clear();
-        }
+        RefreshUIItem();
     }
     private void OnDisable()
+    {
+        RefreshUIItem();
+    }
+    private void Update()
+    {
+        balanceTxt.text = ShopManager.Instance.userBalance.ToString();
+    }
+    private void ShopManager_OnFetchShopComplete()
+    {
+        RefreshUIItem();
+        foreach (var item in ShopManager.Instance.ShopItems)
+        {
+            var shopItemUI = Instantiate(shopItemUIPrefab, contentHolder);
+            shopItemUI.Initialize(item._id, item.name, item.unique, item.price, item.icon);
+            shopItems.Add(shopItemUI);
+        }
+    }
+    void RefreshUIItem()
     {
         if (shopItems.Count > 0)
         {
@@ -41,20 +52,6 @@ public class ShopUI : MonoBehaviour
                 Destroy(item.gameObject);
             }
             shopItems.Clear();
-        }
-    }
-    private void Update()
-    {
-        balanceTxt.text = ClientSingleton.Instance.Manager.User.Data.playerGold.ToString();
-    }
-    private void ShopManager_OnFetchShopComplete()
-    {
-        shopItems.Clear();
-        foreach (var item in ShopManager.Instance.ShopItems)
-        {
-            var shopItemUI = Instantiate(shopItemUIPrefab, contentHolder);
-            shopItemUI.Initialize(item._id, item.name, item.unique, item.price, item.icon);
-            shopItems.Add(shopItemUI);
         }
     }
     void DisableShop()

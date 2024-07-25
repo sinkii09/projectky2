@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class Turret : MonoBehaviour
+public class Turret : NetworkBehaviour
 {
     public float distanceToPlayer;
     public Transform head;
@@ -11,6 +12,7 @@ public class Turret : MonoBehaviour
     private float nextFire;
     private Transform targetPlayer; // Track the player currently targeted by this turret
 
+    public bool CanShoot { get; set; }
     void Start()
     {
         nextFire = 0f; // Initialize nextFire
@@ -19,23 +21,30 @@ public class Turret : MonoBehaviour
 
     void Update()
     {
-        if(targetPlayer != null)
+        if(IsServer)
         {
-            float distance = Vector3.Distance(targetPlayer.position, transform.position);
-            if(distance < distanceToPlayer)
+            if (targetPlayer != null)
             {
-                head.LookAt(targetPlayer);
-
-                // Draw a raycast debug line
-                Debug.DrawRay(head.position, head.forward * distanceToPlayer, Color.red);
-
-                if(Time.time >= nextFire)
+                float distance = Vector3.Distance(targetPlayer.position, transform.position);
+                if (distance < distanceToPlayer)
                 {
-                    nextFire = Time.time + 1f / fireRate;
-                    Shoot();
+                    head.LookAt(targetPlayer);
+
+                    // Draw a raycast debug line
+                    Debug.DrawRay(head.position, head.forward * distanceToPlayer, Color.red);
+
+                    if (Time.time >= nextFire)
+                    {
+                        nextFire = Time.time + 1f / fireRate;
+                        if(CanShoot)
+                        {
+                            Shoot();
+                        }
+                    }
                 }
             }
         }
+
     }
 
     void Shoot()

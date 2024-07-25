@@ -15,6 +15,7 @@ public class CircleShot : Ability
         serverCharacter.physicsWrapper.Transform.forward = data.Direction;
         serverCharacter.ServerAnimationHandler.NetworkAnimator.SetTrigger(abilityAnimationTrigger);
         serverCharacter.ClientCharacter.ClientPlayEffectRpc(serverCharacter.physicsWrapper.Transform.position, serverCharacter.physicsWrapper.Transform.rotation, special: true);
+        serverCharacter.ClientCharacter.ClientPlaySFXRpc(serverCharacter.physicsWrapper.Transform.position, special: IsSpecialAbility);
         isStart = true;
     }
     public override void OnAbilityUpdate(ServerCharacter serverCharacter)

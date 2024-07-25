@@ -7,7 +7,8 @@ public class AOELaunch : Ability
 {
     bool isStart;
     AbilityRequest data;
- 
+
+    public string launchSFX;
     public override void Activate(ServerCharacter serverCharacter, AbilityRequest data)
     {
         this.data = data;
@@ -29,6 +30,7 @@ public class AOELaunch : Ability
     }
     private void OnHit(ServerCharacter serverCharacter)
     {
+        serverCharacter.ClientCharacter.ClientPlaySFXRpc(serverCharacter.physicsWrapper.Transform.position, special: IsSpecialAbility);
         var colliders = Physics.OverlapSphere(data.Position, Radius, LayerMask.GetMask("PCs"));
         for (var i = 0; i < colliders.Length; i++)
         {
@@ -57,6 +59,6 @@ public class AOELaunch : Ability
         {
             VFX.Play();
         }
-        OnPlaySFXClient(position);
+        AudioManager.Instance.PlaySFXAtPosition(launchSFX, position);
     }
 }

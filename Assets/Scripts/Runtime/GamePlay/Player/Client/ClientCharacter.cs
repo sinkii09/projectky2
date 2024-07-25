@@ -327,6 +327,21 @@ public class ClientCharacter : NetworkBehaviour
         m_ClientAbilityHandler.PlayAbility(ability, position,rotation,num);
     }
     [Rpc(SendTo.ClientsAndHost)]
+    public void ClientPlaySFXRpc(Vector3 position, bool special = false)
+    {
+        Ability ability;
+        if (special == true)
+        {
+            ability = m_ServerCharacter.CharacterStats.SpecialAbility;
+        }
+        else
+        {
+            var weapon = GamePlayDataSource.Instance.GetWeaponPrototypeByID(m_ServerCharacter.CurrentWeaponId.Value);
+            ability = weapon.Ability;
+        }
+        m_ClientAbilityHandler.PlaySFXAtPosition(ability, position);
+    }
+    [Rpc(SendTo.ClientsAndHost)]
     public void ShowAbilityIndicatorRpc(ulong ownerId, Vector3 position, float radius, bool special = true)
     {
         Ability ability;

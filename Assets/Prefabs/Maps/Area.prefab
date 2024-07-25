@@ -2725,6 +2725,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6208640536113750562}
+  - component: {fileID: 3433491264435154023}
   - component: {fileID: 933633629925275346}
   - component: {fileID: 7211116614952718664}
   m_Layer: 0
@@ -2756,6 +2757,27 @@ Transform:
   - {fileID: 1185531777607940785}
   m_Father: {fileID: 8637001659261986708}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3433491264435154023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1343314003369087624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 3027334558
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!114 &933633629925275346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2769,7 +2791,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 100
-  currentHP: 0
+  currentHP:
+    m_InternalValue: 0
   healthSlider: {fileID: 8800083869051539359}
 --- !u!114 &7211116614952718664
 MonoBehaviour:
@@ -12988,6 +13011,7 @@ GameObject:
   - component: {fileID: 842585431855788436}
   - component: {fileID: 2264495211952867034}
   - component: {fileID: 4611842908637357429}
+  - component: {fileID: 3938785340824727102}
   m_Layer: 0
   m_Name: Tower Mage 2
   m_TagString: Untagged
@@ -13030,7 +13054,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 100
-  currentHP: 0
+  currentHP:
+    m_InternalValue: 0
   healthSlider: {fileID: 2956364545737470603}
 --- !u!114 &4611842908637357429
 MonoBehaviour:
@@ -13048,6 +13073,27 @@ MonoBehaviour:
   head: {fileID: 8585482516111752018}
   bullet: {fileID: 613822166788920103, guid: d3e6643337d52a74ea48183ba4655e52, type: 3}
   fireRate: 2
+--- !u!114 &3938785340824727102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6599274219365692265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 511660878
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &6685492174806543067
 GameObject:
   m_ObjectHideFlags: 0

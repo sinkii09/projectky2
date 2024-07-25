@@ -40,7 +40,7 @@ public class UserManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
     }
-    private IEnumerator LoginRequest(string username, string password, Action<LoginResponse> loginSuccessCallback, Action finishLogin)
+    private IEnumerator LoginRequest(string username, string password, Action<LoginResponse> loginSuccessCallback, Action<string> finishLogin)
     {
         string jsonRequestBody = $"{{\"username\":\"{username}\", \"password\":\"{password}\"}}";
         byte[] requestBodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonRequestBody);
@@ -59,12 +59,13 @@ public class UserManager : MonoBehaviour
             }
             else
             {
-                Debug.LogError($"Login failed: {request.error}");
-                finishLogin?.Invoke();
+                string response = request.downloadHandler.text;
+                ErrorRespone data = JsonUtility.FromJson<ErrorRespone>(response);
+                finishLogin?.Invoke(data.message);
             }
         }
     }
-    public void Login(string username, string password, Action<LoginResponse> loginSuccesCallBack, Action finishLogin)
+    public void Login(string username, string password, Action<LoginResponse> loginSuccesCallBack, Action<string> finishLogin)
     {
         StartCoroutine(LoginRequest(username, password, loginSuccesCallBack, finishLogin));
     }
@@ -91,8 +92,10 @@ public class UserManager : MonoBehaviour
             }
             else
             {
-                Debug.LogError($"Register failed: {request.error}");
-                failedRegister?.Invoke(request.downloadHandler.text);
+                string response = request.downloadHandler.text;
+                Debug.Log(response);
+                ErrorRespone data = JsonUtility.FromJson<ErrorRespone>(response);
+                failedRegister?.Invoke(data.message);
             }
         }
     }
@@ -480,7 +483,9 @@ public class UserManager : MonoBehaviour
             }
             else
             {
-                failed?.Invoke(request.error);
+                string response = request.downloadHandler.text;
+                ErrorRespone data = JsonUtility.FromJson<ErrorRespone>(response);
+                failed?.Invoke(data.message);
             }
         }
     }
@@ -504,7 +509,9 @@ public class UserManager : MonoBehaviour
             }
             else
             {
-                failed?.Invoke(request.error);
+                string response = request.downloadHandler.text;
+                ErrorRespone data = JsonUtility.FromJson<ErrorRespone>(response);
+                failed?.Invoke(data.message);
             }
         }
     }
@@ -529,7 +536,9 @@ public class UserManager : MonoBehaviour
             }
             else
             {
-                failed?.Invoke(request.error);
+                string response = request.downloadHandler.text;
+                ErrorRespone data = JsonUtility.FromJson<ErrorRespone>(response);
+                failed?.Invoke(data.message);
             }
         }
     }
@@ -562,7 +571,9 @@ public class UserManager : MonoBehaviour
             }
             else
             {
-                failed?.Invoke(request.error);
+                string response = request.downloadHandler.text;
+                ErrorRespone data = JsonUtility.FromJson<ErrorRespone>(response);
+                failed?.Invoke(data.message);
             }
         }
     }
@@ -587,7 +598,9 @@ public class UserManager : MonoBehaviour
             }
             else
             {
-                purchaseItemFailed?.Invoke(request.error);
+                string response = request.downloadHandler.text;
+                ErrorRespone data = JsonUtility.FromJson<ErrorRespone>(response);
+                purchaseItemFailed?.Invoke(data.message);
             }
         }
     }
@@ -733,5 +746,11 @@ public class PlayerResult
     public int place;
     public int rpEarn;
     public string rank;
+}
+[Serializable]
+public class ErrorRespone
+{
+    public string message;
+    public string error;
 }
 

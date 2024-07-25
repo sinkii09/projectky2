@@ -245,5 +245,4 @@ public class GhostAI : NetworkBehaviour
         this.spawner = spawner;
     }
 
-
 }

@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class GhostSpawner : MonoBehaviour
+public class GhostSpawner : NetworkBehaviour
 {
     public GameObject ghostPrefab; // Ghost prefab to be spawned
     public List<Transform> spawnLocations; // List of spawn locations
@@ -14,9 +15,20 @@ public class GhostSpawner : MonoBehaviour
     void Start()
     {
         maxGhosts = spawnLocations.Count; // Set max ghosts to the number of spawn locations
-        StartCoroutine(SpawnGhosts());
+        
+    }
+    public override void OnNetworkSpawn()
+    {
+        if(IsServer)
+        {
+            StartCoroutine(SpawnGhosts());
+        }
     }
 
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+    }
     IEnumerator SpawnGhosts()
     {
         yield return new WaitForSeconds(firstSpawn); // Initial wait before first spawn
@@ -31,6 +43,7 @@ public class GhostSpawner : MonoBehaviour
                 {
                     Transform spawnLocation = spawnLocations [i];
                     GameObject spawnedGhost = Instantiate(ghostPrefab, spawnLocation.position, spawnLocation.rotation);
+                    spawnedGhost.GetComponent<NetworkObject>().Spawn();
                     GhostAI ghostAI = spawnedGhost.GetComponent<GhostAI>();
                     if(ghostAI != null)
                     {
@@ -51,4 +64,6 @@ public class GhostSpawner : MonoBehaviour
             spawnedGhosts.Remove(ghost);
         }
     }
+
+
 }

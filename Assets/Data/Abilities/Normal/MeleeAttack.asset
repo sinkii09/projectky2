@@ -34,3 +34,4 @@ MonoBehaviour:
   IsSpecialAbility: 0
   CheckAmount: 0
   ShowIndicator: 0
+  SFX_Name: Sword_Attack
