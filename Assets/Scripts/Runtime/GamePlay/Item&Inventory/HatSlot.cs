@@ -74,7 +74,7 @@ public class HatSlot : MonoBehaviour
             case "Crown Hat":
                 hat_Crow_Visual.SetActive(true);
                 break;
-            case "Gentleman Hat":
+            case "Top Hat":
                 hat_Gentleman_Visual.SetActive(true);
                 break;
             case "Winter Hat":

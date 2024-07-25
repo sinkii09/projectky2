@@ -27,7 +27,9 @@ public class MainMenuLogic : MonoBehaviour
     List<GameObject> UIList;
 
     [SerializeField] ProfileUI profileUI;
+    [SerializeField] ShopUI shopUI;
     [SerializeField] Button showProfileBtn;
+    [SerializeField] Button shopButton;
     [SerializeField] Button exitBtn;
 
     public GameQueue GameQueue {  get; set; }
@@ -46,8 +48,9 @@ public class MainMenuLogic : MonoBehaviour
     }
     void Start()
     {
-        showProfileBtn.onClick.AddListener(ShowProfile);
-        exitBtn.onClick.AddListener(ExitApplication);
+        showProfileBtn.onClick.AddListener(()=> { ShowProfile(); AudioManager.Instance.PlaySFX("Btn_click01"); });
+        exitBtn.onClick.AddListener(() => { ExitApplication(); AudioManager.Instance.PlaySFX("Btn_click01"); });
+        shopButton.onClick.AddListener(()=> { ShowShop(); AudioManager.Instance.PlaySFX("Btn_click01"); });
         ToMainMenu();
         InventoryManager.Instance.FetchInventory();
 
@@ -57,15 +60,22 @@ public class MainMenuLogic : MonoBehaviour
 
     private void OnDestroy()
     {
-        showProfileBtn?.onClick.RemoveListener(ShowProfile);
-        exitBtn.onClick.RemoveListener(ExitApplication);
+        showProfileBtn?.onClick.RemoveAllListeners();
+        exitBtn.onClick.RemoveAllListeners();
+        shopButton.onClick.RemoveAllListeners();
         InventoryManager.OnFetchInventorySuccess -= InventoryManager_OnFetchInventorySuccess;
     }
+
+    private void ShowShop()
+    {
+        ShopManager.Instance.FetchShopItem();
+        shopUI.gameObject.SetActive(true);
+    }
+
     #region Inventory
 
     private void InventoryManager_OnFetchInventorySuccess()
     {
-        Debug.Log("on fetch success");
         SpawnRandomModel();
     }
 
@@ -177,6 +187,7 @@ public class MainMenuLogic : MonoBehaviour
         profileName_TMP.text = ClientSingleton.Instance.Manager.User.Name;
         SwitchUI(MenuState.MainMenu);
         HideProfile();
+        shopUI.gameObject.SetActive(false);
     }
     internal void Logout()
     {

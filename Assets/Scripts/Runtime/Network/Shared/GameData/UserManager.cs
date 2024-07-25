@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Unity.Services.Authentication;
 using UnityEngine;
 using UnityEngine.Networking;
+using static UnityEditor.Progress;
 
 
 public class UserManager : MonoBehaviour
@@ -459,6 +460,30 @@ public class UserManager : MonoBehaviour
             }
         }
     }
+    public void FetchShopItems(Action<ShopItemsList> success, Action<string> failed)
+    {
+        StartCoroutine(FetchShopItemsRequest(success,failed));
+    }
+    IEnumerator FetchShopItemsRequest(Action<ShopItemsList> success, Action<string> failed)
+    {
+        string url = $"{domain}/shop/items";
+        using (UnityWebRequest request = new UnityWebRequest(url, "GET"))
+        {
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Authorization", "Bearer " + accessToken);
+            yield return request.SendWebRequest();
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                string response = request.downloadHandler.text;
+                ShopItemsList shopdata = JsonUtility.FromJson<ShopItemsList>("{\"items\":" + response + "}");
+                success?.Invoke(shopdata);
+            }
+            else
+            {
+                failed?.Invoke(request.error);
+            }
+        }
+    }
     public void FetchUserInventory(Action<List<InventoryItem>> success, Action<string> failed)
     {
         StartCoroutine(GetUserInventory(success, failed));
@@ -538,6 +563,31 @@ public class UserManager : MonoBehaviour
             else
             {
                 failed?.Invoke(request.error);
+            }
+        }
+    }
+
+    internal void PurchaseItem(string itemID, Action purchaseItemSuccess, Action<string> purchaseItemFailed)
+    {
+        StartCoroutine(PurchaseItemRequest(itemID, purchaseItemSuccess, purchaseItemFailed));
+    }
+    IEnumerator PurchaseItemRequest(string itemID, Action purchaseItemSuccess, Action<string> purchaseItemFailed)
+    {
+        string url = $"{domain}/shop/{itemID}/purchase";
+        using (UnityWebRequest request = new UnityWebRequest(url, "POST"))
+        {
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Authorization", "Bearer " + accessToken);
+            yield return request.SendWebRequest();
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                string response = request.downloadHandler.text;
+                InventoryItem item = JsonUtility.FromJson<InventoryItem>(response);
+                purchaseItemSuccess?.Invoke();
+            }
+            else
+            {
+                purchaseItemFailed?.Invoke(request.error);
             }
         }
     }
