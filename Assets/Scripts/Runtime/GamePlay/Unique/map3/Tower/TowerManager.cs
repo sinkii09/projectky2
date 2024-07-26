@@ -29,7 +29,7 @@ public class TowerManager : MonoBehaviour
     IEnumerator DisableAndReenableTower(Tower tower)
     {
         tower.SetTurretFiring(false);
-
+        tower.isDisable.Value = true;
         for(int i = countdownTime; i > 0; i--)
         {
             Debug.Log("Countdown: " + i + " seconds remaining.");

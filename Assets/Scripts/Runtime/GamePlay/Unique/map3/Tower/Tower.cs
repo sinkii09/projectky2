@@ -3,14 +3,16 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Tower : NetworkBehaviour
+public class Tower : NetworkBehaviour, IDamageable
 {
     public int maxHP = 100;
     public NetworkVariable<int> currentHP = new NetworkVariable<int>();
+    public NetworkVariable<bool> isDisable = new NetworkVariable<bool>(false);
     private TowerManager towerManager;
     public Slider healthSlider;
 
     Turret turret;
+    
     void Start()
     {
             turret = GetComponent<Turret>();
@@ -59,6 +61,7 @@ public class Tower : NetworkBehaviour
         currentHP.Value = maxHP;
         Debug.Log("Tower is back with full HP: " + currentHP.Value);
         SetTurretFiring(true);
+        isDisable.Value = false;
     }
     public void SetTurretFiring(bool canshoot)
     {
@@ -81,4 +84,18 @@ public class Tower : NetworkBehaviour
         healthSlider.value = (float)currentHP;
     }
 
+    public void ReceiveHP(int HP, ServerCharacter inflicter = null)
+    {
+        TakeDamage(HP);
+    }
+
+    public IDamageable.SpecialDamageFlags GetSpecialDamageFlags()
+    {
+        return IDamageable.SpecialDamageFlags.None;
+    }
+
+    public bool IsDamageable()
+    {
+        return !isDisable.Value;
+    }
 }

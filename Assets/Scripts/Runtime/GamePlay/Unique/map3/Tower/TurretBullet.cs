@@ -1,7 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-public class Bullet : NetworkBehaviour
+public class TurretBullet : NetworkBehaviour
 {
     void OnCollisionEnter(Collision collision)
     {

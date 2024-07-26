@@ -51,7 +51,10 @@ public class Turret : NetworkBehaviour
     {
         GameObject clone = Instantiate(bullet, head.position, head.rotation);
         clone.GetComponent<Rigidbody>().AddForce(head.forward * 1500);
-        Destroy(clone, 5); // Destroy the bullet after 5 seconds
+        if(clone!=null)
+        {
+            Destroy(clone, 5);
+        }
     }
 
     // Method to set the target player

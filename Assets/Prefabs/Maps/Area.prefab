@@ -2728,6 +2728,8 @@ GameObject:
   - component: {fileID: 3433491264435154023}
   - component: {fileID: 933633629925275346}
   - component: {fileID: 7211116614952718664}
+  - component: {fileID: 3321489802967452625}
+  - component: {fileID: 5781725279596003969}
   m_Layer: 0
   m_Name: Tower Mage 1
   m_TagString: Untagged
@@ -2810,6 +2812,40 @@ MonoBehaviour:
   head: {fileID: 7315356059216706203}
   bullet: {fileID: 613822166788920103, guid: d3e6643337d52a74ea48183ba4655e52, type: 3}
   fireRate: 2
+--- !u!65 &3321489802967452625
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1343314003369087624}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.64, y: 1.63, z: 0.55}
+  m_Center: {x: 0, y: 0.4, z: 0}
+--- !u!114 &5781725279596003969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1343314003369087624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 764b9193fe5a04d45a366dd3b6da7e81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverCharacter: {fileID: 0}
 --- !u!1 &1356385087751111401
 GameObject:
   m_ObjectHideFlags: 0
@@ -3380,7 +3416,7 @@ GameObject:
   - component: {fileID: 5521233483284626106}
   - component: {fileID: 8394396509969362854}
   - component: {fileID: 3912872419546121506}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: env_boss_floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13012,6 +13048,8 @@ GameObject:
   - component: {fileID: 2264495211952867034}
   - component: {fileID: 4611842908637357429}
   - component: {fileID: 3938785340824727102}
+  - component: {fileID: 5436711897985247550}
+  - component: {fileID: 9101344133543633873}
   m_Layer: 0
   m_Name: Tower Mage 2
   m_TagString: Untagged
@@ -13094,6 +13132,40 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!65 &5436711897985247550
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6599274219365692265}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.64, y: 1.63, z: 0.55}
+  m_Center: {x: 0, y: 0.4, z: 0}
+--- !u!114 &9101344133543633873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6599274219365692265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 764b9193fe5a04d45a366dd3b6da7e81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverCharacter: {fileID: 0}
 --- !u!1 &6685492174806543067
 GameObject:
   m_ObjectHideFlags: 0
@@ -16743,7 +16815,7 @@ GameObject:
   - component: {fileID: 8716942397832287450}
   - component: {fileID: 6057307347203669718}
   - component: {fileID: 5463160131474879893}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: env_boss_floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
