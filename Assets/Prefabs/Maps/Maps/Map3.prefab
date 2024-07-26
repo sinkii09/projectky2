@@ -40,6 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3592417431494151516}
+  - component: {fileID: 4824558790242585029}
   - component: {fileID: 6884721289867685521}
   m_Layer: 0
   m_Name: GhostSpawnLocation
@@ -71,6 +72,27 @@ Transform:
   - {fileID: 3165318952187105981}
   m_Father: {fileID: 969433531200995303}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4824558790242585029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1798022545922264516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 1318746421
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!114 &6884721289867685521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -900,7 +922,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 529818889
+  GlobalObjectIdHash: 3078669163
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -991,7 +1013,7 @@ PrefabInstance:
     - target: {fileID: 9199829896630145747, guid: 50bef7adb1adcce41af47c7fff75b87e,
         type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 946289820
+      value: 3943006955
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1080,7 +1102,7 @@ PrefabInstance:
     - target: {fileID: 9199829896630145747, guid: 50bef7adb1adcce41af47c7fff75b87e,
         type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 455599879
+      value: 551684597
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1267,7 +1289,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2652899062
+  GlobalObjectIdHash: 1969201268
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -1432,7 +1454,7 @@ PrefabInstance:
     - target: {fileID: 9199829896630145747, guid: 50bef7adb1adcce41af47c7fff75b87e,
         type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 2781656488
+      value: 3790219625
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1516,7 +1538,7 @@ PrefabInstance:
     - target: {fileID: 9199829896630145747, guid: 50bef7adb1adcce41af47c7fff75b87e,
         type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 1254300474
+      value: 1650787765
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1600,7 +1622,7 @@ PrefabInstance:
     - target: {fileID: 9199829896630145747, guid: 50bef7adb1adcce41af47c7fff75b87e,
         type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 1470693752
+      value: 2607960604
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1684,7 +1706,7 @@ PrefabInstance:
     - target: {fileID: 9199829896630145747, guid: 50bef7adb1adcce41af47c7fff75b87e,
         type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 3652644892
+      value: 3822942248
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1798,6 +1820,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3433491264435154023, guid: a24d1155a4bb793499a698af59c51d54,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 1453837890
+      objectReference: {fileID: 0}
+    - target: {fileID: 3938785340824727102, guid: a24d1155a4bb793499a698af59c51d54,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 4152258008
       objectReference: {fileID: 0}
     - target: {fileID: 6911680662823709820, guid: a24d1155a4bb793499a698af59c51d54,
         type: 3}
@@ -2030,7 +2062,7 @@ PrefabInstance:
     - target: {fileID: 9199829896630145747, guid: 50bef7adb1adcce41af47c7fff75b87e,
         type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 215886759
+      value: 2546821203
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2114,7 +2146,7 @@ PrefabInstance:
     - target: {fileID: 9199829896630145747, guid: 50bef7adb1adcce41af47c7fff75b87e,
         type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 59911438
+      value: 932962898
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2203,7 +2235,7 @@ PrefabInstance:
     - target: {fileID: 9199829896630145747, guid: 50bef7adb1adcce41af47c7fff75b87e,
         type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 2829302386
+      value: 2201477469
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2287,7 +2319,7 @@ PrefabInstance:
     - target: {fileID: 9199829896630145747, guid: 50bef7adb1adcce41af47c7fff75b87e,
         type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 1318461693
+      value: 560797166
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2337,6 +2369,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3433491264435154023, guid: a24d1155a4bb793499a698af59c51d54,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 423264354
+      objectReference: {fileID: 0}
+    - target: {fileID: 3938785340824727102, guid: a24d1155a4bb793499a698af59c51d54,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 3807284436
       objectReference: {fileID: 0}
     - target: {fileID: 6911680662823709820, guid: a24d1155a4bb793499a698af59c51d54,
         type: 3}

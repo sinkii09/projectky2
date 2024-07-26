@@ -23,7 +23,8 @@ public class SlamDunk : Ability
         serverCharacter.physicsWrapper.Transform.forward = data.Direction;
         serverCharacter.ServerAnimationHandler.NetworkAnimator.SetTrigger(abilityAnimationTrigger);
         serverCharacter.ClientCharacter.ClientPlaySFXRpc(serverCharacter.physicsWrapper.Transform.position, special: IsSpecialAbility);
-
+        targetLayer = 1 << LayerMask.NameToLayer("PCs");
+        obstacleLayer = 1 << LayerMask.NameToLayer("Environment");
         PerformAbility(serverCharacter, data.Position);
     }
     public override void OnAbilityUpdate(ServerCharacter serverCharacter)
@@ -93,11 +94,15 @@ public class SlamDunk : Ability
     private void PerformAbility(ServerCharacter serverCharacter, Vector3 position)
     {
         t = 0;
-        targetLayer = 1 << LayerMask.NameToLayer("PCs");
-        obstacleLayer = 1<< LayerMask.NameToLayer("Environment");
+
         startPoint = serverCharacter.physicsWrapper.Transform.position;
         endPoint = position;
-        
+
+        if (CheckForObstacles(endPoint, out Vector3 newEndPoint))
+        {
+            endPoint = newEndPoint;
+        }
+
         Vector3 highestPoint = CalculateHighestBezierPoint(startPoint, controlPoint, endPoint);
         Vector3 checkPoint = new Vector3(startPoint.x,highestPoint.y+ 3,startPoint.z);
         RaycastHit hit;
@@ -112,6 +117,31 @@ public class SlamDunk : Ability
         isStart = true;
         serverCharacter.Movement.Jump();
         serverCharacter.ClientCharacter.ShowAbilityIndicatorRpc(serverCharacter.OwnerClientId, endPoint, Radius);
+    }
+    private bool CheckForObstacles(Vector3 point, out Vector3 newEndPoint)
+    {
+        newEndPoint = point;
+        float checkRadius = 0.5f;
+        int maxAttempts = 10; 
+        float searchRadius = 1f; 
+
+        if (Physics.CheckSphere(point, checkRadius, obstacleLayer))
+        {
+            for (int i = 1; i <= maxAttempts; i++)
+            {
+                Vector3 randomPoint = point + Random.insideUnitSphere * searchRadius * i;
+                randomPoint.y = point.y; 
+
+                if (!Physics.CheckSphere(randomPoint, checkRadius, obstacleLayer))
+                {
+                    newEndPoint = randomPoint;
+                    return true;
+                }
+            }
+            return false; 
+        }
+
+        return false; 
     }
     public override void OnPlayEffectClient(ClientCharacter clientCharacter, Vector3 position, Quaternion rotation, int num = 0)
     {

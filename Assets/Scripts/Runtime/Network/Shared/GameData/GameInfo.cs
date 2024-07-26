@@ -59,6 +59,8 @@ public class GameInfo
                 return "Game_Map1";
             case Map.Map2:
                 return "Game_Map2";
+            case Map.Map3:
+                return "Game_Map3";
             default:
                 Debug.LogWarning($"{map} - is not supported.");
                 return "";

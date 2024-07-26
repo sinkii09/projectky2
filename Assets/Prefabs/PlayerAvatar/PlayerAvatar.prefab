@@ -66,7 +66,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 112
+  m_Constraints: 116
   m_CollisionDetection: 1
 --- !u!135 &784068961275248728
 SphereCollider:
@@ -295,6 +295,7 @@ MonoBehaviour:
   m_PlayerInfoBarUI: {fileID: 2433112305272100053}
   m_Aura: {fileID: 1436499705422747565}
   m_WeaponVisualHolder: {fileID: 73356027740712102}
+  hatSlot: {fileID: 0}
   m_RevivePart: {fileID: 900189712313222277}
   m_FaintedPart: {fileID: 3125908671876608230, guid: 2e07e5ba5a6e8b74d8206f9be0e29d37,
     type: 3}
@@ -398,9 +399,9 @@ MonoBehaviour:
   - IsCrossFadeExit: 0
     Layer: 1
     OriginatingState: -1459219776
-    DestinationState: 540923433
+    DestinationState: 661335647
     TransitionDuration: 0
-    TriggerNameHash: 540923433
+    TriggerNameHash: 661335647
     TransitionIndex: 1
   - IsCrossFadeExit: 0
     Layer: 1
@@ -416,6 +417,13 @@ MonoBehaviour:
     TransitionDuration: 0.25
     TriggerNameHash: -2083125633
     TransitionIndex: 3
+  - IsCrossFadeExit: 0
+    Layer: 1
+    OriginatingState: -1459219776
+    DestinationState: -1316629574
+    TransitionDuration: 0
+    TriggerNameHash: 1926661051
+    TransitionIndex: 4
   m_Animator: {fileID: 3639332045119622451}
 --- !u!114 &73356027740712102
 MonoBehaviour:
@@ -431,6 +439,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   handSlot: {fileID: 0}
   baseWeapon: {fileID: 0}
+  Axe: {fileID: 0}
+  CrossBow: {fileID: 0}
+  Zapper: {fileID: 0}
+  Blaster: {fileID: 0}
 --- !u!1 &7199043946590893519
 GameObject:
   m_ObjectHideFlags: 0
