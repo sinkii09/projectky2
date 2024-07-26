@@ -12,7 +12,8 @@ public class Tower : NetworkBehaviour, IDamageable
     public Slider healthSlider;
 
     Turret turret;
-    
+
+    LayerMask targetLayer;
     void Start()
     {
             turret = GetComponent<Turret>();
@@ -24,6 +25,7 @@ public class Tower : NetworkBehaviour, IDamageable
         if(IsServer)
         {
             currentHP.Value = maxHP;
+            targetLayer = LayerMask.GetMask("Projectiles");
         }
         if(IsClient)
         {
@@ -97,5 +99,16 @@ public class Tower : NetworkBehaviour, IDamageable
     public bool IsDamageable()
     {
         return !isDisable.Value;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(IsServer)
+        {
+            if(((1 << other.gameObject.layer) & targetLayer) != 0)
+            {
+                ReceiveHP(10);
+            }
+        }
     }
 }

@@ -29,7 +29,6 @@ public class MeleeAttack : Ability
         var mybound = ourCollider.bounds;
         int numResults = Physics.BoxCastNonAlloc(ourCollider.transform.position, mybound.extents, ourCollider.transform.forward, s_Hits, Quaternion.identity, meleeRange, layermask);
         RaycastHit[] results = s_Hits;
-        Debug.Log(s_Hits.Length);
         IDamageable foundFoe = null;
 
         for (int i = 0; i < numResults; i++)

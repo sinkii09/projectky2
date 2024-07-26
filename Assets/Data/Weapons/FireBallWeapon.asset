@@ -14,7 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: Blaster
   visual: {fileID: 5869083548712434043, guid: c76537f7aff3f3042984764af3a48da5, type: 3}
-  amount: 10
+  amount: 50
   ability: {fileID: 11400000, guid: 480822756b5653248b354505a0092414, type: 2}
-  weaponPrefab: {fileID: 8686214549007836131, guid: 35988cc47342be64b9d39d27e73f53b8,
-    type: 3}

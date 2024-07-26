@@ -22,7 +22,7 @@ MonoBehaviour:
   executeTime: 0.15
   durationTime: 1
   cooldownTime: 0
-  Cost: 30
+  Cost: 50
   projectileInfoList: []
   weaponVisual: []
   effect:

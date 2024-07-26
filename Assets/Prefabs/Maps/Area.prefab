@@ -1593,7 +1593,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f323f89d5d49a8646a658472e93c9757, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towers: []
+  towers:
+  - {fileID: 1343314003369087624}
+  - {fileID: 6599274219365692265}
   countdownTime: 10
 --- !u!1 &766933814810227576
 GameObject:
@@ -2794,6 +2796,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 100
   currentHP:
+    m_InternalValue: 0
+  isDisable:
     m_InternalValue: 0
   healthSlider: {fileID: 8800083869051539359}
 --- !u!114 &7211116614952718664
@@ -13093,6 +13097,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 100
   currentHP:
+    m_InternalValue: 0
+  isDisable:
     m_InternalValue: 0
   healthSlider: {fileID: 2956364545737470603}
 --- !u!114 &4611842908637357429

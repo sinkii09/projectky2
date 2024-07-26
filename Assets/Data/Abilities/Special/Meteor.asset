@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Meteor
   m_EditorClassIdentifier: 
   abilityName: Meteor
-  Damage: 100
+  Damage: 50
   Radius: 5
   MinRange: 0
   MaxRange: 30
@@ -22,7 +22,7 @@ MonoBehaviour:
   executeTime: 0.15
   durationTime: 1
   cooldownTime: 0
-  Cost: 30
+  Cost: 50
   projectileInfoList: []
   weaponVisual: []
   effect:

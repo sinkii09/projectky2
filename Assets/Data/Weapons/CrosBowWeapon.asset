@@ -14,7 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponName: CrossBow
   visual: {fileID: 399077963439966249, guid: c8bd9691d2f93834e8cecdc5e0a8b9cb, type: 3}
-  amount: 10
+  amount: 50
   ability: {fileID: 11400000, guid: 5cced99e7e0d7c645a8c354321597221, type: 2}
-  weaponPrefab: {fileID: 2916693284704882178, guid: 39e14eb90ca6c664480e882ed6eb28e9,
-    type: 3}
