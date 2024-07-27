@@ -11,6 +11,7 @@
     "com.unity.inputsystem": "1.7.0",
     "com.unity.multiplayer.tools": "1.1.1",
     "com.unity.netcode.gameobjects": "1.8.1",
+    "com.unity.recorder": "4.0.3",
     "com.unity.render-pipelines.universal": "14.0.10",
     "com.unity.services.authentication": "3.3.3",
     "com.unity.services.matchmaker": "1.1.4",

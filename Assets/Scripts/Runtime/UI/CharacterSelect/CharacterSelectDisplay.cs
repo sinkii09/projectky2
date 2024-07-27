@@ -254,6 +254,7 @@ public class CharacterSelectDisplay : NetworkBehaviour
 
     private void HandlePlayersStateChanged(NetworkListEvent<CharacterSelectState> changeEvent)
     {
+        Debug.Log($"i = {players.Count}");
         for (int i = 0; i < playerCards.Length; i++)
         {
             if (players.Count > i)
@@ -267,6 +268,7 @@ public class CharacterSelectDisplay : NetworkBehaviour
         }
         for (int i = 0; i < players.Count; i++)
         {
+            
             introPointDictionary[players[i]] = introSpawnPointArray[i];
         }
         UpdateIntroInstance(changeEvent.Value);

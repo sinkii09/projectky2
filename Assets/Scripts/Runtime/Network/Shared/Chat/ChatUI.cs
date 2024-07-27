@@ -51,10 +51,16 @@ public class ChatUI : MonoBehaviour
                 chatWindow.SetActive(true);
                 EventSystem.current.SetSelectedGameObject(chatInputField.gameObject, null);
                 chatInputField.OnPointerClick(new PointerEventData(EventSystem.current));
+                chatToggle.isOn = true;
+            }
+            else if (!string.IsNullOrWhiteSpace(chatInputField.text))
+            {
+                SendText();
             }
             else
             {
-                SendText();
+                chatWindow.SetActive(false);
+                chatToggle.isOn = false;
             }
         }
         if (chatList.Count > 25)
