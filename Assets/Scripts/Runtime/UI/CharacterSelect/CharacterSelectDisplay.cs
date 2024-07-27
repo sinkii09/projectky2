@@ -76,7 +76,7 @@ public class CharacterSelectDisplay : NetworkBehaviour
 
         if (IsServer)
         {
-            NetworkManager.Singleton.OnClientConnectedCallback += HandleClientConnected;
+            //NetworkManager.Singleton.OnClientConnectedCallback += HandleClientConnected;
             NetworkManager.Singleton.OnClientDisconnectCallback += HandleClientDisconnected;
             GamePlayBehaviour.Instance.IsStartCharSelect.OnValueChanged += OnStartCharSelect;
             countDownTimer.OnTimeExpired += CountDownTimer_OnTimeExpired;
@@ -105,7 +105,7 @@ public class CharacterSelectDisplay : NetworkBehaviour
 
         if (IsServer)
         {
-            NetworkManager.Singleton.OnClientConnectedCallback -= HandleClientConnected;
+            //NetworkManager.Singleton.OnClientConnectedCallback -= HandleClientConnected;
             NetworkManager.Singleton.OnClientDisconnectCallback -= HandleClientDisconnected;
             GamePlayBehaviour.Instance.IsStartCharSelect.OnValueChanged -= OnStartCharSelect;
             countDownTimer.OnTimeExpired -= CountDownTimer_OnTimeExpired;
@@ -118,6 +118,7 @@ public class CharacterSelectDisplay : NetworkBehaviour
         if(newValue)
         {
             isCountdownStart = true;
+            Debug.Log($"number of client: {NetworkManager.Singleton.ConnectedClientsIds}");
             foreach (var clientId in NetworkManager.Singleton.ConnectedClientsIds)
             {
                 HandleClientConnected(clientId);

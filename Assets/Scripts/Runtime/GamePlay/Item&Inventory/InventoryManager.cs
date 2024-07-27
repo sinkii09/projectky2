@@ -154,7 +154,10 @@ public class InventoryManager : MonoBehaviour
     {
         if(clientEquipment.ContainsKey(clientId) && clientEquipment[clientId] != null)
         {
-            return clientEquipment[clientId].Where(item => item.category == category).First();
+            if(clientEquipment[clientId].Where(item => item.category == category).Count() > 0)
+            {
+                return clientEquipment[clientId].Where(item => item.category == category).First();
+            }
         }
         Debug.Log($"can't find any item with {category}");
         return null;
