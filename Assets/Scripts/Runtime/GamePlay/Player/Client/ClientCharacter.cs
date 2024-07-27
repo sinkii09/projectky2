@@ -171,7 +171,10 @@ public class ClientCharacter : NetworkBehaviour
     {
         if(newValue == serverCharacter.CharacterStats.WeaponData.Id)
         {
-
+            if(OwnerClientId == NetworkManager.LocalClientId)
+            {
+                AudioManager.Instance.PlaySFXAtPosition("Downgrade", serverCharacter.physicsWrapper.Transform.position);
+            }
             foreach (var part in m_BaseWeaponPart)
             {
                 var fx = ParticlePool.Singleton.GetObject(part, m_ServerCharacter.physicsWrapper.transform.position, Quaternion.identity);
@@ -195,7 +198,10 @@ public class ClientCharacter : NetworkBehaviour
     {
         if(newValue == LifeStateEnum.Alive)
         {
-            Debug.Log("isRevive");
+            if (OwnerClientId == NetworkManager.LocalClientId)
+            {
+                AudioManager.Instance.PlaySFX("Revive");
+            }
             m_RevivePart.SetActive(true);
             if (serverCharacter.OwnerClientId == NetworkManager.Singleton.LocalClientId)
             {
@@ -205,6 +211,10 @@ public class ClientCharacter : NetworkBehaviour
         }
         if(newValue == LifeStateEnum.Dead)
         {
+            if (OwnerClientId == NetworkManager.LocalClientId)
+            {
+                AudioManager.Instance.PlaySFX("Dead");
+            }
             var fx =  ParticlePool.Singleton.GetObject(m_FaintedPart, m_ServerCharacter.physicsWrapper.transform.position,Quaternion.identity);
             fx.GetComponent<SpecialFXGraphic>().OnInitialized(m_FaintedPart);
             if (serverCharacter.OwnerClientId == NetworkManager.Singleton.LocalClientId)
@@ -327,7 +337,7 @@ public class ClientCharacter : NetworkBehaviour
         m_ClientAbilityHandler.PlayAbility(ability, position,rotation,num);
     }
     [Rpc(SendTo.ClientsAndHost)]
-    public void ClientPlaySFXRpc(Vector3 position, bool special = false)
+    public void ClientPlayAbilitySFXRpc(Vector3 position, bool special = false)
     {
         Ability ability;
         if (special == true)

@@ -216,6 +216,7 @@ public class ServerCharacter : NetworkBehaviour
             m_ServerSkillPlayer.ClearActions(true);
             m_Movement.CancelMove();
             rb.useGravity = false;
+            rb.velocity = Vector3.zero;
             m_PhysicsWrapper.DamageCollider.enabled = false;
             StartCoroutine(DisableVisual());
         }
@@ -317,7 +318,16 @@ public class ServerCharacter : NetworkBehaviour
         if(IsServer)
         {
             if(collision.gameObject.CompareTag("DeathZone"))
-            ReceiveHP(-9999);
+            {
+                ReceiveHP(-9999);
+            }
+            if(collision.gameObject.CompareTag("Limit"))
+            {
+                if(m_CharacterSpawner != null)
+                {
+                    physicsWrapper.Transform.position = m_CharacterSpawner.GetRandomTransformInList().position + Vector3.up;
+                }
+            }
         }
         
     }

@@ -8,7 +8,7 @@ public class Lightning : UniqueEffect
 {
     [SerializeField] int damage;
     [SerializeField] float radius;
-    
+    [SerializeField] string sfxName;
     Collider[] hitColliders = new Collider[5];
 
     bool isStart;
@@ -56,6 +56,7 @@ public class Lightning : UniqueEffect
     {
         var abilityFX = ParticlePool.Singleton.GetObject(effectPrefab, position + new Vector3(0,-0.08f,0), Quaternion.identity);
         abilityFX.GetComponent<SpecialFXGraphic>().OnInitialized(effectPrefab);
+        AudioManager.Instance.PlaySFXAtPosition(sfxName, position);
         if(abilityFX.TryGetComponent(out VisualEffect VFX))
         {
             VFX.Play();

@@ -12,6 +12,7 @@ TagManager:
   - Bullet
   - Ghost
   - DeathZone
+  - Limit
   layers:
   - Default
   - TransparentFX

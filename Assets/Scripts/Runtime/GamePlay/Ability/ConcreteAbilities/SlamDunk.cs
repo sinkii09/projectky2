@@ -22,7 +22,7 @@ public class SlamDunk : Ability
         this.data = data;
         serverCharacter.physicsWrapper.Transform.forward = data.Direction;
         serverCharacter.ServerAnimationHandler.NetworkAnimator.SetTrigger(abilityAnimationTrigger);
-        serverCharacter.ClientCharacter.ClientPlaySFXRpc(serverCharacter.physicsWrapper.Transform.position, special: IsSpecialAbility);
+        serverCharacter.ClientCharacter.ClientPlayAbilitySFXRpc(serverCharacter.physicsWrapper.Transform.position, special: IsSpecialAbility);
         targetLayer = 1 << LayerMask.NameToLayer("PCs");
         obstacleLayer = 1 << LayerMask.NameToLayer("Environment");
         PerformAbility(serverCharacter, data.Position);

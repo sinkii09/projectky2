@@ -11,7 +11,6 @@ public class AudioManager : MonoBehaviour
     public static AudioManager Instance;
 
     public AudioSource bgmSource;
-    public AudioSource sfxSource;
     public AudioMixer mixer;
     public AudioMixerGroup mixerGroup;
 
@@ -119,7 +118,7 @@ public class AudioManager : MonoBehaviour
             audioSource.loop = sound.loop;
             audioSource.outputAudioMixerGroup = mixerGroup;
             audioSource.spatialBlend = 1.0f;
-            audioSource.gameObject.transform.position = position;
+            audioSource.gameObject.transform.position = position + new Vector3(0,20,-12);
             audioSource.Play();
             if (!sound.loop)
             {

@@ -8,6 +8,7 @@ public class CurvedProjectile : NetworkBehaviour
     [SerializeField] GameObject visual;
     [SerializeField] SphereCollider sphereCollider;
     [SerializeField] GameObject m_hitParticle;
+    [SerializeField] string hitSFX;
     private Vector3 startPoint;
     private Vector3 controlPoint;
     private Vector3 endPoint;
@@ -120,7 +121,8 @@ public class CurvedProjectile : NetworkBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(isDead) return;
+        if (!IsServer) return;
+        if (isDead) return;
         if(other.gameObject.layer != blockLayer) return;
         if(other.gameObject.TryGetComponent(out ServerCharacter character))
         {
@@ -138,5 +140,6 @@ public class CurvedProjectile : NetworkBehaviour
             var hitPart = ParticlePool.Singleton.GetObject(m_hitParticle, position, transform.rotation);
             hitPart.GetComponent<SpecialFXGraphic>().OnInitialized(m_hitParticle);
         }
+        AudioManager.Instance.PlaySFXAtPosition(hitSFX, position);
     }
 }

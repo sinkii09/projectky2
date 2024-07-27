@@ -9,13 +9,15 @@ using UnityEngine.VFX;
 
 public class test : MonoBehaviour
 {
-    [SerializeField] KillNotifyHolder killNotifyHolder;
-
+    [SerializeField] string SFXname;
+    private void Start()
+    {
+    }
     private void Update()
     {
         if(Input.GetMouseButtonDown(0))
         {
-            killNotifyHolder.UpdateCardList("abdsf", "adfaewr");
+            AudioManager.Instance.PlaySFXAtPosition(SFXname, transform.position + new Vector3(1,1,1));
         }
     }
 }

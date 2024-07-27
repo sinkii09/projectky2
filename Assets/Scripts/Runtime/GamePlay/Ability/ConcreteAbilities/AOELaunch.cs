@@ -30,7 +30,7 @@ public class AOELaunch : Ability
     }
     private void OnHit(ServerCharacter serverCharacter)
     {
-        serverCharacter.ClientCharacter.ClientPlaySFXRpc(serverCharacter.physicsWrapper.Transform.position, special: IsSpecialAbility);
+        serverCharacter.ClientCharacter.ClientPlayAbilitySFXRpc(serverCharacter.physicsWrapper.Transform.position, special: IsSpecialAbility);
         var colliders = Physics.OverlapSphere(data.Position, Radius, LayerMask.GetMask("PCs"));
         for (var i = 0; i < colliders.Length; i++)
         {

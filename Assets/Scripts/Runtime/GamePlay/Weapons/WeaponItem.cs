@@ -51,7 +51,8 @@ public class WeaponItem : NetworkBehaviour
             {
                 m_CanPickup = false;
                 serverCharacter.CurrentWeaponId.Value = m_ID;
-                serverCharacter.WeaponUseTimeAmount.Value = m_Amount; 
+                serverCharacter.WeaponUseTimeAmount.Value = m_Amount;
+                PlaySfxRpc(serverCharacter.OwnerClientId);
                 NetworkObject.Despawn();
             }
         }
@@ -61,5 +62,14 @@ public class WeaponItem : NetworkBehaviour
     {
         var weaponData = GamePlayDataSource.Instance.GetWeaponPrototypeByID(weaponId);
         visual = Instantiate(weaponData.Visual,transform);
+    }
+    [Rpc(SendTo.ClientsAndHost,RequireOwnership = false)]
+    void PlaySfxRpc(ulong clientId)
+    {
+        if (clientId == NetworkManager.LocalClientId)
+        {
+            AudioManager.Instance.PlaySFX("Collect");
+        }
+
     }
 }

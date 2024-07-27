@@ -144,7 +144,7 @@ public class CharacterSpawner : NetworkBehaviour,IDisposable
     {
         OnSpawnComplete?.Invoke();
     }
-    Transform GetRandomTransformInList()
+    public Transform GetRandomTransformInList()
     {
         Transform spawnPoint = null;
         if (m_PlayerSpawnPointsList == null || m_PlayerSpawnPointsList.Count == 0)
