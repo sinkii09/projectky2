@@ -125,6 +125,7 @@ public class MainMenuLogic : MonoBehaviour
     #region matchmake
     public void PlayButtonPressed(Map map)
     {
+        Debug.Log(map.ToString());
         gameManager.SetGameMap(map);
         gameManager.SetGameQueue(GameQueue);
         gameManager.SetGameMode(PlayMode);
