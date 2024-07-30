@@ -53,8 +53,8 @@ public class InventoryManager : MonoBehaviour
     public List<InventoryItem> localInventory = new List<InventoryItem>();
 
     public static event Action OnFetchInventorySuccess;
-    public static event Action<InventoryItem> OnEquipItemSuccess;
-
+    public static event Action<InventoryItem> OnEquipNewItem;
+    public static event Action OnSendEquipmentRequestDone;
     public Dictionary<ulong, string> matchplayClient = new Dictionary<ulong, string>();
     public Dictionary<ulong, EquippedItem[]> clientEquipment = new Dictionary<ulong, EquippedItem[]>();
     private void Awake()
@@ -126,15 +126,16 @@ public class InventoryManager : MonoBehaviour
     {
         Debug.Log(message);
     }
-    public void ChangeEquipItem(string category)
+    public void ChangeEquipItem(InventoryItem item)
     {
-        int idx = 0;
-        var categorylist = GetItemsByCategory(category);
-        if(categorylist.Count > 0)
+        if (item == null) return;
+        var categorylist = GetItemsByCategory(item.itemDetails.category);
+        var idx = 0;
+        if (categorylist.Count > 0)
         {
             for (int i = 0; i < categorylist.Count; i++)
             {
-                if (categorylist[i].equipped)
+                if (categorylist[i].itemDetails._id == item.itemDetails._id)
                 {
                     if (i + 1 < categorylist.Count)
                     {
@@ -164,28 +165,29 @@ public class InventoryManager : MonoBehaviour
     }
     public void EquipItem(InventoryItem item)
     {
-        if(item.equipped)
+        Debug.Log(item.itemDetails.name);
+        OnEquipNewItem?.Invoke(item);
+    }
+    public void SendEquipItemRequest(InventoryItem item)
+    {
+        if(item!= null)
         {
-            Debug.Log("item is already equipped");
+            UserManager.Instance.EquipItemRequest(item.itemDetails._id, EquipItemSuccess, EquipItemFailed);
         }
         else
         {
-            EquipItemRequest(item.itemDetails._id);
+            OnSendEquipmentRequestDone?.Invoke();
         }
-    }
-    void EquipItemRequest(string itemId)
-    {
-        UserManager.Instance.EquipItemRequest(itemId, EquipItemSuccess, EquipItemFailed);
     }
     void EquipItemSuccess(InventoryItem item)
     {
         FetchInventory();
-        Debug.Log(item.itemDetails.name);
-        OnEquipItemSuccess?.Invoke(item);
+        OnSendEquipmentRequestDone?.Invoke();
     }
     void EquipItemFailed(string message)
     {
-        PopupManager.Instance.ShowPopup(message);
+        OnSendEquipmentRequestDone?.Invoke();
+        Debug.Log(message);
     }
     public List<InventoryItem> GetItemsByCategory(string category)
     {

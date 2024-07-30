@@ -10,8 +10,6 @@ public class ClientSingleton : MonoBehaviour
 
     static ClientSingleton instance;
 
-    ChatManager chatManager;
-
     public static ClientSingleton Instance
     {
         get
@@ -33,15 +31,9 @@ public class ClientSingleton : MonoBehaviour
 
     ClientGameManager m_GameManager;
 
-    public ChatManager ChatManager
-    {
-        get { return chatManager; }
-        set { chatManager = value; }
-    }
-
     public void CreateClient(Action InitCallback, LoginResponse reponse)
     {
-        m_GameManager = new ClientGameManager(chatManager,InitCallback,reponse);
+        m_GameManager = new ClientGameManager(InitCallback,reponse);
     }
     void Start()
     {
@@ -49,7 +41,7 @@ public class ClientSingleton : MonoBehaviour
 
     }
 
-    public void findSynchData()
+    public void FindSynchData()
     {
     }
     public void ToLoginScene()
@@ -61,6 +53,7 @@ public class ClientSingleton : MonoBehaviour
         Manager?.Dispose();
         InventoryManager.Instance.Dispose();
         ShopManager.Instance.Dispose();
+        ChatManager.Instance.OnLogout();
         ToLoginScene();
     }
     void OnDestroy()

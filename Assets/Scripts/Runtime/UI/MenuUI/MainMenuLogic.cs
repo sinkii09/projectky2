@@ -57,7 +57,7 @@ public class MainMenuLogic : MonoBehaviour
         InventoryManager.Instance.FetchInventory();
 
         InventoryManager.OnFetchInventorySuccess += InventoryManager_OnFetchInventorySuccess;
-        
+        InventoryManager.OnSendEquipmentRequestDone += InventoryManager_OnSendEquipmentRequestDone;
     }
 
     private void OnDestroy()
@@ -66,6 +66,7 @@ public class MainMenuLogic : MonoBehaviour
         exitBtn.onClick.RemoveAllListeners();
         shopButton.onClick.RemoveAllListeners();
         InventoryManager.OnFetchInventorySuccess -= InventoryManager_OnFetchInventorySuccess;
+        InventoryManager.OnSendEquipmentRequestDone -= InventoryManager_OnSendEquipmentRequestDone;
     }
 
     private void ShowShop()
@@ -82,9 +83,16 @@ public class MainMenuLogic : MonoBehaviour
         {
             isfirstTime = false;
             changeHatButton.gameObject.SetActive(true);
-            changeHatButton.onClick.AddListener(() => { InventoryManager.Instance.ChangeEquipItem("hat"); AudioManager.Instance.PlaySFX("Btn_click01"); });
+            changeHatButton.onClick.AddListener(() => { InventoryManager.Instance.ChangeEquipItem(model.GetComponent<HatSlot>().currentItem); AudioManager.Instance.PlaySFX("Btn_click01"); });
             SpawnRandomModel();
         }
+    }
+
+    private void InventoryManager_OnSendEquipmentRequestDone()
+    {
+#pragma warning disable 4014
+        gameManager.MatchmakeAsync(UpdateTimer, OnMatchMade);
+#pragma warning restore 4014
     }
 
     #endregion
@@ -125,14 +133,21 @@ public class MainMenuLogic : MonoBehaviour
     #region matchmake
     public void PlayButtonPressed(Map map)
     {
-        Debug.Log(map.ToString());
+
         gameManager.SetGameMap(map);
         gameManager.SetGameQueue(GameQueue);
         gameManager.SetGameMode(PlayMode);
-        
+        if(model)
+        {
+            HatSlot modelHatSlot = model.GetComponent<HatSlot>();
+            InventoryManager.Instance.SendEquipItemRequest(modelHatSlot.currentItem);
+        }
+        else
+        {
 #pragma warning disable 4014
-        gameManager.MatchmakeAsync(UpdateTimer, OnMatchMade);
+            gameManager.MatchmakeAsync(UpdateTimer, OnMatchMade);
 #pragma warning restore 4014
+        }
     }
     void UpdateTimer(int elapsedSeconds)
     {
@@ -146,7 +161,7 @@ public class MainMenuLogic : MonoBehaviour
                 Debug.Log("Match making success");
                 break;
             case MatchmakerPollingResult.TicketCancellationError:
-                Debug.Log("ticket cacnel error");
+                Debug.Log("ticket cancel");
                 break;
             default:
                 PopupManager.Instance.ShowPopup(result.ToString());

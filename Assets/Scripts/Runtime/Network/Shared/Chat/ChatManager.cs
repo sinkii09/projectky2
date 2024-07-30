@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 
 public class ChatManager : MonoBehaviour
 {
+    public static ChatManager Instance { get; private set; }
+
     private SocketIO client;
 
     private string url = "https://projectky2-bdb1fda54766.herokuapp.com";
@@ -18,10 +20,20 @@ public class ChatManager : MonoBehaviour
     bool isInitialize;
     public bool IsInit => isInitialize;
 
-    [SerializeField] ChatUI chatUI;
+    public static Action<ChatMessage> OnChatLog;
+    public static Action OnClearChat;
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
     }
     public void InitializeClient(string token, User user)
     {
@@ -65,13 +77,13 @@ public class ChatManager : MonoBehaviour
             var messages = response.GetValue<List<ChatMessage>>();
             UnityMainThreadDispatcher.Instance().Enqueue(() =>
             {
-                chatUI.ClearLog();
+                OnClearChat?.Invoke();
             });
             foreach (var message in messages)
             {
                 UnityMainThreadDispatcher.Instance().Enqueue(() =>
                 {
-                    chatUI.LogText(message);
+                    OnChatLog?.Invoke(message);
                 });
             }
         });
@@ -81,7 +93,7 @@ public class ChatManager : MonoBehaviour
             Debug.Log("Received message from " + chatMessage.SenderName + ": " + chatMessage.Message);
             UnityMainThreadDispatcher.Instance().Enqueue(()=>
             {
-                chatUI.LogText(chatMessage);
+                OnChatLog?.Invoke(chatMessage);
             });
         });
         try
@@ -93,7 +105,6 @@ public class ChatManager : MonoBehaviour
             throw new Exception(e.ToString());
         }
         isInitialize = true;
-        chatUI.ActiveChatUI(true);
     }
     public async void SendChatMessage(string message)
     {
@@ -107,13 +118,13 @@ public class ChatManager : MonoBehaviour
             catch (Exception ex)
             {
                 ChatMessage chatMessage = new ChatMessage{Message = "Error sending message: " + ex.Message};
-                chatUI.LogText(chatMessage);
+                OnChatLog?.Invoke(chatMessage);
             }
         }
         else
         {
             ChatMessage chatMessage = new ChatMessage { Message = "Cannot send message, client not connected" };
-            chatUI.LogText(chatMessage);
+            OnChatLog?.Invoke(chatMessage);
         }
     }
     public async Task JoinRoomChat(string newRoomId)
@@ -127,7 +138,7 @@ public class ChatManager : MonoBehaviour
         catch (Exception e)
         {
             ChatMessage chatMessage = new ChatMessage { Message = "Cannot join room chat - " + e };
-            chatUI.LogText(chatMessage);
+            OnChatLog?.Invoke(chatMessage);
         }
     }
     internal async void LeaveRoomChatAsync(string roomId)

@@ -16,6 +16,7 @@ public class HatSlot : MonoBehaviour
     public ulong owner { get; set; }
 
     string currentHat;
+    public InventoryItem currentItem { get; private set; }
 
     private void Awake()
     {
@@ -27,12 +28,12 @@ public class HatSlot : MonoBehaviour
     private void Start()
     {
         InventoryManager.OnFetchInventorySuccess += InventoryManager_OnFetchInventorySuccess;
-        InventoryManager.OnEquipItemSuccess += InventoryManager_OnEquipItemSuccess;
+        InventoryManager.OnEquipNewItem += InventoryManager_OnEquipNewItem;
     }
 
     private void OnDestroy()
     {
-        InventoryManager.OnEquipItemSuccess -= InventoryManager_OnEquipItemSuccess;
+        InventoryManager.OnEquipNewItem -= InventoryManager_OnEquipNewItem;
         InventoryManager.OnFetchInventorySuccess -= InventoryManager_OnFetchInventorySuccess;
     }
     public void Initialize(ulong clientId = 0)
@@ -47,13 +48,13 @@ public class HatSlot : MonoBehaviour
             var item = InventoryManager.Instance.GetClientItem(owner,"hat");
             if(item != null)
             {
-                ShowHat(item.name);
+                ShowHatByName(item.name);
             }
         }
     }
-    private void InventoryManager_OnEquipItemSuccess(InventoryItem obj)
+    private void InventoryManager_OnEquipNewItem(InventoryItem obj)
     {
-        ShowHat(obj.itemDetails.name);
+        ShowHat(obj);
     }
 
     private void InventoryManager_OnFetchInventorySuccess()
@@ -68,43 +69,67 @@ public class HatSlot : MonoBehaviour
         {
             if(item.equipped)
             {
-                ShowHat(item.itemDetails.name);
+                ShowHat(item);
             }
         }
     }
-    public void ShowHat(string hatName)
+    public void ShowHat(InventoryItem item)
     {
-        if (hatName == currentHat) return;
+        if (item == currentItem) return;
         if (holder == null) return;
-        
+        currentItem = item;
         foreach (Transform child in holder)
         {
             child.gameObject.SetActive(false);
         }
-        switch (hatName)
+        switch (item.itemDetails.name)
         {
             case "Crown Hat":
-                currentHat = hatName;
                 hat_Crow_Visual.SetActive(true);
                 break;
             case "Top Hat":
-                currentHat = hatName;
                 hat_Gentleman_Visual.SetActive(true);
                 break;
             case "Winter Hat":
-                currentHat = hatName;
                 hat_Winter_Visual.SetActive(true);
                 break;
             case "Viking Hat":
-                currentHat = hatName;
                 hat_Viking_Visual.SetActive(true);
                 break;
             case "Wizard Hat":
-                currentHat = hatName;
                 hat_Wizard_Visual.SetActive(true);
                 break;
             default:
-                Debug.Log($"Unavailable Hat name: {hatName}");
+                Debug.Log($"Unavailable Hat name: {item.itemDetails.name}");
+                break;
+        }
+    }
+    public void ShowHatByName(string itemName)
+    {
+        if (holder == null) return;
+        foreach (Transform child in holder)
+        {
+            child.gameObject.SetActive(false);
+        }
+        switch (itemName)
+        {
+            case "Crown Hat":
+                hat_Crow_Visual.SetActive(true);
+                break;
+            case "Top Hat":
+                hat_Gentleman_Visual.SetActive(true);
+                break;
+            case "Winter Hat":
+                hat_Winter_Visual.SetActive(true);
+                break;
+            case "Viking Hat":
+                hat_Viking_Visual.SetActive(true);
+                break;
+            case "Wizard Hat":
+                hat_Wizard_Visual.SetActive(true);
+                break;
+            default:
+                Debug.Log($"Unavailable Hat name: {itemName}");
                 break;
         }
     }

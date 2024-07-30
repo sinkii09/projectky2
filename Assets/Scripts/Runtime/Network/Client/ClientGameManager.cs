@@ -15,22 +15,20 @@ public class ClientGameManager : IDisposable
     public User User { get; private set; }
     public NetworkClient NetworkClient { get; private set; }
     public Matchmaker Matchmaker { get; private set; }
-    public ChatManager ChatManager { get; private set; }
     public bool Initialized { get; private set; } = false;
 
     private AuthState authResult = AuthState.NotAuthenticated;
 
     string connectIp = string.Empty;
     private string connectPort = string.Empty;
-    public ClientGameManager(ChatManager chatManager,Action InitCallback,LoginResponse response,string profileName = "default")
+    public ClientGameManager(Action InitCallback,LoginResponse response,string profileName = "default")
     {
         User = new User(response);
         Debug.Log($"Beginning with new Profile:{User.UserId}");
         Debug.Log($"token: {User.AcessToken}");
         UserManager.Instance.AccessToken = User.AcessToken;
         
-        ChatManager = chatManager;
-        ChatManager.InitializeClient(User.AcessToken, User);
+        ChatManager.Instance.InitializeClient(User.AcessToken, User);
 
 #pragma warning disable 4014
         InitAsync(InitCallback);
@@ -132,6 +130,6 @@ public class ClientGameManager : IDisposable
         }
         NetworkClient?.Dispose();
         Matchmaker?.Dispose();
-        ChatManager.OnLogout();
+        
     }
 }

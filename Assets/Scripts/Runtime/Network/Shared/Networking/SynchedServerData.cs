@@ -35,6 +35,6 @@ public class SynchedServerData : NetworkBehaviour
     async void JoinChat(string room)
     {
         Debug.Log($"join room {room}");
-        await ClientSingleton.Instance.ChatManager.JoinRoomChat(room);
+        await ChatManager.Instance.JoinRoomChat(room);
     }
 }

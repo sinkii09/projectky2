@@ -6,9 +6,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ChatUI : MonoBehaviour
+public class ChatUI : ToggleWindow
 {
-    [SerializeField] ChatManager chatManager;
     [SerializeField] GameObject chatWindow;
     [SerializeField] GameObject redNote;
     [SerializeField] Toggle chatToggle;
@@ -22,25 +21,35 @@ public class ChatUI : MonoBehaviour
     public bool IsChating { get; private set; } 
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
-
         chatWindow.SetActive(false);
-        ActiveChatUI(false);
     }
     private void Start()
     {
-        chatToggle.onValueChanged.AddListener((isOn) => OnToggleValueChanged(isOn));
+        if(chatToggle != null)
+        {
+            chatToggle.onValueChanged.AddListener((isOn) => OnToggleValueChanged(isOn));
+        }
         sendTextBtn.onClick.AddListener(() => { SendText(); AudioManager.Instance.PlaySFX("Btn_click01"); });
+
+        ChatManager.OnChatLog += LogText;
+        ChatManager.OnClearChat += ClearLog;
     }
 
     private void OnDestroy()
     {
+        if( chatToggle != null )
+        {
+            chatToggle.onValueChanged.RemoveAllListeners();
+        }
         chatText.text = null;
         sendTextBtn.onClick.RemoveAllListeners();
+
+        ChatManager.OnChatLog -= LogText;
+        ChatManager.OnClearChat -= ClearLog;
     }
     private void Update()
     {
-        if (!chatManager.IsInit)
+        if (!ChatManager.Instance.IsInit)
         {
             return;
         }
@@ -60,7 +69,10 @@ public class ChatUI : MonoBehaviour
             else
             {
                 chatWindow.SetActive(false);
-                chatToggle.isOn = false;
+                if (chatToggle != null)
+                {
+                    chatToggle.isOn = false;
+                }
             }
         }
         if (chatList.Count > 25)
@@ -71,6 +83,7 @@ public class ChatUI : MonoBehaviour
         if(chatWindow.activeInHierarchy)
         {
             IsChating = true;
+            redNote.SetActive(false);
         }
         else
         {
@@ -81,7 +94,7 @@ public class ChatUI : MonoBehaviour
     {
         if (!string.IsNullOrWhiteSpace(chatInputField.text))
         {
-            chatManager.SendChatMessage(chatInputField.text);
+            ChatManager.Instance.SendChatMessage(chatInputField.text);
             chatInputField.text = string.Empty;
             EventSystem.current.SetSelectedGameObject(chatInputField.gameObject, null);
             chatInputField.OnPointerClick(new PointerEventData(EventSystem.current));
@@ -108,15 +121,7 @@ public class ChatUI : MonoBehaviour
 
     private void OnToggleValueChanged(bool isOn)
     {
-        if(isOn)
-        {
-            redNote.SetActive(false);
-        }
         chatWindow?.SetActive(isOn);
     }
 
-    public void ActiveChatUI(bool isOn)
-    {
-        chatToggle.gameObject.SetActive(isOn);
-    }
 }

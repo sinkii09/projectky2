@@ -36,7 +36,7 @@ public class ShopItemUI : MonoBehaviour
         {
             if(item.itemDetails._id == itemId)
             {
-                purchaseBtn.interactable = false;
+                gameObject.SetActive(false);
             }
         }
     }
