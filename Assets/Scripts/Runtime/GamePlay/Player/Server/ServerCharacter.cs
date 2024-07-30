@@ -102,7 +102,7 @@ public class ServerCharacter : NetworkBehaviour
     }
     private void FixedUpdate()
     {
-        if (IsSpawned)
+        if (IsSpawned && IsServer)
         {
             if (Time.time - startTime >= 1 && ManaPoint.Value < 100)
             {
@@ -112,6 +112,10 @@ public class ServerCharacter : NetworkBehaviour
             if (ManaPoint.Value > 100)
             {
                 ManaPoint.Value = 100;
+            }
+            if(ManaPoint.Value < 0)
+            {
+                ManaPoint.Value = 0;
             }
         }
     }
@@ -286,7 +290,8 @@ public class ServerCharacter : NetworkBehaviour
     {
         if (ManaPoint.Value < 100)
         {
-            ManaPoint.Value = Mathf.Clamp(ManaPoint.Value + point, 0, 100);
+            Debug.Log("mana point - " + point);
+            ManaPoint.Value -= -point;
         }
     }
     public void Revive(Vector3 position)

@@ -61,23 +61,13 @@ public class ClientInputSender : NetworkBehaviour
         m_InputReader.MoveEvent += InputReader_MoveEvent;
         m_InputReader.SpecialInputEvent += InputReader_SpecialInputEvent;
 
-        m_ServerCharacter.CurrentWeaponId.OnValueChanged += OnCurrentWeaponChanged;
-        m_ServerCharacter.WeaponUseTimeAmount.OnValueChanged += OnWeaponAmountUseAmountChanged;
-        NetworkManager.Singleton.SceneManager.OnLoadEventCompleted += SceneManager_OnLoadEventCompleted;
-        m_ActionLayerMask = LayerMask.GetMask(new[] { "PCs", "Environment", "Ground" });
+        m_ActionLayerMask = LayerMask.GetMask(new[] { "PCs", "Ground" });
     }
     public override void OnNetworkDespawn()
     {
         m_CanInput = false;
         m_InputReader.MoveEvent -= InputReader_MoveEvent;
         m_InputReader.SpecialInputEvent -= InputReader_SpecialInputEvent;
-        if (m_ServerCharacter)
-        {
-            m_ServerCharacter.WeaponUseTimeAmount.OnValueChanged -= OnWeaponAmountUseAmountChanged;
-            m_ServerCharacter.CurrentWeaponId.OnValueChanged -= OnCurrentWeaponChanged;
-            
-        }
-        NetworkManager.Singleton.SceneManager.OnLoadEventCompleted -= SceneManager_OnLoadEventCompleted;
     }
     private void InputReader_SpecialInputEvent(bool obj)
     {
@@ -97,11 +87,6 @@ public class ClientInputSender : NetworkBehaviour
                 m_AttackType = AttackType.BaseAttack;
                 return;
         }
-    }
-
-    private void OnCurrentWeaponChanged(WeaponID previousValue, WeaponID newValue)
-    {
-        m_MainPlayerIngameCard.UpdateBaseAttackWeapon(newValue);
     }
 
     private void Update()
@@ -146,28 +131,7 @@ public class ClientInputSender : NetworkBehaviour
             ClientMoveEvent?.Invoke(moveDir);
         }
     }
-    private void SceneManager_OnLoadEventCompleted(string sceneName, UnityEngine.SceneManagement.LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
-    {
-        if (sceneName == "Map1" || sceneName == "Map2")
-        {
-            m_MainPlayerIngameCard = FindObjectOfType<MainPlayerIngameCard>();
-            m_MainPlayerIngameCard.UpdateBaseAttackWeapon(m_ServerCharacter.CurrentWeaponId.Value);
-            m_MainPlayerIngameCard.UpdateSpecial(m_ServerCharacter.CharacterStats);
-            m_MainPlayerIngameCard.UpdateWeaponAmount(true);
-        }
-    }
 
-    private void OnWeaponAmountUseAmountChanged(int previousValue, int newValue)
-    {
-        if (m_ServerCharacter.CurrentWeaponId.Value != m_ServerCharacter.CharacterStats.WeaponData.Id && newValue > 0)
-        {
-            m_MainPlayerIngameCard.UpdateWeaponAmount(false, newValue);
-        }
-        else
-        {
-            m_MainPlayerIngameCard.UpdateWeaponAmount(true);
-        }
-    }
 
     private void HideIndicator()
     {

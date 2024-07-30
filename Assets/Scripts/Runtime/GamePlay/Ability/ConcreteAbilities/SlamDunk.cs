@@ -76,6 +76,7 @@ public class SlamDunk : Ability
     private void OnHit(ServerCharacter serverCharacter)
     {
         serverCharacter.Movement.CancelMove();
+        serverCharacter.transform.position = new Vector3(serverCharacter.transform.position.x, 1, serverCharacter.transform.position.z);
         serverCharacter.ClientCharacter.ClientPlayEffectRpc(endPoint, serverCharacter.physicsWrapper.Transform.rotation,special:IsSpecialAbility);
         isStart = false;
         int hitCount = Physics.OverlapSphereNonAlloc(serverCharacter.physicsWrapper.Transform.position, data.Ability.Radius, hitColliders, targetLayer);

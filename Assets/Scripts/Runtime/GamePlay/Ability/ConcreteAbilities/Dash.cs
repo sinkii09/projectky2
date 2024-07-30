@@ -21,7 +21,7 @@ public class Dash : Ability
     List<ServerCharacter> damageCharacterList = new List<ServerCharacter>();
     public override void Activate(ServerCharacter serverCharacter, AbilityRequest data)
     {
-        serverCharacter.physicsWrapper.Transform.forward = data.Direction;
+        serverCharacter.physicsWrapper.Transform.LookAt(data.Direction);
         serverCharacter.ServerAnimationHandler.NetworkAnimator.SetTrigger(abilityAnimationTrigger);
         serverCharacter.ClientCharacter.ClientPlayEffectRpc(serverCharacter.physicsWrapper.transform.position, serverCharacter.physicsWrapper.Transform.rotation,special:IsSpecialAbility);
         serverCharacter.ClientCharacter.ClientPlayAbilitySFXRpc(serverCharacter.physicsWrapper.Transform.position, special: IsSpecialAbility);

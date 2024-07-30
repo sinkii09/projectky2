@@ -143,12 +143,6 @@ public class NetworkServer : IDisposable
         }
         ServerSingleton.Instance.ServerToBackend.SendResultToBackend(stats);
     }
-    public void StartGame()
-    {
-        Debug.Log("Start Game!!!");
-
-        //NetworkManager.Singleton.SceneManager.LoadScene("Gameplay", LoadSceneMode.Single);
-    }
     void OnNetworkReady()
     {
         m_NetworkManager.OnClientDisconnectCallback += OnClientDisconnect;
@@ -169,45 +163,52 @@ public class NetworkServer : IDisposable
         }
 
         var payload = System.Text.Encoding.UTF8.GetString(request.Payload);
-        var userData = JsonUtility.FromJson<UserData>(payload);
-        userData.networkId = request.ClientNetworkId;
-        Debug.Log($"Host ApprovalCheck: connecting client: ({request.ClientNetworkId}) - {userData}");
-
-        //Test for Duplicate Login.
-        if (m_ClientData.ContainsKey(userData.userAuthId))
+        Debug.Log($"ApprovalCheck: Payload: {payload}");
+        try
         {
-            ulong oldClientId = m_ClientData[userData.userAuthId].networkId;
-            Debug.Log($"Duplicate ID Found : {userData.userAuthId}, Disconnecting Old user");
+            var userData = JsonUtility.FromJson<UserData>(payload);
+            userData.networkId = request.ClientNetworkId;
+            Debug.Log($"Host ApprovalCheck: connecting client: ({request.ClientNetworkId}) - {userData}");
 
-            // kicking old client to leave only current
-            SendClientDisconnected(request.ClientNetworkId, ConnectStatus.LoggedInAgain);
-            WaitToDisconnect(oldClientId);
+            if (m_ClientData.ContainsKey(userData.userAuthId))
+            {
+                ulong oldClientId = m_ClientData[userData.userAuthId].networkId;
+                Debug.Log($"Duplicate ID Found: {userData.userAuthId}, Disconnecting Old user");
+
+                SendClientDisconnected(request.ClientNetworkId, ConnectStatus.LoggedInAgain);
+                WaitToDisconnect(oldClientId);
+            }
+
+            SendClientConnected(request.ClientNetworkId, ConnectStatus.Success);
+
+            m_NetworkIdToAuth[request.ClientNetworkId] = userData.userAuthId;
+            m_ClientData[userData.userAuthId] = userData;
+            UserDataList.Add(userData);
+            clientUserIdData[request.ClientNetworkId] = userData.userId;
+            OnPlayerJoined?.Invoke(userData);
+
+            response.Approved = true;
+            response.CreatePlayerObject = true;
+            response.Position = Vector3.zero;
+            response.Rotation = Quaternion.identity;
+            response.Pending = false;
+
+            var scheduler = TaskScheduler.FromCurrentSynchronizationContext();
+            Task.Factory.StartNew(
+                async () => await SetupPlayerPrefab(request.ClientNetworkId, userData.userName, userData.userId),
+                System.Threading.CancellationToken.None,
+                TaskCreationOptions.None, scheduler
+            );
         }
-
-        SendClientConnected(request.ClientNetworkId,ConnectStatus.Success);
-
-        //Populate our dictionaries with the playerData
-        m_NetworkIdToAuth[request.ClientNetworkId] = userData.userAuthId;
-        m_ClientData[userData.userAuthId] = userData;
-        UserDataList.Add(userData);
-        clientUserIdData[request.ClientNetworkId] = userData.userId;
-        OnPlayerJoined?.Invoke(userData);
-
-        //Set response data
-        response.Approved = true;
-        response.CreatePlayerObject = true;
-        response.Position = Vector3.zero;
-        response.Rotation = Quaternion.identity;
-        response.Pending = false;
-
-        //connection approval will create a player object for you
-        //Run an async 'fire and forget' task to setup the player network object data when it is intiialized, uses main thread context.
-        var scheduler = TaskScheduler.FromCurrentSynchronizationContext();
-        Task.Factory.StartNew(
-            async () => await SetupPlayerPrefab(request.ClientNetworkId, userData.userName, userData.userId),
-            System.Threading.CancellationToken.None,
-            TaskCreationOptions.None, scheduler
-        );
+        catch (Exception ex)
+        {
+            Debug.LogError($"Error processing payload: {ex.Message}");
+            response.Approved = false;
+            response.CreatePlayerObject = false;
+            response.Position = null;
+            response.Rotation = null;
+            response.Pending = false;
+        }
     }
     private void OnClientDisconnect(ulong networkId)
     {

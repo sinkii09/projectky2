@@ -121,6 +121,7 @@ public class ClientCharacter : NetworkBehaviour
         m_ServerCharacter.CurrentWeaponId.OnValueChanged += OnCurrentWeaponChanged;
         m_ServerCharacter.ManaPoint.OnValueChanged += OnManaPointChanged;
         m_ServerCharacter.IsInvincilbe.OnValueChanged += OnInvincibleChanged;
+        m_ServerCharacter.WeaponUseTimeAmount.OnValueChanged += OnWeaponAmountUseAmountChanged;
         OnMovementStatusChanged(MovementStatus.Normal, m_ServerCharacter.MovementStatus.Value);
         m_WeaponVisualHolder.UpdateWeaponVisual(serverCharacter.CurrentWeaponId.Value);
         transform.SetPositionAndRotation(serverCharacter.physicsWrapper.Transform.position, serverCharacter.physicsWrapper.Transform.rotation);
@@ -140,6 +141,7 @@ public class ClientCharacter : NetworkBehaviour
         {
             m_ServerCharacter.LifeState.OnValueChanged -= OnLifeStateChanged;
             m_ServerCharacter.CurrentWeaponId.OnValueChanged -= OnCurrentWeaponChanged;
+            m_ServerCharacter.WeaponUseTimeAmount.OnValueChanged -= OnWeaponAmountUseAmountChanged;
             m_ClientInputSender.ClientMoveEvent -= OnMoveInput;
             m_ServerCharacter.ManaPoint.OnValueChanged -= OnManaPointChanged;
             m_ServerCharacter.IsInvincilbe.OnValueChanged -= OnInvincibleChanged;
@@ -166,10 +168,21 @@ public class ClientCharacter : NetworkBehaviour
             m_MainPlayerIngameCard.UpdateCurrentMana(newValue);
         }
     }
-
+    private void OnWeaponAmountUseAmountChanged(int previousValue, int newValue)
+    {
+        if (m_ServerCharacter.CurrentWeaponId.Value != m_ServerCharacter.CharacterStats.WeaponData.Id && newValue > 0)
+        {
+            m_MainPlayerIngameCard.UpdateWeaponAmount(false, newValue);
+        }
+        else
+        {
+            m_MainPlayerIngameCard.UpdateWeaponAmount(true);
+        }
+    }
     private void OnCurrentWeaponChanged(WeaponID previousValue, WeaponID newValue)
     {
-        if(newValue == serverCharacter.CharacterStats.WeaponData.Id)
+        m_MainPlayerIngameCard.UpdateBaseAttackWeapon(newValue);
+        if (newValue == serverCharacter.CharacterStats.WeaponData.Id)
         {
             if(OwnerClientId == NetworkManager.LocalClientId)
             {
@@ -227,7 +240,7 @@ public class ClientCharacter : NetworkBehaviour
 
     private void SceneManager_OnLoadEventCompleted(string sceneName, UnityEngine.SceneManagement.LoadSceneMode loadSceneMode, List<ulong> clientsCompleted, List<ulong> clientsTimedOut)
     {
-        if (sceneName == "Map1" || sceneName == "Map2")
+        if (sceneName == "Map1" || sceneName == "Map2" || sceneName == "Map3")
         {
             if (m_ServerCharacter.IsOwner)
             {
@@ -235,6 +248,9 @@ public class ClientCharacter : NetworkBehaviour
             }
             CharacterSpawner spawner = FindObjectOfType<CharacterSpawner>();
             m_MainPlayerIngameCard = FindObjectOfType<MainPlayerIngameCard>();
+            m_MainPlayerIngameCard.UpdateBaseAttackWeapon(m_ServerCharacter.CurrentWeaponId.Value);
+            m_MainPlayerIngameCard.UpdateSpecial(m_ServerCharacter.CharacterStats);
+            m_MainPlayerIngameCard.UpdateWeaponAmount(true);
             foreach (var player in spawner.Players)
             {
                 if(player.ClientId == serverCharacter.OwnerClientId)
@@ -375,7 +391,7 @@ public class ClientCharacter : NetworkBehaviour
 
     internal void OnTriggerTeleGate(bool canTele, Teleport gate)
     {
-        throw new NotImplementedException();
+        
     }
 }
 

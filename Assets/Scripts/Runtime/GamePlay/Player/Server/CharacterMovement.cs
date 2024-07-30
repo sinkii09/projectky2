@@ -151,6 +151,7 @@ public class CharacterMovement : NetworkBehaviour
             movementVector = moveDirection;
             if (moveDirection == Vector3.zero)
             {
+                m_Rigidbody.velocity = Vector3.zero;
                 m_MovementState = MovementState.Idle;
                 return;
             }

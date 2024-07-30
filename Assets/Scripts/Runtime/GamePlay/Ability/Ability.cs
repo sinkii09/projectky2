@@ -76,7 +76,6 @@ public abstract class Ability : ScriptableObject
     {
         if(!string.IsNullOrEmpty(SFX_Name))
         {
-            Debug.Log($"{SFX_Name},{position}");
             AudioManager.Instance.PlaySFXAtPosition(SFX_Name,position);
         }
     }

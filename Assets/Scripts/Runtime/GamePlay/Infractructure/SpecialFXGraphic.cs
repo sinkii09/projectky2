@@ -21,6 +21,7 @@ public class SpecialFXGraphic : MonoBehaviour
 
         if(!m_IsShutdown)
         {
+            gameObject.transform.position = Vector3.zero;
             ParticlePool.Singleton.ReturnObject(gameObject,prefab);
             m_IsShutdown = true;
         }
