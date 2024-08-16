@@ -7,7 +7,7 @@ public class MeleeAttack : Ability
     static RaycastHit[] s_Hits = new RaycastHit[4];
     public override void Activate(ServerCharacter serverCharacter, AbilityRequest data)
     {
-        serverCharacter.physicsWrapper.Transform.LookAt(data.Direction);
+        serverCharacter.physicsWrapper.Transform.rotation = Quaternion.LookRotation(data.Direction);
         serverCharacter.ServerAnimationHandler.NetworkAnimator.SetTrigger(abilityAnimationTrigger);
         serverCharacter.ClientCharacter.ClientPlayEffectRpc(serverCharacter.physicsWrapper.Transform.position, serverCharacter.physicsWrapper.Transform.rotation, 0,IsSpecialAbility);
         TriggerAttack(serverCharacter);

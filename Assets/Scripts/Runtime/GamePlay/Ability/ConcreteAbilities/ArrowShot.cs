@@ -8,7 +8,7 @@ public class ArrowShot : Ability
 {
     public override void Activate(ServerCharacter serverCharacter, AbilityRequest data)
     {
-        serverCharacter.physicsWrapper.Transform.LookAt(data.Direction);
+        serverCharacter.physicsWrapper.Transform.rotation = Quaternion.LookRotation(data.Direction);
         serverCharacter.ServerAnimationHandler.NetworkAnimator.SetTrigger(abilityAnimationTrigger);
         serverCharacter.ClientCharacter.ClientPlayEffectRpc(serverCharacter.physicsWrapper.Transform.position, Quaternion.identity, special: IsSpecialAbility);
         serverCharacter.ClientCharacter.ClientPlayAbilitySFXRpc(serverCharacter.physicsWrapper.Transform.position,special: IsSpecialAbility);

@@ -13,6 +13,7 @@ public class SettingPopup : MonoBehaviour
     [SerializeField] Slider sfxSlider;
     [SerializeField] Toggle bgmToggle;
     [SerializeField] Toggle sfxToggle;
+
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);

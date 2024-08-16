@@ -29,21 +29,19 @@ public class HatSlot : MonoBehaviour
     {
         InventoryManager.OnFetchInventorySuccess += InventoryManager_OnFetchInventorySuccess;
         InventoryManager.OnEquipNewItem += InventoryManager_OnEquipNewItem;
+        InventoryManager.OnUnequipItem += InventoryManager_OnUnequipItem;
     }
 
     private void OnDestroy()
     {
         InventoryManager.OnEquipNewItem -= InventoryManager_OnEquipNewItem;
+        InventoryManager.OnUnequipItem -= InventoryManager_OnUnequipItem;
         InventoryManager.OnFetchInventorySuccess -= InventoryManager_OnFetchInventorySuccess;
     }
     public void Initialize(ulong clientId = 0)
     {
         owner = clientId;
-        if(owner == 0)
-        {
-            FindEquippedHatItem();
-        }
-        else
+        if(owner != 0)
         {
             var item = InventoryManager.Instance.GetClientItem(owner,"hat");
             if(item != null)
@@ -51,10 +49,19 @@ public class HatSlot : MonoBehaviour
                 ShowHatByName(item.name);
             }
         }
+        else
+        {
+            FindEquippedHatItem();
+        }
     }
     private void InventoryManager_OnEquipNewItem(InventoryItem obj)
     {
         ShowHat(obj);
+    }
+
+    private void InventoryManager_OnUnequipItem(InventoryItem obj)
+    {
+        ShowHat();
     }
 
     private void InventoryManager_OnFetchInventorySuccess()
@@ -73,15 +80,15 @@ public class HatSlot : MonoBehaviour
             }
         }
     }
-    public void ShowHat(InventoryItem item)
+    public void ShowHat(InventoryItem item = null)
     {
-        if (item == currentItem) return;
         if (holder == null) return;
-        currentItem = item;
         foreach (Transform child in holder)
         {
             child.gameObject.SetActive(false);
-        }
+        }        if (item == currentItem) return;
+        currentItem = item;
+        if (item == null) return;
         switch (item.itemDetails.name)
         {
             case "Crown Hat":

@@ -12,7 +12,7 @@ public class AOELaunch : Ability
     public override void Activate(ServerCharacter serverCharacter, AbilityRequest data)
     {
         this.data = data;
-        serverCharacter.physicsWrapper.Transform.forward = data.Direction;
+        serverCharacter.physicsWrapper.Transform.rotation = Quaternion.LookRotation(data.Direction);
         serverCharacter.ServerAnimationHandler.NetworkAnimator.SetTrigger(abilityAnimationTrigger);
 
         PerformAOE(serverCharacter,data);

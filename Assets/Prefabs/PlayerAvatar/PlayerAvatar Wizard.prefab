@@ -38,16 +38,6 @@ PrefabInstance:
       propertyPath: baseWeapon
       value: 
       objectReference: {fileID: 7010395287948876137}
-    - target: {fileID: 784068961275248728, guid: 373a1ec08978e47468756f8df154afd3,
-        type: 3}
-      propertyPath: m_Radius
-      value: 1.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 784068961275248728, guid: 373a1ec08978e47468756f8df154afd3,
-        type: 3}
-      propertyPath: m_Center.y
-      value: 1.3
-      objectReference: {fileID: 0}
     - target: {fileID: 2262781735849965543, guid: 373a1ec08978e47468756f8df154afd3,
         type: 3}
       propertyPath: m_Name

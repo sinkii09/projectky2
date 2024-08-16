@@ -192,8 +192,8 @@ MonoBehaviour:
   CMCam: {fileID: 155877338}
   LoadingScreen: {fileID: 939204952}
   m_countDownTimer: {fileID: 335670540}
-  m_CharSelectCountdownDuration: 10
-  m_InGameCountdownDuration: 600
+  m_CharSelectCountdownDuration: 30
+  m_InGameCountdownDuration: 900
   m_GameStartDelay: 5
 --- !u!1 &155877338
 GameObject:
@@ -464,6 +464,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6c4c42d7a034284ba73916c93d1e1ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  countDownType: 0
 --- !u!1 &939204952
 GameObject:
   m_ObjectHideFlags: 0

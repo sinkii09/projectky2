@@ -11,6 +11,8 @@ public class WeaponItem : NetworkBehaviour
     WeaponID m_ID;
     int m_Amount;
     GameObject visual;
+
+    [SerializeField] private GameObject auraPrefab;
     public override void OnNetworkSpawn()
     {
         if (!IsServer)
@@ -62,6 +64,8 @@ public class WeaponItem : NetworkBehaviour
     {
         var weaponData = GamePlayDataSource.Instance.GetWeaponPrototypeByID(weaponId);
         visual = Instantiate(weaponData.Visual,transform);
+        var aura = Instantiate(auraPrefab,transform);
+        aura.transform.position = transform.position + Vector3.down;
     }
     [Rpc(SendTo.ClientsAndHost,RequireOwnership = false)]
     void PlaySfxRpc(ulong clientId)

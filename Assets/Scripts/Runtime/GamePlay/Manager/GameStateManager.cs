@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public enum GamePlayState { Undefined, SelectCharacter, PlayGame, GameOver }
+public enum GamePlayState { Undefined, SelectCharacter, Standby ,PlayGame, GameOver }
 public class GameStateManager : NetworkBehaviour
 {
     public static GameStateManager Instance { get; private set; }
+
     public NetworkVariable<GamePlayState> CurrentGamePlayState { get; private set; } = new NetworkVariable<GamePlayState>(GamePlayState.Undefined);
 
     public  event Action<GamePlayState, GamePlayState> OnGamePlayStateChanged;

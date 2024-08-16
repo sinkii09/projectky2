@@ -163,6 +163,7 @@ public class ClientCharacter : NetworkBehaviour
 
     private void OnManaPointChanged(int previousValue, int newValue)
     {
+        if (serverCharacter.OwnerClientId != NetworkManager.LocalClientId) return;
         if(m_MainPlayerIngameCard!=null)
         {
             m_MainPlayerIngameCard.UpdateCurrentMana(newValue);
@@ -170,18 +171,23 @@ public class ClientCharacter : NetworkBehaviour
     }
     private void OnWeaponAmountUseAmountChanged(int previousValue, int newValue)
     {
+        if (!IsOwner) return;
         if (m_ServerCharacter.CurrentWeaponId.Value != m_ServerCharacter.CharacterStats.WeaponData.Id && newValue > 0)
         {
-            m_MainPlayerIngameCard.UpdateWeaponAmount(false, newValue);
+            m_MainPlayerIngameCard.UpdateWeaponAmount(m_ServerCharacter.CurrentWeaponId.Value,false, newValue);
         }
         else
         {
-            m_MainPlayerIngameCard.UpdateWeaponAmount(true);
+            m_MainPlayerIngameCard.UpdateWeaponAmount(m_ServerCharacter.CurrentWeaponId.Value,true);
         }
     }
     private void OnCurrentWeaponChanged(WeaponID previousValue, WeaponID newValue)
     {
-        m_MainPlayerIngameCard.UpdateBaseAttackWeapon(newValue);
+        if(IsOwner)
+        {
+            m_MainPlayerIngameCard.UpdateBaseAttackWeapon(newValue);
+            m_WeaponVisualHolder.UpdateWeaponVisual(newValue);
+        }
         if (newValue == serverCharacter.CharacterStats.WeaponData.Id)
         {
             if(OwnerClientId == NetworkManager.LocalClientId)
@@ -204,7 +210,6 @@ public class ClientCharacter : NetworkBehaviour
                 fx.GetComponent<SpecialFXGraphic>().OnInitialized(part);
             }
         }
-        m_WeaponVisualHolder.UpdateWeaponVisual(newValue);
     }
 
     private void OnLifeStateChanged(LifeStateEnum previousValue, LifeStateEnum newValue)
@@ -242,15 +247,15 @@ public class ClientCharacter : NetworkBehaviour
     {
         if (sceneName == "Map1" || sceneName == "Map2" || sceneName == "Map3")
         {
-            if (m_ServerCharacter.IsOwner)
+            if (IsOwner)
             {
                 gameObject.AddComponent<CameraController>();
+                m_MainPlayerIngameCard = FindObjectOfType<MainPlayerIngameCard>();
+                m_MainPlayerIngameCard.UpdateBaseAttackWeapon(m_ServerCharacter.CurrentWeaponId.Value);
+                m_MainPlayerIngameCard.UpdateSpecial(m_ServerCharacter.CharacterStats);
+                m_MainPlayerIngameCard.UpdateWeaponAmount(m_ServerCharacter.CurrentWeaponId.Value, true);
             }
             CharacterSpawner spawner = FindObjectOfType<CharacterSpawner>();
-            m_MainPlayerIngameCard = FindObjectOfType<MainPlayerIngameCard>();
-            m_MainPlayerIngameCard.UpdateBaseAttackWeapon(m_ServerCharacter.CurrentWeaponId.Value);
-            m_MainPlayerIngameCard.UpdateSpecial(m_ServerCharacter.CharacterStats);
-            m_MainPlayerIngameCard.UpdateWeaponAmount(true);
             foreach (var player in spawner.Players)
             {
                 if(player.ClientId == serverCharacter.OwnerClientId)
@@ -386,7 +391,10 @@ public class ClientCharacter : NetworkBehaviour
     [Rpc(SendTo.ClientsAndHost)]
     internal void DeniedActionRpc()
     {
-        AudioManager.Instance.PlaySFX("Action_Denied");
+        if(IsOwner)
+        {
+            AudioManager.Instance.PlaySFX("Action_Denied");
+        }
     }
 
     internal void OnTriggerTeleGate(bool canTele, Teleport gate)

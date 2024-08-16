@@ -54,6 +54,7 @@ public class InventoryManager : MonoBehaviour
 
     public static event Action OnFetchInventorySuccess;
     public static event Action<InventoryItem> OnEquipNewItem;
+    public static event Action<InventoryItem> OnUnequipItem;
     public static event Action OnSendEquipmentRequestDone;
     public Dictionary<ulong, string> matchplayClient = new Dictionary<ulong, string>();
     public Dictionary<ulong, EquippedItem[]> clientEquipment = new Dictionary<ulong, EquippedItem[]>();
@@ -160,13 +161,31 @@ public class InventoryManager : MonoBehaviour
                 return clientEquipment[clientId].Where(item => item.category == category).First();
             }
         }
-        Debug.Log($"can't find any item with {category}");
+        Debug.Log($"can't find any item with {category} of client: {clientId}");
         return null;
     }
     public void EquipItem(InventoryItem item)
     {
         Debug.Log(item.itemDetails.name);
+        var categorylist = GetItemsByCategory(item.itemDetails.category);
+        if (categorylist != null && categorylist.Count >0)
+        {
+            foreach (var categoryItem in categorylist)
+            {
+                if (categoryItem.equipped)
+                {
+                    UnequipItem(categoryItem);
+                }
+            }
+        }
+        item.equipped = true;
         OnEquipNewItem?.Invoke(item);
+    }
+    public void UnequipItem(InventoryItem item)
+    {
+        Debug.Log( $"unequip item: {item.itemDetails.name}");
+        item.equipped = false;
+        OnUnequipItem?.Invoke(item);
     }
     public void SendEquipItemRequest(InventoryItem item)
     {
@@ -176,7 +195,7 @@ public class InventoryManager : MonoBehaviour
         }
         else
         {
-            OnSendEquipmentRequestDone?.Invoke();
+            UserManager.Instance.EquipItemRequest("0", EquipItemSuccess, EquipItemFailed);
         }
     }
     void EquipItemSuccess(InventoryItem item)

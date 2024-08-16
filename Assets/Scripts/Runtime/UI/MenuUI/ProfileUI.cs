@@ -40,7 +40,7 @@ public class ProfileUI : MonoBehaviour
     {
         this.user = user;
         nameText.text = user.Name;
-        idText.text = user.UserId;
+        idText.text = $"Id: {user.UserId}";
     }
     void ChangeName()
     {

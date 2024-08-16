@@ -40,7 +40,7 @@ public class LoginAndRegisterLogic : MonoBehaviour
     }
     private void Start()
     {
-        ExitButton.onClick.AddListener(() => { ExitApplication(); AudioManager.Instance.PlaySFX("Btn_click01"); });
+        ExitButton.onClick.AddListener(() => { ExitGame(); AudioManager.Instance.PlaySFX("Btn_click01"); });
     }
     private void OnDestroy()
     {
@@ -127,7 +127,10 @@ public class LoginAndRegisterLogic : MonoBehaviour
     {
         SwitchState(LoginState.loading);
     }
-
+    void ExitGame()
+    {
+        PopupManager.Instance.ShowPopup("Are you sure want to quit?", ExitApplication);
+    }
     internal void ExitApplication()
     {
         AudioManager.Instance.PlaySFX("Btn_click01");

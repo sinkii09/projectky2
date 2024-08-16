@@ -57,20 +57,18 @@ public class SceneTransitionManager : NetworkBehaviour
     {
         if (IsServer)
         {
-            
             switch (newState)
             {
                 case GamePlayState.SelectCharacter:
                     PlayersLoadedCount.Value = 0;
                     LoadScene(charSelectScene);
                     break;
-                case GamePlayState.PlayGame:
+                case GamePlayState.Standby:
                     PlayersLoadedCount.Value = 0;
                     UnloadScene(charSelectScene, () =>
                     {
                         LoadScene(mapScene);
                     });
-                    
                     break;
                 case GamePlayState.GameOver:
                     LoadScene(postScene,false);

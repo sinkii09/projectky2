@@ -4,7 +4,12 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
-
+public enum CountDownType
+{
+    None,
+    Ready,
+    GamePlay
+}
 public class CountDownTimer : NetworkBehaviour
 {
     public event Action OnTimeExpired;
@@ -12,16 +17,22 @@ public class CountDownTimer : NetworkBehaviour
     private NetworkVariable<float> remainingTime = new NetworkVariable<float>();
 
     private float countdownDuration;
-    private float startTime;
+    public CountDownType countDownType = CountDownType.None;
+
+    private float start =0;
     private bool isStartCountdown;
 
     private void Update()
     {
         if (!IsServer) return;
         if (!isStartCountdown) return;
-        float elapsedTime = NetworkManager.LocalTime.TimeAsFloat - startTime;
-        remainingTime.Value = Mathf.Max(0, countdownDuration - elapsedTime);
-        UpdateTimerServer();
+        start += Time.deltaTime;
+        remainingTime.Value = Mathf.Max(0,countdownDuration - start);
+        if (start > countdownDuration)
+        {
+            isStartCountdown = false;
+            OnTimeExpired?.Invoke();
+        }
     }
     public override void OnNetworkSpawn()
     {
@@ -35,21 +46,13 @@ public class CountDownTimer : NetworkBehaviour
 
     public void StartCountdown(float duration)
     {
+        Debug.Log($"countdown duration {duration}");
         countdownDuration = duration;
-        startTime = NetworkManager.LocalTime.TimeAsFloat;
+        start = 0;
         isStartCountdown = true;
     }
     public float GetRemainingTime()
     {
         return remainingTime.Value;
-    }
-    void UpdateTimerServer()
-    {
-        if (remainingTime.Value > 0)
-        {
-            return;
-        }
-        isStartCountdown = false;
-        OnTimeExpired?.Invoke();
     }
 }

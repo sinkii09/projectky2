@@ -11,7 +11,7 @@ public class ShopItemUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI priceTxt;
     [SerializeField] Image itemImage;
     [SerializeField] Button purchaseBtn;
-
+    [SerializeField] GameObject overlay;
     string itemID;
     int itemPrice;
     public void Initialize(string id, string name, bool unique, int price, string iconName)
@@ -31,12 +31,14 @@ public class ShopItemUI : MonoBehaviour
     }
     private void CheckAvailableItem(string itemId)
     {
+        overlay.SetActive(false);
         var iventory = InventoryManager.Instance.localInventory;
         foreach (var item in iventory)
         {
             if(item.itemDetails._id == itemId)
             {
-                gameObject.SetActive(false);
+                overlay.SetActive(true);
+                purchaseBtn.interactable = false;   
             }
         }
     }

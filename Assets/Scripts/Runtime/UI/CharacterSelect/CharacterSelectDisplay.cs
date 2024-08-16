@@ -216,9 +216,9 @@ public class CharacterSelectDisplay : NetworkBehaviour
         {
             NetworkServer.Instance.SetCharacter(player.ClientId, player.CharacterId);
         }
+        
+        GamePlayBehaviour.Instance.LoadSceneDelay(3, GamePlayState.Standby);
         isGameStart = true;
-        GamePlayBehaviour.Instance.LoadSceneDelay(3,GamePlayState.PlayGame);
-
     }
     [ServerRpc(RequireOwnership = false)]
     private void LockInServerRpc(ServerRpcParams serverRpcParams = default)
@@ -249,8 +249,12 @@ public class CharacterSelectDisplay : NetworkBehaviour
         {
             NetworkServer.Instance.SetCharacter(player.ClientId, player.CharacterId);
         }
-        isGameStart = true;
-        GamePlayBehaviour.Instance.LoadSceneDelay(3,GamePlayState.PlayGame);
+        
+        if (!isGameStart)
+        {
+            GamePlayBehaviour.Instance.LoadSceneDelay(3, GamePlayState.Standby);
+            isGameStart = true;
+        }
     }
 
     private void HandlePlayersStateChanged(NetworkListEvent<CharacterSelectState> changeEvent)

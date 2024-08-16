@@ -148,7 +148,10 @@ public class ChatManager : MonoBehaviour
     }
     public void OnLogout()
     {
-        client.DisconnectAsync();
+        if(client != null)
+        {
+            client.DisconnectAsync();
+        }
         Debug.Log("log out chat");
     }
 }

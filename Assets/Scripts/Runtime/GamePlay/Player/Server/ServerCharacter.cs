@@ -106,16 +106,8 @@ public class ServerCharacter : NetworkBehaviour
         {
             if (Time.time - startTime >= 1 && ManaPoint.Value < 100)
             {
-                ManaPoint.Value += 1;
+                ReceiveMP(1);
                 startTime = Time.time;
-            }
-            if (ManaPoint.Value > 100)
-            {
-                ManaPoint.Value = 100;
-            }
-            if(ManaPoint.Value < 0)
-            {
-                ManaPoint.Value = 0;
             }
         }
     }
@@ -288,10 +280,14 @@ public class ServerCharacter : NetworkBehaviour
     }
     public void ReceiveMP(int point)
     {
-        if (ManaPoint.Value < 100)
+        ManaPoint.Value += point;
+        if (ManaPoint.Value > 100)
         {
-            Debug.Log("mana point - " + point);
-            ManaPoint.Value -= -point;
+            ManaPoint.Value = 100;
+        }
+        else if (ManaPoint.Value < 0)
+        {
+            ManaPoint.Value = 0;
         }
     }
     public void Revive(Vector3 position)
@@ -336,7 +332,6 @@ public class ServerCharacter : NetworkBehaviour
         }
         
     }
-
     //private void OnCollisionStay(Collision collision)
     //{
     //    m_Movement.SetCollisionNormal(collision.contacts[0].normal, true);

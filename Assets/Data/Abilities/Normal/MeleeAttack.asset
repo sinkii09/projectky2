@@ -21,7 +21,7 @@ MonoBehaviour:
   rejectionAnimationTrigger: 
   executeTime: 0.2
   durationTime: 0
-  cooldownTime: 1
+  cooldownTime: 0.5
   Cost: 0
   projectileInfoList: []
   weaponVisual: []

@@ -61,7 +61,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: af123c0bdce087744b0ab0df3d179672, type: 3}
     loop: 0
   - name: Action_Denied
-    clip: {fileID: 8300000, guid: 182ac0f4ce4d3194ca4acfcd06e1531c, type: 3}
+    clip: {fileID: 8300000, guid: 941b71b06617c224c92cc43698fca137, type: 3}
     loop: 0
   - name: Teleport
     clip: {fileID: 8300000, guid: 3a719549113000944aaf1908bd385a80, type: 3}
@@ -97,7 +97,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 19231517bf87a7346adab644821074a5, type: 3}
     loop: 0
   - name: Collect
-    clip: {fileID: 8300000, guid: 420e999259ad41c478ecda5f826c3e84, type: 3}
+    clip: {fileID: 8300000, guid: eb937605c594eec419bda5ac8aaa02db, type: 3}
     loop: 0
   - name: Impact
     clip: {fileID: 8300000, guid: 3ae2c3593b9d4174cb89c7d3852f5a08, type: 3}
@@ -107,6 +107,21 @@ MonoBehaviour:
     loop: 0
   - name: Thunder
     clip: {fileID: 8300000, guid: 288e08ae71c7bcf43802ad8f8d2e2c59, type: 3}
+    loop: 0
+  - name: Dead
+    clip: {fileID: 8300000, guid: 7952e3c4472db5744974d9c6678b2351, type: 3}
+    loop: 0
+  - name: Revive
+    clip: {fileID: 8300000, guid: 7a9de5c4d998126449cf964a6b27a8b0, type: 3}
+    loop: 0
+  - name: Hit
+    clip: {fileID: 8300000, guid: 8b23b175a78d6b5458322e3a6c9905d0, type: 3}
+    loop: 0
+  - name: Unequip
+    clip: {fileID: 8300000, guid: 78ad99fd0a0a5144280b07bbdba84815, type: 3}
+    loop: 0
+  - name: ElectricHit
+    clip: {fileID: 8300000, guid: 33f41d8173c7b904887e3766736f3df8, type: 3}
     loop: 0
   poolSize: 10
   audioSourcePrefab: {fileID: 6461605320103591609, guid: 9b97f7a65677d544ab9a9fd3e886d52c,

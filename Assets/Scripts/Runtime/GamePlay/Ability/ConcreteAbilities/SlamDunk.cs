@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.VFX;
 
 [CreateAssetMenu(fileName = "SlamDunk", menuName = "Abilities/SlamDunk")]
@@ -20,7 +21,7 @@ public class SlamDunk : Ability
     public override void Activate(ServerCharacter serverCharacter, AbilityRequest data)
     {
         this.data = data;
-        serverCharacter.physicsWrapper.Transform.forward = data.Direction;
+        serverCharacter.physicsWrapper.Transform.rotation = Quaternion.LookRotation(data.Direction);
         serverCharacter.ServerAnimationHandler.NetworkAnimator.SetTrigger(abilityAnimationTrigger);
         serverCharacter.ClientCharacter.ClientPlayAbilitySFXRpc(serverCharacter.physicsWrapper.Transform.position, special: IsSpecialAbility);
         targetLayer = 1 << LayerMask.NameToLayer("PCs");

@@ -32,13 +32,13 @@ public class MapScroller : MonoBehaviour
         {
             {Map.Map1, map1Sprite },
             {Map.Map2, map2Sprite },
-            {Map.Map3, map3Sprite },
+            //{Map.Map3, map3Sprite },
         };
         mapNameDictionary = new Dictionary<Map, string>
         {
             {Map.Map1, map1Name },
             {Map.Map2, map2Name },
-            {Map.Map3, map3Name },
+            //{Map.Map3, map3Name },
         }; 
         mapList = new List<Map>(mapSpriteDictionary.Keys);
 

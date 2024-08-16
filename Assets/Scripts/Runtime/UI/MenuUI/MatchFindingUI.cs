@@ -8,10 +8,11 @@ using UnityEngine.UI;
 public class MatchFindingUI : MonoBehaviour
 {
     [SerializeField] Button PlayButton;
+    [SerializeField] Button CancelButton;
     [SerializeField] MapScroller MapScroller;
     [SerializeField] ToggleSwitch modeSwitch;
     [SerializeField] TextMeshProUGUI timer_TMP;
-
+    [SerializeField] GameObject spinner;
     [SerializeField] MainMenuLogic mainMenuLogic;
     
 
@@ -20,21 +21,34 @@ public class MatchFindingUI : MonoBehaviour
     {
         
         mainMenuLogic.OnTimeLapse += UpdateTimer;
+        mainMenuLogic.OnStartMatchMake += StartMatchMake;
         PlayButton.onClick.AddListener(() => { FindMatch(); AudioManager.Instance.PlaySFX("Btn_click01"); });
+        CancelButton.onClick.AddListener(() => { CancelFindMatch(); AudioManager.Instance.PlaySFX("Btn_click01"); });
         timer_TMP.text = "00:00";
     }
+
     private void OnDestroy()
     {
         mainMenuLogic.OnTimeLapse -= UpdateTimer;
+        mainMenuLogic.OnStartMatchMake -= StartMatchMake;
         PlayButton.onClick.RemoveAllListeners();
     }
 
     public void FindMatch()
     {
         Map map = MapScroller.GetCurrentMap();
-        mainMenuLogic.PlayButtonPressed(map);
         ToggleMatchMake(true);
+        mainMenuLogic.PlayButtonPressed(map);
+        
     }
+
+    private void StartMatchMake()
+    {
+        spinner.SetActive(false);
+        timer_TMP.gameObject.SetActive(true);
+        CancelButton.gameObject.SetActive(true);
+    }
+
     public void CancelFindMatch()
     {
         mainMenuLogic.CancelMatchFinding();
@@ -50,18 +64,15 @@ public class MatchFindingUI : MonoBehaviour
     {
         this.isMatchMake = isMatchmake;
         MapScroller.ToFindMatchState(isMatchmake);
-        timer_TMP.gameObject.SetActive(isMatchmake);
-        if(isMatchmake)
+        PlayButton.gameObject.SetActive(!isMatchmake);
+        if (isMatchmake)
         {
-            PlayButton.onClick.RemoveListener(FindMatch);
-            PlayButton.onClick.AddListener(CancelFindMatch);
-            PlayButton.GetComponentInChildren<TextMeshProUGUI>().text = "Cancel";
+            spinner.SetActive(true);
         }
         else
         {
-            PlayButton.onClick.RemoveListener(CancelFindMatch);
-            PlayButton.onClick.AddListener(FindMatch);
-            PlayButton.GetComponentInChildren<TextMeshProUGUI>().text = "Play";
+            CancelButton.gameObject.SetActive(false);
+            timer_TMP.gameObject.SetActive(false);
             timer_TMP.text = "00:00";
         }
     }

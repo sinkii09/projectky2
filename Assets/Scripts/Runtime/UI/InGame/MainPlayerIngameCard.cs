@@ -10,6 +10,8 @@ public class MainPlayerIngameCard : PlayerIngameCard
     [SerializeField]
     private Image weaponIcon;
     [SerializeField]
+    private Image overlay;
+    [SerializeField]
     private TMP_Text weaponAmountText;
     [SerializeField]
     private TMP_Text weaponNameText;
@@ -23,6 +25,8 @@ public class MainPlayerIngameCard : PlayerIngameCard
 
     [SerializeField]
     public Counter counter;
+
+    private float baseAttackDuration;
     public void UpdateBaseAttackWeapon(WeaponID weaponID)
     {
         var weapon = GamePlayDataSource.Instance.GetWeaponPrototypeByID(weaponID);
@@ -38,7 +42,7 @@ public class MainPlayerIngameCard : PlayerIngameCard
     {
         manaText.text = "MP: " + value.ToString();
     }
-    internal void UpdateWeaponAmount(bool isBaseAttack, int newValue = 0)
+    internal void UpdateWeaponAmount(WeaponID iD,bool isBaseAttack, int newValue = 0)
     {
         if(!isBaseAttack)
         {
@@ -49,5 +53,13 @@ public class MainPlayerIngameCard : PlayerIngameCard
         {
             weaponAmountText.enabled = false;
         }
+        //baseAttackDuration = GamePlayDataSource.Instance.GetWeaponPrototypeByID(iD).Ability.cooldownTime;
+        //overlay.fillAmount = 1;
+
     }
+    //private void Update()
+    //{
+    //    if (overlay.fillAmount <= 0) return;
+    //    overlay.fillAmount -= Time.deltaTime/baseAttackDuration;
+    //}
 }

@@ -10,14 +10,18 @@ using UnityEngine.VFX;
 public class test : MonoBehaviour
 {
     [SerializeField] string SFXname;
+
+    [SerializeField] Vector3 direction;
     private void Start()
     {
+        transform.rotation = Quaternion.LookRotation(direction);
     }
     private void Update()
     {
         if(Input.GetMouseButtonDown(0))
         {
-            AudioManager.Instance.PlaySFXAtPosition(SFXname, transform.position + new Vector3(1,1,1));
+            transform.rotation = Quaternion.LookRotation(Vector3.zero);
+
         }
     }
 }

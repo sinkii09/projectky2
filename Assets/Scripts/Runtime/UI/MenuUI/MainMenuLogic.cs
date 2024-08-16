@@ -28,6 +28,7 @@ public class MainMenuLogic : MonoBehaviour
 
     [SerializeField] ProfileUI profileUI;
     [SerializeField] ShopUI shopUI;
+    [SerializeField] InventoryUI inventoryUI;
     [SerializeField] Button showProfileBtn;
     [SerializeField] Button shopButton;
     [SerializeField] Button exitBtn;
@@ -38,6 +39,8 @@ public class MainMenuLogic : MonoBehaviour
     private GameObject model;
 
     bool isfirstTime = true;
+
+    public Action OnStartMatchMake;
     private void Awake()
     {
         UIList = new List<GameObject>
@@ -47,17 +50,19 @@ public class MainMenuLogic : MonoBehaviour
         };
         gameManager = ClientSingleton.Instance.Manager;
         profileUI.SetUserProfile(gameManager.User); 
+        changeHatButton.gameObject.SetActive(false);
     }
     void Start()
     {
         showProfileBtn.onClick.AddListener(()=> { ShowProfile(); AudioManager.Instance.PlaySFX("Btn_click01"); });
-        exitBtn.onClick.AddListener(() => { ExitApplication(); AudioManager.Instance.PlaySFX("Btn_click01"); });
+        exitBtn.onClick.AddListener(() => { ExitGame(); AudioManager.Instance.PlaySFX("Btn_click01"); });
         shopButton.onClick.AddListener(()=> { ShowShop(); AudioManager.Instance.PlaySFX("Btn_click01"); });
         ToMainMenu();
         InventoryManager.Instance.FetchInventory();
 
         InventoryManager.OnFetchInventorySuccess += InventoryManager_OnFetchInventorySuccess;
         InventoryManager.OnSendEquipmentRequestDone += InventoryManager_OnSendEquipmentRequestDone;
+        gameManager.User.onNameChanged += OnUserNameChanged;
     }
 
     private void OnDestroy()
@@ -67,6 +72,7 @@ public class MainMenuLogic : MonoBehaviour
         shopButton.onClick.RemoveAllListeners();
         InventoryManager.OnFetchInventorySuccess -= InventoryManager_OnFetchInventorySuccess;
         InventoryManager.OnSendEquipmentRequestDone -= InventoryManager_OnSendEquipmentRequestDone;
+        gameManager.User.onNameChanged -= OnUserNameChanged;
     }
 
     private void ShowShop()
@@ -83,16 +89,14 @@ public class MainMenuLogic : MonoBehaviour
         {
             isfirstTime = false;
             changeHatButton.gameObject.SetActive(true);
-            changeHatButton.onClick.AddListener(() => { InventoryManager.Instance.ChangeEquipItem(model.GetComponent<HatSlot>().currentItem); AudioManager.Instance.PlaySFX("Btn_click01"); });
+            changeHatButton.onClick.AddListener(() => { inventoryUI.Show(); AudioManager.Instance.PlaySFX("Btn_click01"); });
             SpawnRandomModel();
         }
     }
 
     private void InventoryManager_OnSendEquipmentRequestDone()
     {
-#pragma warning disable 4014
-        gameManager.MatchmakeAsync(UpdateTimer, OnMatchMade);
-#pragma warning restore 4014
+        StartMatchMake();
     }
 
     #endregion
@@ -108,6 +112,12 @@ public class MainMenuLogic : MonoBehaviour
         profileUI?.gameObject.SetActive(false);
         showProfileBtn?.gameObject.SetActive(true);
     }
+
+    private void OnUserNameChanged(string obj)
+    {
+        profileName_TMP.text = obj;
+    }
+
     public void FindPlayer(string playerInput,Action<GetPlayerResponse> success,Action<string> failed)
     {
         UserManager.Instance.FindUserByNameOrId(playerInput,success,failed);
@@ -133,7 +143,6 @@ public class MainMenuLogic : MonoBehaviour
     #region matchmake
     public void PlayButtonPressed(Map map)
     {
-
         gameManager.SetGameMap(map);
         gameManager.SetGameQueue(GameQueue);
         gameManager.SetGameMode(PlayMode);
@@ -144,10 +153,15 @@ public class MainMenuLogic : MonoBehaviour
         }
         else
         {
-#pragma warning disable 4014
-            gameManager.MatchmakeAsync(UpdateTimer, OnMatchMade);
-#pragma warning restore 4014
+            StartMatchMake();
         }
+    }
+    void StartMatchMake()
+    {
+#pragma warning disable 4014
+        gameManager.MatchmakeAsync(UpdateTimer, OnMatchMade);
+#pragma warning restore 4014
+        OnStartMatchMake?.Invoke();
     }
     void UpdateTimer(int elapsedSeconds)
     {
@@ -177,6 +191,10 @@ public class MainMenuLogic : MonoBehaviour
 
 
     #region UI switch
+    void ExitGame()
+    {
+        PopupManager.Instance.ShowPopup("Are you sure want to quit?", ExitApplication);
+    }
     public void ExitApplication()
     {
 #if UNITY_EDITOR

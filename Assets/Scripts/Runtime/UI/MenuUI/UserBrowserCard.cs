@@ -18,8 +18,8 @@ internal class UserBrowserCard : MonoBehaviour
     [SerializeField] Button chatButton;
     public void Initialize(string id, string name, UserManager userManager)
     {
-        nameText.text = name;
-        idText.text = id;
+        nameText.text = $"name: {name}";
+        idText.text = $"id: {id}";
         this.userManager = userManager;
 
         CheckIfFriend();
@@ -58,7 +58,6 @@ internal class UserBrowserCard : MonoBehaviour
     }
     void Result(string result, bool isDestroy)
     {
-        Debug.Log(result);
         if (isDestroy)
         {
             addFriendlButton.interactable = false;
